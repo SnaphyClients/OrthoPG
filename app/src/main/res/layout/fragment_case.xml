@@ -1,13 +1,94 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.orthopg.snaphy.orthopg.Fragment.CaseFragment.CaseFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clickable="true"
+    tools:context="com.orthopg.snaphy.orthopg.Fragment.CaseFragment.CaseFragment"    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:background="@color/white"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-</FrameLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/fragment_case_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    </RelativeLayout>
+
+    <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            android:background="@color/white"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|enterAlways">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:id="@+id/fragment_case_linear_layout">
+
+        <Button
+            android:id="@+id/fragment_case_button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trending"
+            android:background="@android:color/transparent"
+            android:textColor="@color/buttonColor"/>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="35dp"
+            android:background="@color/lineColor">
+
+        </View>
+
+        <Button
+            android:id="@+id/fragment_case_button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New"
+            android:background="@android:color/transparent"
+            android:textColor="@color/buttonColor"/>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="35dp"
+            android:background="@color/lineColor">
+
+        </View>
+
+        <Button
+            android:id="@+id/fragment_case_button3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Unsolved"
+            android:background="@android:color/transparent"
+            android:textColor="@color/buttonColor"/>
+
+    </LinearLayout>
+
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+</android.support.design.widget.CoordinatorLayout>
+

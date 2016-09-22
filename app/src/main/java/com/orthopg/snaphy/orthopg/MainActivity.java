@@ -1,8 +1,9 @@
 package com.orthopg.snaphy.orthopg;
 
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 
 import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.BooksFragment;
 import com.orthopg.snaphy.orthopg.Fragment.CaseFragment.CaseFragment;
@@ -22,11 +23,31 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        replaceFragment(R.layout.fragment_main, null);
     }
 
     @Override
     public void replaceFragment(int id, Object object) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        switch (id) {
+            case R.layout.fragment_main:
+                loadMainFragment(fragmentTransaction);
+                break;
+        }
+    }
 
+    /**
+     *  Main Fragment is open from here
+     * @param fragmentTransaction {FragmentTransaction}
+     */
+    private void loadMainFragment(FragmentTransaction fragmentTransaction) {
+        MainFragment mainFragment = (MainFragment) getSupportFragmentManager().
+                findFragmentByTag(MainFragment.TAG);
+        if (mainFragment == null) {
+            mainFragment = MainFragment.newInstance();
+        }
+        fragmentTransaction.replace(R.id.container, mainFragment, MainFragment.TAG);
+        fragmentTransaction.commitAllowingStateLoss();
     }
 
     @Override

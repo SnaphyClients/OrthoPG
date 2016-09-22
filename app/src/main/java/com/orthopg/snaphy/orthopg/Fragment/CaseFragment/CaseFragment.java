@@ -4,11 +4,17 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,6 +27,10 @@ import com.orthopg.snaphy.orthopg.R;
 public class CaseFragment extends android.support.v4.app.Fragment {
 
     private OnFragmentInteractionListener mListener;
+    @Bind(R.id.fragment_case_recycler_view) RecyclerView recyclerView;
+    LinearLayoutManager linearLayoutManager;
+    CaseListAdapter caseListAdapter;
+    MainActivity mainActivity;
 
     public CaseFragment() {
         // Required empty public constructor
@@ -41,6 +51,11 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_case, container, false);
+        ButterKnife.bind(this, view);
+        linearLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        caseListAdapter = new CaseListAdapter();
+        //recyclerView.setAdapter(categoryRecipeAdapter);
         return view;
     }
 
@@ -54,6 +69,7 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        mainActivity = (MainActivity) getActivity();
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {

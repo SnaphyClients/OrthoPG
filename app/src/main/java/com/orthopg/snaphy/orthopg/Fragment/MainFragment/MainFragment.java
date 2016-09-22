@@ -30,6 +30,7 @@ public class MainFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.fragment_main_tab_layout) TabLayout tabLayout;
     @Bind(R.id.fragment_main_view_pager) ViewPager viewPager;
     MainActivity mainActivity;
+    public static String TAG = "MainFragment";
 
     public MainFragment() {
         // Required empty public constructor
