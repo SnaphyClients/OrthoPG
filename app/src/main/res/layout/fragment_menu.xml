@@ -1,0 +1,71 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:clickable="true"
+    android:id="@+id/fragment_menu_container"
+    tools:context="com.orthopg.snaphy.orthopg.Fragment.MenuFragment.MenuFragment">
+
+    <Button
+        android:id="@+id/fragment_menu_button1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:text="About us"
+        android:textAllCaps="false"
+        android:gravity="left|center"
+        android:paddingLeft="15dp"/>
+
+    <Button
+        android:id="@+id/fragment_menu_button2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:text="Contact us"
+        android:textAllCaps="false"
+        android:gravity="left|center"
+        android:paddingLeft="15dp"/>
+
+    <Button
+        android:id="@+id/fragment_menu_button3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:text="FAQs"
+        android:textAllCaps="false"
+        android:gravity="left|center"
+        android:paddingLeft="15dp"/>
+
+    <Button
+        android:id="@+id/fragment_menu_button4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:text="Feedback"
+        android:textAllCaps="false"
+        android:gravity="left|center"
+        android:paddingLeft="15dp"/>
+
+    <Button
+        android:id="@+id/fragment_menu_button5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:text="Share"
+        android:textAllCaps="false"
+        android:gravity="left|center"
+        android:paddingLeft="15dp"/>
+
+    <Button
+        android:id="@+id/fragment_menu_button6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:text="Terms and Conditions"
+        android:textAllCaps="false"
+        android:gravity="left|center"
+        android:paddingLeft="15dp"/>
+
+</LinearLayout>

@@ -4,11 +4,20 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,6 +30,11 @@ import com.orthopg.snaphy.orthopg.R;
 public class BooksFragment extends android.support.v4.app.Fragment {
 
     private OnFragmentInteractionListener mListener;
+    @Bind(R.id.fragment_books_recycler_view) RecyclerView recyclerView;
+    LinearLayoutManager linearLayoutManager;
+    BooksListAdapter booksListAdapter;
+    List<BooksModel> booksModelList = new ArrayList<>();
+    MainActivity mainActivity;
 
     public BooksFragment() {
         // Required empty public constructor
@@ -42,7 +56,25 @@ public class BooksFragment extends android.support.v4.app.Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_books, container, false);
+        ButterKnife.bind(this, view);
+        recyclerView.setHasFixedSize(true);
+        linearLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        setInitialData();
+        booksListAdapter = new BooksListAdapter(mainActivity, booksModelList);
+        recyclerView.setAdapter(booksListAdapter);
         return view;
+    }
+
+    public void setInitialData() {
+        booksModelList.add(new BooksModel(getActivity().getResources().getDrawable(R.drawable.demo_books_image_1),"The Doctor In War","All treated orthodontic cases display some deficiencies. Also, case records may not conform to exact ABO specifications." +
+                " The example case presentations represent those that successfully completed the ABO Clinical Examination. ",true));
+        booksModelList.add(new BooksModel(getActivity().getResources().getDrawable(R.drawable.demo_books_image_2),"Plant Metabolic Networks","These examples are intended only as a guide, as presentation requirements are subject to change." +
+                " Examinees should carefully follow the current exam year requirements when preparing case reports and records.",true));
+        booksModelList.add(new BooksModel(getActivity().getResources().getDrawable(R.drawable.demo_books_image_3),"Dreaming Of Sweden","A collage of study model images is not part of the case presentation. Initial and/or interim study models will be submitted" +
+                " in plaster or in digital format according to current year specifications.",true));
+        booksModelList.add(new BooksModel(getActivity().getResources().getDrawable(R.drawable.demo_books_image_4),"Callum Chapman","All examinees will electronically submit the Case Report Work File (CRWF) for each case using the ABO website electronic" +
+                " submission portal.",true));
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -55,6 +87,7 @@ public class BooksFragment extends android.support.v4.app.Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        mainActivity = (MainActivity) getActivity();
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {

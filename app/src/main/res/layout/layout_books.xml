@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="30dp"
-    android:paddingRight="30dp" android:paddingTop="20dp">
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="wrap_content" android:paddingLeft="30dp"
+    android:paddingRight="30dp" android:paddingTop="20dp" android:background="@color/white">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/book_cover"
+        android:src="@drawable/demo_books_image_1"
         android:adjustViewBounds="true"
         android:id="@+id/layout_book_imageview1"/>
 
@@ -15,9 +15,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="The Doctor in War"
-        android:textAllCaps="true"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="17sp"
         android:textStyle="bold"
         android:paddingTop="10dp"
         android:id="@+id/layout_book_textview1"/>
@@ -26,7 +25,8 @@
         android:id="@+id/layout_book_textview2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="5dp"
+        android:paddingTop="2dp"
+        android:textSize="12sp"
         android:text="The War Doctor is an incarnation of the Doctor,[6] the protagonist of the BBC science fiction television programme Doctor Who. He is portrayed by English actor John Hurt."/>
 
     <Button
@@ -39,8 +39,14 @@
         android:paddingRight="15dp"
         android:paddingLeft="15dp"
         android:textColor="@color/white"
+        android:textAllCaps="false"
         android:layout_marginTop="10dp"
-        />
+        android:layout_marginBottom="20dp" />
+    
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#DDDDDD"/>
 
 
 </LinearLayout>

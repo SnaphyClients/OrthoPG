@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:padding="15dp">
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="wrap_content" android:layout_margin="1dp"
+    android:background="@color/white">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/book_cover"
+        android:src="@drawable/demo_books_image_1"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="8dp"
+        android:paddingTop="10dp"
         android:adjustViewBounds="true"
         android:id="@+id/layout_news_imageview1"/>
 
@@ -18,26 +23,32 @@
         android:layout_marginTop="5dp"
         android:background="@color/colorPrimaryDark"
         android:textColor="@color/white"
-        android:paddingLeft="9dp"
-        android:paddingRight="9dp"
+        android:paddingLeft="11dp"
+        android:layout_marginLeft="10dp"
+        android:paddingRight="11dp"
         android:paddingTop="3dp"
-        android:paddingBottom="3dp"/>
+        android:paddingBottom="4dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="The Doctor in War"
-        android:textAllCaps="true"
         android:textColor="@color/black"
-        android:textSize="18sp"
-        android:paddingTop="10dp"
+        android:textSize="16sp"
+        android:paddingTop="7dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:id="@+id/layout_news_textview2"/>
 
     <TextView
         android:id="@+id/layout_news_textview3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="5dp"
+        android:paddingTop="2dp"
+        android:textSize="12sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp"
         android:text="The War Doctor is an incarnation of the Doctor,[6] the protagonist of the BBC science fiction television programme Doctor Who. He is portrayed by English actor John Hurt."/>
 
 

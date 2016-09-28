@@ -1,48 +1,47 @@
-package com.orthopg.snaphy.orthopg.Fragment.ProfileFragment;
+package com.orthopg.snaphy.orthopg.Fragment.MenuFragment;
 
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Button;
 
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ProfileFragment.OnFragmentInteractionListener} interface
+ * {@link MenuFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ProfileFragment#newInstance} factory method to
+ * Use the {@link MenuFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProfileFragment extends android.support.v4.app.Fragment {
+public class MenuFragment extends android.support.v4.app.Fragment {
 
     private OnFragmentInteractionListener mListener;
-    @Bind(R.id.fragment_profile_textview1) TextView logout;
-    @Bind(R.id.fragment_profile_textview2) TextView email;
-    @Bind(R.id.fragment_profile_textview3) TextView mciNumber;
-    @Bind(R.id.fragment_profile_textview4) TextView speciality;
-    @Bind(R.id.fragment_profile_textview5) TextView name;
-    @Bind(R.id.fragment_profile_tab_layout) TabLayout tabLayout;
-    @Bind(R.id.fragment_profile_view_pager) ViewPager viewPager;
+    @Bind(R.id.fragment_menu_button1) Button aboutUs;
+    @Bind(R.id.fragment_menu_button2) Button contactUs;
+    @Bind(R.id.fragment_menu_button3) Button faqs;
+    @Bind(R.id.fragment_menu_button4) Button feedback;
+    @Bind(R.id.fragment_menu_button5) Button share;
+    @Bind(R.id.fragment_menu_button6) Button termsAndConditions;
     MainActivity mainActivity;
 
-    public ProfileFragment() {
+    public MenuFragment() {
         // Required empty public constructor
     }
 
-    public static ProfileFragment newInstance() {
-        ProfileFragment fragment = new ProfileFragment();
+
+    public static MenuFragment newInstance() {
+        MenuFragment fragment = new MenuFragment();
         return fragment;
     }
 
@@ -55,12 +54,33 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_menu, container, false);
         ButterKnife.bind(this, view);
-        viewPager.setAdapter(new ProfileFragmentTabLayoutAdapter(mainActivity.getSupportFragmentManager()));
-        tabLayout.setupWithViewPager(viewPager);
-        setTextInTabLayout();
         return view;
+    }
+
+    @OnClick(R.id.fragment_menu_button1) void openAboutUs(){
+        mainActivity.replaceFragment(R.id.fragment_menu_button1, null);
+    }
+
+    @OnClick(R.id.fragment_menu_button2) void openContactUs(){
+        mainActivity.replaceFragment(R.id.fragment_menu_button2, null);
+    }
+
+    @OnClick(R.id.fragment_menu_button3) void openFAQS(){
+        mainActivity.replaceFragment(R.id.fragment_menu_button3, null);
+    }
+
+    @OnClick(R.id.fragment_menu_button4) void openFeedback(){
+
+    }
+
+    @OnClick(R.id.fragment_menu_button5) void openShare(){
+
+    }
+
+    @OnClick(R.id.fragment_menu_button6) void openTermsAndConditions(){
+        mainActivity.replaceFragment(R.id.fragment_menu_button6, null);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -68,15 +88,6 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
-    }
-
-    /**
-     * Set Text for Tab Layout
-     */
-    public void setTextInTabLayout() {
-        tabLayout.getTabAt(0).setText("Saved Cases");
-        tabLayout.getTabAt(1).setText("Posted Cases");
-        tabLayout.getTabAt(2).setText("Menu");
     }
 
     @Override
