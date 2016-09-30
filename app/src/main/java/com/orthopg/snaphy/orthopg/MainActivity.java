@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.BooksFragment;
+import com.orthopg.snaphy.orthopg.Fragment.CaseDetailFragment.CaseDetailFragment;
 import com.orthopg.snaphy.orthopg.Fragment.CaseFragment.CaseFragment;
 import com.orthopg.snaphy.orthopg.Fragment.LoginFragment.LoginFragment;
 import com.orthopg.snaphy.orthopg.Fragment.MCIVerificationFragment.MCIVerificationFragment;
@@ -32,7 +33,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         MenuFragment.OnFragmentInteractionListener, AboutUsFragment.OnFragmentInteractionListener,
         FAQsFragment.OnFragmentInteractionListener, TermsAndConditionsFragment.OnFragmentInteractionListener,
         ContactUsFragment.OnFragmentInteractionListener, CaseHeadingFragment.OnFragmentInteractionListener,
-        CaseDescriptionFragment.OnFragmentInteractionListener, CaseUploadImageFragment.OnFragmentInteractionListener {
+        CaseDescriptionFragment.OnFragmentInteractionListener, CaseUploadImageFragment.OnFragmentInteractionListener,
+        CaseDetailFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +77,10 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
 
             case R.id.fragment_case_upload_image_button1:
                 openCaseDescriptionFragment(fragmentTransaction);
+                break;
+
+            case R.id.layout_case_list_textview4:
+                openCaseDetailFragment(fragmentTransaction);
                 break;
         }
     }
@@ -160,6 +166,16 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             caseDescriptionFragment = CaseDescriptionFragment.newInstance();
         }
         fragmentTransaction.replace(R.id.main_container, caseDescriptionFragment, CaseDescriptionFragment.TAG).addToBackStack(null);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    private void openCaseDetailFragment(FragmentTransaction fragmentTransaction) {
+        CaseDetailFragment caseDetailFragment = (CaseDetailFragment) getSupportFragmentManager().
+                findFragmentByTag(CaseDetailFragment.TAG);
+        if (caseDetailFragment == null) {
+            caseDetailFragment = CaseDetailFragment.newInstance();
+        }
+        fragmentTransaction.replace(R.id.main_container, caseDetailFragment, CaseDetailFragment.TAG).addToBackStack(null);
         fragmentTransaction.commitAllowingStateLoss();
     }
 

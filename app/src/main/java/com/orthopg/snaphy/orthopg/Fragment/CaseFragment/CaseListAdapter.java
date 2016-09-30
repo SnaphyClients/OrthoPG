@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
+import com.orthopg.snaphy.orthopg.RecyclerItemClickListener;
 
 import java.util.List;
 
@@ -45,15 +46,15 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        CaseModel caseModel = caseModelList.get(position);
+        final CaseModel caseModel = caseModelList.get(position);
         CaseImageAdapter caseImageAdapter;
 
         ImageView imageView = holder.userImage;
         TextView caseHeading = holder.caseHeading;
         TextView userName = holder.userName;
         TextView casePostedTime = holder.casePostedTime;
-        ImageButton like = holder.like;
-        ImageButton saveCase = holder.saveCase;
+        final ImageButton like = holder.like;
+        final ImageButton saveCase = holder.saveCase;
         RecyclerView caseImages = holder.caseImages;
         TextView caseDescription = holder.caseDescription;
         TextView tag = holder.tag;
@@ -83,6 +84,60 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         selectedAnswerUserName.setText(caseModel.getSelectedAnswerUserName());
         selectedAnswer.setText(caseModel.getSelectedAnswer());
 
+        if(caseModel.isLiked()) {
+            like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_selected));
+        } else {
+            like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_unselected));
+        }
+
+        if(caseModel.isSaved()) {
+            saveCase.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_selected));
+        } else {
+            saveCase.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_unselected));
+        }
+
+        like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(caseModel.isLiked()) {
+                    like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_unselected));
+                    caseModel.setIsLiked(false);
+                } else {
+                    like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_selected));
+                    caseModel.setIsLiked(true);
+                }
+            }
+        });
+
+        saveCase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(caseModel.isSaved()) {
+                    saveCase.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_unselected));
+                    caseModel.setIsSaved(false);
+                } else {
+                    saveCase.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_selected));
+                    caseModel.setIsSaved(true);
+                }
+            }
+        });
+
+        caseImages.addOnItemTouchListener(
+                new RecyclerItemClickListener(mainActivity, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        mainActivity.replaceFragment(R.id.layout_case_list_textview4, null);
+                    }
+                })
+        );
+
+        caseDescription.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainActivity.replaceFragment(R.id.layout_case_list_textview4, null);
+            }
+        });
+
     }
 
     @Override
@@ -96,8 +151,8 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         @Bind(R.id.layout_case_list_textview1) TextView caseHeading;
         @Bind(R.id.layout_case_list_textview2) TextView userName;
         @Bind(R.id.layout_case_list_textview3) TextView casePostedTime;
-        @Bind(R.id.layout_case_list_imagebutton1) ImageButton like;
-        @Bind(R.id.layout_case_list_imagebutton2) ImageButton saveCase;
+        @Bind(R.id.layout_case_list_imagebutton2) ImageButton like;
+        @Bind(R.id.layout_case_list_imagebutton1) ImageButton saveCase;
         @Bind(R.id.layout_case_list_recycler_view) RecyclerView caseImages;
         @Bind(R.id.layout_case_list_textview4) TextView caseDescription;
         @Bind(R.id.layout_case_list_textview5) TextView tag;

@@ -1,0 +1,206 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:background="@color/white"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.orthopg.snaphy.orthopg.Fragment.CaseDetailFragment.CaseDetailFragment">
+
+    <ImageButton
+        android:id="@+id/fragment_case_detail_image_button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/cross"
+        android:background="@android:color/transparent"
+        android:layout_alignParentRight="true"
+        android:padding="15dp"/>
+
+    <LinearLayout
+        android:layout_below="@+id/fragment_case_detail_image_button1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="5dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+
+            android:id="@+id/layout_case_detail_imageview1"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/profile_pic"
+            app:civ_border_width="0dp"
+            app:civ_border_color="#FF000000"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"/>
+
+
+        <TextView
+            android:id="@+id/layout_case_detail_textview1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:paddingLeft="5dp"
+            android:paddingTop="4dp"
+            android:text="Medical Epicondylitis (Golfer's and Baseball Elbow)"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="7dp"
+        android:layout_marginBottom="10dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="12dp">
+
+            <TextView
+                android:id="@+id/layout_case_details_textview2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="Dr Ravi Gupta"/>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="14dp"
+                android:background="@color/lineColor"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"></View>
+
+            <TextView
+                android:id="@+id/layout_case_details_textview3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="9 hours ago"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center"
+            android:gravity="right">
+
+        <TextView
+            android:id="@+id/layout_case_details_textview4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="case"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
+            android:background="@color/colorPrimaryDark"
+            android:textColor="@color/white"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="5dp"
+            android:layout_gravity="right|center"
+            android:gravity="right"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/layout_case_detail_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/layout_case_details_textview5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="12sp"
+        android:text="This patient underwent a diagnostic arthro.The patellofemoral comparment, medial gutter,and medial meniscus were normal. "/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/layout_case_detail_recycler_view2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:layout_marginTop="10dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white">
+
+    <Button
+        android:id="@+id/fragment_case_button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Answer"
+        android:textAllCaps="false"
+        android:textColor="@color/buttonColor"
+        android:background="@android:color/transparent"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:drawableLeft="@mipmap/post"
+        android:gravity="left|center"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="right"
+            android:gravity="right"
+            android:layout_marginRight="30dp">
+
+            <ImageButton
+                android:id="@+id/layout_case_list_imagebutton1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:cropToPadding="true"
+                android:src="@mipmap/save_unselected"
+                android:background="@android:color/transparent"/>
+
+            <ImageButton
+                android:id="@+id/layout_case_list_imagebutton2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/like_selected"
+                android:layout_gravity="top"
+                android:background="@android:color/transparent"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#DDDDDD"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="45dp"/>
+
+
+</RelativeLayout>

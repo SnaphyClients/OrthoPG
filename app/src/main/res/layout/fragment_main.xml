@@ -12,7 +12,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/main_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="48dp"
         android:background="@color/white"
         android:elevation="0dp"
         android:paddingBottom="5dp"
@@ -23,15 +23,15 @@
     <android.support.design.widget.TabLayout
         android:id="@+id/fragment_main_tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="48dp"
         app:tabMode="fixed"
         app:tabGravity="fill"
         app:tabIndicatorColor="@color/colorPrimaryDark"
         android:background="@color/white"
         app:tabTextColor="@color/headingColor"
         app:tabIndicatorHeight="3dp"
-        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
-        app:tabSelectedTextColor="@color/headingColor"/>
+        app:tabSelectedTextColor="@color/headingColor"
+        app:tabTextAppearance="@style/TabLayoutTextStyle"/>
 
     <View
         android:layout_width="match_parent"

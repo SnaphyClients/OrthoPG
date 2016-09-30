@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingTop="5dp">
+            android:paddingTop="12dp">
 
             <TextView
                 android:id="@+id/layout_case_list_textview2"
@@ -79,16 +79,19 @@
 
             <ImageButton
                 android:id="@+id/layout_case_list_imagebutton1"
-                android:layout_width="25dp"
+                android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@mipmap/save"
+                android:layout_gravity="top"
+                android:cropToPadding="true"
+                android:src="@mipmap/save_unselected"
                 android:background="@android:color/transparent"/>
 
             <ImageButton
                 android:id="@+id/layout_case_list_imagebutton2"
-                android:layout_width="25dp"
-                android:layout_height="35dp"
-                android:src="@mipmap/like"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/like_selected"
+                android:layout_gravity="top"
                 android:background="@android:color/transparent"/>
 
         </LinearLayout>
@@ -100,28 +103,10 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-       <!-- <android.support.v4.view.ViewPager
-            android:id="@+id/layout_case_list_view_pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"/>
-
-        <me.relex.circleindicator.CircleIndicator
-            android:id="@+id/layout_case_layout_circle_indicator"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="48dp"
-            app:ci_animator="@animator/indicator_no_animator"
-            app:ci_drawable="@drawable/white_radius"
-            app:ci_drawable_unselected="@drawable/black_radius"
-            android:visibility="gone"/>
--->
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/layout_case_list_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="120dp" />
+            android:layout_height="150dp" />
 
     </LinearLayout>
 
@@ -138,13 +123,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="case"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="7dp"
         android:background="@color/colorPrimaryDark"
         android:textColor="@color/white"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
         android:paddingTop="3dp"
-        android:paddingBottom="4dp"/>
+        android:paddingBottom="5dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -154,7 +140,7 @@
         <ImageView
             android:id="@+id/layout_case_list_imageview1"
             android:layout_width="25dp"
-            android:layout_height="30dp"
+            android:layout_height="25dp"
             android:src="@mipmap/selected"
             android:layout_gravity="left"/>
 
@@ -181,11 +167,11 @@
     <View
         android:layout_width="wrap_content"
         android:layout_height="1dp"
-        android:background="#CCCCCC"
+        android:background="#EEEEEE"
         android:layout_marginTop="25dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"/>
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"/>
 
 
 

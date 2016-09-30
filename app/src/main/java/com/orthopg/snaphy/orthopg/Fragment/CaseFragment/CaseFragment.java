@@ -1,6 +1,7 @@
 package com.orthopg.snaphy.orthopg.Fragment.CaseFragment;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
@@ -38,6 +40,10 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     MainActivity mainActivity;
     List<CaseModel> caseModelList = new ArrayList<>();
     List<Drawable> imageList = new ArrayList<>();
+
+    @Bind(R.id.fragment_case_button1) Button trendingButton;
+    @Bind(R.id.fragment_case_button2) Button newCaseButton;
+    @Bind(R.id.fragment_case_button3) Button unsolvedCaseButton;
 
     public CaseFragment() {
         // Required empty public constructor
@@ -68,15 +74,33 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     }
 
     @OnClick(R.id.fragment_case_button1) void trendingButtonClick() {
-
+        changeButtonColor(true, false, false);
     }
 
     @OnClick(R.id.fragment_case_button2) void newButtonClick() {
-
+        changeButtonColor(false, true, false);
     }
 
     @OnClick(R.id.fragment_case_button3) void unsolvedButtonClick() {
+        changeButtonColor(false, false, true);
+    }
 
+    public void changeButtonColor(boolean trending, boolean newCase, boolean unsolved) {
+        trendingButton.setTextColor(Color.parseColor("#777777"));
+        newCaseButton.setTextColor(Color.parseColor("#777777"));
+        unsolvedCaseButton.setTextColor(Color.parseColor("#777777"));
+
+        if(trending) {
+            trendingButton.setTextColor(Color.parseColor("#3F51B5"));
+        }
+
+        if(newCase) {
+            newCaseButton.setTextColor(Color.parseColor("#3F51B5"));
+        }
+
+        if(unsolved) {
+            unsolvedCaseButton.setTextColor(Color.parseColor("#3F51B5"));
+        }
     }
 
     @OnClick(R.id.fragment_case_button4) void postCaseButtonClick() {
@@ -91,19 +115,19 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         imageList.add((getActivity().getResources().getDrawable(R.drawable.demo_books_image_3)));
 
         caseModelList.add(new CaseModel(getActivity().getResources().getDrawable(R.drawable.profile_pic),
-                "Medical Epigontilitis (Golfer and Baseball Elbow","Dr Ravi Gupta", "9 hours ago", true, true,
+                "Medical Epigontilitis (Golfer and Baseball Elbow","Dr Ravi Gupta", "9 hours ago", false, false,
                 imageList, "Originally, the term orthopedics meant the correcting of musculoskeletal deformities in children. Nicolas Andry," +
                 " a French professor at the University of Paris coined the term in the first textbook written on the subject in 1741.","case", true, "Aadish Surana",
                 "Many developments in orthopedic surgery have resulted from experiences during wartime."));
 
         caseModelList.add(new CaseModel(getActivity().getResources().getDrawable(R.drawable.profile_pic),
-                "Medical Epigontilitis (Golfer and Baseball Elbow","Dr Ravi Gupta", "9 hours ago", true, true,
+                "Medical Epigontilitis (Golfer and Baseball Elbow","Dr Ravi Gupta", "9 hours ago", true, false,
                 imageList, "Originally, the term orthopedics meant the correcting of musculoskeletal deformities in children. Nicolas Andry," +
                 " a French professor at the University of Paris coined the term in the first textbook written on the subject in 1741.","case", true, "Aadish Surana",
                 "Many developments in orthopedic surgery have resulted from experiences during wartime."));
 
         caseModelList.add(new CaseModel(getActivity().getResources().getDrawable(R.drawable.profile_pic),
-                "Medical Epigontilitis (Golfer and Baseball Elbow","Dr Ravi Gupta", "9 hours ago", true, true,
+                "Medical Epigontilitis (Golfer and Baseball Elbow","Dr Ravi Gupta", "9 hours ago", false, true,
                 imageList, "Originally, the term orthopedics meant the correcting of musculoskeletal deformities in children. Nicolas Andry," +
                 " a French professor at the University of Paris coined the term in the first textbook written on the subject in 1741.","case", true, "Aadish Surana",
                 "Many developments in orthopedic surgery have resulted from experiences during wartime."));

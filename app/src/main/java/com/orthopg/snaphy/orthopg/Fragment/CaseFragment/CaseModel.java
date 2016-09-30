@@ -22,7 +22,7 @@ public class CaseModel {
     private String selectedAnswerUserName;
     private String selectedAnswer;
 
-    public CaseModel(Drawable doctorImage, String postHeading, String doctorName, String postTime, boolean isLiked, boolean isSaved,
+    public CaseModel(Drawable doctorImage, String postHeading, String doctorName, String postTime,boolean isSaved, boolean isLiked,
                      List<Drawable> caseImage, String caseDescription, String tag, boolean isAnswerSelected,
                      String selectedAnswerUserName, String selectedAnswer) {
         this.doctorImage = doctorImage;
