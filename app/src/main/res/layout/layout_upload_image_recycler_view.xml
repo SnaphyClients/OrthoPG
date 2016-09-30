@@ -3,21 +3,20 @@
     android:orientation="vertical" android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:src="@drawable/demo_books_image_2"
-        android:id="@+id/layout_upload_image_recycler_view_imageview1"/>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/loginButton"
-        android:text="Delete"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/layout_upload_image_recycler_view_button1"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/demo_books_image_2"
+            android:id="@+id/layout_upload_image_recycler_view_imageview1"/>
+
+        <Button
+            android:layout_width="48dp"
+            android:layout_height="40dp"
+            android:background="@color/loginButton"
+            android:drawableLeft="@mipmap/cross"
+            android:textColor="@color/white"
+            android:id="@+id/layout_upload_image_recycler_view_button1"/>
 
 </RelativeLayout>

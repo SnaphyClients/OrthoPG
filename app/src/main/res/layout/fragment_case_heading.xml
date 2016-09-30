@@ -29,7 +29,9 @@
         android:paddingRight="20dp"
         android:paddingLeft="20dp"
         android:textColor="#999"
-        android:textColorHint="#999"/>
+        android:textColorHint="#999">
+        <requestFocus/>
+    </EditText>
 
     <Button
         android:id="@+id/fragment_case_heading_button1"

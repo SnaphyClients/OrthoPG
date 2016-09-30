@@ -72,6 +72,10 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             case R.id.fragment_case_heading_button1:
                 openImageUploadFragment(fragmentTransaction);
                 break;
+
+            case R.id.fragment_case_upload_image_button1:
+                openCaseDescriptionFragment(fragmentTransaction);
+                break;
         }
     }
 
@@ -145,7 +149,17 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         if (caseUploadImageFragment == null) {
             caseUploadImageFragment = CaseUploadImageFragment.newInstance();
         }
-        fragmentTransaction.replace(R.id.fragment_case_heading_container, caseUploadImageFragment, CaseUploadImageFragment.TAG).addToBackStack(null);
+        fragmentTransaction.replace(R.id.main_container, caseUploadImageFragment, CaseUploadImageFragment.TAG).addToBackStack(null);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    private void openCaseDescriptionFragment(FragmentTransaction fragmentTransaction) {
+        CaseDescriptionFragment caseDescriptionFragment = (CaseDescriptionFragment) getSupportFragmentManager().
+                findFragmentByTag(CaseDescriptionFragment.TAG);
+        if (caseDescriptionFragment == null) {
+            caseDescriptionFragment = CaseDescriptionFragment.newInstance();
+        }
+        fragmentTransaction.replace(R.id.main_container, caseDescriptionFragment, CaseDescriptionFragment.TAG).addToBackStack(null);
         fragmentTransaction.commitAllowingStateLoss();
     }
 

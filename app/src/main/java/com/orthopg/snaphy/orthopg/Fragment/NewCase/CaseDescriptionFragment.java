@@ -4,15 +4,21 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.Scroller;
+import android.widget.Toast;
 
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +32,8 @@ public class CaseDescriptionFragment extends android.support.v4.app.Fragment {
 
     private OnFragmentInteractionListener mListener;
     MainActivity mainActivity;
+    public static String TAG = "CaseDescriptionFragment";
+    @Bind(R.id.fragment_case_description_edittext1) EditText description;
 
     public CaseDescriptionFragment() {
         // Required empty public constructor
@@ -39,6 +47,8 @@ public class CaseDescriptionFragment extends android.support.v4.app.Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        InputMethodManager imm = (InputMethodManager) mainActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
     }
 
     @Override
@@ -47,9 +57,30 @@ public class CaseDescriptionFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_case_description, container, false);
         ButterKnife.bind(this, view);
-        InputMethodManager imm = (InputMethodManager) mainActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        description.setScroller(new Scroller(mainActivity));
+        description.setVerticalScrollBarEnabled(true);
+        description.setMovementMethod(new ScrollingMovementMethod());
         return view;
+    }
+    @OnClick(R.id.fragment_case_description_button1) void postCase() {
+        InputMethodManager im = (InputMethodManager)mainActivity.getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        im.hideSoftInputFromWindow(description.getWindowToken(), 0);
+
+        for(int i = 0; i< 3; i++) {
+            mainActivity.onBackPressed();
+        }
+        InputMethodManager imm = (InputMethodManager)mainActivity.getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(description.getWindowToken(), 0);
+        Toast.makeText(mainActivity, "Case has been posted", Toast.LENGTH_SHORT).show();
+    }
+
+    @OnClick(R.id.fragment_case_description_image_button1) void backButton() {
+        InputMethodManager imm = (InputMethodManager)mainActivity.getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(description.getWindowToken(), 0);
+        mainActivity.onBackPressed();
     }
 
     // TODO: Rename method, update argument and hook method into UI event

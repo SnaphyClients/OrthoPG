@@ -8,18 +8,21 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
@@ -40,6 +43,9 @@ public class CaseUploadImageFragment extends android.support.v4.app.Fragment {
     private OnFragmentInteractionListener mListener;
     public static String TAG = "CaseUploadImageFragment";
     MainActivity mainActivity;
+    @Bind(R.id.fragment_case_upload_image_recycler_view) RecyclerView recyclerView;
+    List<Uri> imageURI = new ArrayList<>();
+    CaseUploadImageFragmentAdapter caseUploadImageFragmentAdapter;
 
     public CaseUploadImageFragment() {
         // Required empty public constructor
@@ -61,6 +67,9 @@ public class CaseUploadImageFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_case_upload_image, container, false);
         ButterKnife.bind(this, view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false));
+        caseUploadImageFragmentAdapter = new CaseUploadImageFragmentAdapter(imageURI);
+        recyclerView.setAdapter(caseUploadImageFragmentAdapter);
         EasyImage.configuration(mainActivity)
                 .setImagesFolderName("OrthoPG")
                 .saveInRootPicturesDirectory()
@@ -72,8 +81,24 @@ public class CaseUploadImageFragment extends android.support.v4.app.Fragment {
         mainActivity.onBackPressed();
     }
 
-    @OnClick(R.id.fragment_case_upload_image_imageButton2) void postAsAnonymous() {
+    /*@OnClick(R.id.fragment_case_upload_image_imageButton2) void postAsAnonymous() {
 
+    }
+*/
+    @OnClick(R.id.fragment_case_upload_image_linear_layout3) void openGallery() {
+        openGalleryFolder();
+    }
+
+    @OnClick(R.id.fragment_case_upload_image_imageButton3) void cameraButton() {
+        openGalleryFolder();
+    }
+
+    @OnClick(R.id.fragment_case_upload_image_textview1) void cameraText() {
+        openGalleryFolder();
+    }
+
+    @OnClick(R.id.fragment_case_upload_image_button1) void nextButton() {
+        mainActivity.replaceFragment(R.id.fragment_case_upload_image_button1, null);
     }
 
     public void openGalleryFolder() {
@@ -113,9 +138,9 @@ public class CaseUploadImageFragment extends android.support.v4.app.Fragment {
             @Override
             public void onImagePicked(File imageFile, EasyImage.ImageSource source) {
                 //Handle the image
-                final String uri = Uri.fromFile(imageFile).toString();
-                final String decoded = Uri.decode(uri);
-                imageLoader.displayImage(decoded, imageView);
+                final Uri uri = Uri.fromFile(imageFile);
+                imageURI.add(uri);
+                caseUploadImageFragmentAdapter.notifyDataSetChanged();
                 //Now upload image..
             }
 

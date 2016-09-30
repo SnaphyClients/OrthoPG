@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:clickable="true"
     android:background="@color/white"
+    android:id="@+id/fragment_case_upload_image_container"
     tools:context="com.orthopg.snaphy.orthopg.Fragment.NewCase.CaseUploadImageFragment">
 
     <LinearLayout
@@ -22,7 +23,7 @@
 
     </LinearLayout>
 
-    <LinearLayout
+  <!--  <LinearLayout
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,26 +49,28 @@
             android:gravity="center"
             android:paddingLeft="15dp"/>
 
-    </LinearLayout>
+    </LinearLayout>-->
     
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0dp"
         android:background="@color/lineColor"
         android:layout_marginLeft="35dp"
         android:layout_marginRight="35dp"
         android:id="@+id/fragment_case_upload_image_view1"
-        android:layout_below="@+id/fragment_case_upload_image_linear_layout2"/>
+        android:layout_below="@+id/fragment_case_upload_image_linear_layout1"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
         android:layout_below="@+id/fragment_case_upload_image_view1"
+        android:layout_above="@+id/fragment_case_upload_image_recycler_view"
         android:id="@+id/fragment_case_upload_image_linear_layout3">
 
         <ImageButton
+            android:id="@+id/fragment_case_upload_image_imageButton3"
             android:paddingTop="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -77,6 +80,7 @@
             android:layout_gravity="center"/>
 
         <TextView
+            android:id="@+id/fragment_case_upload_image_textview1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add Image"
@@ -87,25 +91,25 @@
 
     </LinearLayout>
 
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:id="@+id/fragment_case_upload_image_recycler_view"
+        android:layout_above="@+id/fragment_case_upload_image_button1">
+
+    </android.support.v7.widget.RecyclerView>
+
     <Button
+        android:id="@+id/fragment_case_upload_image_button1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
-        android:layout_marginTop="15dp"
         android:text="Next"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="120dp"
         android:textStyle="bold"
         android:textSize="17sp"
+        android:layout_alignParentBottom="true"
         android:textColor="@color/white"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:id="@+id/fragment_case_upload_image_recycler_view"
-        android:layout_alignParentBottom="true">
-
-    </android.support.v7.widget.RecyclerView>
 
 
 

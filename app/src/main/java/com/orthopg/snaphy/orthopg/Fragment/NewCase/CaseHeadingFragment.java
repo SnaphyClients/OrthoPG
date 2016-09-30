@@ -44,6 +44,8 @@ public class CaseHeadingFragment extends android.support.v4.app.Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        InputMethodManager imm = (InputMethodManager) mainActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
     }
 
     @Override
@@ -52,16 +54,20 @@ public class CaseHeadingFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_case_heading, container, false);
         ButterKnife.bind(this, view);
-        InputMethodManager imm = (InputMethodManager) mainActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
         return view;
     }
 
     @OnClick(R.id.fragment_case_heading_image_button1) void crossButton() {
+        InputMethodManager imm = (InputMethodManager)mainActivity.getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(heading.getWindowToken(), 0);
         mainActivity.onBackPressed();
     }
 
     @OnClick(R.id.fragment_case_heading_button1) void nextButton() {
+        InputMethodManager imm = (InputMethodManager)mainActivity.getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(heading.getWindowToken(), 0);
         mainActivity.replaceFragment(R.id.fragment_case_heading_button1, null);
     }
 
