@@ -1,0 +1,112 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:background="@color/white"
+    tools:context="com.orthopg.snaphy.orthopg.Fragment.NewCase.CaseUploadImageFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:orientation="horizontal"
+        android:id="@+id/fragment_case_upload_image_linear_layout1">
+
+        <ImageButton
+            android:id="@+id/fragment_case_upload_image_imageButton1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/left_icon"
+            android:background="@android:color/transparent"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/fragment_case_upload_image_linear_layout2"
+        android:padding="15dp"
+        android:layout_below="@+id/fragment_case_upload_image_linear_layout1">
+
+        <ImageButton
+            android:id="@+id/fragment_case_upload_image_imageButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/unchecked"
+            android:background="@android:color/transparent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Post as Anonymous"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:textColor="#AAA"
+            android:gravity="center"
+            android:paddingLeft="15dp"/>
+
+    </LinearLayout>
+    
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/lineColor"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:id="@+id/fragment_case_upload_image_view1"
+        android:layout_below="@+id/fragment_case_upload_image_linear_layout2"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_below="@+id/fragment_case_upload_image_view1"
+        android:id="@+id/fragment_case_upload_image_linear_layout3">
+
+        <ImageButton
+            android:paddingTop="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/capture_image"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Image"
+            android:textSize="21sp"
+            android:textStyle="bold"
+            android:textColor="#999"
+            android:paddingTop="5dp"/>
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:layout_marginTop="15dp"
+        android:text="Next"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="120dp"
+        android:textStyle="bold"
+        android:textSize="17sp"
+        android:textColor="@color/white"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:id="@+id/fragment_case_upload_image_recycler_view"
+        android:layout_alignParentBottom="true">
+
+    </android.support.v7.widget.RecyclerView>
+
+
+
+</RelativeLayout>

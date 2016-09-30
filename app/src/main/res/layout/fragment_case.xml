@@ -1,10 +1,16 @@
-<android.support.design.widget.CoordinatorLayout
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:clickable="true"
-    tools:context="com.orthopg.snaphy.orthopg.Fragment.CaseFragment.CaseFragment"    android:layout_width="match_parent"
+    tools:context="com.orthopg.snaphy.orthopg.Fragment.CaseFragment.CaseFragment" >
+
+    <android.support.design.widget.CoordinatorLayout
+      android:layout_width="match_parent"
     android:layout_height="match_parent">
+
 
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -19,9 +25,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            android:layout_marginBottom="40dp"/>
+
 
     </RelativeLayout>
+
 
     <android.support.design.widget.AppBarLayout
             android:id="@+id/appbar"
@@ -38,52 +46,65 @@
             android:background="@color/white"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|enterAlways">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:id="@+id/fragment_case_linear_layout">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-        <Button
-            android:id="@+id/fragment_case_button1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Trending"
-            android:background="@android:color/transparent"
-            android:textColor="@color/buttonColor"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="7dp"
+                    android:id="@+id/fragment_case_linear_layout">
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="35dp"
-            android:background="@color/lineColor">
+                    <Button
+                        android:id="@+id/fragment_case_button1"
+                        android:layout_width="75dp"
+                        android:layout_height="45dp"
+                        android:text="Trending"
+                        android:textSize="12sp"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/buttonColor"/>
 
-        </View>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="20dp"
+                        android:background="@color/lineColor">
 
-        <Button
-            android:id="@+id/fragment_case_button2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New"
-            android:background="@android:color/transparent"
-            android:textColor="@color/buttonColor"/>
+                    </View>
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="35dp"
-            android:background="@color/lineColor">
+                    <Button
+                        android:id="@+id/fragment_case_button2"
+                        android:layout_width="50dp"
+                        android:layout_height="45dp"
+                        android:text="New"
+                        android:textSize="12sp"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/colorPrimary"/>
 
-        </View>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="20dp"
+                        android:background="@color/lineColor">
 
-        <Button
-            android:id="@+id/fragment_case_button3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Unsolved"
-            android:background="@android:color/transparent"
-            android:textColor="@color/buttonColor"/>
+                    </View>
 
-    </LinearLayout>
+                    <Button
+                        android:id="@+id/fragment_case_button3"
+                        android:layout_width="75dp"
+                        android:layout_height="45dp"
+                        android:text="Unsolved"
+                        android:textSize="12sp"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/buttonColor"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+            
 
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -91,4 +112,27 @@
     </android.support.design.widget.AppBarLayout>
 
 </android.support.design.widget.CoordinatorLayout>
+
+    <Button
+        android:id="@+id/fragment_case_button4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Post a Case"
+        android:textAllCaps="false"
+        android:textColor="@color/buttonColor"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white"
+        android:paddingLeft="30dp"
+        android:drawableLeft="@mipmap/post"
+        android:gravity="left|center"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="#DDDDDD"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="45dp"/>
+
+</RelativeLayout>
+
 

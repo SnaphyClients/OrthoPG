@@ -28,4 +28,6 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'de.hdodenhof:circleimageview:2.0.0'
     compile 'me.relex:circleindicator:1.2.1@aar'
+    compile 'com.github.jkwiecien:EasyImage:1.1.2'
+    compile 'com.github.tajchert:nammu:1.1.1'
 }

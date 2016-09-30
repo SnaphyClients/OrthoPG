@@ -1,6 +1,7 @@
 package com.orthopg.snaphy.orthopg.Fragment.CaseFragment;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,8 +14,12 @@ import android.view.ViewGroup;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,6 +36,8 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     LinearLayoutManager linearLayoutManager;
     CaseListAdapter caseListAdapter;
     MainActivity mainActivity;
+    List<CaseModel> caseModelList = new ArrayList<>();
+    List<Drawable> imageList = new ArrayList<>();
 
     public CaseFragment() {
         // Required empty public constructor
@@ -54,9 +61,58 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         ButterKnife.bind(this, view);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
-        caseListAdapter = new CaseListAdapter();
-        //recyclerView.setAdapter(categoryRecipeAdapter);
+        setInitialData();
+        caseListAdapter = new CaseListAdapter(mainActivity, caseModelList);
+        recyclerView.setAdapter(caseListAdapter);
         return view;
+    }
+
+    @OnClick(R.id.fragment_case_button1) void trendingButtonClick() {
+
+    }
+
+    @OnClick(R.id.fragment_case_button2) void newButtonClick() {
+
+    }
+
+    @OnClick(R.id.fragment_case_button3) void unsolvedButtonClick() {
+
+    }
+
+    @OnClick(R.id.fragment_case_button4) void postCaseButtonClick() {
+        mainActivity.replaceFragment(R.id.fragment_case_button4, null);
+    }
+
+
+    public void setInitialData() {
+
+        imageList.add((getActivity().getResources().getDrawable(R.drawable.demo_books_image_1)));
+        imageList.add((getActivity().getResources().getDrawable(R.drawable.demo_books_image_2)));
+        imageList.add((getActivity().getResources().getDrawable(R.drawable.demo_books_image_3)));
+
+        caseModelList.add(new CaseModel(getActivity().getResources().getDrawable(R.drawable.profile_pic),
+                "Medical Epigontilitis (Golfer and Baseball Elbow","Dr Ravi Gupta", "9 hours ago", true, true,
+                imageList, "Originally, the term orthopedics meant the correcting of musculoskeletal deformities in children. Nicolas Andry," +
+                " a French professor at the University of Paris coined the term in the first textbook written on the subject in 1741.","case", true, "Aadish Surana",
+                "Many developments in orthopedic surgery have resulted from experiences during wartime."));
+
+        caseModelList.add(new CaseModel(getActivity().getResources().getDrawable(R.drawable.profile_pic),
+                "Medical Epigontilitis (Golfer and Baseball Elbow","Dr Ravi Gupta", "9 hours ago", true, true,
+                imageList, "Originally, the term orthopedics meant the correcting of musculoskeletal deformities in children. Nicolas Andry," +
+                " a French professor at the University of Paris coined the term in the first textbook written on the subject in 1741.","case", true, "Aadish Surana",
+                "Many developments in orthopedic surgery have resulted from experiences during wartime."));
+
+        caseModelList.add(new CaseModel(getActivity().getResources().getDrawable(R.drawable.profile_pic),
+                "Medical Epigontilitis (Golfer and Baseball Elbow","Dr Ravi Gupta", "9 hours ago", true, true,
+                imageList, "Originally, the term orthopedics meant the correcting of musculoskeletal deformities in children. Nicolas Andry," +
+                " a French professor at the University of Paris coined the term in the first textbook written on the subject in 1741.","case", true, "Aadish Surana",
+                "Many developments in orthopedic surgery have resulted from experiences during wartime."));
+
+        caseModelList.add(new CaseModel(getActivity().getResources().getDrawable(R.drawable.profile_pic),
+                "Medical Epigontilitis (Golfer and Baseball Elbow","Dr Ravi Gupta", "9 hours ago", true, true,
+                imageList, "Originally, the term orthopedics meant the correcting of musculoskeletal deformities in children. Nicolas Andry," +
+                " a French professor at the University of Paris coined the term in the first textbook written on the subject in 1741.","case", true, "Aadish Surana",
+                "Many developments in orthopedic surgery have resulted from experiences during wartime."));
     }
 
     // TODO: Rename method, update argument and hook method into UI event

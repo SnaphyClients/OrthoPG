@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingLeft="30dp" android:paddingRight="30dp">
 
@@ -28,9 +28,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:paddingLeft="5dp"
-            android:paddingTop="5dp"
+            android:paddingTop="4dp"
             android:text="Medical Epicondylitis (Golfer's and Baseball Elbow)"/>
 
     </LinearLayout>
@@ -51,11 +51,12 @@
                 android:id="@+id/layout_case_list_textview2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="12sp"
                 android:text="Dr Ravi Gupta"/>
 
             <View
                 android:layout_width="1dp"
-                android:layout_height="20dp"
+                android:layout_height="14dp"
                 android:background="@color/lineColor"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"></View>
@@ -64,6 +65,7 @@
                 android:id="@+id/layout_case_list_textview3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="12sp"
                 android:text="9 hours ago"/>
 
         </LinearLayout>
@@ -94,17 +96,17 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <android.support.v4.view.ViewPager
+       <!-- <android.support.v4.view.ViewPager
             android:id="@+id/layout_case_list_view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone"/>
 
-      <!--  <me.relex.circleindicator.CircleIndicator
+        <me.relex.circleindicator.CircleIndicator
             android:id="@+id/layout_case_layout_circle_indicator"
             android:layout_width="match_parent"
             android:layout_height="48dp"
@@ -113,13 +115,13 @@
             app:ci_animator="@animator/indicator_no_animator"
             app:ci_drawable="@drawable/white_radius"
             app:ci_drawable_unselected="@drawable/black_radius"
-            android:visibility="gone"/>-->
+            android:visibility="gone"/>
+-->
 
-        <ImageView
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/layout_case_list_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:src="@drawable/demo_books_image_1"/>
+            android:layout_height="120dp" />
 
     </LinearLayout>
 
@@ -128,6 +130,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
+        android:textSize="12sp"
         android:text="This patient underwent a diagnostic arthro.The patellofemoral comparment, medial gutter,and medial meniscus were normal. "/>
 
     <TextView
@@ -138,10 +141,10 @@
         android:layout_marginTop="5dp"
         android:background="@color/colorPrimaryDark"
         android:textColor="@color/white"
-        android:paddingLeft="9dp"
-        android:paddingRight="9dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
         android:paddingTop="3dp"
-        android:paddingBottom="3dp"/>
+        android:paddingBottom="4dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -150,9 +153,10 @@
 
         <ImageView
             android:id="@+id/layout_case_list_imageview1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/selected"/>
+            android:layout_width="25dp"
+            android:layout_height="30dp"
+            android:src="@mipmap/selected"
+            android:layout_gravity="left"/>
 
         <TextView
             android:id="@+id/layout_case_list_textview6"
@@ -171,9 +175,17 @@
         android:id="@+id/layout_case_list_textview7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="12sp"
         android:text="There was a radial tear of the lateral meniscus in the white-white zone which required partial meniscectomy. "/>
 
-
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="#CCCCCC"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"/>
 
 
 

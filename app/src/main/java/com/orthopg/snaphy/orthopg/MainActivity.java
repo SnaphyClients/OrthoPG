@@ -15,6 +15,9 @@ import com.orthopg.snaphy.orthopg.Fragment.MenuFragment.ContactUsFragment;
 import com.orthopg.snaphy.orthopg.Fragment.MenuFragment.FAQsFragment;
 import com.orthopg.snaphy.orthopg.Fragment.MenuFragment.MenuFragment;
 import com.orthopg.snaphy.orthopg.Fragment.MenuFragment.TermsAndConditionsFragment;
+import com.orthopg.snaphy.orthopg.Fragment.NewCase.CaseDescriptionFragment;
+import com.orthopg.snaphy.orthopg.Fragment.NewCase.CaseHeadingFragment;
+import com.orthopg.snaphy.orthopg.Fragment.NewCase.CaseUploadImageFragment;
 import com.orthopg.snaphy.orthopg.Fragment.NewsFragment.NewsFragment;
 import com.orthopg.snaphy.orthopg.Fragment.PostedCasesFragment.PostedCasesFragment;
 import com.orthopg.snaphy.orthopg.Fragment.ProfileFragment.ProfileFragment;
@@ -28,7 +31,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         SavedCasesFragment.OnFragmentInteractionListener, PostedCasesFragment.OnFragmentInteractionListener,
         MenuFragment.OnFragmentInteractionListener, AboutUsFragment.OnFragmentInteractionListener,
         FAQsFragment.OnFragmentInteractionListener, TermsAndConditionsFragment.OnFragmentInteractionListener,
-        ContactUsFragment.OnFragmentInteractionListener {
+        ContactUsFragment.OnFragmentInteractionListener, CaseHeadingFragment.OnFragmentInteractionListener,
+        CaseDescriptionFragment.OnFragmentInteractionListener, CaseUploadImageFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +64,14 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             case R.id.fragment_menu_button4:
                 openTermsAndConditionsFragment(fragmentTransaction);
                 break;
+
+            case R.id.fragment_case_button4:
+                openCaseHeadingFragment(fragmentTransaction);
+                break;
+
+            case R.id.fragment_case_heading_button1:
+                openImageUploadFragment(fragmentTransaction);
+                break;
         }
     }
 
@@ -83,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         if (aboutUsFragment == null) {
             aboutUsFragment = AboutUsFragment.newInstance();
         }
-        fragmentTransaction.replace(R.id.main_container, aboutUsFragment, AboutUsFragment.TAG);
+        fragmentTransaction.replace(R.id.main_container, aboutUsFragment, AboutUsFragment.TAG).addToBackStack(null);
         fragmentTransaction.commitAllowingStateLoss();
     }
 
@@ -93,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         if (contactUsFragment == null) {
             contactUsFragment = ContactUsFragment.newInstance();
         }
-        fragmentTransaction.replace(R.id.main_container, contactUsFragment, ContactUsFragment.TAG);
+        fragmentTransaction.replace(R.id.main_container, contactUsFragment, ContactUsFragment.TAG).addToBackStack(null);
         fragmentTransaction.commitAllowingStateLoss();
     }
 
@@ -103,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         if (faQsFragment == null) {
             faQsFragment = FAQsFragment.newInstance();
         }
-        fragmentTransaction.replace(R.id.main_container, faQsFragment, FAQsFragment.TAG);
+        fragmentTransaction.replace(R.id.main_container, faQsFragment, FAQsFragment.TAG).addToBackStack(null);
         fragmentTransaction.commitAllowingStateLoss();
     }
 
@@ -113,7 +125,27 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         if (faQsFragment == null) {
             faQsFragment = TermsAndConditionsFragment.newInstance();
         }
-        fragmentTransaction.replace(R.id.main_container, faQsFragment, TermsAndConditionsFragment.TAG);
+        fragmentTransaction.replace(R.id.main_container, faQsFragment, TermsAndConditionsFragment.TAG).addToBackStack(null);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    private void openCaseHeadingFragment(FragmentTransaction fragmentTransaction) {
+        CaseHeadingFragment caseHeadingFragment = (CaseHeadingFragment) getSupportFragmentManager().
+                findFragmentByTag(TermsAndConditionsFragment.TAG);
+        if (caseHeadingFragment == null) {
+            caseHeadingFragment = CaseHeadingFragment.newInstance();
+        }
+        fragmentTransaction.replace(R.id.main_container, caseHeadingFragment, CaseHeadingFragment.TAG).addToBackStack(null);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    private void openImageUploadFragment(FragmentTransaction fragmentTransaction) {
+        CaseUploadImageFragment caseUploadImageFragment = (CaseUploadImageFragment) getSupportFragmentManager().
+                findFragmentByTag(CaseUploadImageFragment.TAG);
+        if (caseUploadImageFragment == null) {
+            caseUploadImageFragment = CaseUploadImageFragment.newInstance();
+        }
+        fragmentTransaction.replace(R.id.fragment_case_heading_container, caseUploadImageFragment, CaseUploadImageFragment.TAG).addToBackStack(null);
         fragmentTransaction.commitAllowingStateLoss();
     }
 
