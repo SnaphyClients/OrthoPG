@@ -1,0 +1,46 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:clickable="true"
+    tools:context="com.orthopg.snaphy.orthopg.Fragment.CaseDetailFragment.PostAnswerFragment">
+
+    <ImageButton
+        android:id="@+id/fragment_post_answer_image_button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/cross"
+        android:background="@android:color/transparent"
+        android:layout_alignParentRight="true"
+        android:padding="15dp"/>
+
+    <EditText
+        android:id="@+id/fragment_post_answer_edittext1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_post_answer_image_button1"
+        android:background="@android:color/transparent"
+        android:textSize="15sp"
+        android:hint="Write your answer"
+        android:textStyle="bold"
+        android:focusable="true"
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp"
+        android:textColor="#999"
+        android:textColorHint="#999">
+        <requestFocus/>
+    </EditText>
+
+    <Button
+        android:id="@+id/fragment_post_answer_button1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@color/white"
+        android:layout_alignParentBottom="true"
+        android:text="Post Answer"
+        android:textStyle="bold"
+        android:textSize="17sp"/>
+
+</RelativeLayout>

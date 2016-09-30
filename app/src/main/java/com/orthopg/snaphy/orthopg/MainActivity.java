@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.BooksFragment;
 import com.orthopg.snaphy.orthopg.Fragment.CaseDetailFragment.CaseDetailFragment;
+import com.orthopg.snaphy.orthopg.Fragment.CaseDetailFragment.PostAnswerFragment;
 import com.orthopg.snaphy.orthopg.Fragment.CaseFragment.CaseFragment;
 import com.orthopg.snaphy.orthopg.Fragment.LoginFragment.LoginFragment;
 import com.orthopg.snaphy.orthopg.Fragment.MCIVerificationFragment.MCIVerificationFragment;
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         FAQsFragment.OnFragmentInteractionListener, TermsAndConditionsFragment.OnFragmentInteractionListener,
         ContactUsFragment.OnFragmentInteractionListener, CaseHeadingFragment.OnFragmentInteractionListener,
         CaseDescriptionFragment.OnFragmentInteractionListener, CaseUploadImageFragment.OnFragmentInteractionListener,
-        CaseDetailFragment.OnFragmentInteractionListener {
+        CaseDetailFragment.OnFragmentInteractionListener, PostAnswerFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +82,10 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
 
             case R.id.layout_case_list_textview4:
                 openCaseDetailFragment(fragmentTransaction);
+                break;
+
+            case R.id.fragment_case_detail_button4:
+                openPostAnswerFragment(fragmentTransaction);
                 break;
         }
     }
@@ -176,6 +181,16 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             caseDetailFragment = CaseDetailFragment.newInstance();
         }
         fragmentTransaction.replace(R.id.main_container, caseDetailFragment, CaseDetailFragment.TAG).addToBackStack(null);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    private void openPostAnswerFragment(FragmentTransaction fragmentTransaction) {
+        PostAnswerFragment postAnswerFragment = (PostAnswerFragment) getSupportFragmentManager().
+                findFragmentByTag(PostAnswerFragment.TAG);
+        if (postAnswerFragment == null) {
+            postAnswerFragment = PostAnswerFragment.newInstance();
+        }
+        fragmentTransaction.replace(R.id.main_container, postAnswerFragment, PostAnswerFragment.TAG).addToBackStack(null);
         fragmentTransaction.commitAllowingStateLoss();
     }
 

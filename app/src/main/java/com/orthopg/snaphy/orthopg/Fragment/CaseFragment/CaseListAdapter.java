@@ -70,12 +70,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         caseHeading.setText(caseModel.getPostHeading());
         userName.setText(caseModel.getDoctorName());
         casePostedTime.setText(caseModel.getPostTime());
-        if(caseModel.isLiked()) {
 
-        }
-        if(caseModel.isSaved()){
-
-        }
         caseDescription.setText(caseModel.getCaseDescription());
         tag.setText(caseModel.getTag());
         if(caseModel.getIsAnswerSelected()) {
