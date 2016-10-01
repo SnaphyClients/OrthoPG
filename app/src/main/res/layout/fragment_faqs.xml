@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,10 +6,21 @@
     android:clickable="true"
     tools:context="com.orthopg.snaphy.orthopg.Fragment.MenuFragment.FAQsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <ImageButton
+        android:id="@+id/fragment_faqs_image_button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/cross"
+        android:background="@android:color/transparent"
+        android:layout_alignParentRight="true"
+        android:padding="15dp"/>
+
+
     <TextView
+        android:layout_below="@+id/fragment_faqs_image_button1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="15dp"
         android:text="FAQS" />
 
-</FrameLayout>
+</RelativeLayout>

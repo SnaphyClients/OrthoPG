@@ -8,7 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,6 +26,7 @@ public class TermsAndConditionsFragment extends android.support.v4.app.Fragment 
 
     private OnFragmentInteractionListener mListener;
     public static String TAG = "TermsAndConditionsFragment";
+    MainActivity mainActivity;
 
     public TermsAndConditionsFragment() {
         // Required empty public constructor
@@ -43,7 +48,12 @@ public class TermsAndConditionsFragment extends android.support.v4.app.Fragment 
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_terms_and_conditions, container, false);
+        ButterKnife.bind(this, view);
         return view;
+    }
+
+    @OnClick(R.id.fragment_tandc_image_button1) void onBackPressed() {
+        mainActivity.onBackPressed();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -56,6 +66,7 @@ public class TermsAndConditionsFragment extends android.support.v4.app.Fragment 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        mainActivity = (MainActivity) getActivity();
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {

@@ -61,6 +61,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setInitialData();
     }
 
     @Override
@@ -69,8 +70,6 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_case_detail, container, false);
         ButterKnife.bind(this, view);
-
-        setInitialData();
 
         imageRecyclerView.setLayoutManager(new LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false));
         caseImageAdapter = new CaseImageAdapter(imageList);

@@ -8,7 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,7 +26,7 @@ public class AboutUsFragment extends android.support.v4.app.Fragment {
 
     private OnFragmentInteractionListener mListener;
     public static String TAG = "AboutUsFragment";
-    View decorView;
+    MainActivity mainActivity;
 
     public AboutUsFragment() {
         // Required empty public constructor
@@ -43,18 +47,14 @@ public class AboutUsFragment extends android.support.v4.app.Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_about_us, container, false);
-        decorView = getActivity().getWindow().getDecorView();
+        ButterKnife.bind(this, view);
         return view;
     }
 
-    /*private void hideSystemUI() {
-        // Set the IMMERSIVE flag.
-        // Set the content to appear under the system bars so that the content
-        // doesn't resize when the system bars hide and show.
-        decorView.setSystemUiVisibility(
-                          View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
-    }*/
+    @OnClick(R.id.fragment_about_us_image_button1) void backButton() {
+        mainActivity.onBackPressed();
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -66,6 +66,7 @@ public class AboutUsFragment extends android.support.v4.app.Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        mainActivity = (MainActivity) getActivity();
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
