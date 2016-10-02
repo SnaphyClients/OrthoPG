@@ -40,6 +40,8 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     MainActivity mainActivity;
     List<CaseModel> caseModelList = new ArrayList<>();
     List<Drawable> imageList = new ArrayList<>();
+    public static String TAG = "CaseFragment";
+
 
     @Bind(R.id.fragment_case_button1) Button trendingButton;
     @Bind(R.id.fragment_case_button2) Button newCaseButton;
@@ -68,7 +70,7 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         setInitialData();
-        caseListAdapter = new CaseListAdapter(mainActivity, caseModelList);
+        caseListAdapter = new CaseListAdapter(mainActivity, caseModelList, TAG);
         recyclerView.setAdapter(caseListAdapter);
         return view;
     }

@@ -52,6 +52,7 @@ public class CaseUploadImageFragment extends android.support.v4.app.Fragment {
     List<Uri> imageURI = new ArrayList<>();
     CaseUploadImageFragmentAdapter caseUploadImageFragmentAdapter;
     final int CROP_PIC = 2;
+    //http://stackoverflow.com/questions/15807766/android-crop-image-size
 
     public CaseUploadImageFragment() {
         // Required empty public constructor

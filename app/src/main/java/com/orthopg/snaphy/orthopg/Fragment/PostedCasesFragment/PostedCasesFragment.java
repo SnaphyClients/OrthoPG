@@ -33,9 +33,11 @@ import butterknife.ButterKnife;
 public class PostedCasesFragment extends android.support.v4.app.Fragment {
 
     private OnFragmentInteractionListener mListener;
-    MainActivity mainActivity;@Bind(R.id.fragment_posted_case_recycler_view) RecyclerView recyclerView;
+    MainActivity mainActivity;
+    @Bind(R.id.fragment_posted_case_recycler_view) RecyclerView recyclerView;
     CaseListAdapter caseListAdapter;
     List<CaseModel> caseModelList = new ArrayList<>();
+    public static String TAG = "PostedCasesFragment";
     List<Drawable> imageList = new ArrayList<>();
 
     public PostedCasesFragment() {
@@ -60,7 +62,7 @@ public class PostedCasesFragment extends android.support.v4.app.Fragment {
         ButterKnife.bind(this, view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         setInitialData();
-        caseListAdapter = new CaseListAdapter(mainActivity, caseModelList);
+        caseListAdapter = new CaseListAdapter(mainActivity, caseModelList, TAG);
         recyclerView.setAdapter(caseListAdapter);
         return view;
     }

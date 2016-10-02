@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.orthopg.snaphy.orthopg.Fragment.PostedCasesFragment.PostedCasesFragment;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 import com.orthopg.snaphy.orthopg.RecyclerItemClickListener;
@@ -26,10 +27,12 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
 
     MainActivity mainActivity;
     List<CaseModel> caseModelList;
+    String TAG;
 
-    public CaseListAdapter(MainActivity mainActivity, List<CaseModel> caseModelList) {
+    public CaseListAdapter(MainActivity mainActivity, List<CaseModel> caseModelList, String TAG) {
         this.mainActivity = mainActivity;
         this.caseModelList = caseModelList;
+        this.TAG = TAG;
     }
 
     @Override
@@ -107,7 +110,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         saveCase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(caseModel.isSaved()) {
+                if (caseModel.isSaved()) {
                     saveCase.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_unselected));
                     caseModel.setIsSaved(false);
                 } else {
@@ -117,11 +120,17 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
             }
         });
 
+
         caseImages.addOnItemTouchListener(
                 new RecyclerItemClickListener(mainActivity, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        mainActivity.replaceFragment(R.id.layout_case_list_textview4, null);
+                        if (TAG.equals(PostedCasesFragment.TAG)) {
+                            mainActivity.replaceFragment(R.id.fragment_case_button4, null);
+                        } else {
+                            mainActivity.replaceFragment(R.id.layout_case_list_textview4, null);
+                        }
+
                     }
                 })
         );
@@ -129,7 +138,11 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         caseDescription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainActivity.replaceFragment(R.id.layout_case_list_textview4, null);
+                if (TAG.equals(PostedCasesFragment.TAG)) {
+                    mainActivity.replaceFragment(R.id.fragment_case_button4, null);
+                } else {
+                    mainActivity.replaceFragment(R.id.layout_case_list_textview4, null);
+                }
             }
         });
 

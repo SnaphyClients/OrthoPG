@@ -1,14 +1,20 @@
 package com.orthopg.snaphy.orthopg.Fragment.ProfileFragment;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.orthopg.snaphy.orthopg.MainActivity;
@@ -16,6 +22,7 @@ import com.orthopg.snaphy.orthopg.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,6 +68,46 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
         tabLayout.setupWithViewPager(viewPager);
         setTextInTabLayout();
         return view;
+    }
+
+    @OnClick(R.id.fragment_profile_imagebutton1) void editMCINumber() {
+        showDialog();
+    }
+
+    @OnClick(R.id.fragment_profile_imagebutton2) void editSpeciality() {
+        showDialog();
+    }
+
+    public void showDialog() {
+
+        final Dialog dialog = new Dialog(mainActivity);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_add_text);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        Button okButton = (Button) dialog.findViewById(R.id.dialog_add_text_button1);
+        final EditText editText = (EditText) dialog.findViewById(R.id.dialog_add_text_edittext1);
+        editText.setInputType(InputType.TYPE_CLASS_TEXT);
+       /* editText.setText(recipeNameText.getText());
+
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recipeNameText.setText(editText.getText().toString());
+                if(BackgroundService.getOnUploadGlobalModel().getUploadedRecipe()!= null){
+                    BackgroundService.getOnUploadGlobalModel().getUploadedRecipe().setName(editText.getText().toString());
+                }else{
+                    BackgroundService.getEditRecipeFragementGlobalObject().getUploadedRecipe().setName(editText.getText().toString());
+                }
+                dialog.dismiss();
+            }
+        });*/
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

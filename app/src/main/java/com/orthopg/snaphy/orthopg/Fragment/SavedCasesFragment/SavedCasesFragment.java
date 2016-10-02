@@ -38,6 +38,7 @@ public class SavedCasesFragment extends android.support.v4.app.Fragment {
     CaseListAdapter caseListAdapter;
     List<CaseModel> caseModelList = new ArrayList<>();
     List<Drawable> imageList = new ArrayList<>();
+    public static String TAG = "SavedCasesFragment";
 
     public SavedCasesFragment() {
         // Required empty public constructor
@@ -61,7 +62,7 @@ public class SavedCasesFragment extends android.support.v4.app.Fragment {
         ButterKnife.bind(this, view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         setInitialData();
-        caseListAdapter = new CaseListAdapter(mainActivity, caseModelList);
+        caseListAdapter = new CaseListAdapter(mainActivity, caseModelList, TAG);
         recyclerView.setAdapter(caseListAdapter);
         return view;
     }
