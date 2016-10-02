@@ -9,6 +9,10 @@ import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.BooksFragment;
 import com.orthopg.snaphy.orthopg.Fragment.CaseDetailFragment.CaseDetailFragment;
 import com.orthopg.snaphy.orthopg.Fragment.CaseDetailFragment.PostAnswerFragment;
 import com.orthopg.snaphy.orthopg.Fragment.CaseFragment.CaseFragment;
+import com.orthopg.snaphy.orthopg.Fragment.HelpFragment.BooksHelpFragment;
+import com.orthopg.snaphy.orthopg.Fragment.HelpFragment.CaseHelpFragment;
+import com.orthopg.snaphy.orthopg.Fragment.HelpFragment.HelpFragment;
+import com.orthopg.snaphy.orthopg.Fragment.HelpFragment.NewsHelpFragment;
 import com.orthopg.snaphy.orthopg.Fragment.LoginFragment.LoginFragment;
 import com.orthopg.snaphy.orthopg.Fragment.MCIVerificationFragment.MCIVerificationFragment;
 import com.orthopg.snaphy.orthopg.Fragment.MainFragment.MainFragment;
@@ -35,13 +39,15 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         FAQsFragment.OnFragmentInteractionListener, TermsAndConditionsFragment.OnFragmentInteractionListener,
         ContactUsFragment.OnFragmentInteractionListener, CaseHeadingFragment.OnFragmentInteractionListener,
         CaseDescriptionFragment.OnFragmentInteractionListener, CaseUploadImageFragment.OnFragmentInteractionListener,
-        CaseDetailFragment.OnFragmentInteractionListener, PostAnswerFragment.OnFragmentInteractionListener {
+        CaseDetailFragment.OnFragmentInteractionListener, PostAnswerFragment.OnFragmentInteractionListener,
+        HelpFragment.OnFragmentInteractionListener, CaseHelpFragment.OnFragmentInteractionListener,
+        BooksHelpFragment.OnFragmentInteractionListener, NewsHelpFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        replaceFragment(R.layout.fragment_main, null);
+        replaceFragment(R.layout.fragment_help, null);
     }
 
     @Override
@@ -50,6 +56,10 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         switch (id) {
             case R.layout.fragment_main:
                 loadMainFragment(fragmentTransaction);
+                break;
+
+            case R.layout.fragment_help:
+                loadHelpFragment(fragmentTransaction);
                 break;
 
             case R.id.fragment_menu_button1:
@@ -101,6 +111,16 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             mainFragment = MainFragment.newInstance();
         }
         fragmentTransaction.replace(R.id.container, mainFragment, MainFragment.TAG);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    private void loadHelpFragment(FragmentTransaction fragmentTransaction) {
+        HelpFragment helpFragment = (HelpFragment) getSupportFragmentManager().
+                findFragmentByTag(HelpFragment.TAG);
+        if (helpFragment == null) {
+            helpFragment = HelpFragment.newInstance();
+        }
+        fragmentTransaction.replace(R.id.container, helpFragment, HelpFragment.TAG);
         fragmentTransaction.commitAllowingStateLoss();
     }
 

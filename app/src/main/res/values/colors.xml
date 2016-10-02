@@ -10,4 +10,7 @@
     <color name="lineColor">#DDDDDD</color>
     <color name="buttonColor">#777777</color>
     <color name="black">#000</color>
+    <color name="caseHelp">#9b90bc</color>
+    <color name="bookHelp">#64b0b4</color>
+    <color name="newsHelp">#688fb4</color>
 </resources>

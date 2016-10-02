@@ -89,7 +89,7 @@
             android:gravity="center"
             android:layout_gravity="center"
             android:paddingTop="3dp"
-            android:paddingBottom="5dp"/>
+            android:paddingBottom="6dp"/>
 
             </LinearLayout>
 
@@ -120,15 +120,41 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_gravity="right"
-        android:gravity="right"
         android:paddingTop="5dp">
+
+        <ImageButton
+            android:id="@+id/layout_case_list_button1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:src="@mipmap/edit"
+            android:visibility="gone"
+            android:gravity="center"
+            android:layout_gravity="center" />
+
+        <ImageButton
+            android:id="@+id/layout_case_list_button2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:src="@mipmap/delete_case"
+            android:gravity="center"
+            android:visibility="gone"
+            android:layout_gravity="center" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="5dp"
+            android:layout_gravity="right"
+            android:gravity="right">
 
         <ImageButton
             android:id="@+id/layout_case_list_imagebutton1"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_gravity="top"
+            android:layout_gravity="top|right"
             android:cropToPadding="true"
             android:src="@mipmap/save_unselected"
             android:background="@android:color/transparent"/>
@@ -140,6 +166,8 @@
             android:src="@mipmap/like_selected"
             android:layout_gravity="top"
             android:background="@android:color/transparent"/>
+
+            </LinearLayout>
 
     </LinearLayout>
 

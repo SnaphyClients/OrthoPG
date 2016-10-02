@@ -1,0 +1,56 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:background="@color/caseHelp"
+    tools:context="com.orthopg.snaphy.orthopg.Fragment.HelpFragment.CaseHelpFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="75dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/case_search"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/fragment_case_help_imageview1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:text="Cases"
+            android:textSize="30sp"
+            android:layout_marginTop="5dp"
+            android:id="@+id/fragment_case_help_textview1"
+            android:layout_below="@+id/fragment_case_help_imageview1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/white"
+            android:text="Interact with other orthopedic doctors by discussing cases"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:id="@+id/fragment_case_help_textview2"
+            android:layout_below="@+id/fragment_case_help_textview1"/>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/help_case_indicators"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="45dp"/>
+
+</RelativeLayout>

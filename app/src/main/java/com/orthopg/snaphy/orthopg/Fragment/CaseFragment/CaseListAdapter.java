@@ -61,6 +61,8 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         RecyclerView caseImages = holder.caseImages;
         TextView caseDescription = holder.caseDescription;
         TextView tag = holder.tag;
+        ImageButton delete = holder.deleteButton;
+        ImageButton edit = holder.editButton;
         ImageView isAnswerSelected = holder.isAnswerSelected;
         TextView selectedAnswerUserName = holder.selectedAnswerUserName;
         TextView selectedAnswer = holder.selectedAnswer;
@@ -81,6 +83,14 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         }
         selectedAnswerUserName.setText(caseModel.getSelectedAnswerUserName());
         selectedAnswer.setText(caseModel.getSelectedAnswer());
+
+        if(TAG.equals(PostedCasesFragment.TAG)) {
+            delete.setVisibility(View.VISIBLE);
+            edit.setVisibility(View.VISIBLE);
+        } else {
+            delete.setVisibility(View.GONE);
+            edit.setVisibility(View.GONE);
+        }
 
         if(caseModel.isLiked()) {
             like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_selected));
@@ -167,6 +177,8 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         @Bind(R.id.layout_case_list_imageview1) ImageView isAnswerSelected;
         @Bind(R.id.layout_case_list_textview6) TextView selectedAnswerUserName;
         @Bind(R.id.layout_case_list_textview7) TextView selectedAnswer;
+        @Bind(R.id.layout_case_list_button1) ImageButton deleteButton;
+        @Bind(R.id.layout_case_list_button2) ImageButton editButton;
 
 
         public ViewHolder(View itemView) {
