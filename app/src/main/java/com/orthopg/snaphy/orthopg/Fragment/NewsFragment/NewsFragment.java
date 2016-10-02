@@ -1,6 +1,7 @@
 package com.orthopg.snaphy.orthopg.Fragment.NewsFragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
+import com.orthopg.snaphy.orthopg.RecyclerItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +64,17 @@ public class NewsFragment extends android.support.v4.app.Fragment {
         setInitialData();
         newsListAdapter = new NewsListAdapter(mainActivity, newsModelList);
         recyclerView.setAdapter(newsListAdapter);
+
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(mainActivity, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Intent intent= new Intent(Intent.ACTION_VIEW,Uri.parse("http://timesofindia.indiatimes.com/business/india-business/Revenue-gained-from-Income-Declaration-Scheme-to-be-spent-on-infrastructure-rural-economy/articleshow/54635163.cms"));
+                        startActivity(intent);
+                    }
+                })
+        );
+
         return view;
     }
 

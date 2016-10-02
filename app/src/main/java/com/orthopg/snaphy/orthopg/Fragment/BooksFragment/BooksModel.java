@@ -7,16 +7,27 @@ import android.graphics.drawable.Drawable;
  */
 public class BooksModel {
 
-    public BooksModel(Drawable bookImage, String bookName,String bookDescription, boolean isDownloadable) {
+    public BooksModel(Drawable bookImage, Drawable bookBackCover, String bookName,String bookDescription, boolean isDownloadable) {
         this.bookImage = bookImage;
         this.bookName = bookName;
         this.bookDescription = bookDescription;
         this.isDownloadable = isDownloadable;
+        this.bookBackCover = bookBackCover;
     }
 
     private Drawable bookImage;
     private String bookName;
     private String bookDescription;
+
+    public Drawable getBookBackCover() {
+        return bookBackCover;
+    }
+
+    public void setBookBackCover(Drawable bookBackCover) {
+        this.bookBackCover = bookBackCover;
+    }
+
+    Drawable bookBackCover;
 
     public Drawable getBookImage() {
         return bookImage;

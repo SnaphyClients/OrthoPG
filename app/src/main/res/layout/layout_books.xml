@@ -4,12 +4,28 @@
     android:layout_height="wrap_content" android:paddingLeft="30dp"
     android:paddingRight="30dp" android:paddingTop="20dp" android:background="@color/white">
 
-    <ImageView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/demo_books_image_1"
-        android:adjustViewBounds="true"
-        android:id="@+id/layout_book_imageview1"/>
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/demo_news_image_1"
+            android:adjustViewBounds="true"
+            android:layout_weight="1"
+            android:id="@+id/layout_book_imageview1"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/demo_news_image_1"
+            android:adjustViewBounds="true"
+            android:layout_weight="1"
+            android:id="@+id/layout_book_imageview2"/>
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
@@ -46,7 +62,9 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#DDDDDD"/>
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="#EEEEEE"/>
 
 
 </LinearLayout>

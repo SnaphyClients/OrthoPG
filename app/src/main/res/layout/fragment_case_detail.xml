@@ -11,8 +11,7 @@
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/fragment_case_detail_image_button1">
+        android:layout_height="match_parent">
 
     <android.support.v7.widget.RecyclerView
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -21,8 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginBottom="40dp"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginBottom="40dp" />
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -50,7 +48,8 @@
                 android:src="@mipmap/cross"
                 android:background="@android:color/transparent"
                 android:layout_alignParentRight="true"
-                android:padding="15dp"/>
+                android:paddingTop="8dp"
+                android:layout_marginRight="15dp"/>
 
 
     <LinearLayout
@@ -176,14 +175,19 @@
         android:textColor="@color/buttonColor"
         android:text="This patient underwent a diagnostic arthro.The patellofemoral comparment, medial gutter,and medial meniscus were normal.Originally, the term orthopedics meant the correcting of musculoskeletal deformities in children. Nicolas Andry, a French professor at the University of Paris coined the term in the first textbook written on the subject in 1741."/>
 
-        <View
+        <!--<View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#EEEEEE"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             android:layout_marginTop="15dp"
-            android:layout_marginBottom="5dp"/>
+            android:layout_marginBottom="5dp"/>-->
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/case_end_indicator"/>
 
     </LinearLayout>
 

@@ -1,11 +1,14 @@
 package com.orthopg.snaphy.orthopg.Fragment.NewCase;
 
 import android.Manifest;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,10 +17,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +51,7 @@ public class CaseUploadImageFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.fragment_case_upload_image_recycler_view) RecyclerView recyclerView;
     List<Uri> imageURI = new ArrayList<>();
     CaseUploadImageFragmentAdapter caseUploadImageFragmentAdapter;
+    final int CROP_PIC = 2;
 
     public CaseUploadImageFragment() {
         // Required empty public constructor
@@ -139,12 +145,60 @@ public class CaseUploadImageFragment extends android.support.v4.app.Fragment {
             public void onImagePicked(File imageFile, EasyImage.ImageSource source) {
                 //Handle the image
                 final Uri uri = Uri.fromFile(imageFile);
-                imageURI.add(uri);
-                caseUploadImageFragmentAdapter.notifyDataSetChanged();
+                performCrop(uri);
+
                 //Now upload image..
             }
 
         });
+
+            if (requestCode == CROP_PIC) {
+                // get the returned data
+                Bundle extras = data.getExtras();
+                // get the cropped bitmap
+                Bitmap thePic = extras.getParcelable("data");
+                imageURI.add(getImageUri(mainActivity, thePic));
+                caseUploadImageFragmentAdapter.notifyDataSetChanged();
+            }
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+    /**
+     * this function does the crop operation.
+     */
+    private void performCrop(Uri uri) {
+        // take care of exceptions
+        try {
+            // call the standard crop action intent (the user device may not
+            // support it)
+            Intent cropIntent = new Intent("com.android.camera.action.CROP");
+            // indicate image type and Uri
+            cropIntent.setDataAndType(uri, "image/*");
+            // set crop properties
+            cropIntent.putExtra("crop", "true");
+            // indicate aspect of desired crop
+            cropIntent.putExtra("aspectX", 4);
+            cropIntent.putExtra("aspectY", 3);
+            // indicate output X and Y
+            cropIntent.putExtra("outputX", 500);
+            cropIntent.putExtra("outputY", 500);
+            // retrieve data on return
+            cropIntent.putExtra("return-data", true);
+            // start the activity - we handle returning in onActivityResult
+            startActivityForResult(cropIntent, CROP_PIC);
+        }
+        // respond to users whose devices do not support the crop action
+        catch (ActivityNotFoundException anfe) {
+            Toast toast = Toast
+                    .makeText(mainActivity, "This device doesn't support the crop action!", Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

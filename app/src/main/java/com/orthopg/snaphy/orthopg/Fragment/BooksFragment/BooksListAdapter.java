@@ -1,6 +1,10 @@
 package com.orthopg.snaphy.orthopg.Fragment.BooksFragment;
 
+import android.app.DownloadManager;
 import android.content.Context;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
@@ -58,9 +61,25 @@ public class BooksListAdapter extends RecyclerView.Adapter<BooksListAdapter.View
         downloadBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mainActivity,"Book will download here", Toast.LENGTH_SHORT).show();
+
+                Uri uri = Uri
+                        .parse("http://www.pdf995.com/samples/pdf.pdf");
+                DownloadManager.Request request = new DownloadManager.Request(uri);
+                request.setDescription("OrthoPG Books");
+                request.setTitle("OrthoPG");
+                // in order for this if to run, you must use the android 3.2 to compile your app
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                    request.allowScanningByMediaScanner();
+                    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                }
+                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "name-of-the-file.ext");
+
+                // get download service and enqueue file
+                DownloadManager manager = (DownloadManager) mainActivity.getSystemService(Context.DOWNLOAD_SERVICE);
+                manager.enqueue(request);
             }
         });
+
     }
 
     @Override

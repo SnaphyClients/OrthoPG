@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.orthopg.snaphy.orthopg.R;
@@ -44,7 +44,7 @@ public class CaseUploadImageFragmentAdapter extends RecyclerView.Adapter<CaseUpl
         Uri uri = imageURI.get(position);
 
         ImageView imageView = holder.imageView;
-        Button delete = holder.delete;
+        ImageButton delete = holder.delete;
 
         imageView.setImageURI(uri);
     }
@@ -57,7 +57,8 @@ public class CaseUploadImageFragmentAdapter extends RecyclerView.Adapter<CaseUpl
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.layout_upload_image_recycler_view_imageview1) ImageView imageView;
-        @Bind(R.id.layout_upload_image_recycler_view_button1) Button delete;
+        @Bind(R.id.layout_upload_image_recycler_view_button1)
+        ImageButton delete;
 
         public ViewHolder(View itemView) {
             super(itemView);

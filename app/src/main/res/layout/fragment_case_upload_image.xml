@@ -93,7 +93,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="200dp"
         android:id="@+id/fragment_case_upload_image_recycler_view"
         android:layout_above="@+id/fragment_case_upload_image_button1">
 
