@@ -6,10 +6,19 @@
     android:clickable="true"
     tools:context="com.orthopg.snaphy.orthopg.Fragment.HelpFragment.NewsHelpFragment">
 
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/delete"
+        android:background="@android:color/transparent"
+        android:layout_alignParentRight="true"
+        android:id="@+id/fragment_news_help_imagebutton1"
+        android:padding="5dp"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="75dp">
+        android:layout_centerInParent="true">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -40,17 +49,10 @@
             android:gravity="center"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
+            android:layout_marginBottom="45dp"
             android:id="@+id/fragment_case_help_textview2"
             android:layout_below="@+id/fragment_case_help_textview1"/>
 
     </RelativeLayout>
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/help_news_indicator"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="45dp"/>
 
 </RelativeLayout>

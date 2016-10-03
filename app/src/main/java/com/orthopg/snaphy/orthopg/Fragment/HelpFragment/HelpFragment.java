@@ -14,6 +14,7 @@ import com.orthopg.snaphy.orthopg.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import me.relex.circleindicator.CircleIndicator;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +29,7 @@ public class HelpFragment extends android.support.v4.app.Fragment {
     private OnFragmentInteractionListener mListener;
     MainActivity mainActivity;
     @Bind(R.id.fragment_help_view_pager) ViewPager viewPager;
+    @Bind(R.id.fragment_help_indicator) CircleIndicator indicator;
     public static String TAG = "HelpFragment";
 
     public HelpFragment() {
@@ -51,8 +53,23 @@ public class HelpFragment extends android.support.v4.app.Fragment {
         View view = inflater.inflate(R.layout.fragment_help, container, false);
         ButterKnife.bind(this, view);
         viewPager.setAdapter(new HelpFragmentTabLayoutAdapter(mainActivity.getSupportFragmentManager()));
+        indicator.setViewPager(viewPager);
         return view;
     }
+
+  /*  public void hideStatusBar() {
+        // Hide Status Bar
+        if (Build.VERSION.SDK_INT < 16) {
+            mainActivity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
+        else {
+            View decorView = mainActivity.getWindow().getDecorView();
+            // Hide Status Bar.
+            int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+            decorView.setSystemUiVisibility(uiOptions);
+        }
+    }*/
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -65,6 +82,7 @@ public class HelpFragment extends android.support.v4.app.Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         mainActivity = (MainActivity) getActivity();
+        /*hideStatusBar();*/
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {

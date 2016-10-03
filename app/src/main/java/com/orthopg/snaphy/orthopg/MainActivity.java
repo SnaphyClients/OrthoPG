@@ -62,6 +62,14 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
                 loadHelpFragment(fragmentTransaction);
                 break;
 
+            case R.layout.fragment_login:
+                openLoginFragment(fragmentTransaction);
+                break;
+
+            case R.layout.fragment_mciverification:
+                openMCIVerifcationFragment(fragmentTransaction);
+                break;
+
             case R.id.fragment_menu_button1:
                 openAboutUsFragment(fragmentTransaction);
                 break;
@@ -114,6 +122,16 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         fragmentTransaction.commitAllowingStateLoss();
     }
 
+    private void openLoginFragment(FragmentTransaction fragmentTransaction) {
+        LoginFragment loginFragment = (LoginFragment) getSupportFragmentManager().
+                findFragmentByTag(LoginFragment.TAG);
+        if (loginFragment == null) {
+            loginFragment = LoginFragment.newInstance();
+        }
+        fragmentTransaction.replace(R.id.container, loginFragment, LoginFragment.TAG);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
     private void loadHelpFragment(FragmentTransaction fragmentTransaction) {
         HelpFragment helpFragment = (HelpFragment) getSupportFragmentManager().
                 findFragmentByTag(HelpFragment.TAG);
@@ -121,6 +139,16 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             helpFragment = HelpFragment.newInstance();
         }
         fragmentTransaction.replace(R.id.container, helpFragment, HelpFragment.TAG);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    private void openMCIVerifcationFragment(FragmentTransaction fragmentTransaction) {
+        MCIVerificationFragment mciVerificationFragment = (MCIVerificationFragment) getSupportFragmentManager().
+                findFragmentByTag(MCIVerificationFragment.TAG);
+        if (mciVerificationFragment == null) {
+            mciVerificationFragment = MCIVerificationFragment.newInstance();
+        }
+        fragmentTransaction.replace(R.id.container, mciVerificationFragment, MCIVerificationFragment.TAG);
         fragmentTransaction.commitAllowingStateLoss();
     }
 

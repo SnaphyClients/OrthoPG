@@ -7,10 +7,11 @@
     <color name="loginButton">#f0565a</color>
     <color name="white">#FFFFFF</color>
     <color name="headingColor">#67c3ad</color>
+    <color name="headingDarkColor">#53a08e</color>
     <color name="lineColor">#DDDDDD</color>
     <color name="buttonColor">#777777</color>
     <color name="black">#000</color>
-    <color name="caseHelp">#9b90bc</color>
+    <color name="caseHelp">#688fb4</color>
     <color name="bookHelp">#64b0b4</color>
-    <color name="newsHelp">#688fb4</color>
+    <color name="newsHelp">#977bb9</color>
 </resources>

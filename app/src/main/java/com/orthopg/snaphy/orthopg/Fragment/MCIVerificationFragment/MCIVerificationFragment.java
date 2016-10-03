@@ -7,9 +7,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,6 +29,10 @@ import com.orthopg.snaphy.orthopg.R;
 public class MCIVerificationFragment extends android.support.v4.app.Fragment {
 
     private OnFragmentInteractionListener mListener;
+    public static String TAG = "MCIVerificationFragment";
+    @Bind(R.id.fragment_mci_verification_image_button1) ImageButton skipButton;
+    @Bind(R.id.fragment_mci_verification_edittext1)
+    EditText mciCode;
     MainActivity mainActivity;
 
     public MCIVerificationFragment() {
@@ -36,6 +47,8 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        InputMethodManager imm = (InputMethodManager) mainActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
     }
 
     @Override
@@ -43,7 +56,22 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_mciverification, container, false);
+        ButterKnife.bind(this, view);
         return view;
+    }
+
+    @OnClick(R.id.fragment_mci_verification_image_button1) void skipButton() {
+        InputMethodManager imm = (InputMethodManager)mainActivity.getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mciCode.getWindowToken(), 0);
+        mainActivity.replaceFragment(R.layout.fragment_main, null);
+    }
+
+    @OnClick(R.id.fragment_mci_verification_button1) void submitButton() {
+        InputMethodManager imm = (InputMethodManager)mainActivity.getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mciCode.getWindowToken(), 0);
+        mainActivity.replaceFragment(R.layout.fragment_main, null);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

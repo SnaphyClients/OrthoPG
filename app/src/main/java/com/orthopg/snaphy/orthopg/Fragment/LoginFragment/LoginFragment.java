@@ -11,6 +11,9 @@ import android.view.ViewGroup;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -23,6 +26,7 @@ public class LoginFragment extends android.support.v4.app.Fragment {
 
     private OnFragmentInteractionListener mListener;
     MainActivity mainActivity;
+    public static String TAG = "LoginFragment";
 
     public LoginFragment() {
         // Required empty public constructor
@@ -43,7 +47,25 @@ public class LoginFragment extends android.support.v4.app.Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_login, container, false);
+        ButterKnife.bind(this, view);
         return view;
+    }
+
+   /* public void showStatusBar() {
+        if (Build.VERSION.SDK_INT < 16) {
+            mainActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
+        else {
+            View decorView = mainActivity.getWindow().getDecorView();
+            // Show Status Bar.
+            int uiOptions = View.SYSTEM_UI_FLAG_VISIBLE;
+            decorView.setSystemUiVisibility(uiOptions);
+        }
+    }*/
+
+    @OnClick(R.id.fragment_login_imagebutton1) void loginButton() {
+        mainActivity.replaceFragment(R.layout.fragment_mciverification, null);
+       /* showStatusBar();*/
     }
 
     // TODO: Rename method, update argument and hook method into UI event

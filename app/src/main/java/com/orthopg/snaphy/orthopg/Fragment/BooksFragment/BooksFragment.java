@@ -67,13 +67,13 @@ public class BooksFragment extends android.support.v4.app.Fragment {
     }
 
     public void setInitialData() {
-        booksModelList.add(new BooksModel(getActivity().getResources().getDrawable(R.drawable.demo_news_image_1),getActivity().getResources().getDrawable(R.drawable.demo_news_image_1),"The Doctor In War","All treated orthodontic cases display some deficiencies. Also, case records may not conform to exact ABO specifications." +
+        booksModelList.add(new BooksModel(getActivity().getResources().getDrawable(R.drawable.demo_book_5),getActivity().getResources().getDrawable(R.drawable.demo_book_6),"The Doctor In War","All treated orthodontic cases display some deficiencies. Also, case records may not conform to exact ABO specifications." +
                 " The example case presentations represent those that successfully completed the ABO Clinical Examination. ",true));
-        booksModelList.add(new BooksModel(getActivity().getResources().getDrawable(R.drawable.demo_news_image_1),getActivity().getResources().getDrawable(R.drawable.demo_news_image_1),"Plant Metabolic Networks","These examples are intended only as a guide, as presentation requirements are subject to change." +
+        booksModelList.add(new BooksModel(getActivity().getResources().getDrawable(R.drawable.demo_book_5),getActivity().getResources().getDrawable(R.drawable.demo_book_6),"Plant Metabolic Networks","These examples are intended only as a guide, as presentation requirements are subject to change." +
                 " Examinees should carefully follow the current exam year requirements when preparing case reports and records.",true));
-        booksModelList.add(new BooksModel(getActivity().getResources().getDrawable(R.drawable.demo_news_image_1),getActivity().getResources().getDrawable(R.drawable.demo_news_image_1),"Dreaming Of Sweden","A collage of study model images is not part of the case presentation. Initial and/or interim study models will be submitted" +
+        booksModelList.add(new BooksModel(getActivity().getResources().getDrawable(R.drawable.demo_book_5),getActivity().getResources().getDrawable(R.drawable.demo_book_6),"Dreaming Of Sweden","A collage of study model images is not part of the case presentation. Initial and/or interim study models will be submitted" +
                 " in plaster or in digital format according to current year specifications.",true));
-        booksModelList.add(new BooksModel(getActivity().getResources().getDrawable(R.drawable.demo_news_image_1),getActivity().getResources().getDrawable(R.drawable.demo_news_image_1),"Callum Chapman","All examinees will electronically submit the Case Report Work File (CRWF) for each case using the ABO website electronic" +
+        booksModelList.add(new BooksModel(getActivity().getResources().getDrawable(R.drawable.demo_book_5),getActivity().getResources().getDrawable(R.drawable.demo_book_6),"Callum Chapman","All examinees will electronically submit the Case Report Work File (CRWF) for each case using the ABO website electronic" +
                 " submission portal.",true));
     }
 

@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,4 +12,11 @@
         android:layout_height="match_parent">
     </android.support.v4.view.ViewPager>
 
-</FrameLayout>
+    <me.relex.circleindicator.CircleIndicator
+        android:id="@+id/fragment_help_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

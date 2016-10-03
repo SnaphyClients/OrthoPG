@@ -7,8 +7,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
+import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,6 +27,10 @@ import com.orthopg.snaphy.orthopg.R;
 public class NewsHelpFragment extends android.support.v4.app.Fragment {
 
     private OnFragmentInteractionListener mListener;
+    @Bind(R.id.fragment_news_help_imagebutton1)
+    ImageButton cancel;
+    MainActivity mainActivity;
+
 
     public NewsHelpFragment() {
         // Required empty public constructor
@@ -41,7 +51,12 @@ public class NewsHelpFragment extends android.support.v4.app.Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_news_help, container, false);
+        ButterKnife.bind(this, view);
         return view;
+    }
+
+    @OnClick(R.id.fragment_news_help_imagebutton1) void cancelButton() {
+        mainActivity.replaceFragment(R.layout.fragment_login, null);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -54,6 +69,7 @@ public class NewsHelpFragment extends android.support.v4.app.Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        mainActivity = (MainActivity) getActivity();
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
