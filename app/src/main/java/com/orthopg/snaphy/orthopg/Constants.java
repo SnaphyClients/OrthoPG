@@ -24,4 +24,9 @@ public class Constants {
     /*DATA LIST IDs*/
     public static String POST_DETAIL_LIST_CASE_FRAGMENT = "PostDetailsListCaseFragment";
     /*END OF DATA LIST IDs*/
+
+    public static String TRENDING = "trending";
+    public static String LATEST = "latest";
+    public static String UNSOLVED = "unsolved";
+    public static String PUBLISH = "publish";
 }

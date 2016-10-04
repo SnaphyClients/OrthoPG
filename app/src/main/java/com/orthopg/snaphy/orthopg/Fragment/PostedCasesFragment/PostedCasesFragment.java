@@ -62,8 +62,8 @@ public class PostedCasesFragment extends android.support.v4.app.Fragment {
         ButterKnife.bind(this, view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         setInitialData();
-        caseListAdapter = new CaseListAdapter(mainActivity, caseModelList, TAG);
-        recyclerView.setAdapter(caseListAdapter);
+        /*caseListAdapter = new CaseListAdapter(mainActivity, caseModelList, TAG);
+        recyclerView.setAdapter(caseListAdapter);*/
         return view;
     }
 

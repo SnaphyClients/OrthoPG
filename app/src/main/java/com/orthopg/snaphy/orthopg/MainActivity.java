@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.BooksFragment;
@@ -269,6 +270,20 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    public void startProgressBar(com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar progressBar) {
+        if(progressBar != null) {
+            progressBar.setVisibility(View.VISIBLE);
+        }
+        //OR Use Progress Dialog
+    }
+
+    public void stopProgressBar(com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar progressBar) {
+        if(progressBar != null) {
+            progressBar.setVisibility(View.GONE);
+        }
+        //OR Use Progress Dialog
     }
 
 

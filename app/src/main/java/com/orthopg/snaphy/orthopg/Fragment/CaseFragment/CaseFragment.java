@@ -17,6 +17,7 @@ import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.Listen;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.PostDetail;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
+import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
@@ -40,6 +41,7 @@ public class CaseFragment extends android.support.v4.app.Fragment {
 
     private OnFragmentInteractionListener mListener;
     @Bind(R.id.fragment_case_recycler_view) RecyclerView recyclerView;
+    @Bind(R.id.fragment_case_progressBar) CircleProgressBar progressBar;
     LinearLayoutManager linearLayoutManager;
     CaseListAdapter caseListAdapter;
     MainActivity mainActivity;
@@ -65,35 +67,7 @@ public class CaseFragment extends android.support.v4.app.Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        CasePresenter casePresenter = new CasePresenter(mainActivity.snaphyHelper.getLoopBackAdapter());
-        casePresenter.fetchPost("trending");
-        postDetails = Presenter.getInstance().getList(PostDetail.class, Constants.POST_DETAIL_LIST_CASE_FRAGMENT);
-
-        postDetails.subscribe(this, new Listen<PostDetail>() {
-            @Override
-            public void onInit(DataList<PostDetail> dataList) {
-                super.onInit(dataList);
-
-            }
-
-            @Override
-            public void onChange(DataList<PostDetail> dataList) {
-                super.onChange(dataList);
-
-            }
-
-            @Override
-            public void onClear() {
-                super.onClear();
-            }
-
-            @Override
-            public void onRemove(PostDetail element, DataList<PostDetail> dataList) {
-                super.onRemove(element, dataList);
-            }
-        });
     }
 
     @Override
@@ -104,23 +78,62 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         ButterKnife.bind(this, view);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
+        loadPresenter();
         setInitialData();
-        caseListAdapter = new CaseListAdapter(mainActivity, caseModelList, TAG);
-        recyclerView.setAdapter(caseListAdapter);
         return view;
     }
 
     @OnClick(R.id.fragment_case_button1) void trendingButtonClick() {
         changeButtonColor(true, false, false);
+        casePresenter.fetchPost(Constants.TRENDING, true);
     }
 
     @OnClick(R.id.fragment_case_button2) void newButtonClick() {
         changeButtonColor(false, true, false);
+        casePresenter.fetchPost(Constants.LATEST, true);
     }
 
     @OnClick(R.id.fragment_case_button3) void unsolvedButtonClick() {
         changeButtonColor(false, false, true);
+        casePresenter.fetchPost(Constants.UNSOLVED, true);
     }
+
+
+    private void loadPresenter(){
+        casePresenter = new CasePresenter(mainActivity.snaphyHelper.getLoopBackAdapter(), progressBar, mainActivity);
+        postDetails = Presenter.getInstance().getList(PostDetail.class, Constants.POST_DETAIL_LIST_CASE_FRAGMENT);
+        //By default fetch the trending list..
+        trendingButtonClick();
+        postDetails.subscribe(this, new Listen<PostDetail>() {
+            @Override
+            public void onInit(DataList<PostDetail> dataList) {
+                super.onInit(dataList);
+                caseListAdapter = new CaseListAdapter(mainActivity, dataList, TAG);
+                recyclerView.setAdapter(caseListAdapter);
+            }
+
+            @Override
+            public void onChange(DataList<PostDetail> dataList) {
+                super.onChange(dataList);
+                caseListAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onClear() {
+                super.onClear();
+                caseListAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onRemove(PostDetail element, DataList<PostDetail> dataList) {
+                super.onRemove(element, dataList);
+            }
+        });
+    }
+
+
+
 
     public void changeButtonColor(boolean trending, boolean newCase, boolean unsolved) {
         trendingButton.setTextColor(Color.parseColor("#777777"));
@@ -170,9 +183,9 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                 "Many developments in orthopedic surgery have resulted from experiences during wartime."));
 
         caseModelList.add(new CaseModel(getActivity().getResources().getDrawable(R.drawable.profile_pic),
-                "Medical Epigontilitis (Golfer and Baseball Elbow","Dr Ravi Gupta", "9 hours ago", true, true,
+                "Medical Epigontilitis (Golfer and Baseball Elbow", "Dr Ravi Gupta", "9 hours ago", true, true,
                 imageList, "Originally, the term orthopedics meant the correcting of musculoskeletal deformities in children. Nicolas Andry," +
-                " a French professor at the University of Paris coined the term in the first textbook written on the subject in 1741.","case", true, "Aadish Surana",
+                " a French professor at the University of Paris coined the term in the first textbook written on the subject in 1741.", "case", true, "Aadish Surana",
                 "Many developments in orthopedic surgery have resulted from experiences during wartime."));
     }
 
@@ -199,6 +212,12 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        postDetails.unsubscribe(this);
     }
 
     /**

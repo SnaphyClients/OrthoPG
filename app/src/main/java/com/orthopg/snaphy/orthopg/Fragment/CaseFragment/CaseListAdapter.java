@@ -10,12 +10,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Post;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.PostDetail;
 import com.orthopg.snaphy.orthopg.Fragment.PostedCasesFragment.PostedCasesFragment;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 import com.orthopg.snaphy.orthopg.RecyclerItemClickListener;
-
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -26,12 +27,12 @@ import butterknife.ButterKnife;
 public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHolder> {
 
     MainActivity mainActivity;
-    List<CaseModel> caseModelList;
+    DataList<PostDetail> postDetailDataList;
     String TAG;
 
-    public CaseListAdapter(MainActivity mainActivity, List<CaseModel> caseModelList, String TAG) {
+    public CaseListAdapter(MainActivity mainActivity,  DataList<PostDetail> postDetailDataList, String TAG) {
         this.mainActivity = mainActivity;
-        this.caseModelList = caseModelList;
+        this.postDetailDataList = postDetailDataList;
         this.TAG = TAG;
     }
 
@@ -49,7 +50,17 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final CaseModel caseModel = caseModelList.get(position);
+        final PostDetail postDetail = postDetailDataList.get(position);
+        Post post;
+        if(postDetail != null){
+            if(postDetail.getPost() != null){
+                post = postDetail.getPost();
+            }else{
+                return;
+            }
+        }else{
+            return;
+        }
         CaseImageAdapter caseImageAdapter;
 
         ImageView imageView = holder.userImage;
@@ -68,14 +79,22 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         TextView selectedAnswer = holder.selectedAnswer;
 
         caseImages.setLayoutManager(new LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false));
-        caseImageAdapter = new CaseImageAdapter(caseModel.getCaseImage());
-        caseImages.setAdapter(caseImageAdapter);
+        //TODO DO LATER
+        //caseImageAdapter = new CaseImageAdapter(caseModel.getCaseImage());
+        //caseImages.setAdapter(caseImageAdapter);
 
-        imageView.setImageDrawable(caseModel.getDoctorImage());
-        caseHeading.setText(caseModel.getPostHeading());
-        userName.setText(caseModel.getDoctorName());
-        casePostedTime.setText(caseModel.getPostTime());
+        //imageView.setImageDrawable(caseModel.getDoctorImage());
+        if(!post.getHeading().isEmpty()){
+            caseHeading.setText(post.getHeading());
+        }
 
+
+        //TODO LATER
+        //userName.setText(caseModel.getDoctorName());
+
+        setTime(casePostedTime, postDetail.getAdded());
+
+        /*
         caseDescription.setText(caseModel.getCaseDescription());
         tag.setText(caseModel.getTag());
         if(caseModel.getIsAnswerSelected()) {
@@ -83,7 +102,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         }
         selectedAnswerUserName.setText(caseModel.getSelectedAnswerUserName());
         selectedAnswer.setText(caseModel.getSelectedAnswer());
-
+*/
         if(TAG.equals(PostedCasesFragment.TAG)) {
             delete.setVisibility(View.VISIBLE);
             edit.setVisibility(View.VISIBLE);
@@ -92,7 +111,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
             edit.setVisibility(View.GONE);
         }
 
-        if(caseModel.isLiked()) {
+  /*      if(caseModel.isLiked()) {
             like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_selected));
         } else {
             like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_unselected));
@@ -129,7 +148,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                 }
             }
         });
-
+*/
 
         caseImages.addOnItemTouchListener(
                 new RecyclerItemClickListener(mainActivity, new RecyclerItemClickListener.OnItemClickListener() {
@@ -158,9 +177,19 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
 
     }
 
+
+    public void setTime(TextView casePostedTime, String date){
+        //TODO DEFINE TIME HERE..
+        //PARSE The javascript format date first..
+        //casePostedTime.setText(caseModel.getPostTime());
+    }
+
+
+
+
     @Override
     public int getItemCount() {
-        return caseModelList.size();
+        return postDetailDataList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
