@@ -1,10 +1,13 @@
 package com.orthopg.snaphy.orthopg;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.BooksFragment;
 import com.orthopg.snaphy.orthopg.Fragment.CaseDetailFragment.CaseDetailFragment;
 import com.orthopg.snaphy.orthopg.Fragment.CaseDetailFragment.PostAnswerFragment;
@@ -29,6 +32,8 @@ import com.orthopg.snaphy.orthopg.Fragment.PostedCasesFragment.PostedCasesFragme
 import com.orthopg.snaphy.orthopg.Fragment.ProfileFragment.ProfileFragment;
 import com.orthopg.snaphy.orthopg.Fragment.SavedCasesFragment.SavedCasesFragment;
 import com.orthopg.snaphy.orthopg.Interface.OnFragmentChange;
+import com.strongloop.android.loopback.LocalInstallation;
+import com.strongloop.android.loopback.RestAdapter;
 
 public class MainActivity extends AppCompatActivity implements OnFragmentChange, LoginFragment.OnFragmentInteractionListener,
         MCIVerificationFragment.OnFragmentInteractionListener, MainFragment.OnFragmentInteractionListener,
@@ -43,10 +48,29 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         HelpFragment.OnFragmentInteractionListener, CaseHelpFragment.OnFragmentInteractionListener,
         BooksHelpFragment.OnFragmentInteractionListener, NewsHelpFragment.OnFragmentInteractionListener {
 
+    RestAdapter restAdapter;
+    Context context;
+    GoogleCloudMessaging gcm;
+    public static LocalInstallation installation;
+    SnaphyHelper snaphyHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        context = getApplicationContext();
+        snaphyHelper = new SnaphyHelper(this);
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Check device for Play Services APK.
+                snaphyHelper.checkPlayServices();
+                //TODO Call this method after succefull login later.
+                snaphyHelper.registerInstallation(null);
+            }
+        }, 100);
+
         replaceFragment(R.layout.fragment_help, null);
     }
 
@@ -246,6 +270,9 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+
+
 
     @Override
     public void onBackPressed() {
