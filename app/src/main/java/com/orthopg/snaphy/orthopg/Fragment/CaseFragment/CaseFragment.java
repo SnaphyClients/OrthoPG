@@ -13,6 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
+import com.androidsdk.snaphy.snaphyandroidsdk.list.Listen;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.PostDetail;
+import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
+import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 
@@ -41,6 +46,8 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     List<CaseModel> caseModelList = new ArrayList<>();
     List<Drawable> imageList = new ArrayList<>();
     public static String TAG = "CaseFragment";
+    CasePresenter casePresenter;
+    DataList<PostDetail> postDetails;
 
 
     @Bind(R.id.fragment_case_button1) Button trendingButton;
@@ -58,7 +65,35 @@ public class CaseFragment extends android.support.v4.app.Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        CasePresenter casePresenter = new CasePresenter(mainActivity.snaphyHelper.getLoopBackAdapter());
+        casePresenter.fetchPost("trending");
+        postDetails = Presenter.getInstance().getList(PostDetail.class, Constants.POST_DETAIL_LIST_CASE_FRAGMENT);
+
+        postDetails.subscribe(this, new Listen<PostDetail>() {
+            @Override
+            public void onInit(DataList<PostDetail> dataList) {
+                super.onInit(dataList);
+
+            }
+
+            @Override
+            public void onChange(DataList<PostDetail> dataList) {
+                super.onChange(dataList);
+
+            }
+
+            @Override
+            public void onClear() {
+                super.onClear();
+            }
+
+            @Override
+            public void onRemove(PostDetail element, DataList<PostDetail> dataList) {
+                super.onRemove(element, dataList);
+            }
+        });
     }
 
     @Override

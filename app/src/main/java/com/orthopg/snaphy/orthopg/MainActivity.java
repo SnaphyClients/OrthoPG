@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
     Context context;
     GoogleCloudMessaging gcm;
     public static LocalInstallation installation;
-    SnaphyHelper snaphyHelper;
+    public SnaphyHelper snaphyHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

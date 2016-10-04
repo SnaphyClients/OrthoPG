@@ -7,6 +7,7 @@ public class Constants {
     public static String TAG = "OrthoPG";
     public static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
+
     public static String baseUrl = "http://192.168.1.101:3000";
     //public static String baseUrl = "http://ec2-54-209-33-191.compute-1.amazonaws.com:3000";
     public static String apiUrl = baseUrl+"/api";
@@ -19,4 +20,8 @@ public class Constants {
     public static String SENDER_ID = "673699478279";
     public static String LOOPBACK_APP_ID = "mapstrack-snaphy-push-application";
     //TODO CHANGE IT UNTIL THIS
+
+    /*DATA LIST IDs*/
+    public static String POST_DETAIL_LIST_CASE_FRAGMENT = "PostDetailsListCaseFragment";
+    /*END OF DATA LIST IDs*/
 }
