@@ -7,6 +7,10 @@ public class Constants {
     public static String TAG = "OrthoPG";
     public static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
+    private static String SHA_KEY = "D6:E7:88:AB:D1:8E:4F:88:A8:0D:34:ED:6E:57:FC:9F:EB:8C:7B:CC";
+    public static String CLIENT_ID = "1045211377196-k556pl54qlqrmnin81fm7e7dseud686r.apps.googleusercontent.com";
+    private static String CLIENT_SECRET_KEY = "ORFoabt0p6XEOFLmKBsYQGZh";
+
 
     public static String baseUrl = "http://192.168.1.106:3000";
     //public static String baseUrl = "http://ec2-54-209-33-191.compute-1.amazonaws.com:3000";

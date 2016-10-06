@@ -1,13 +1,21 @@
 package com.orthopg.snaphy.orthopg.Fragment.LoginFragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 
@@ -27,6 +35,9 @@ public class LoginFragment extends android.support.v4.app.Fragment {
     private OnFragmentInteractionListener mListener;
     MainActivity mainActivity;
     public static String TAG = "LoginFragment";
+    private GoogleApiClient googleApiClient;
+    private static final int RC_SIGN_IN = 0;
+    GoogleSignInOptions gso;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -48,8 +59,48 @@ public class LoginFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         ButterKnife.bind(this, view);
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(Constants.CLIENT_ID)
+                .requestEmail()
+                .build();
+        initializeGoogleApiClient();
         return view;
     }
+
+    public void initializeGoogleApiClient() {
+        googleApiClient = new GoogleApiClient.Builder(mainActivity)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
+        //BackgroundService.setGoogleApiClient(googleApiClient);
+        googleApiClient.connect();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int responseCode,
+                                 Intent intent) {
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(intent);
+            handleSignInResult(result);
+        }
+    }
+
+    private void handleSignInResult(GoogleSignInResult result) {
+        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
+        if (result.isSuccess()) {
+            // Signed in successfully, show authenticated UI.
+            GoogleSignInAccount acct = result.getSignInAccount();
+            if(acct.getIdToken() != null) {
+                Log.v(Constants.TAG, acct.getIdToken());
+                //BackgroundService.setAccessToken(acct.getIdToken());
+                mainActivity.replaceFragment(R.layout.fragment_mciverification, null);
+            }
+
+        } else {
+            //Snackbar.make(rootView, Constants.ERROR_MESSAGE, Snackbar.LENGTH_SHORT).show();
+        }
+    }
+
 
    /* public void showStatusBar() {
         if (Build.VERSION.SDK_INT < 16) {
@@ -64,8 +115,9 @@ public class LoginFragment extends android.support.v4.app.Fragment {
     }*/
 
     @OnClick(R.id.fragment_login_button1) void loginButton() {
-        mainActivity.replaceFragment(R.layout.fragment_mciverification, null);
-       /* showStatusBar();*/
+        //mainActivity.replaceFragment(R.layout.fragment_mciverification, null);
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

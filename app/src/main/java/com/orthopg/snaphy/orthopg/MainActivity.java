@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.ndk.CrashlyticsNdk;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.BooksFragment;
 import com.orthopg.snaphy.orthopg.Fragment.CaseDetailFragment.CaseDetailFragment;
@@ -36,6 +38,10 @@ import com.orthopg.snaphy.orthopg.Interface.OnFragmentChange;
 import com.strongloop.android.loopback.LocalInstallation;
 import com.strongloop.android.loopback.RestAdapter;
 
+import io.fabric.sdk.android.Fabric;
+
+
+
 public class MainActivity extends AppCompatActivity implements OnFragmentChange, LoginFragment.OnFragmentInteractionListener,
         MCIVerificationFragment.OnFragmentInteractionListener, MainFragment.OnFragmentInteractionListener,
         BooksFragment.OnFragmentInteractionListener, CaseFragment.OnFragmentInteractionListener,
@@ -58,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
         setContentView(R.layout.activity_main);
         context = getApplicationContext();
         snaphyHelper = new SnaphyHelper(this);
@@ -72,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             }
         }, 100);
 
-        replaceFragment(R.layout.fragment_main, null);
+        replaceFragment(R.layout.fragment_help, null);
     }
 
     @Override
