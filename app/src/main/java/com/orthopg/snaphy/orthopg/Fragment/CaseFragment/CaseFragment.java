@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -42,6 +43,7 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     private OnFragmentInteractionListener mListener;
     @Bind(R.id.fragment_case_recycler_view) RecyclerView recyclerView;
     @Bind(R.id.fragment_case_progressBar) CircleProgressBar progressBar;
+    @Bind(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
     LinearLayoutManager linearLayoutManager;
     CaseListAdapter caseListAdapter;
     MainActivity mainActivity;
@@ -50,6 +52,13 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     public static String TAG = "CaseFragment";
     CasePresenter casePresenter;
     DataList<PostDetail> postDetails;
+
+    /*Infinite Loading dataset*/
+    private int previousTotal = 0;
+    private boolean loading = true;
+    private int visibleThreshold = 3;
+    int firstVisibleItem, visibleItemCount, totalItemCount;
+    /*Infinite Loading data set*/
 
 
     @Bind(R.id.fragment_case_button1) Button trendingButton;
@@ -78,9 +87,20 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         ButterKnife.bind(this, view);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
+        swipeRefreshLayoutListener();
         loadPresenter();
+        recyclerViewLoadMoreEventData();
         return view;
     }
+
+    public void swipeRefreshLayoutListener() {
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Refresh Items here
+            }
+        });
+    }//http://sapandiwakar.in/pull-to-refresh-for-android-recyclerview-or-any-other-vertically-scrolling-view/
 
     @OnClick(R.id.fragment_case_button1) void trendingButtonClick() {
         changeButtonColor(true, false, false);
@@ -95,6 +115,39 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     @OnClick(R.id.fragment_case_button3) void unsolvedButtonClick() {
         changeButtonColor(false, false, true);
         casePresenter.fetchPost(Constants.UNSOLVED, true);
+    }
+
+    public void recyclerViewLoadMoreEventData() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (dy > 0) {
+                    visibleItemCount = recyclerView.getChildCount();
+                    totalItemCount = linearLayoutManager.getItemCount();
+                    firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+
+                    if (loading) {
+                        if (totalItemCount > previousTotal) {
+                            loading = false;
+                            previousTotal = totalItemCount;
+                        }
+                    }
+                    if (!loading && (totalItemCount - visibleItemCount)
+                            <= (firstVisibleItem + visibleThreshold)) {
+                        //Fetch more data here
+                        //EventBus.getDefault().post(TrackCollection.progressBar, Constants.REQUEST_LOAD_MORE_EVENT_FROM_HOME_FRAGMENT);
+                        loading = true;
+                    }
+                }
+            }
+        });
     }
 
 
@@ -188,6 +241,7 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     public void onDestroy(){
         super.onDestroy();
         postDetails.unsubscribe(this);
+        Presenter.getInstance().removeFromList(Constants.POST_DETAIL_LIST_CASE_FRAGMENT);
     }
 
     /**
