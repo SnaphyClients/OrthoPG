@@ -79,7 +79,6 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         loadPresenter();
-        setInitialData();
         return view;
     }
 
@@ -158,36 +157,7 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     }
 
 
-    public void setInitialData() {
 
-        imageList.add((getActivity().getResources().getDrawable(R.drawable.demo_books_image_1)));
-        imageList.add((getActivity().getResources().getDrawable(R.drawable.demo_books_image_2)));
-        imageList.add((getActivity().getResources().getDrawable(R.drawable.demo_books_image_3)));
-
-        caseModelList.add(new CaseModel(getActivity().getResources().getDrawable(R.drawable.profile_pic),
-                "Medical Epigontilitis (Golfer and Baseball Elbow","Dr Ravi Gupta", "9 hours ago", false, false,
-                imageList, "Originally, the term orthopedics meant the correcting of musculoskeletal deformities in children. Nicolas Andry," +
-                " a French professor at the University of Paris coined the term in the first textbook written on the subject in 1741.","case", true, "Aadish Surana",
-                "Many developments in orthopedic surgery have resulted from experiences during wartime."));
-
-        caseModelList.add(new CaseModel(getActivity().getResources().getDrawable(R.drawable.profile_pic),
-                "Medical Epigontilitis (Golfer and Baseball Elbow","Dr Ravi Gupta", "9 hours ago", true, false,
-                imageList, "Originally, the term orthopedics meant the correcting of musculoskeletal deformities in children. Nicolas Andry," +
-                " a French professor at the University of Paris coined the term in the first textbook written on the subject in 1741.","case", true, "Aadish Surana",
-                "Many developments in orthopedic surgery have resulted from experiences during wartime."));
-
-        caseModelList.add(new CaseModel(getActivity().getResources().getDrawable(R.drawable.profile_pic),
-                "Medical Epigontilitis (Golfer and Baseball Elbow","Dr Ravi Gupta", "9 hours ago", false, true,
-                imageList, "Originally, the term orthopedics meant the correcting of musculoskeletal deformities in children. Nicolas Andry," +
-                " a French professor at the University of Paris coined the term in the first textbook written on the subject in 1741.","case", true, "Aadish Surana",
-                "Many developments in orthopedic surgery have resulted from experiences during wartime."));
-
-        caseModelList.add(new CaseModel(getActivity().getResources().getDrawable(R.drawable.profile_pic),
-                "Medical Epigontilitis (Golfer and Baseball Elbow", "Dr Ravi Gupta", "9 hours ago", true, true,
-                imageList, "Originally, the term orthopedics meant the correcting of musculoskeletal deformities in children. Nicolas Andry," +
-                " a French professor at the University of Paris coined the term in the first textbook written on the subject in 1741.", "case", true, "Aadish Surana",
-                "Many developments in orthopedic surgery have resulted from experiences during wartime."));
-    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

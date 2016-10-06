@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
                 break;
 
             case R.id.layout_case_list_textview4:
-                openCaseDetailFragment(fragmentTransaction);
+                openCaseDetailFragment(fragmentTransaction, object);
                 break;
 
             case R.id.fragment_case_detail_button4:
@@ -247,12 +247,16 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         fragmentTransaction.commitAllowingStateLoss();
     }
 
-    private void openCaseDetailFragment(FragmentTransaction fragmentTransaction) {
+    private void openCaseDetailFragment(FragmentTransaction fragmentTransaction, Object position) {
         CaseDetailFragment caseDetailFragment = (CaseDetailFragment) getSupportFragmentManager().
                 findFragmentByTag(CaseDetailFragment.TAG);
         if (caseDetailFragment == null) {
             caseDetailFragment = CaseDetailFragment.newInstance();
         }
+        Bundle bundle = new Bundle();
+        int pos = (int) position;
+        bundle.putInt("position", pos);
+        caseDetailFragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.main_container, caseDetailFragment, CaseDetailFragment.TAG).addToBackStack(null);
         fragmentTransaction.commitAllowingStateLoss();
     }

@@ -1,6 +1,7 @@
 package com.orthopg.snaphy.orthopg.Fragment.CaseDetailFragment;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,7 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Post;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.PostDetail;
+import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
+import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.Fragment.CaseFragment.CaseImageAdapter;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
@@ -23,6 +32,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,13 +51,27 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.fragment_case_detail_button4) Button answerButton;
     @Bind(R.id.layout_case_detail_imagebutton1) ImageButton saveButton;
     @Bind(R.id.layout_case_detail_imagebutton2) ImageButton likeButton;
+    @Bind(R.id.layout_case_detail_textview1) TextView caseHeading;
+    @Bind(R.id.layout_case_details_textview2) TextView userName;
+    @Bind(R.id.layout_case_details_textview3) TextView time;
+    @Bind(R.id.layout_case_details_textview4) TextView tag;
+    @Bind(R.id.layout_case_details_textview5) TextView description;
+    @Bind(R.id.layout_case_detail_imageview1) CircleImageView profilePic;
+    @Bind(R.id.layout_case_details_textview6) TextView numberOfSave;
+    @Bind(R.id.layout_case_details_textview7) TextView numberOfLike;
+    @Bind(R.id.layout_case_details_textview8) TextView selectedAnswerUserName;
+    @Bind(R.id.layout_case_details_textview9) TextView selectedAnswer;
+    @Bind(R.id.layout_case_details_imageview1) ImageView isAnswerSelected;
     boolean isLiked = false;
     boolean isSaved = false;
     MainActivity mainActivity;
+    Post post;
     CaseImageAdapter caseImageAdapter;
     List<Drawable> imageList = new ArrayList<>();
     List<CommentModel> commentModelList = new ArrayList<>();
     CaseDetailFragmentCommentAdapter caseDetailFragmentCommentAdapter;
+    int position;
+    PostDetail postDetail;
 
     public CaseDetailFragment() {
         // Required empty public constructor
@@ -61,7 +85,8 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setInitialData();
+        Bundle bundle = this.getArguments();
+        position = bundle.getInt("position");
     }
 
     @Override
@@ -72,17 +97,124 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         ButterKnife.bind(this, view);
 
         imageRecyclerView.setLayoutManager(new LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false));
-        //caseImageAdapter = new CaseImageAdapter(imageList);
-        //imageRecyclerView.setAdapter(caseImageAdapter);
+
 
         commentsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        caseDetailFragmentCommentAdapter = new CaseDetailFragmentCommentAdapter(mainActivity, commentModelList);
-        commentsRecyclerView.setAdapter(caseDetailFragmentCommentAdapter);
 
+        loadPostData(position);
         return view;
     }
 
-    public void setInitialData() {
+    public void loadPostData(int position){
+        if(Presenter.getInstance().getList(PostDetail.class, Constants.POST_DETAIL_LIST_CASE_FRAGMENT) != null){
+            DataList<PostDetail> postDetails = Presenter.getInstance().getList(PostDetail.class, Constants.POST_DETAIL_LIST_CASE_FRAGMENT);
+            postDetail = postDetails.get(position);
+        }
+
+        if(postDetail != null){
+            if(postDetail.getPost() != null){
+                post = postDetail.getPost();
+            }else{
+                return;
+            }
+        }else{
+            return;
+        }
+        loadPost();
+    }
+
+    public void loadPost(){
+        caseHeading.setText(post.getHeading());
+        userName.setText(mainActivity.snaphyHelper.getName(post.getCustomer().getFirstName(), post.getCustomer().getLastName()));
+
+        if(post.getCustomer() != null){
+            Customer customer = post.getCustomer();
+            if(customer.getProfilePic() != null){
+                mainActivity.snaphyHelper.loadUnSignedThumbnailImage(customer.getProfilePic(), profilePic, R.mipmap.anonymous);
+            }else{
+                profilePic.setImageResource(R.mipmap.anonymous);
+            }
+        }
+
+        if(!postDetail.getType().isEmpty()) {
+            tag.setText(postDetail.getType());
+            if(postDetail.getType().equals(Constants.CASE)){
+                tag.setBackgroundColor(Color.parseColor(Constants.PRIMARY));
+            } else if(postDetail.getType().equals(Constants.BOOK_REVIEW)) {
+                tag.setBackgroundColor(Color.parseColor(Constants.WARNING));
+            } else if(postDetail.getType().equals(Constants.INTERVIEW)) {
+                tag.setBackgroundColor(Color.parseColor(Constants.SUCCESS));
+            }
+
+        }
+
+
+
+        if(!post.getDescription().isEmpty()){
+            description.setVisibility(View.VISIBLE);
+            description.setText(post.getDescription());
+        }else{
+            description.setVisibility(View.GONE);
+        }
+        //Now load case image list..
+        if(post.getPostImages() != null ){
+            if(post.getPostImages().size() == 0){
+                imageRecyclerView.setVisibility(View.GONE);
+            }else{
+                imageRecyclerView.setVisibility(View.VISIBLE);
+                caseImageAdapter = new CaseImageAdapter(mainActivity, post.getPostImages());
+                imageRecyclerView.setAdapter(caseImageAdapter);
+            }
+        }else{
+            imageRecyclerView.setVisibility(View.GONE);
+        }
+
+        //TOTAL LIKE
+        numberOfLike.setText(String.valueOf((int)postDetail.getTotalLike()));
+        //TOTAL SAVE..
+        numberOfSave.setText(String.valueOf((int)postDetail.getTotalSave()));
+
+        //Add accepted answer
+        if(postDetail.getAcceptedAnswer() != null) {
+            // Add Selected Answer
+            if(!postDetail.getAcceptedAnswer().getAnswer().isEmpty()){
+                showSelectedAnswer(selectedAnswer, isAnswerSelected,selectedAnswerUserName);
+                selectedAnswer.setText(postDetail.getAcceptedAnswer().getAnswer());
+                if(postDetail.getAcceptedAnswer().getCustomer() != null){
+                    String name= mainActivity.snaphyHelper.getName(postDetail.getAcceptedAnswer().getCustomer().getFirstName(), postDetail.getAcceptedAnswer().getCustomer().getLastName());
+                    if(!name.isEmpty()){
+                        name = Constants.Doctor + name.replace("^[Dd][Rr]", "");
+                    }
+                    selectedAnswerUserName.setText(name);
+                }
+            }else{
+                hideSelectedAnswer(selectedAnswer, isAnswerSelected,selectedAnswerUserName);
+            }
+        }else{
+            hideSelectedAnswer(selectedAnswer, isAnswerSelected,selectedAnswerUserName);
+        }
+
+        //TODO ADD COMMENTS LATER..
+
+        caseDetailFragmentCommentAdapter = new CaseDetailFragmentCommentAdapter(mainActivity, commentModelList);
+        commentsRecyclerView.setAdapter(caseDetailFragmentCommentAdapter);
+
+
+    }
+
+
+    public void hideSelectedAnswer(TextView selectedAnswer, ImageView grenTick, TextView userName){
+        selectedAnswer.setVisibility(View.GONE);
+        grenTick.setVisibility(View.GONE);
+        userName.setVisibility(View.GONE);
+    }
+    public void showSelectedAnswer(TextView selectedAnswer, ImageView grenTick, TextView userName){
+        selectedAnswer.setVisibility(View.VISIBLE);
+        grenTick.setVisibility(View.VISIBLE);
+        userName.setVisibility(View.VISIBLE);
+    }
+
+    /*public void setInitialData() {
         imageList.add((getActivity().getResources().getDrawable(R.drawable.demo_books_image_1)));
         imageList.add((getActivity().getResources().getDrawable(R.drawable.demo_books_image_2)));
         imageList.add((getActivity().getResources().getDrawable(R.drawable.demo_books_image_3)));
@@ -97,7 +229,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
                 " A tendon is a tough cord of tissue that connects muscles to bones."));
         commentModelList.add(new CommentModel(false, "Imran Sajid", "Medial epicondylitis, also known as golfer's elbow, baseball elbow, suitcase elbow, or forehand tennis elbow, is characterized by pain" +
                 " from the elbow to the wrist on the inside (medial side) of the elbow. "));
-    }
+    }*/
 
     @OnClick(R.id.fragment_case_detail_image_button1) void backButton() {
         mainActivity.onBackPressed();

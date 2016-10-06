@@ -11,18 +11,12 @@
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
-    <android.support.v7.widget.RecyclerView
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:id="@+id/layout_case_detail_recycler_view2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="40dp" />
-
-    <android.support.design.widget.AppBarLayout
+        <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -187,7 +181,50 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@mipmap/case_end_indicator"/>
+            android:src="@mipmap/case_end_indicator"
+            android:id="@+id/imageView" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/layout_case_details_imageview1"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@mipmap/selected"
+                android:layout_gravity="left"/>
+
+            <TextView
+                android:id="@+id/layout_case_details_textview8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Aadish Surana"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                android:paddingTop="3dp"
+                android:gravity="center_vertical"
+                android:layout_gravity="center_vertical"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/layout_case_details_textview9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#777777"
+            android:text="There was a radial tear of the lateral meniscus in the white-white zone which required partial meniscectomy. "/>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="#EEEEEE"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="45dp"
+            android:layout_marginRight="45dp"/>
 
     </LinearLayout>
 
@@ -195,6 +232,15 @@
     </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
+
+        <android.support.v7.widget.RecyclerView
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:id="@+id/layout_case_detail_recycler_view2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="40dp" />
 
     </android.support.design.widget.CoordinatorLayout>
 
@@ -205,18 +251,18 @@
         android:layout_alignParentBottom="true"
         android:background="@android:color/white">
 
-    <Button
-        android:id="@+id/fragment_case_detail_button4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Answer"
-        android:textAllCaps="false"
-        android:textColor="@color/buttonColor"
-        android:background="@android:color/transparent"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp"
-        android:drawableLeft="@mipmap/post"
-        android:gravity="left|center"/>
+        <Button
+            android:id="@+id/fragment_case_detail_button4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Answer"
+            android:textAllCaps="false"
+            android:textColor="@color/buttonColor"
+            android:background="@android:color/transparent"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:drawableLeft="@mipmap/post"
+            android:gravity="left|center"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -226,22 +272,115 @@
             android:gravity="right"
             android:layout_marginRight="30dp">
 
-            <ImageButton
-                android:id="@+id/layout_case_detail_imagebutton1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top"
-                android:cropToPadding="true"
-                android:src="@mipmap/save_unselected"
-                android:background="@android:color/transparent"/>
+            <!--  <ImageButton
+                  android:id="@+id/layout_case_detail_imagebutton1"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="top"
+                  android:cropToPadding="true"
+                  android:src="@mipmap/save_unselected"
+                  android:background="@android:color/transparent"/>-->
 
-            <ImageButton
-                android:id="@+id/layout_case_detail_imagebutton2"
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/like_unselected"
-                android:layout_gravity="top"
-                android:background="@android:color/transparent"/>
+                android:layout_marginRight="15dp"
+                android:layout_gravity="center">
+
+                <ImageView
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/rectangle"
+                    android:layout_marginTop="3dp"
+                    android:paddingLeft="10dp"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/layout_case_detail_imagebutton1"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center|right"
+                        android:cropToPadding="true"
+                        android:src="@mipmap/save_unselected"
+                        android:paddingLeft="5dp"
+                        android:background="@android:color/transparent"/>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:id="@+id/view2"
+                        android:layout_height="18dp"
+                        android:layout_gravity="center"
+                        android:background="@color/headingColor"></View>
+
+                    <TextView
+                        android:id="@+id/layout_case_details_textview6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:text="45"
+                        android:layout_gravity="center"
+                        android:paddingLeft="9dp"
+                        android:layout_marginTop="1dp"
+                        android:gravity="center"/>
+
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:layout_gravity="center">
+
+                <ImageView
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/rectangle"
+                    android:layout_marginTop="3dp"
+                    android:paddingLeft="10dp"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/layout_case_detail_imagebutton2"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center|right"
+                        android:cropToPadding="true"
+                        android:src="@mipmap/like_unselected"
+                        android:paddingLeft="5dp"
+                        android:background="@android:color/transparent"/>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:id="@+id/view3"
+                        android:layout_height="18dp"
+                        android:layout_gravity="center"
+                        android:background="@color/headingColor"></View>
+
+                    <TextView
+                        android:id="@+id/layout_case_details_textview7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:text="45"
+                        android:layout_gravity="center"
+                        android:paddingLeft="9dp"
+                        android:layout_marginTop="1dp"
+                        android:gravity="center"/>
+
+
+                </LinearLayout>
+
+            </RelativeLayout>
 
         </LinearLayout>
 

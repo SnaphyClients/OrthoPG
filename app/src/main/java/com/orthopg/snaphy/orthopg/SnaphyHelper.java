@@ -287,7 +287,7 @@ public class SnaphyHelper {
 
     public void loadUnSignedThumbnailImage(Map<String, Object> imageObj, final ImageView imageView, int defaultImage){
         String file = (String) imageObj.get("name");
-        String url = Constants.AMAZON_CLOUD_FRONT_URL + "/thumb_" + imageObj;
+        String url = Constants.AMAZON_CLOUD_FRONT_URL + "/thumb_" + file;
         loadImage(url, imageView, defaultImage);
     }
 

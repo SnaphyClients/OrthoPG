@@ -51,7 +51,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         final PostDetail postDetail = postDetailDataList.get(position);
         Post post;
         if(postDetail != null){
@@ -106,6 +106,9 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         if(post.getCustomer() != null) {
             //TODO ADD ANONYMOUS USER LATER..
             String name = mainActivity.snaphyHelper.getName(post.getCustomer().getFirstName(), post.getCustomer().getLastName());
+            if(!name.isEmpty()){
+                name = Constants.Doctor + name;
+            }
             userName.setText(name);
 
             if(post.getCustomer().getProfilePic() != null){
@@ -121,7 +124,10 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         setTime(casePostedTime, postDetail.getAdded());
 
         if(!post.getDescription().isEmpty()) {
+            caseDescription.setVisibility(View.VISIBLE);
             caseDescription.setText(post.getDescription());
+        }else{
+            caseDescription.setVisibility(View.GONE);
         }
 
         if(postDetail != null) {
@@ -145,6 +151,9 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                 selectedAnswer.setText(postDetail.getAcceptedAnswer().getAnswer());
                 if(postDetail.getAcceptedAnswer().getCustomer() != null){
                     String name= mainActivity.snaphyHelper.getName(postDetail.getAcceptedAnswer().getCustomer().getFirstName(), postDetail.getAcceptedAnswer().getCustomer().getLastName());
+                    if(!name.isEmpty()){
+                        name = Constants.Doctor + name.replace("^[Dd][Rr]", "");
+                    }
                     selectedAnswerUserName.setText(name);
                 }
             }else{
@@ -223,11 +232,11 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         caseImages.addOnItemTouchListener(
                 new RecyclerItemClickListener(mainActivity, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
-                    public void onItemClick(View view, int position) {
+                    public void onItemClick(View view, int position_) {
                         if (TAG.equals(PostedCasesFragment.TAG)) {
                             mainActivity.replaceFragment(R.id.fragment_case_button4, null);
                         } else {
-                            mainActivity.replaceFragment(R.id.layout_case_list_textview4, null);
+                            mainActivity.replaceFragment(R.id.layout_case_list_textview4, position);
                         }
 
                     }
@@ -240,7 +249,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                 if (TAG.equals(PostedCasesFragment.TAG)) {
                     mainActivity.replaceFragment(R.id.fragment_case_button4, null);
                 } else {
-                    mainActivity.replaceFragment(R.id.layout_case_list_textview4, null);
+                    mainActivity.replaceFragment(R.id.layout_case_list_textview4, position);
                 }
             }
         });

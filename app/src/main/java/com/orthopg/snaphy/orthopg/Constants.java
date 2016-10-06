@@ -34,6 +34,7 @@ public class Constants {
     public static String CASE = "case";
     public static String BOOK_REVIEW = "book review";
     public static String INTERVIEW = "interview";
+    public static String Doctor = "Dr. ";
 
     public static String PRIMARY = "#428bca";
     public static String INFO = "#5bc0de";
