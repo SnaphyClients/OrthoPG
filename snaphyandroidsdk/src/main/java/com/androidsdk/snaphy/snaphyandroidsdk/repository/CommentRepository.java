@@ -277,6 +277,16 @@ public class CommentRepository extends ModelRepository<Comment> {
             
         
             
+
+                
+                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/score", "POST"), "Comment.fetchPostCommments");
+                
+
+            
+        
+            
+        
+            
         
             
         
@@ -1574,6 +1584,75 @@ public class CommentRepository extends ModelRepository<Comment> {
                 
 
             }//Method getAbsoluteSchema definition ends here..
+
+            
+
+        
+    
+        
+    
+        
+            //Method fetchPostCommments definition
+            public void fetchPostCommments(  String postId,  double skip,  double limit,  List<String> exceptCommentIdList, final DataListCallback<Comment> callback){
+
+                /**
+                Call the onBefore event
+                */
+                callback.onBefore();
+                
+
+                //Definging hashMap for data conversion
+                Map<String, Object> hashMapObject = new HashMap<>();
+                //Now add the arguments...
+                
+                        hashMapObject.put("postId", postId);
+                
+                        hashMapObject.put("skip", skip);
+                
+                        hashMapObject.put("limit", limit);
+                
+                        hashMapObject.put("exceptCommentIdList", exceptCommentIdList);
+                
+
+                
+
+
+                
+
+                
+                    invokeStaticMethod("fetchPostCommments", hashMapObject, new Adapter.JsonArrayCallback() {
+                        @Override
+                        public void onError(Throwable t) {
+                            callback.onError(t);
+                            //Call the finally method..
+                            callback.onFinally();
+                        }
+
+                        @Override
+                        public void onSuccess(JSONArray response) {
+                            
+                                if(response != null){
+                                    //Now converting jsonObject to list
+                                    List<Map<String, Object>> result = (List) JsonUtil.fromJson(response);
+                                    DataList<Comment> commentList = new DataList<Comment>();
+                                    CommentRepository commentRepo = getRestAdapter().createRepository(CommentRepository.class);
+
+                                    for (Map<String, Object> obj : result) {
+                                        Comment comment = commentRepo.createObject(obj);
+                                        commentList.add(comment);
+                                    }
+                                    callback.onSuccess(commentList);
+                                }else{
+                                    callback.onSuccess(null);
+                                }
+                            
+                            //Call the finally method..
+                            callback.onFinally();
+                        }
+                    });
+                
+
+            }//Method fetchPostCommments definition ends here..
 
             
 

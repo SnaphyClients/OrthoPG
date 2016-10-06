@@ -20,12 +20,12 @@
         "source": "E:\\Clients\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\abc_screen_simple.xml"
     },
     {
-        "merged": "E:\\Clients\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_action_bar_up_container.xml",
-        "source": "E:\\Clients\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\abc_action_bar_up_container.xml"
-    },
-    {
         "merged": "E:\\Clients\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_activity_chooser_view.xml",
         "source": "E:\\Clients\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\abc_activity_chooser_view.xml"
+    },
+    {
+        "merged": "E:\\Clients\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_action_bar_up_container.xml",
+        "source": "E:\\Clients\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\abc_action_bar_up_container.xml"
     },
     {
         "merged": "E:\\Clients\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_search_dropdown_item_icons_2line.xml",

@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "E:\\Clients\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-sk\\values-sk.xml",
+        "outputFile": "E:\\Clients\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-sk\\values-sk.xml",
         "map": [
             {
                 "to": {

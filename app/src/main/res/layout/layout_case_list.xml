@@ -17,7 +17,6 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@mipmap/anonymous"
-            app:civ_border_width="1dp"
             app:civ_border_color="#FFAAAAAA"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"/>
@@ -150,22 +149,98 @@
             android:layout_gravity="right"
             android:gravity="right">
 
-        <ImageButton
-            android:id="@+id/layout_case_list_imagebutton1"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="top|right"
-            android:cropToPadding="true"
-            android:src="@mipmap/save_unselected"
-            android:background="@android:color/transparent"/>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp">
 
-        <ImageButton
-            android:id="@+id/layout_case_list_imagebutton2"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@mipmap/like_selected"
-            android:layout_gravity="top"
-            android:background="@android:color/transparent"/>
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="35dp"
+                android:background="@drawable/rectangle"
+                android:layout_marginTop="3dp"
+                android:paddingLeft="10dp"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/layout_case_list_imagebutton1"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="top|right"
+                        android:cropToPadding="true"
+                        android:src="@mipmap/save_unselected"
+                        android:background="@android:color/transparent"/>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:id="@+id/view2"
+                        android:layout_height="18dp"
+                        android:layout_gravity="center"
+                        android:background="@color/headingColor"></View>
+
+                    <TextView
+                        android:id="@+id/layout_case_list_textview9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:text="45"
+                        android:layout_gravity="center"
+                        android:paddingLeft="9dp"
+                        android:layout_marginTop="1dp"
+                        android:gravity="center"/>
+
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+           <RelativeLayout
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content">
+
+               <ImageView
+                   android:layout_width="80dp"
+                   android:layout_height="35dp"
+                   android:background="@drawable/rectangle"
+                   android:layout_marginTop="3dp"
+                   android:paddingLeft="10dp"/>
+
+               <LinearLayout
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/layout_case_list_imagebutton2"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@mipmap/like_selected"
+                        android:layout_gravity="top"
+                        android:layout_alignLeft="@+id/view1"
+                        android:background="@android:color/transparent"/>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:id="@+id/view1"
+                        android:layout_height="18dp"
+                        android:layout_gravity="center"
+                        android:background="@color/headingColor"></View>
+
+                    <TextView
+                        android:id="@+id/layout_case_list_textview8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:text="24"
+                        android:paddingLeft="9dp"
+                        android:layout_marginTop="1dp"
+                        android:gravity="center"/>
+
+               </LinearLayout>
+
+           </RelativeLayout>
 
             </LinearLayout>
 

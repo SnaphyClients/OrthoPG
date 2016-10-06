@@ -46,6 +46,13 @@ import com.androidsdk.snaphy.snaphyandroidsdk.models.PostDetail;
         
     
 
+    
+            import com.androidsdk.snaphy.snaphyandroidsdk.models.Comment;
+            import com.androidsdk.snaphy.snaphyandroidsdk.repository.CommentRepository;
+            
+        
+    
+
 
 
 
@@ -71,6 +78,14 @@ public class PostDetailRepository extends ModelRepository<PostDetail> {
 
                 
                     contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:postDetailId/post", "GET"), "PostDetail.prototype.__get__post");
+                
+
+            
+        
+            
+
+                
+                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:postDetailId/acceptedAnswer", "GET"), "PostDetail.prototype.__get__acceptedAnswer");
                 
 
             
@@ -184,6 +199,14 @@ public class PostDetailRepository extends ModelRepository<PostDetail> {
             
         
             
+
+                
+                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/getPostDetail", "POST"), "PostDetail.getPostDetail");
+                
+
+            
+        
+            
         
             
         
@@ -269,6 +292,67 @@ public class PostDetailRepository extends ModelRepository<PostDetail> {
                 
 
             }//Method get__post definition ends here..
+
+            
+
+        
+    
+        
+            //Method get__acceptedAnswer definition
+            public void get__acceptedAnswer(  String postDetailId,  Boolean refresh, final ObjectCallback<Comment> callback){
+
+                /**
+                Call the onBefore event
+                */
+                callback.onBefore();
+                
+
+                //Definging hashMap for data conversion
+                Map<String, Object> hashMapObject = new HashMap<>();
+                //Now add the arguments...
+                
+                        hashMapObject.put("postDetailId", postDetailId);
+                
+                        hashMapObject.put("refresh", refresh);
+                
+
+                
+
+
+                
+                    
+                    
+                    invokeStaticMethod("prototype.__get__acceptedAnswer", hashMapObject, new Adapter.JsonObjectCallback() {
+                    
+                        @Override
+                        public void onError(Throwable t) {
+                            callback.onError(t);
+                            //Call the finally method..
+                            callback.onFinally();
+                        }
+
+                        @Override
+                        public void onSuccess(JSONObject response) {
+                            
+                                if(response != null){
+                                    CommentRepository commentRepo = getRestAdapter().createRepository(CommentRepository.class);
+                                    Map<String, Object> result = JsonUtil.fromJson(response);
+                                    Comment comment = commentRepo.createObject(result);
+                                    callback.onSuccess(comment);
+
+                                }else{
+                                    callback.onSuccess(null);
+                                }
+                            
+                            //Call the finally method..
+                            callback.onFinally();
+                        }
+                    });
+                
+
+                
+
+            }//Method get__acceptedAnswer definition ends here..
 
             
 
@@ -941,6 +1025,71 @@ public class PostDetailRepository extends ModelRepository<PostDetail> {
 
         
     
+        
+    
+        
+            //Method getPostDetail definition
+            public void getPostDetail(  double skip,  double limit,  String listType, final DataListCallback<PostDetail> callback){
+
+                /**
+                Call the onBefore event
+                */
+                callback.onBefore();
+                
+
+                //Definging hashMap for data conversion
+                Map<String, Object> hashMapObject = new HashMap<>();
+                //Now add the arguments...
+                
+                        hashMapObject.put("skip", skip);
+                
+                        hashMapObject.put("limit", limit);
+                
+                        hashMapObject.put("listType", listType);
+                
+
+                
+
+
+                
+
+                
+                    invokeStaticMethod("getPostDetail", hashMapObject, new Adapter.JsonArrayCallback() {
+                        @Override
+                        public void onError(Throwable t) {
+                            callback.onError(t);
+                            //Call the finally method..
+                            callback.onFinally();
+                        }
+
+                        @Override
+                        public void onSuccess(JSONArray response) {
+                            
+                                if(response != null){
+                                    //Now converting jsonObject to list
+                                    List<Map<String, Object>> result = (List) JsonUtil.fromJson(response);
+                                    DataList<PostDetail> postDetailList = new DataList<PostDetail>();
+                                    PostDetailRepository postDetailRepo = getRestAdapter().createRepository(PostDetailRepository.class);
+
+                                    for (Map<String, Object> obj : result) {
+                                        PostDetail postDetail = postDetailRepo.createObject(obj);
+                                        postDetailList.add(postDetail);
+                                    }
+                                    callback.onSuccess(postDetailList);
+                                }else{
+                                    callback.onSuccess(null);
+                                }
+                            
+                            //Call the finally method..
+                            callback.onFinally();
+                        }
+                    });
+                
+
+            }//Method getPostDetail definition ends here..
+
+            
+
         
     
         

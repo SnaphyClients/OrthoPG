@@ -30,9 +30,9 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
 
     private OnFragmentInteractionListener mListener;
     public static String TAG = "MCIVerificationFragment";
-    @Bind(R.id.fragment_mci_verification_image_button1) ImageButton skipButton;
+   /* @Bind(R.id.fragment_mci_verification_image_button1) ImageButton skipButton;
     @Bind(R.id.fragment_mci_verification_edittext1)
-    EditText mciCode;
+    EditText mciCode;*/
     MainActivity mainActivity;
 
     public MCIVerificationFragment() {
@@ -60,17 +60,17 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
         return view;
     }
 
-    @OnClick(R.id.fragment_mci_verification_image_button1) void skipButton() {
+   /* @OnClick(R.id.fragment_mci_verification_image_button1) void skipButton() {
         InputMethodManager imm = (InputMethodManager)mainActivity.getSystemService(
                 Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(mciCode.getWindowToken(), 0);
         mainActivity.replaceFragment(R.layout.fragment_main, null);
-    }
+    }*/
 
     @OnClick(R.id.fragment_mci_verification_button1) void submitButton() {
-        InputMethodManager imm = (InputMethodManager)mainActivity.getSystemService(
+       /* InputMethodManager imm = (InputMethodManager)mainActivity.getSystemService(
                 Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(mciCode.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(mciCode.getWindowToken(), 0);*/
         mainActivity.replaceFragment(R.layout.fragment_main, null);
     }
 

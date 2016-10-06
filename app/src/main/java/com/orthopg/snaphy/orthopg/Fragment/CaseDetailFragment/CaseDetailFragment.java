@@ -72,8 +72,8 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         ButterKnife.bind(this, view);
 
         imageRecyclerView.setLayoutManager(new LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false));
-        caseImageAdapter = new CaseImageAdapter(imageList);
-        imageRecyclerView.setAdapter(caseImageAdapter);
+        //caseImageAdapter = new CaseImageAdapter(imageList);
+        //imageRecyclerView.setAdapter(caseImageAdapter);
 
         commentsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         caseDetailFragmentCommentAdapter = new CaseDetailFragmentCommentAdapter(mainActivity, commentModelList);

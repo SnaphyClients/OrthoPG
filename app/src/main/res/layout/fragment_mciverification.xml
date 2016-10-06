@@ -3,10 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
-    android:background="@color/white"
+    android:orientation="vertical"
+    android:background="@color/loginBackground"
     tools:context=".Fragment.MCIVerificationFragment.MCIVerificationFragment">
 
-    <ImageButton
+   <!-- <ImageButton
         android:id="@+id/fragment_mci_verification_image_button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -41,6 +42,169 @@
         android:layout_alignParentBottom="true"
         android:text="Submit"
         android:textStyle="bold"
-        android:textSize="17sp"/>
+        android:textSize="17sp"/>-->
+
+   <LinearLayout
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal"
+       android:layout_marginTop="50dp"
+       android:layout_centerHorizontal="true">
+
+      <TextView
+          android:layout_width="25dp"
+          android:layout_height="25dp"
+          android:background="@drawable/circle_white"
+          android:text="1"
+          android:textColor="#333"
+          android:layout_gravity="center"
+          android:gravity="center"
+          android:alpha="0.7"
+          android:layout_centerHorizontal="true"/>
+
+      <ImageView
+          android:layout_width="75dp"
+          android:layout_height="5dp"
+          android:background="@drawable/rectangle_white"
+          android:layout_gravity="center_vertical"
+          android:alpha="0.7"/>
+
+      <TextView
+          android:layout_width="25dp"
+          android:layout_height="25dp"
+          android:background="@drawable/circle_white"
+          android:text="2"
+          android:textColor="#333"
+          android:layout_gravity="center"
+          android:gravity="center"
+          android:layout_centerHorizontal="true"/>
+
+   </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/circle_white"
+            android:text="1"
+            android:textColor="#333"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:alpha="0.7"
+            android:layout_centerHorizontal="true"/>
+
+        <ImageView
+            android:layout_width="75dp"
+            android:layout_height="5dp"
+            android:background="@drawable/rectangle_white"
+            android:layout_gravity="center_vertical"
+            android:alpha="0.7"/>
+
+        <TextView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/circle_white"
+            android:text="2"
+            android:textColor="#333"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"/>
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="450dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="310dp"
+            android:layout_margin="15dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white"
+            android:paddingTop="100dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Enter MCI Verification number"
+                android:layout_centerHorizontal="true"
+                android:textColor="#333"
+                android:textSize="20sp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:gravity="center"
+                android:id="@+id/fragment_login_texview1" />
+
+            <EditText
+                android:layout_below="@+id/fragment_login_texview1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/login_doc"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="65dp"
+                android:hint="MCI NUMBER"
+                android:gravity="center"
+                android:id="@+id/fragment_login_imageview1"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_login_imageview1">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/loginButton"
+                    android:layout_weight="1"
+                    android:text="skip"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@color/white"
+                    android:id="@+id/fragment_login_button1"
+                    android:textAllCaps="false"
+                    android:textSize="18sp"/>
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/loginButton"
+                    android:layout_weight="1"
+                    android:text="submit"
+                    android:textColor="@color/white"
+                    android:layout_marginLeft="5dp"
+                    android:id="@+id/fragment_mci_verification_button1"
+                    android:textAllCaps="false"
+                    android:textSize="18sp"/>
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/circle"
+            android:src="@drawable/open_lock"
+            android:padding="28dp"
+            android:layout_marginTop="75dp"
+            android:layout_centerHorizontal="true"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>

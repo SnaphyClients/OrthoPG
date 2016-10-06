@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "E:\\Clients\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-iw\\values-iw.xml",
+        "outputFile": "E:\\Clients\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-iw\\values-iw.xml",
         "map": [
             {
                 "to": {

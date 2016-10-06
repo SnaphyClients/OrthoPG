@@ -10,22 +10,20 @@ import com.androidsdk.snaphy.snaphyandroidsdk.repository.PostDetailRepository;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
-import com.sdsmdg.tastytoast.TastyToast;
 import com.strongloop.android.loopback.RestAdapter;
-
-import java.util.HashMap;
 
 /**
  * Created by Ravi-Gupta on 10/4/2016.
  */
 public class CasePresenter {
+
     RestAdapter restAdapter;
     DataList<PostDetail> postDetails;
-    public int limit = 5;
+    public double limit = 5;
+    public double skip = 0;
     CircleProgressBar circleProgressBar;
     MainActivity mainActivity;
 
-    //TODO add loading bar as argument.
     public CasePresenter(RestAdapter restAdapter, CircleProgressBar progressBar, MainActivity mainActivity){
         this.restAdapter = restAdapter;
         circleProgressBar = progressBar;
@@ -39,32 +37,25 @@ public class CasePresenter {
         }
     }
 
+
+
     /**
      *
      * @param listType String trending|unsolved|new
      */
     public void fetchPost(String listType, boolean reset){
-        HashMap<String, Object> filter = new HashMap<>();
-        HashMap<String, String> include = new HashMap<>();
-        filter.put("include", "post");
-        if(filter.get("skip") == null || reset){
-            filter.put("skip", 0);
-        }else{
-            filter.put("skip", (int)filter.get("skip") + limit);
-        }
-
         if(reset){
+            skip = 0;
             //Clear the list..
             postDetails.clear();
         }
 
-        filter.put("limit", limit);
-        HashMap<Object,Object> where = new HashMap<>();
-        filter.put("where", where);
-        addFilter(listType, filter);
+        if(skip > 0){
+            skip = skip + limit;
+        }
 
         PostDetailRepository postDetailRepository =  restAdapter.createRepository(PostDetailRepository.class);
-        postDetailRepository.find(filter, new DataListCallback<PostDetail>() {
+        postDetailRepository.getPostDetail(skip, limit, listType, new DataListCallback<PostDetail>() {
             @Override
             public void onBefore() {
                 //Start loading bar..
@@ -86,9 +77,8 @@ public class CasePresenter {
 
             @Override
             public void onError(Throwable t) {
-                //TODO SHOW ERROR MESSAGE..
+                //SHOW ERROR MESSAGE..
                 Log.e(Constants.TAG, t.toString() + "---CasePresenter.java");
-                TastyToast.makeText(mainActivity.getApplicationContext(), "Something went wrong! Try again", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
             }
 
             @Override
@@ -97,22 +87,5 @@ public class CasePresenter {
                 mainActivity.stopProgressBar(circleProgressBar);
             }
         });
-    }
-
-
-    private void addFilter(String listType, HashMap<String, Object> filter){
-        if(listType.equals(Constants.LATEST)){
-            filter.put("order", "added DESC");
-        }
-        else if(listType.equals(Constants.TRENDING)){
-            filter.put("order", "totalLike DESC");
-        }
-        else if(listType.equals(Constants.UNSOLVED)){
-            //TODO ADD THIS FILTER LATER..
-        }
-
-        //Add publish status..
-        HashMap<String, Object> where = (HashMap<String, Object>)filter.get("where");
-        where.put("status", Constants.PUBLISH);
     }
 }

@@ -3,10 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
-    android:background="@color/headingColor"
+    android:orientation="vertical"
+    android:background="@color/loginBackground"
     tools:context="com.orthopg.snaphy.orthopg.Fragment.LoginFragment.LoginFragment">
 
-    <RelativeLayout
+   <!-- <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true">
@@ -61,7 +62,104 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="25dp"
         android:background="@android:color/transparent"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"/>-->
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/circle_white"
+            android:text="1"
+            android:textColor="#333"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"/>
+        
+        <ImageView
+            android:layout_width="75dp"
+            android:layout_height="5dp"
+            android:background="@drawable/rectangle_white"
+            android:layout_gravity="center_vertical"
+            android:alpha="0.7"/>
+
+        <TextView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/circle_white"
+            android:text="2"
+            android:textColor="#333"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:alpha="0.7"
+            android:layout_centerHorizontal="true"/>
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="450dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="310dp"
+        android:layout_margin="15dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:paddingTop="100dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OrthoPG"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/loginBackground"
+            android:textSize="30sp"
+            android:id="@+id/fragment_login_texview1" />
+
+        <ImageView
+            android:layout_below="@+id/fragment_login_texview1"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/login_doc"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/fragment_login_imageview1"/>
+
+        <Button
+            android:layout_below="@+id/fragment_login_imageview1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/loginButton"
+            android:text="google+"
+            android:textColor="@color/white"
+            android:id="@+id/fragment_login_button1"
+            android:textAllCaps="false"
+            android:textSize="18sp"/>
+
+    </RelativeLayout>
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/circle"
+            android:src="@drawable/lock"
+            android:padding="28dp"
+            android:layout_marginTop="75dp"
+            android:layout_centerHorizontal="true"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>

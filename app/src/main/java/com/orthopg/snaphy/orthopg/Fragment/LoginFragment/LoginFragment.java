@@ -63,7 +63,7 @@ public class LoginFragment extends android.support.v4.app.Fragment {
         }
     }*/
 
-    @OnClick(R.id.fragment_login_imagebutton1) void loginButton() {
+    @OnClick(R.id.fragment_login_button1) void loginButton() {
         mainActivity.replaceFragment(R.layout.fragment_mciverification, null);
        /* showStatusBar();*/
     }

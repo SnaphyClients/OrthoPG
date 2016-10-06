@@ -36,6 +36,13 @@ import com.androidsdk.snaphy.snaphyandroidsdk.repository.PostDetailRepository;
         
     
 
+    
+            import com.androidsdk.snaphy.snaphyandroidsdk.repository.CommentRepository;
+            
+
+        
+    
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -91,20 +98,6 @@ public class PostDetail extends Model {
         
             
             
-                private String acceptedAnswer;
-                /* Adding Getter and Setter methods */
-                public String getAcceptedAnswer(){
-                    return acceptedAnswer;
-                }
-
-                /* Adding Getter and Setter methods */
-                public void setAcceptedAnswer(String acceptedAnswer){
-                    this.acceptedAnswer = acceptedAnswer;
-                    //Update hashMap value..
-                    hashMap.put("acceptedAnswer", acceptedAnswer);
-                }
-
-            
             
             
             
@@ -115,17 +108,17 @@ public class PostDetail extends Model {
             
             
             
-                private double totalAnswer;
+                private double totalSave;
                 /* Adding Getter and Setter methods */
-                public double getTotalAnswer(){
-                    return totalAnswer;
+                public double getTotalSave(){
+                    return totalSave;
                 }
 
                 /* Adding Getter and Setter methods */
-                public void setTotalAnswer(double totalAnswer){
-                    this.totalAnswer = totalAnswer;
+                public void setTotalSave(double totalSave){
+                    this.totalSave = totalSave;
                     //Update hashMap value..
-                    hashMap.put("totalAnswer", totalAnswer);
+                    hashMap.put("totalSave", totalSave);
                 }
 
             
@@ -219,6 +212,15 @@ public class PostDetail extends Model {
                     hashMap.put("status", status);
                 }
 
+            
+            
+            
+            
+
+        
+    
+        
+            
             
             
             
@@ -358,6 +360,148 @@ public class PostDetail extends Model {
                                     } //method def ends here.
                                  
                             
+                         
+                            
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    
+
+                
+
+                 
+                 
+             
+          
+    
+        
+                
+                    //Define belongsTo relation method here..
+                    private transient Comment  acceptedAnswer ;
+
+                    public Comment getAcceptedAnswer() {
+                        return acceptedAnswer;
+                    }
+
+                    public void setAcceptedAnswer(Comment acceptedAnswer) {
+                        this.acceptedAnswer = acceptedAnswer;
+                    }
+
+                    //Adding related model automatically in case of include statement from server..
+                    public void setAcceptedAnswer(Map<String, Object> acceptedAnswer) {
+                        //First create a dummy Repo class object for customer.
+                        CommentRepository acceptedAnswerRepository = new CommentRepository();
+                        Comment acceptedAnswer1 = acceptedAnswerRepository.createObject(acceptedAnswer);
+                        setAcceptedAnswer(acceptedAnswer1);
+                    }
+
+                    //Adding related model automatically in case of include statement from server..
+                    public void setAcceptedAnswer(HashMap<String, Object> acceptedAnswer) {
+                        //First create a dummy Repo class object for customer.
+                        CommentRepository acceptedAnswerRepository = new CommentRepository();
+                        Comment acceptedAnswer1 = acceptedAnswerRepository.createObject(acceptedAnswer);
+                        setAcceptedAnswer(acceptedAnswer1);
+                    }
+
+                    //Adding relation method..
+                    public void addRelation(Comment acceptedAnswer) {
+                        that.setAcceptedAnswer(acceptedAnswer);
+                    }
+
+
+
+                
+                
+                
+
+
+
+
+
+
+
+                    //Now add instance methods to fetch the related belongsTo Model..
+                    
+
+                     
+                            
+                        
+
+                                    //Write the method here..
+                                    public void get__acceptedAnswer( Boolean refresh,  RestAdapter restAdapter, final ObjectCallback<Comment> callback) {
+                                        //Call the onBefore callback method..
+                                        callback.onBefore();
+
+                                        //Define methods here..
+                                        final PostDetailRepository  postDetailRepo = restAdapter.createRepository(PostDetailRepository.class);
+                                        
+                                        
+                                        
+                                        
+                                        
+
+
+
+                                        postDetailRepo.get__acceptedAnswer( (String)that.getId(), refresh,  new ObjectCallback<Comment> (){
+                                            
+
+                                            
+                                                @Override
+                                                
+                                                    public void onSuccess(Comment object) {
+                                                        if(object != null){
+                                                            //now add relation to this recipe.
+                                                            addRelation(object);
+                                                            //Also add relation to child type for two way communication..Removing two way communication for cyclic error
+                                                            //object.addRelation(that);
+                                                            callback.onSuccess(object);
+                                                            //Calling the finally..callback
+                                                            callback.onFinally();
+                                                        }else{
+                                                            callback.onSuccess(null);
+                                                            //Calling the finally..callback
+                                                            callback.onFinally();
+                                                        }
+
+                                                    }
+                                                
+                                            
+
+
+                                            
+
+                                            @Override
+                                            public void onError(Throwable t) {
+                                                //Now calling the callback
+                                                callback.onError(t);
+                                                //Calling the finally..callback
+                                                callback.onFinally();
+                                            }
+
+                                        });
+                                    } //method def ends here.
+                                 
+                            
+                        
                         
                         
                         

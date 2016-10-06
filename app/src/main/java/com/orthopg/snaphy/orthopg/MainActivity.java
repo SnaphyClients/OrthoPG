@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             }
         }, 100);
 
-        replaceFragment(R.layout.fragment_help, null);
+        replaceFragment(R.layout.fragment_main, null);
     }
 
     @Override
@@ -276,14 +276,16 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         if(progressBar != null) {
             progressBar.setVisibility(View.VISIBLE);
         }
-        //OR Use Progress Dialog
     }
 
     public void stopProgressBar(com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar progressBar) {
         if(progressBar != null) {
             progressBar.setVisibility(View.GONE);
         }
-        //OR Use Progress Dialog
+    }
+
+    public void parseDate() {
+
     }
 
 
@@ -302,5 +304,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         }
 
     }
+
+
 
 }

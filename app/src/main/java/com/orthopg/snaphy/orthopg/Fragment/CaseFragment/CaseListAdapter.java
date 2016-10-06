@@ -1,6 +1,7 @@
 package com.orthopg.snaphy.orthopg.Fragment.CaseFragment;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Post;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.PostDetail;
+import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.Fragment.PostedCasesFragment.PostedCasesFragment;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
@@ -77,32 +79,87 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         ImageView isAnswerSelected = holder.isAnswerSelected;
         TextView selectedAnswerUserName = holder.selectedAnswerUserName;
         TextView selectedAnswer = holder.selectedAnswer;
+        TextView numberOfLike = holder.numberOfLikes;
+        TextView numberOfSave = holder.numberOfSave;
 
         caseImages.setLayoutManager(new LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false));
-        //TODO DO LATER
-        //caseImageAdapter = new CaseImageAdapter(caseModel.getCaseImage());
-        //caseImages.setAdapter(caseImageAdapter);
 
-        //imageView.setImageDrawable(caseModel.getDoctorImage());
+
         if(!post.getHeading().isEmpty()){
             caseHeading.setText(post.getHeading());
         }
 
 
-        //TODO LATER
-        //userName.setText(caseModel.getDoctorName());
+        //Now load case image list..
+        if(post.getPostImages() != null ){
+            if(post.getPostImages().size() == 0){
+                caseImages.setVisibility(View.GONE);
+            }else{
+                caseImages.setVisibility(View.VISIBLE);
+                caseImageAdapter = new CaseImageAdapter(mainActivity, post.getPostImages());
+                caseImages.setAdapter(caseImageAdapter);
+            }
+        }else{
+            caseImages.setVisibility(View.GONE);
+        }
+
+        if(post.getCustomer() != null) {
+            //TODO ADD ANONYMOUS USER LATER..
+            String name = mainActivity.snaphyHelper.getName(post.getCustomer().getFirstName(), post.getCustomer().getLastName());
+            userName.setText(name);
+
+            if(post.getCustomer().getProfilePic() != null){
+                mainActivity.snaphyHelper.loadUnSignedThumbnailImage(post.getCustomer().getProfilePic(), imageView, R.mipmap.anonymous);
+            }else{
+                //Set deault image..
+                //TODO CHANGE BACKGROUND COLOR TO BLUE..
+                imageView.setImageResource(R.mipmap.anonymous);
+            }
+        }
+
 
         setTime(casePostedTime, postDetail.getAdded());
 
-        /*
-        caseDescription.setText(caseModel.getCaseDescription());
-        tag.setText(caseModel.getTag());
-        if(caseModel.getIsAnswerSelected()) {
-
+        if(!post.getDescription().isEmpty()) {
+            caseDescription.setText(post.getDescription());
         }
-        selectedAnswerUserName.setText(caseModel.getSelectedAnswerUserName());
-        selectedAnswer.setText(caseModel.getSelectedAnswer());
-*/
+
+        if(postDetail != null) {
+            if(!postDetail.getType().isEmpty()) {
+                tag.setText(postDetail.getType());
+                if(postDetail.getType().equals(Constants.CASE)){
+                    tag.setBackgroundColor(Color.parseColor(Constants.PRIMARY));
+                } else if(postDetail.getType().equals(Constants.BOOK_REVIEW)) {
+                    tag.setBackgroundColor(Color.parseColor(Constants.WARNING));
+                } else if(postDetail.getType().equals(Constants.INTERVIEW)) {
+                    tag.setBackgroundColor(Color.parseColor(Constants.SUCCESS));
+                }
+
+            }
+        }
+
+        if(postDetail.getAcceptedAnswer() != null) {
+            // Add Selected Answer
+            if(!postDetail.getAcceptedAnswer().getAnswer().isEmpty()){
+                showSelectedAnswer(selectedAnswer, isAnswerSelected,selectedAnswerUserName);
+                selectedAnswer.setText(postDetail.getAcceptedAnswer().getAnswer());
+                if(postDetail.getAcceptedAnswer().getCustomer() != null){
+                    String name= mainActivity.snaphyHelper.getName(postDetail.getAcceptedAnswer().getCustomer().getFirstName(), postDetail.getAcceptedAnswer().getCustomer().getLastName());
+                    selectedAnswerUserName.setText(name);
+                }
+            }else{
+                hideSelectedAnswer(selectedAnswer, isAnswerSelected,selectedAnswerUserName);
+            }
+        }else{
+            hideSelectedAnswer(selectedAnswer, isAnswerSelected,selectedAnswerUserName);
+        }
+
+        //TOTAL LIKE
+        numberOfLike.setText(String.valueOf((int)postDetail.getTotalLike()));
+        //TOTAL SAVE..
+        numberOfSave.setText(String.valueOf((int)postDetail.getTotalSave()));
+
+
         if(TAG.equals(PostedCasesFragment.TAG)) {
             delete.setVisibility(View.VISIBLE);
             edit.setVisibility(View.VISIBLE);
@@ -111,44 +168,57 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
             edit.setVisibility(View.GONE);
         }
 
-  /*      if(caseModel.isLiked()) {
-            like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_selected));
-        } else {
-            like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_unselected));
+
+
+        //TODO DESIGN IT AFTER LOGIN..
+        /*if(post.getCustomer() != null) {
+            if(post.getCustomer().getLikePosts() != null) {
+                if(post.getCustomer().getLikePosts().contains(post.getId())) {
+                    like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_selected));
+                } else {
+                    like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_unselected));
+                }
+            }
         }
 
-        if(caseModel.isSaved()) {
-            saveCase.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_selected));
-        } else {
-            saveCase.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_unselected));
-        }
+        if(post.getCustomer() != null) {
+            if(post.getCustomer().getSavePosts() != null) {
+                if(post.getCustomer().getSavePosts().contains(post.getId())) {
+                    saveCase.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_selected));
+                } else {
+                    saveCase.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_unselected));
+                }
+            }
+        }*/
+
 
         like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(caseModel.isLiked()) {
+                //TODO DESIGN IT AFTER LOGIN..
+                /*if(caseModel.isLiked()) {
                     like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_unselected));
                     caseModel.setIsLiked(false);
                 } else {
                     like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_selected));
                     caseModel.setIsLiked(true);
-                }
+                }*/
             }
         });
 
         saveCase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (caseModel.isSaved()) {
+                //TODO DESIGN IT AFTER LOGIN..
+                /*if (caseModel.isSaved()) {
                     saveCase.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_unselected));
                     caseModel.setIsSaved(false);
                 } else {
                     saveCase.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_selected));
                     caseModel.setIsSaved(true);
-                }
+                }*/
             }
         });
-*/
 
         caseImages.addOnItemTouchListener(
                 new RecyclerItemClickListener(mainActivity, new RecyclerItemClickListener.OnItemClickListener() {
@@ -176,6 +246,19 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         });
 
     }
+
+
+    public void hideSelectedAnswer(TextView selectedAnswer, ImageView grenTick, TextView userName){
+        selectedAnswer.setVisibility(View.GONE);
+        grenTick.setVisibility(View.GONE);
+        userName.setVisibility(View.GONE);
+    }
+    public void showSelectedAnswer(TextView selectedAnswer, ImageView grenTick, TextView userName){
+        selectedAnswer.setVisibility(View.VISIBLE);
+        grenTick.setVisibility(View.VISIBLE);
+        userName.setVisibility(View.VISIBLE);
+    }
+
 
 
     public void setTime(TextView casePostedTime, String date){
@@ -208,6 +291,8 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         @Bind(R.id.layout_case_list_textview7) TextView selectedAnswer;
         @Bind(R.id.layout_case_list_button1) ImageButton deleteButton;
         @Bind(R.id.layout_case_list_button2) ImageButton editButton;
+        @Bind(R.id.layout_case_list_textview8) TextView numberOfLikes;
+        @Bind(R.id.layout_case_list_textview9) TextView numberOfSave;
 
 
         public ViewHolder(View itemView) {

@@ -1,18 +1,41 @@
 package com.orthopg.snaphy.orthopg;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.CustomContainer;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.ImageModel;
+import com.androidsdk.snaphy.snaphyandroidsdk.repository.AmazonImageRepository;
+import com.androidsdk.snaphy.snaphyandroidsdk.repository.CustomContainerRepository;
+import com.androidsdk.snaphy.snaphyandroidsdk.repository.CustomFileRepository;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.strongloop.android.loopback.LocalInstallation;
 import com.strongloop.android.loopback.RestAdapter;
 import com.strongloop.android.loopback.callbacks.VoidCallback;
+import com.strongloop.android.remoting.JsonUtil;
 
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Ravi-Gupta on 10/4/2016.
@@ -154,5 +177,424 @@ public class SnaphyHelper {
             Log.e(Constants.TAG, "No valid Google Play Services APK found.");
         }
     }
+
+
+
+
+
+
+    public void loadImage(final String imageUri,final ImageView imageView){
+        final int retries = 0;
+        try {
+            Glide.with(mainActivity)
+                    .load(imageUri)
+                    .placeholder(R.drawable.default_image)
+                    .dontAnimate()
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .listener(new RequestListener<String, GlideDrawable>() {
+                        @Override
+                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+
+                            if (retries <= 3) {
+                                int track = retries + 1;
+                                Log.e(Constants.TAG, "Image downloading failed. retrying." + track);
+                                loadImage(imageUri, imageView, track);
+
+                            } else {
+                                Log.e(Constants.TAG, "Maximum retries of image downloading done. Cannot download image.");
+                            }
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                            return false;
+                        }
+                    })
+                    .into(imageView);
+        } catch (Exception e) {
+            Log.e(Constants.TAG, "Error downloading image from server.");
+            Log.e(Constants.TAG, e.toString());
+        }
+
+    }
+
+    public void loadImage(final String imageUri,final ImageView imageView, int mipmap){
+        final int retries = 0;
+        try {
+            Glide.with(mainActivity)
+                    .load(imageUri)
+                    .placeholder(mainActivity.getResources().getDrawable(mipmap))
+                    .dontAnimate()
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .listener(new RequestListener<String, GlideDrawable>() {
+                        @Override
+                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+
+                            if (retries <= 3) {
+                                int track = retries + 1;
+                                Log.e(Constants.TAG, "Image downloading failed. retrying." + track);
+                                loadImage(imageUri, imageView, track);
+
+                            } else {
+                                Log.e(Constants.TAG, "Maximum retries of image downloading done. Cannot download image.");
+                            }
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                            return false;
+                        }
+                    })
+                    .into(imageView);
+        } catch (Exception e) {
+            Log.e(Constants.TAG, "Error downloading image from server.");
+            Log.e(Constants.TAG, e.toString());
+        }
+
+    }
+
+
+    public void fetchThumb(Map<String, Object> fileObj, final ImageView imageView){
+        if(fileObj != null){
+            String container = (String)fileObj.get("container");
+            String file = (String)fileObj.get("name");
+            fetchUrl(container, file, imageView, "thumb_");
+        }
+
+    }
+
+
+    public void fetchMedium(Map<String, Object> fileObj, final ImageView imageView){
+        if(fileObj != null) {
+            String container = (String) fileObj.get("container");
+            String file = (String) fileObj.get("name");
+
+            fetchUrl(container, file, imageView, "medium_");
+        }
+    }
+
+
+    public void fetchSmall(Map<String, Object> fileObj, final ImageView imageView) {
+        if (fileObj != null) {
+            String container = (String) fileObj.get("container");
+            String file = (String) fileObj.get("name");
+            fetchUrl(container, file, imageView, "small_");
+        }
+    }
+
+
+    public void loadUnSignedThumbnailImage(Map<String, Object> imageObj, final ImageView imageView, int defaultImage){
+        String file = (String) imageObj.get("name");
+        String url = Constants.AMAZON_CLOUD_FRONT_URL + "/thumb_" + imageObj;
+        loadImage(url, imageView, defaultImage);
+    }
+
+
+    public void loadUrlWithDefaultImage(Map<String, Object> imageObj, final ImageView imageView){
+        if(imageObj != null){
+            if(imageObj.get("url") != null){
+                Map<String, String> hashMap;
+                try{
+                    hashMap   = (Map<String, String>)imageObj.get("url");
+                    if(hashMap.get("unSignedUrl") != null){
+                        String unsignedUrl = hashMap.get("unSignedUrl");
+                        if(unsignedUrl != null){
+                            try{
+                                loadImage(unsignedUrl, imageView);
+                            }
+                            catch (Exception e){
+                                Log.e(Constants.TAG, e +"");
+                            }
+
+                        }
+                        else{
+                            fetchSmall(imageObj, imageView);
+                        }
+                    }else{
+                        String defaultUrl = hashMap.get("defaultUrl");
+                        if(defaultUrl != null){
+                            try{
+                                loadImage(Constants.baseUrl + defaultUrl, imageView);
+                            }
+                            catch (Exception e){
+                                Log.e(Constants.TAG, e +"");
+                            }
+                        }
+                        else{
+                            fetchSmall(imageObj, imageView);
+                        }
+                    }
+                }catch (Exception e){
+                    fetchSmall(imageObj, imageView);
+                }
+
+
+            }
+            else{
+                fetchSmall(imageObj, imageView);
+            }
+        }else{
+            fetchSmall(imageObj, imageView);
+        }
+    }
+
+
+    //Fetch url from server..
+    public void loadUnsignedUrl(Map<String, Object> imageObj, final ImageView imageView){
+        if(imageObj != null){
+            if(imageObj.get("url") != null){
+                Map<String, String> hashMap;
+                try{
+                    hashMap   = (Map<String, String>)imageObj.get("url");
+                    if(hashMap.get("unSignedUrl") != null){
+                        String unsignedUrl = hashMap.get("unSignedUrl");
+                        if(unsignedUrl != null){
+                            try{
+                                loadImage(unsignedUrl, imageView);
+                            }
+                            catch (Exception e){
+                                Log.e(Constants.TAG, e +"");
+                            }
+
+                        }
+                        else{
+                            fetchSmall(imageObj, imageView);
+                        }
+                    }else{
+                        String defaultUrl = hashMap.get("defaultUrl");
+                        if(defaultUrl != null){
+                            try{
+                                loadImage(Constants.baseUrl + defaultUrl, imageView);
+                            }
+                            catch (Exception e){
+                                Log.e(Constants.TAG, e +"");
+                            }
+                        }
+                        else{
+                            fetchSmall(imageObj, imageView);
+                        }
+                    }
+                }catch (Exception e){
+                    fetchSmall(imageObj, imageView);
+                }
+
+
+            }
+            else{
+                fetchSmall(imageObj, imageView);
+            }
+        }else{
+            fetchSmall(imageObj, imageView);
+        }
+
+    }
+
+    //Fetch url from server..
+    public void loadUnsignedUrl(Map<String, Object> imageObj, final ImageView imageView, int defaultImage){
+        if(imageObj != null){
+            if(imageObj.get("url") != null){
+                Map<String, String> hashMap;
+                try{
+                    hashMap   = (Map<String, String>)imageObj.get("url");
+                    if(hashMap.get("unSignedUrl") != null){
+                        String unsignedUrl = hashMap.get("unSignedUrl");
+                        if(unsignedUrl != null){
+                            try{
+                                loadImage(unsignedUrl, imageView);
+                            }
+                            catch (Exception e){
+                                Log.e(Constants.TAG, e +"");
+                            }
+
+                        }
+                        else{
+                            fetchSmall(imageObj, imageView);
+                        }
+                    }else{
+                        String defaultUrl = hashMap.get("defaultUrl");
+                        if(defaultUrl != null){
+                            try{
+                                loadImage(Constants.baseUrl + defaultUrl, imageView);
+                            }
+                            catch (Exception e){
+                                Log.e(Constants.TAG, e +"");
+                            }
+                        }
+                        else{
+                            fetchSmall(imageObj, imageView);
+                        }
+                    }
+                }catch (Exception e){
+                    fetchSmall(imageObj, imageView);
+                }
+
+
+            }
+            else{
+                fetchSmall(imageObj, imageView);
+            }
+        }else{
+            fetchSmall(imageObj, imageView);
+        }
+
+    }
+
+
+    //Fetch url from server..
+    public void fetchUrl(String container, String file, final ImageView imageView, String prefix){
+        AmazonImageRepository amazonImageRepository = getLoopBackAdapter().createRepository(AmazonImageRepository.class);
+        Map<String, Object> hashMap = new HashMap<>();
+        hashMap.put("type", "prefix");
+        hashMap.put("value", prefix);
+        amazonImageRepository.getUrl(container, file, hashMap, new com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback<JSONObject>() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                if (response != null) {
+                    Map<String, Object> objectHashMap = (Map) JsonUtil.fromJson(response);
+                    String defaultUrl = (String) objectHashMap.get("defaultUrl");
+                    String signedUrl = (String) objectHashMap.get("signedUrl");
+                    if (!signedUrl.isEmpty()) {
+                        try {
+                            loadImage(signedUrl, imageView);
+                        } catch (Exception e) {
+                            Log.e(Constants.TAG, e + "");
+                        }
+                    } else {
+                        try {
+                            loadImage(Constants.baseUrl + defaultUrl, imageView);
+                        } catch (Exception e) {
+                            Log.e(Constants.TAG, e + "");
+                        }
+                    }
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable t) {
+
+                Log.v(Constants.TAG, "Could not fetch url. Please try again later..");
+            }
+        });
+    }
+
+
+
+    public void uploadWithCallback(String containerName, File imageFile, final ObjectCallback<ImageModel> callback){
+        Date date = new Date();
+        String fileName = String.valueOf(date.getTime());
+        //create a file to write bitmap data
+        File file = new File(mainActivity.getCacheDir(), fileName + ".jpg");
+
+        try{
+            file.createNewFile();
+            //Now converting image to bitmap..
+            Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getPath());
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 40, out);
+            //Bitmap decoded = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
+            byte[] bitmapdata = out.toByteArray();
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(bitmapdata);
+            fos.flush();
+            fos.close();
+            //Flushing bitmap..
+            bitmap.recycle();
+            bitmap = null;
+
+
+
+            CustomContainerRepository containerRepo = getLoopBackAdapter().createRepository(CustomContainerRepository.class);
+            CustomFileRepository customFileRepository = getLoopBackAdapter().createRepository(CustomFileRepository.class);
+            Map<String, String> objectHashMap = new HashMap<>();
+            objectHashMap.put("name", containerName);
+            CustomContainer container1 = containerRepo.createObject(objectHashMap);
+            container1.UploadAmazon(file, new com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback<ImageModel>() {
+                @Override
+                public void onSuccess(ImageModel object) {
+                    // object
+                    callback.onSuccess(object);
+                }
+
+                @Override
+                public void onError(Throwable t) {
+
+                    callback.onError(t);
+                }
+            });
+        }
+        catch (IOException e){
+            //TODO SHOW MESSAGE TRY AGAIN UPLOADING IMAGE..
+            Log.e(Constants.TAG, e.toString());
+        }
+
+    }
+
+    public void  uploadImageToContainer(String containerName, File imageFile, final String TAG) {
+        Date date = new Date();
+        String fileName = String.valueOf(date.getTime());
+        //create a file to write bitmap data
+        File file = new File(mainActivity.getCacheDir(), fileName + ".jpg");
+
+        try{
+            file.createNewFile();
+            //Now converting image to bitmap..
+            Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getPath());
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 40, out);
+            //Bitmap decoded = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
+            byte[] bitmapdata = out.toByteArray();
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(bitmapdata);
+            fos.flush();
+            fos.close();
+            //Flushing bitmap..
+            bitmap.recycle();
+            bitmap = null;
+
+
+            CustomContainerRepository containerRepo = getLoopBackAdapter().createRepository(CustomContainerRepository.class);
+            CustomFileRepository customFileRepository = getLoopBackAdapter().createRepository(CustomFileRepository.class);
+            Map<String, String> objectHashMap = new HashMap<>();
+            objectHashMap.put("name", containerName);
+            CustomContainer container1 = containerRepo.createObject(objectHashMap);
+            container1.UploadAmazon(file, new ObjectCallback<ImageModel>() {
+                @Override
+                public void onSuccess(ImageModel object) {
+                    // object
+                    //EventBus.getDefault().post(object, TAG);
+                }
+
+                @Override
+                public void onError(Throwable t) {
+
+                    Log.e(Constants.TAG, t.toString());
+                    ImageModel imageModel = new ImageModel();
+                    //EventBus.getDefault().post(imageModel, TAG);
+                }
+            });
+        }
+        catch (IOException e){
+            //TODO SHOW MESSAGE TRY AGAIN UPLOADING IMAGE..
+            Log.e(Constants.TAG, e.toString());
+            Log.e(Constants.TAG, "Error Downloading Image");
+        }
+    }
+
+
+    public String getName(String firstName, String lastName){
+        String name = "";
+        if(!firstName.isEmpty()) {
+            name = firstName;
+            if(!lastName.isEmpty()) {
+                name = name + " "+ lastName;
+            }
+        }
+        return WordUtils.capitalize(name);
+    }
+
+
 
 }

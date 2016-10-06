@@ -6,12 +6,8 @@ package com.androidsdk.snaphy.snaphyandroidsdk.models;
 
 
 
-import org.json.JSONObject;
-import org.json.JSONArray;
-
-import java.util.List;
-import com.strongloop.android.loopback.RestAdapter;
-import com.strongloop.android.remoting.adapters.Adapter;
+import java.util.HashMap;
+import java.util.Map;
 
 /*
 Replacing with custom Snaphy callback methods
@@ -19,20 +15,8 @@ import com.strongloop.android.loopback.callbacks.ListCallback;
 import com.strongloop.android.loopback.callbacks.ObjectCallback;
 import com.strongloop.android.loopback.callbacks.VoidCallback;
 */
-import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
-import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.DataListCallback;
-import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.VoidCallback;
-import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
-
 //Import self repository..
-import com.androidsdk.snaphy.snaphyandroidsdk.repository.ContainerRepository;
-
 //Now import repository of related models..
-
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 
 
@@ -57,8 +41,8 @@ public class Container extends Model {
         that = this;
     }
 
-    
-        
+
+
             
             
             
