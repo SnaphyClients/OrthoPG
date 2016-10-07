@@ -4,13 +4,27 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
+import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.DataListCallback;
+import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.CompanyInfo;
+import com.androidsdk.snaphy.snaphyandroidsdk.repository.CompanyInfoRepository;
+import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
+import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -27,6 +41,11 @@ public class FAQsFragment extends android.support.v4.app.Fragment {
     private OnFragmentInteractionListener mListener;
     public static String TAG = "FAQsFragment";
     MainActivity mainActivity;
+    @Bind(R.id.fragment_faqs_progressBar) CircleProgressBar progressBar;
+    @Bind(R.id.fragment_faqs_textview2)
+    TextView faqText;
+    CompanyInfoRepository companyInfoRepository;
+    String faqs;
 
     public FAQsFragment() {
         // Required empty public constructor
@@ -49,7 +68,51 @@ public class FAQsFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_faqs, container, false);
         ButterKnife.bind(this, view);
+        faqText.setMovementMethod(new ScrollingMovementMethod());
+        setFAQsText();
         return view;
+    }
+
+    public void setFAQsText() {
+        companyInfoRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(CompanyInfoRepository.class);
+        Map<String, Object> filter = new HashMap<>();
+        Map<String, String> where = new HashMap<>();
+        where.put("type","faqs");
+        filter.put("where", where);
+
+        companyInfoRepository.find(filter, new DataListCallback<CompanyInfo>() {
+            @Override
+            public void onBefore() {
+                super.onBefore();
+            }
+
+            @Override
+            public void onSuccess(DataList<CompanyInfo> objects) {
+                super.onSuccess(objects);
+                if (objects != null) {
+                    if (objects.size() != 0) {
+                        faqs = objects.get(0).getHtml().toString();
+                        faqText.setText(Html.fromHtml(faqs));
+                        mainActivity.stopProgressBar(progressBar);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                super.onError(t);
+                Log.e(Constants.TAG, t + "");
+               /* if(rootview != null) {
+                    Snackbar.make(rootview, "Error fetching data", Snackbar.LENGTH_SHORT).show();
+                }*/
+            }
+
+            @Override
+            public void onFinally() {
+                super.onFinally();
+                mainActivity.stopProgressBar(progressBar);
+            }
+        });
     }
 
     @OnClick(R.id.fragment_faqs_image_button1) void backButton() {
