@@ -1,10 +1,17 @@
 package com.orthopg.snaphy.orthopg.Fragment.CaseDetailFragment;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -47,7 +54,8 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
 
         ImageView isSelected = holder.isSelected;
         TextView userName = holder.userName;
-        TextView answer = holder.answer;
+        final TextView answer = holder.answer;
+        ImageButton editComment = holder.editComment;
 
         if(commentModel.isSelected()) {
             isSelected.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.selected));
@@ -64,6 +72,40 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
 
             }
         });
+
+        editComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showCommentDialog(answer);
+            }
+        });
+    }
+
+    public void showCommentDialog(final TextView answer) {
+
+        final Dialog dialog = new Dialog(mainActivity);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_add_text);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        Button okButton = (Button) dialog.findViewById(R.id.dialog_add_text_button1);
+        final EditText editText = (EditText) dialog.findViewById(R.id.dialog_add_text_edittext1);
+        editText.setInputType(InputType.TYPE_CLASS_TEXT);
+        editText.setText(answer.getText());
+
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                answer.setText(editText.getText().toString());
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
     }
 
     @Override
@@ -76,6 +118,7 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
         @Bind(R.id.layout_comment_imageview1) ImageView isSelected;
         @Bind(R.id.layout_comment_textview1) TextView userName;
         @Bind(R.id.layout_comment_textview2) TextView answer;
+        @Bind(R.id.layout_comment_imagebutton1) ImageButton editComment;
 
         public ViewHolder(View itemView) {
             super(itemView);

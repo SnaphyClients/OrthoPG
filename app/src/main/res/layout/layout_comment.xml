@@ -3,10 +3,9 @@
     android:orientation="vertical" android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginTop="7dp">
 
         <ImageView
@@ -14,7 +13,7 @@
             android:layout_width="25dp"
             android:layout_height="22dp"
             android:src="@mipmap/unselected"
-            android:layout_gravity="left"/>
+            android:layout_marginLeft="7dp" />
 
         <TextView
             android:id="@+id/layout_comment_textview1"
@@ -24,10 +23,18 @@
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold"
             android:paddingTop="0dp"
-            android:gravity="center_vertical"
-            android:layout_gravity="center_vertical"/>
+            android:layout_marginLeft="35dp"
+            android:layout_centerVertical="true"/>
 
-    </LinearLayout>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:src="@mipmap/edit"
+            android:background="@android:color/transparent"
+            android:layout_alignParentRight="true"
+            android:id="@+id/layout_comment_imagebutton1"/>
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/layout_comment_textview2"
