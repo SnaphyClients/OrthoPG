@@ -1,6 +1,8 @@
 package com.orthopg.snaphy.orthopg.Fragment.MenuFragment;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 
@@ -71,12 +74,24 @@ public class MenuFragment extends android.support.v4.app.Fragment {
         mainActivity.replaceFragment(R.id.fragment_menu_button3, null);
     }
 
-    @OnClick(R.id.fragment_menu_button4) void openFeedback(){
-
+    @OnClick(R.id.fragment_menu_button4) void openFeedback() {
+        Uri uri = Uri.parse("market://details?id=" + Constants.APP_PLAY_STORE);// this.getPackageName()
+        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+        try {
+            startActivity(goToMarket);
+        } catch (ActivityNotFoundException e) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + Constants.APP_PLAY_STORE)));
+        }
     }
 
-    @OnClick(R.id.fragment_menu_button5) void openShare(){
-
+    @OnClick(R.id.fragment_menu_button5) void openShare() {
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                String shareBody = Constants.APP_SHARE_TEXT;
+                shareBody = shareBody + "http://play.google.com/store/apps/details?id=" + Constants.APP_PLAY_STORE;
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "OrthoPG");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                startActivity(Intent.createChooser(sharingIntent, "Share Via"));
     }
 
     @OnClick(R.id.fragment_menu_button6) void openTermsAndConditions(){
