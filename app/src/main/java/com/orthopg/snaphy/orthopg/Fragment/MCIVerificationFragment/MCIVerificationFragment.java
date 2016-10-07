@@ -16,8 +16,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
+import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
+import com.androidsdk.snaphy.snaphyandroidsdk.repository.CustomerRepository;
+import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
+
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -126,8 +133,48 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
         InputMethodManager imm = (InputMethodManager)mainActivity.getSystemService(
                 Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(mciCode.getWindowToken(), 0);
-        mainActivity.replaceFragment(R.layout.fragment_main, null);
+        String code = mciCode.getText().toString();
+        if(code != null){
+            if(!code.trim().isEmpty()){
+                Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+                customer.setMciNumber(code);
+                updateCustomer(customer);
+            }
+        }
+        //
     }
+
+    public void updateCustomer(Customer customer){
+        Map<String, ? extends Object> data = customer.convertMap();
+        //Remove the password field..
+        data.remove("password");
+        CustomerRepository customerRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
+        customerRepository.updateAttributes((String) customer.getId(), data, new ObjectCallback<Customer>() {
+            @Override
+            public void onBefore() {
+                //TODO SHOW PROGRESS BAR..
+            }
+
+            @Override
+            public void onSuccess(Customer object) {
+                mainActivity.replaceFragment(R.layout.fragment_main, null);
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                Log.e(Constants.TAG, t.toString());
+                Log.v(Constants.TAG, "Error in update Customer Method");
+                //TODO SHOW TRY AGAIN TOAST..
+            }
+
+            @Override
+            public void onFinally() {
+                //TODO STOP PROGRESS BAR...
+            }
+        });
+    }
+
+
 
     @OnClick(R.id.fragment_mci_verification_button2) void skipButton() {
         InputMethodManager imm = (InputMethodManager)mainActivity.getSystemService(

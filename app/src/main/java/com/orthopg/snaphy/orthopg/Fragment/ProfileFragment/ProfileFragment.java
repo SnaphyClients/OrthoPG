@@ -190,7 +190,12 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
             @Override
             public void onSuccess() {
                 Log.e(Constants.TAG, "Successfully Logout!!");
+                mainActivity.googleLogout();
+                mainActivity.moveToLogin();
+                //Remove the customer..
+                Presenter.getInstance().removeModelFromList(Constants.LOGIN_CUSTOMER);
             }
+
 
             @Override
             public void onError(Throwable t) {
@@ -198,15 +203,16 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
                 customerRepository.setCurrentUserId(null);
                 mainActivity.snaphyHelper.getLoopBackAdapter().clearAccessToken();
                 mainActivity.snaphyHelper.registerInstallation(null);
-            }
-
-            @Override
-            public void onFinally() {
                 //TODO Stop progress bar..
                 mainActivity.googleLogout();
                 mainActivity.moveToLogin();
                 //Remove the customer..
                 Presenter.getInstance().removeModelFromList(Constants.LOGIN_CUSTOMER);
+            }
+
+            @Override
+            public void onFinally() {
+
             }
         });
         /*
