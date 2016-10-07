@@ -47,7 +47,7 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     CasePresenter casePresenter;
     DataList<PostDetail> postDetails;
 
-    boolean isTrendingSelected = false;
+    boolean isTrendingSelected = true;
     boolean isNewSelected = false;
     boolean isUnsolvedSelected = false;
 

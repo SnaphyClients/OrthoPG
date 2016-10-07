@@ -38,7 +38,12 @@ import com.orthopg.snaphy.orthopg.Interface.OnFragmentChange;
 import com.strongloop.android.loopback.LocalInstallation;
 import com.strongloop.android.loopback.RestAdapter;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -62,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
     GoogleCloudMessaging gcm;
     public static LocalInstallation installation;
     public SnaphyHelper snaphyHelper;
+    String dayOrTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +87,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             }
         }, 100);
 
-        replaceFragment(R.layout.fragment_help, null);
+        parseDate();
+        replaceFragment(R.layout.fragment_main, null);
     }
 
     @Override
@@ -298,13 +305,165 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
     }
 
     public void parseDate() {
-        //Sat Oct 08 05:30:00 GMT+05:30 2016  JSON
-        //Sat Dec 15 16:37:57 MST 2012 JAVA
+
+        //TODO MONTH DAY TO NUMBER CONVERTER
+        String postedDate = "Sat Oct 08 05:30:00 GMT+05:30 2016";
+        //Fri Oct 07 16:01:58 GMT+05:30 2016 JAVA
 
         //JAVA Current Date
         Date date = new Date();
-        // display time and date using toString()
-        String str = String.format("Current Date/Time : %tc", date );
+        String currentDate = String.format("Current Date/Time : %tc", date);
+
+        applyRegexOnDate(postedDate, currentDate);
+
+
+    }
+
+    public void applyRegexOnDate(String postedDate, String currentDate) {
+        //Fri Oct 07 16:01:58 GMT+05:30 2016 JAVA
+
+        /*******************************POSTED DATE*************************************/
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
+        format.setTimeZone(TimeZone.getTimeZone("IST"));
+        /*java.util.Date date_ = null;
+       *//* try {
+            date_ = format.parse(postedDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }*/
+
+        int postedDayOfMonth = Integer.parseInt(postedDate.toString().substring(8, 10));
+        int postedMonth = Integer.parseInt(postedDate.toString().substring(4, 7));
+        int postedHour = Integer.parseInt(postedDate.toString().substring(11, 13));
+        int postedMinute = Integer.parseInt(postedDate.toString().substring(14, 16));
+        int postedSecond = Integer.parseInt(postedDate.toString().substring(17, 19));
+
+        Pattern p = Pattern.compile("\\b\\d{4}\\b");
+        Matcher m = p.matcher(postedDate.toString());
+        String orderYear = "";
+        while (m.find()) {
+            orderYear = m.group().toString();
+        }
+        int postedYear = Integer.parseInt(postedDate.toString().substring(30, 34));
+
+        /*******************************POSTED DATE*************************************/
+
+
+
+        /*******************************CURRENT DATE*************************************/
+
+        int currentDayOfMonth = Integer.parseInt(currentDate.toString().substring(8, 10));
+        int currentMonth = Integer.parseInt(currentDate.toString().substring(4, 7));
+        int currentHour = Integer.parseInt(currentDate.toString().substring(11, 13));
+        int currentMinute = Integer.parseInt(currentDate.toString().substring(14, 16));
+        int currentSecond = Integer.parseInt(currentDate.toString().substring(17, 19));
+
+        Pattern p1 = Pattern.compile("\\b\\d{4}\\b");
+        Matcher m1 = p1.matcher(currentDate.toString());
+        String orderYear1 = "";
+        while (m1.find()) {
+            orderYear1 = m.group().toString();
+        }
+        int currentYear = Integer.parseInt(currentDate.toString().substring(30, 34));
+
+        /*******************************CURRENT DATE*************************************/
+
+        String time = getPostedTime(currentYear, currentMonth, currentDayOfMonth, currentHour, currentMinute, currentSecond,
+                postedYear, postedMonth, postedDayOfMonth, postedHour, postedMinute,postedSecond);
+    }
+
+
+
+    public String getPostedTime(int currentYear,
+            int currentMonth,
+            int currentDayOfMonth,
+            int currentHour,
+            int currentMinute,
+            int currentSecond,
+
+            int postedYear,
+            int postedMonth,
+            int postedDayOfMonth,
+            int postedHour,
+            int postedMinute,
+            int postedSecond) {
+
+        String time;
+
+        if(currentYear == postedYear) {
+            if(currentMonth == postedMonth) {
+                if(currentDayOfMonth == postedDayOfMonth) {
+                    if(currentHour == postedHour) {
+                        if(currentMinute == postedMinute) {
+                            if(currentSecond == postedSecond) {
+                                time = 1 + Constants.SECOND;
+                            } else {
+                                if(formatTime(currentSecond - postedSecond)) {
+                                    time = (currentSecond - postedSecond)+ " " + Constants.SECOND;
+                                } else {
+                                    time = (currentSecond - postedSecond)+ " " + Constants.SECONDS;
+                                }
+                            }
+                        } else {
+                            if(formatTime((currentMinute - postedMinute))) {
+                                time = (currentMinute - postedMinute) +" "+ Constants.MINUTE;
+                            } else {
+                                time = (currentMinute - postedMinute) +" "+ Constants.MINUTES;
+                            }
+                        }
+                    } else {
+                        if(formatTime(currentHour - postedHour)) {
+                            time = (currentHour - postedHour) +" "+ Constants.HOUR;
+                        } else {
+                            time = (currentHour - postedHour) +" "+ Constants.HOURS;
+                        }
+                    }
+                } else {
+                    if(formatTime(currentDayOfMonth - postedDayOfMonth)) {
+                        time = (currentDayOfMonth - postedDayOfMonth) +" "+ Constants.DAY;
+                    } else {
+                        time = (currentDayOfMonth - postedDayOfMonth) +" "+ Constants.DAYS;
+                    }
+                }
+            } else {
+                if(formatTime(currentMonth - postedMonth)) {
+                    time = (currentMonth - postedMonth) +" "+ Constants.MONTH;
+                } else {
+                    time = (currentMonth - postedMonth) +" "+ Constants.MONTHS;
+                }
+            }
+        } else {
+            if(formatTime(currentYear - postedYear)) {
+                time = (currentYear - postedYear) +" "+ Constants.YEAR;
+            } else {
+                time = (currentYear - postedYear) +" "+ Constants.YEARS;
+            }
+
+        }
+
+        return time;
+    }
+
+    public boolean formatTime(int time) {
+        if(time == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    public void convertMonthStringIntoNumber() {
+        /*DateTimeFormatter format = DateTimeFormat.forPattern("MMM");
+        DateTime instance        = format.withLocale(Locale.ENGLISH).parseDateTime("IST");
+
+        int month_number         = instance.getMonthOfYear();
+        String month_text        = instance.monthOfYear().getAsText(Locale.ENGLISH);
+
+        System.out.println( "Month Number: " + month_number );
+        System.out.println( "Month Text:   " + month_text   );*/
+
     }
 
    /* public String parseDate(String date){

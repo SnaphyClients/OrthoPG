@@ -50,5 +50,19 @@ public class Constants {
     public static String WARNING = "#f0ad4e";
     public static String SUCCESS = "#5cb85c";
 
+    public static String YEAR = "year";
+    public static String MONTH = "month";
+    public static String DAY = "day";
+    public static String HOUR = "hour";
+    public static String MINUTE = "minute";
+    public static String SECOND = "second";
+
+    public static String YEARS = "years";
+    public static String MONTHS = "months";
+    public static String DAYS = "days";
+    public static String HOURS = "hours";
+    public static String MINUTES = "minutes";
+    public static String SECONDS = "seconds";
+
 
 }
