@@ -2,6 +2,8 @@ package com.orthopg.snaphy.orthopg.Fragment.CaseFragment;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -131,20 +133,34 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         }
 
         if(postDetail != null) {
+            final int sdk = android.os.Build.VERSION.SDK_INT;
             if(!postDetail.getType().isEmpty()) {
                 tag.setText(postDetail.getType());
                 if(postDetail.getType().equals(Constants.CASE)){
-                    tag.setBackgroundColor(Color.parseColor(Constants.PRIMARY));
+                    if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                        tag.setBackgroundDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle));
+                    } else {
+                        tag.setBackground(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle));
+                    }
+
                 } else if(postDetail.getType().equals(Constants.BOOK_REVIEW)) {
-                    tag.setBackgroundColor(Color.parseColor(Constants.WARNING));
+                    if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                        tag.setBackgroundDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle_warning));
+                    } else {
+                        tag.setBackground(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle_warning));
+                    }
                 } else if(postDetail.getType().equals(Constants.INTERVIEW)) {
-                    tag.setBackgroundColor(Color.parseColor(Constants.SUCCESS));
+                    if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                        tag.setBackgroundDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle_success));
+                    } else {
+                        tag.setBackground(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle_success));
+                    }
                 }
 
             }
         }
 
-        if(postDetail.getAcceptedAnswer() != null) {
+       /* if(postDetail.getAcceptedAnswer() != null) {
             // Add Selected Answer
             if(!postDetail.getAcceptedAnswer().getAnswer().isEmpty()){
                 showSelectedAnswer(selectedAnswer, isAnswerSelected,selectedAnswerUserName);
@@ -161,7 +177,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
             }
         }else{
             hideSelectedAnswer(selectedAnswer, isAnswerSelected,selectedAnswerUserName);
-        }
+        }*/
 
         //TOTAL LIKE
         numberOfLike.setText(String.valueOf((int)postDetail.getTotalLike()));

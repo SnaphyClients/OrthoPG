@@ -1,7 +1,10 @@
 package com.orthopg.snaphy.orthopg;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
@@ -11,9 +14,11 @@ import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.CustomContainer;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.ImageModel;
+import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.AmazonImageRepository;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.CustomContainerRepository;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.CustomFileRepository;
+import com.androidsdk.snaphy.snaphyandroidsdk.repository.CustomerRepository;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -151,12 +156,49 @@ public class SnaphyHelper {
                 mainActivity.installation = installation_;
                 final String msg = "Installation saved with id " + id;
                 Log.i(Constants.TAG, msg);
+                Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+                //Now save the installation id with customer..
+                if (customer != null) {
+                    //Add registration id to customer..
+                    customer.setRegistrationId((String) id);
+                    updateCustomer(customer);
+                }
             }
 
             @Override
             public void onError(final Throwable t) {
                 Log.e(Constants.TAG, "Error saving Installation.", t);
 
+            }
+        });
+    }
+
+
+    public void updateCustomer(Customer customer){
+        Map<String, ? extends Object> data = customer.convertMap();
+        //Remove the password field..
+        data.remove("password");
+        CustomerRepository customerRepository = getLoopBackAdapter().createRepository(CustomerRepository.class);
+        customerRepository.updateAttributes((String) customer.getId(), data, new ObjectCallback<Customer>() {
+            @Override
+            public void onBefore() {
+                super.onBefore();
+            }
+
+            @Override
+            public void onSuccess(Customer object) {
+                Log.v(Constants.TAG, "Customer Profile is Updated");
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                Log.e(Constants.TAG, t.toString());
+                Log.v(Constants.TAG, "Error in update Customer Method");
+            }
+
+            @Override
+            public void onFinally() {
+                super.onFinally();
             }
         });
     }
@@ -593,6 +635,23 @@ public class SnaphyHelper {
             }
         }
         return WordUtils.capitalize(name);
+    }
+
+    public boolean isNetworkAvailable() {
+        boolean haveConnectedWifi = false;
+        boolean haveConnectedMobile = false;
+
+        ConnectivityManager cm = (ConnectivityManager) mainActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+        for (NetworkInfo ni : netInfo) {
+            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+                if (ni.isConnected())
+                    haveConnectedWifi = true;
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+                if (ni.isConnected())
+                    haveConnectedMobile = true;
+        }
+        return haveConnectedWifi || haveConnectedMobile;
     }
 
 

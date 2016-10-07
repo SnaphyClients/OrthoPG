@@ -87,7 +87,7 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         swipeRefreshLayoutListener();
         loadPresenter();
-        recyclerViewLoadMoreEventData();
+        //recyclerViewLoadMoreEventData();
         return view;
     }
 
@@ -176,6 +176,7 @@ public class CaseFragment extends android.support.v4.app.Fragment {
             @Override
             public void onChange(DataList<PostDetail> dataList) {
                 super.onChange(dataList);
+                swipeRefreshLayout.setRefreshing(false);
                 caseListAdapter.notifyDataSetChanged();
 
             }

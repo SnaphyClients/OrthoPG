@@ -10,6 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
+import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
+import com.androidsdk.snaphy.snaphyandroidsdk.repository.CustomerRepository;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -18,6 +21,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
+
+import org.json.JSONObject;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -72,9 +77,43 @@ public class LoginFragment extends android.support.v4.app.Fragment {
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        //BackgroundService.setGoogleApiClient(googleApiClient);
+        Presenter.getInstance().addModel(Constants.GOOGLE_API_CLIENT, googleApiClient);
         googleApiClient.connect();
     }
+
+    public void sendTokenToServer(String token) {
+        CustomerRepository customerRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
+        customerRepository.loginWithGoogle(token, new ObjectCallback<JSONObject>() {
+            @Override
+            public void onBefore() {
+                //TODO STart progress bar..
+            }
+
+            @Override
+            public void onSuccess(JSONObject object) {
+                if (object != null) {
+                    Log.i(Constants.TAG, "Google = " + object.toString());
+                    mainActivity.addUser(object);
+
+                } else {
+                    Log.v(Constants.TAG, "Null");
+
+                }
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                Log.e(Constants.TAG, t.toString());
+            }
+
+            @Override
+            public void onFinally() {
+                //TODO
+                //STOP Progress bar..
+            }
+        });
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int responseCode,
@@ -93,7 +132,8 @@ public class LoginFragment extends android.support.v4.app.Fragment {
             if(acct.getIdToken() != null) {
                 Log.v(Constants.TAG, acct.getIdToken());
                 //BackgroundService.setAccessToken(acct.getIdToken());
-                mainActivity.replaceFragment(R.layout.fragment_mciverification, null);
+                //mainActivity.replaceFragment(R.layout.fragment_mciverification, null);
+                sendTokenToServer(acct.getIdToken());
             }
 
         } else {

@@ -1,15 +1,25 @@
 package com.orthopg.snaphy.orthopg;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
+import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
+import com.androidsdk.snaphy.snaphyandroidsdk.repository.CustomerRepository;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.ndk.CrashlyticsNdk;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.BooksFragment;
 import com.orthopg.snaphy.orthopg.Fragment.CaseDetailFragment.CaseDetailFragment;
@@ -35,12 +45,19 @@ import com.orthopg.snaphy.orthopg.Fragment.PostedCasesFragment.PostedCasesFragme
 import com.orthopg.snaphy.orthopg.Fragment.ProfileFragment.ProfileFragment;
 import com.orthopg.snaphy.orthopg.Fragment.SavedCasesFragment.SavedCasesFragment;
 import com.orthopg.snaphy.orthopg.Interface.OnFragmentChange;
+import com.strongloop.android.loopback.AccessToken;
+import com.strongloop.android.loopback.AccessTokenRepository;
 import com.strongloop.android.loopback.LocalInstallation;
 import com.strongloop.android.loopback.RestAdapter;
+import com.strongloop.android.remoting.JsonUtil;
+
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -68,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
     public static LocalInstallation installation;
     public SnaphyHelper snaphyHelper;
     String dayOrTime;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,9 +105,28 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             }
         }, 100);
 
-        parseDate();
-        replaceFragment(R.layout.fragment_main, null);
+        sharedPreferences = this.getApplicationContext().getSharedPreferences("HelpScreen", 0);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        if(snaphyHelper.isNetworkAvailable()) {
+            // Internet is connected
+            boolean displayHelpScreen = sharedPreferences.getBoolean("showHelpScreen", false);
+            if(!displayHelpScreen) {
+                editor.putBoolean("showHelpScreen", true);
+                editor.commit();
+                replaceFragment(R.layout.fragment_help, null);
+            } else {
+                //Check Login
+                checkLogin();
+
+            }
+        } else {
+            // No Internet is connected
+            Toast.makeText(this, "Internet not connected", Toast.LENGTH_SHORT).show();
+        }
+
+        /*parseDate();*/
     }
+
 
     @Override
     public void replaceFragment(int id, Object object) {
@@ -495,7 +532,164 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         return actualDate;
     }*/
 
+    /**
+     * AddUser method for adding user once the user is successfully signed in
+     * @param  response
+     */
+    public void addUser(JSONObject response){
 
+        if(response != null){
+            Map<String, Object> responseMap = JsonUtil.fromJson(response);
+            Map<String, Object> accessTokenMap = new HashMap<>();
+            accessTokenMap.put("id", responseMap.get("id"));
+            accessTokenMap.put("ttl", responseMap.get("ttl"));
+            AccessTokenRepository accessTokenRepository = snaphyHelper.getLoopBackAdapter().createRepository(AccessTokenRepository.class);
+            JSONObject userJson = response.optJSONObject("user");
+            Log.i(Constants.TAG, userJson.toString());
+            CustomerRepository customerRepository = snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
+            Customer user = userJson != null
+                    ? customerRepository.createObject(JsonUtil.fromJson(userJson))
+                    : null;
+            accessTokenMap.put("userId", user.getId());
+            AccessToken accessToken = accessTokenRepository.createObject(accessTokenMap);
+            snaphyHelper.getLoopBackAdapter().setAccessToken(accessToken.getId().toString());
+            customerRepository.setCurrentUserId(accessToken.getUserId());
+            customerRepository.setCachedCurrentUser(user);
+
+            Presenter.getInstance().addModel(Constants.LOGIN_CUSTOMER, user);
+
+            //TODO move to home..
+            //Now move to home fragment finally..
+            moveToHome();
+
+            //Register for push service..
+            snaphyHelper.registerInstallation(user);
+        }else{
+            //Register for push service..
+            snaphyHelper.registerInstallation(null);
+            //TODO SHOW ERROR MESSAGE..
+            Log.v(Constants.TAG, "Error in add Customer Method");
+            //Toast.makeText(this, Constants.ERROR_MESSAGE, Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    public void moveToHome(){
+        Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+        if(customer == null) {
+            //Customer not login
+            moveToLogin();
+        } else {
+            final String MCINumber = customer.getMciNumber() != null ? customer.getMciNumber() : "";
+            if(customer.getStatus() != null){
+                if(customer.getStatus().equals(Constants.ALLOW)) {
+                    replaceFragment(R.layout.fragment_main, null);
+                } else {
+                    checkMCI(MCINumber);
+                }
+            }
+            else {
+                checkMCI(MCINumber);
+            }
+
+
+        }
+    }
+
+    public void checkMCI(String MCINumber){
+        if(MCINumber.isEmpty()) {
+            // Open MCI Fragment
+            replaceFragment(R.layout.fragment_mciverification, null);
+        } else {
+            //TODO Display message that verification is under process
+            // Move to home
+            // Make cases, books and News unclickable
+        }
+    }
+
+
+    public void checkLogin(){
+        CustomerRepository customerRepository = snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
+        Customer current = customerRepository.getCachedCurrentUser();
+        if (current != null) {
+            //Now add this to list..
+            Presenter.getInstance().addModel(Constants.LOGIN_CUSTOMER, current);
+            //TODO move to home
+            //Move to home fragment
+            moveToHome();
+        } else {
+            customerRepository.findCurrentUser(new com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback<Customer>() {
+                @Override
+                public void onBefore() {
+                    //TODO Show progress bar..
+                }
+
+                @Override
+                public void onSuccess(Customer object) {
+                    Presenter.getInstance().addModel(Constants.LOGIN_CUSTOMER, object);
+                    //Move to home fragment
+                    moveToHome();
+                }
+
+                @Override
+                public void onError(Throwable t) {
+                    //Retry Login
+                    if (t.getMessage() != null) {
+                        if (t.getMessage().equals("Unauthorized")) {
+                            googleLogout();
+                            moveToLogin();
+                        } else {
+                            //TODO SHOW INTERNET CONNECTION ERROR.
+                            //showDialog();
+                        }
+
+                    }
+                }
+
+                @Override
+                public void onFinally() {
+                    //TODO END PROGRESS BAR..
+
+                }
+            });
+        }
+
+    }
+
+
+    public void googleLogout() {
+        if(Presenter.getInstance().getModel(GoogleApiClient.class, Constants.GOOGLE_API_CLIENT) != null) {
+            if (Presenter.getInstance().getModel(GoogleApiClient.class, Constants.GOOGLE_API_CLIENT).isConnected()) {
+                Auth.GoogleSignInApi.signOut(Presenter.getInstance().getModel(GoogleApiClient.class, Constants.GOOGLE_API_CLIENT)).setResultCallback(
+                        new ResultCallback<Status>() {
+                            @Override
+                            public void onResult(Status status) {
+                                Log.v(Constants.TAG, status.toString());
+                                //Remove the data from presenter..
+                                Presenter.getInstance().removeModelFromList(Constants.GOOGLE_API_CLIENT);
+                            }
+                        });
+            }
+        } else {
+            GoogleApiClient googleApiClient = new GoogleApiClient.Builder(this)
+                    .addApi(Auth.GOOGLE_SIGN_IN_API)
+                    .build();
+            if (googleApiClient.isConnected()) {
+                Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
+                        new ResultCallback<Status>() {
+                            @Override
+                            public void onResult(Status status) {
+                                Log.v(Constants.TAG, status.toString());
+                            }
+                        });
+            }
+        }
+    }
+
+
+    public void moveToLogin(){
+        replaceFragment(R.layout.fragment_login, null);
+    }
 
 
 

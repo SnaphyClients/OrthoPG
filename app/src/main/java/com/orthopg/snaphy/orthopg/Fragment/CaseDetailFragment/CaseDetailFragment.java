@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -137,13 +138,26 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         }
 
         if(!postDetail.getType().isEmpty()) {
+            final int sdk = android.os.Build.VERSION.SDK_INT;
             tag.setText(postDetail.getType());
             if(postDetail.getType().equals(Constants.CASE)){
-                tag.setBackgroundColor(Color.parseColor(Constants.PRIMARY));
+                if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                    tag.setBackgroundDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle));
+                } else {
+                    tag.setBackground(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle));
+                }
             } else if(postDetail.getType().equals(Constants.BOOK_REVIEW)) {
-                tag.setBackgroundColor(Color.parseColor(Constants.WARNING));
+                if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                    tag.setBackgroundDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle_warning));
+                } else {
+                    tag.setBackground(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle_warning));
+                }
             } else if(postDetail.getType().equals(Constants.INTERVIEW)) {
-                tag.setBackgroundColor(Color.parseColor(Constants.SUCCESS));
+                if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                    tag.setBackgroundDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle_success));
+                } else {
+                    tag.setBackground(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle_success));
+                }
             }
 
         }
@@ -174,7 +188,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         //TOTAL SAVE..
         numberOfSave.setText(String.valueOf((int)postDetail.getTotalSave()));
 
-        //Add accepted answer
+      /*  //Add accepted answer
         if(postDetail.getAcceptedAnswer() != null) {
             // Add Selected Answer
             if(!postDetail.getAcceptedAnswer().getAnswer().isEmpty()){
@@ -192,7 +206,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
             }
         }else{
             hideSelectedAnswer(selectedAnswer, isAnswerSelected,selectedAnswerUserName);
-        }
+        }*/
 
         //TODO ADD COMMENTS LATER..
 

@@ -14,4 +14,8 @@
     <color name="caseHelp">#688fb4</color>
     <color name="bookHelp">#64b0b4</color>
     <color name="newsHelp">#977bb9</color>
+    <color name="primary">#428bca</color>
+    <color name="info">#5bc0de</color>
+    <color name="warning">#f0ad4e</color>
+    <color name="success">#5cb85c</color>
 </resources>

@@ -36,10 +36,16 @@ public class Constants {
     public static String NEWS_LIST_NEWS_FRAGMENT = "NewsListNewsFragment";
     /*END OF DATA LIST IDs*/
 
+
+    /*IDs*/
+    public static String LOGIN_CUSTOMER = "loginCustomer";
+    public static String GOOGLE_API_CLIENT = "googleApiClient";
+
     public static String TRENDING = "trending";
     public static String LATEST = "latest";
     public static String UNSOLVED = "unsolved";
     public static String PUBLISH = "publish";
+    public static String ALLOW = "allow";
     public static String CASE = "case";
     public static String BOOK_REVIEW = "book review";
     public static String INTERVIEW = "interview";

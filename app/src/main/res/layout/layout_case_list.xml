@@ -73,14 +73,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="right|center"
-            android:gravity="right">
+            android:gravity="right"
+            android:paddingTop="5dp">
 
         <TextView
             android:id="@+id/layout_case_list_textview5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="case"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="0dp"
             android:background="@drawable/curved_rectangle"
             android:textColor="@color/white"
             android:paddingLeft="8dp"
@@ -88,7 +89,7 @@
             android:gravity="center"
             android:layout_gravity="center"
             android:paddingTop="3dp"
-            android:paddingBottom="6dp"/>
+            android:paddingBottom="4dp"/>
 
             </LinearLayout>
 
@@ -113,6 +114,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
         android:textSize="12sp"
+        android:maxLength="256"
         android:text="This patient underwent a diagnostic arthro.The patellofemoral comparment, medial gutter,and medial meniscus were normal. "/>
 
     <LinearLayout
@@ -156,13 +158,13 @@
 
             <ImageView
                 android:layout_width="80dp"
-                android:layout_height="35dp"
+                android:layout_height="30dp"
                 android:background="@drawable/rectangle"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="5dp"
                 android:paddingLeft="10dp"/>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
@@ -170,8 +172,7 @@
                         android:id="@+id/layout_case_list_imagebutton1"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:layout_gravity="top|right"
-                        android:cropToPadding="true"
+                        android:layout_gravity="center"
                         android:src="@mipmap/save_unselected"
                         android:background="@android:color/transparent"/>
 
@@ -184,13 +185,15 @@
 
                     <TextView
                         android:id="@+id/layout_case_list_textview9"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:text="45"
-                        android:layout_gravity="center"
-                        android:paddingLeft="9dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:text="5"
+                        android:textAlignment="center"
+                        android:textSize="14sp"
+                        android:textColor="@color/headingColor"
+                        android:layout_gravity="center|left"
                         android:layout_marginTop="1dp"
-                        android:gravity="center"/>
+                        android:gravity="center|left"/>
 
 
                 </LinearLayout>
@@ -203,13 +206,13 @@
 
                <ImageView
                    android:layout_width="80dp"
-                   android:layout_height="35dp"
+                   android:layout_height="30dp"
                    android:background="@drawable/rectangle"
-                   android:layout_marginTop="3dp"
+                   android:layout_marginTop="5dp"
                    android:paddingLeft="10dp"/>
 
                <LinearLayout
-                   android:layout_width="wrap_content"
+                   android:layout_width="80dp"
                    android:layout_height="wrap_content"
                    android:orientation="horizontal">
 
@@ -217,7 +220,7 @@
                         android:id="@+id/layout_case_list_imagebutton2"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@mipmap/like_selected"
+                        android:src="@mipmap/like_unselected"
                         android:layout_gravity="top"
                         android:layout_alignLeft="@+id/view1"
                         android:background="@android:color/transparent"/>
@@ -229,14 +232,16 @@
                         android:layout_gravity="center"
                         android:background="@color/headingColor"></View>
 
-                    <TextView
-                        android:id="@+id/layout_case_list_textview8"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:text="24"
-                        android:paddingLeft="9dp"
-                        android:layout_marginTop="1dp"
-                        android:gravity="center"/>
+                   <TextView
+                       android:id="@+id/layout_case_list_textview8"
+                       android:layout_width="match_parent"
+                       android:layout_height="40dp"
+                       android:text="5"
+                       android:textAlignment="center"
+                       android:textSize="14sp"
+                       android:textColor="@color/headingColor"
+                       android:layout_marginTop="1dp"
+                       android:gravity="center"/>
 
                </LinearLayout>
 

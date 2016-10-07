@@ -8,6 +8,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.VoidCallback;
+import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
+import com.androidsdk.snaphy.snaphyandroidsdk.repository.CustomerRepository;
+import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 
@@ -67,6 +72,12 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
         viewPager.setAdapter(new ProfileFragmentTabLayoutAdapter(mainActivity.getSupportFragmentManager()));
         tabLayout.setupWithViewPager(viewPager);
         setTextInTabLayout();
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logoutButton();
+            }
+        });
         return view;
     }
 
@@ -165,6 +176,68 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
         super.onDetach();
         mListener = null;
     }
+
+    public void logoutButton() {
+        final CustomerRepository customerRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
+
+        //TODO SHOW LOADING BAR
+        customerRepository.logout(new VoidCallback() {
+            @Override
+            public void onBefore() {
+                //TODO..Show progress bar..
+            }
+
+            @Override
+            public void onSuccess() {
+                Log.e(Constants.TAG, "Successfully Logout!!");
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                Log.e(Constants.TAG, t.toString());
+                customerRepository.setCurrentUserId(null);
+                mainActivity.snaphyHelper.getLoopBackAdapter().clearAccessToken();
+                mainActivity.snaphyHelper.registerInstallation(null);
+            }
+
+            @Override
+            public void onFinally() {
+                //TODO Stop progress bar..
+                mainActivity.googleLogout();
+                mainActivity.moveToLogin();
+                //Remove the customer..
+                Presenter.getInstance().removeModelFromList(Constants.LOGIN_CUSTOMER);
+            }
+        });
+        /*
+        * new VoidCallback() {
+            @Override
+            public void onSuccess() {
+                //TODO CLOSE LOADING BAR
+                //Move to login fragment..
+                googleLogout();
+                mainActivity.stopService(new Intent(mainActivity, BackgroundService.class));
+                mainActivity.moveToLogin();
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                //TODO CLOSE LOADING BAR
+                Log.e(Constants.TAG, t.toString());
+                BackgroundService.getCustomerRepository().setCurrentUserId(null);
+                //Snackbar.make(rootView,Constants.ERROR_MESSAGE, Snackbar.LENGTH_SHORT).show();
+                mainActivity.getLoopBackAdapter().clearAccessToken();
+                BackgroundService.setCustomer(null);
+                mainActivity.registerInstallation(null);
+                //ALSO ADD GOOGLE LOGOUT AND FACEBOOK LOGOUT HERE..
+                googleLogout();
+                mainActivity.stopService(new Intent(mainActivity, BackgroundService.class));
+                mainActivity.moveToLogin();
+                //Toast.makeText(mainActivity, Constants.ERROR_MESSAGE, Toast.LENGTH_SHORT).show();
+            }
+        }*/
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this
