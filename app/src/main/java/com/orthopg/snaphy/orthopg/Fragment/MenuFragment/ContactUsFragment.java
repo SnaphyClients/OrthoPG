@@ -51,6 +51,21 @@ public class ContactUsFragment extends android.support.v4.app.Fragment {
         return view;
     }
 
+    /*@OnClick( R.id.fragment_contact_button1) void contactButton() {
+        Intent callIntent = new Intent(Intent.ACTION_DIAL);
+        callIntent.setData(Uri.parse(Constants.APP_PHONE));
+        startActivity(callIntent);
+    }
+
+    @OnClick (R.id.fragment_contact_button2) void emailButton()  {
+
+        Intent sendIntent = new Intent(Intent.ACTION_VIEW);
+        sendIntent.setType("plain/text");
+        sendIntent.setData(Uri.parse("mailto:" + Constants.APP_MAIL));
+        sendIntent.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
+        startActivity(sendIntent);
+    }*/
+
     @OnClick(R.id.fragment_contact_us_image_button1) void backButton() {
         mainActivity.onBackPressed();
     }

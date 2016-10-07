@@ -38,6 +38,8 @@ import com.orthopg.snaphy.orthopg.Interface.OnFragmentChange;
 import com.strongloop.android.loopback.LocalInstallation;
 import com.strongloop.android.loopback.RestAdapter;
 
+import java.util.Date;
+
 import io.fabric.sdk.android.Fabric;
 
 
@@ -296,8 +298,44 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
     }
 
     public void parseDate() {
+        //Sat Oct 08 05:30:00 GMT+05:30 2016  JSON
+        //Sat Dec 15 16:37:57 MST 2012 JAVA
 
+        //JAVA Current Date
+        Date date = new Date();
+        // display time and date using toString()
+        String str = String.format("Current Date/Time : %tc", date );
     }
+
+   /* public String parseDate(String date){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
+        format.setTimeZone(TimeZone.getTimeZone("IST"));
+        java.util.Date date_ = null;
+        try {
+            date_ = format.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        //Now parsing time..
+
+        Log.v(Constants.TAG, date_.toString());
+        String orderDay = date_.toString().substring(8, 10);
+        String orderMonth = date_.toString().substring(4, 7);
+
+        Pattern p = Pattern.compile("\\b\\d{4}\\b");
+        Matcher m = p.matcher(date_.toString());
+        String orderYear = "";
+        while (m.find()) {
+            orderYear = m.group().toString();
+        }
+
+        //String orderYear = date_.toString().substring(30, 34);
+
+        String actualDate = orderDay + " " + orderMonth.toUpperCase()+ " "+ orderYear;
+        Log.v(Constants.TAG, actualDate);
+        return actualDate;
+    }*/
+
 
 
 

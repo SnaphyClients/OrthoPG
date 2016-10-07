@@ -2,7 +2,6 @@ package com.orthopg.snaphy.orthopg.Fragment.CaseFragment;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,9 +21,6 @@ import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -46,12 +42,14 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
     LinearLayoutManager linearLayoutManager;
     CaseListAdapter caseListAdapter;
-    MainActivity mainActivity;
-    List<CaseModel> caseModelList = new ArrayList<>();
-    List<Drawable> imageList = new ArrayList<>();
+    MainActivity mainActivity;;
     public static String TAG = "CaseFragment";
     CasePresenter casePresenter;
     DataList<PostDetail> postDetails;
+
+    boolean isTrendingSelected = false;
+    boolean isNewSelected = false;
+    boolean isUnsolvedSelected = false;
 
     /*Infinite Loading dataset*/
     private int previousTotal = 0;
@@ -98,6 +96,17 @@ public class CaseFragment extends android.support.v4.app.Fragment {
             @Override
             public void onRefresh() {
                 // Refresh Items here
+                if(isTrendingSelected) {
+                    casePresenter.fetchPost(Constants.TRENDING, true);
+                }
+
+                if(isNewSelected) {
+                    casePresenter.fetchPost(Constants.LATEST, true);
+                }
+
+                if(isUnsolvedSelected) {
+                    casePresenter.fetchPost(Constants.UNSOLVED, true);
+                }
             }
         });
     }//http://sapandiwakar.in/pull-to-refresh-for-android-recyclerview-or-any-other-vertically-scrolling-view/
@@ -192,16 +201,23 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         newCaseButton.setTextColor(Color.parseColor("#777777"));
         unsolvedCaseButton.setTextColor(Color.parseColor("#777777"));
 
+        isTrendingSelected = false;
+        isNewSelected = false;
+        isUnsolvedSelected = false;
+
         if(trending) {
             trendingButton.setTextColor(Color.parseColor("#3F51B5"));
+            isTrendingSelected = true;
         }
 
         if(newCase) {
             newCaseButton.setTextColor(Color.parseColor("#3F51B5"));
+            isNewSelected = true;
         }
 
         if(unsolved) {
             unsolvedCaseButton.setTextColor(Color.parseColor("#3F51B5"));
+            isUnsolvedSelected = true;
         }
     }
 
