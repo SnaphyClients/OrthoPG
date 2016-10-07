@@ -7,13 +7,18 @@
     android:background="@color/loginBackground"
     tools:context=".Fragment.MCIVerificationFragment.MCIVerificationFragment">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="2">
+        android:weightSum="2"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
    <LinearLayout
+       android:id="@+id/fragment_mci_verification_linearlayout1"
        android:layout_width="wrap_content"
        android:layout_height="0dp"
        android:orientation="horizontal"
@@ -58,6 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:id="@+id/fragment_mci_verification_relative_layout1"
         android:background="@color/white"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
@@ -95,7 +101,7 @@
                 android:layout_marginBottom="65dp"
                 android:hint="MCI NUMBER"
                 android:gravity="center"
-                android:id="@+id/fragment_login_imageview1"/>
+                android:id="@+id/fragment_mci_verification_edittext1"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -110,7 +116,7 @@
                     android:text="skip"
                     android:layout_marginRight="5dp"
                     android:textColor="@color/white"
-                    android:id="@+id/fragment_login_button1"
+                    android:id="@+id/fragment_mci_verification_button2"
                     android:textAllCaps="false"
                     android:textSize="18sp"/>
 
@@ -136,6 +142,7 @@
     </LinearLayout>
 
     <ImageView
+        android:id="@+id/fragment_mci_verification_imageview1"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:background="@drawable/circle"
@@ -143,6 +150,6 @@
         android:padding="28dp"
         android:layout_marginTop="75dp"
         android:layout_centerInParent="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

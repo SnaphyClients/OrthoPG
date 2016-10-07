@@ -1,15 +1,20 @@
 package com.orthopg.snaphy.orthopg.Fragment.MCIVerificationFragment;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
@@ -30,10 +35,11 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
 
     private OnFragmentInteractionListener mListener;
     public static String TAG = "MCIVerificationFragment";
-   /* @Bind(R.id.fragment_mci_verification_image_button1) ImageButton skipButton;
-    @Bind(R.id.fragment_mci_verification_edittext1)
-    EditText mciCode;*/
+    @Bind(R.id.fragment_mci_verification_edittext1) EditText mciCode;
     MainActivity mainActivity;
+    @Bind(R.id.fragment_mci_verification_imageview1) ImageView unlockView;
+    @Bind(R.id.fragment_mci_verification_linearlayout1) LinearLayout linearLayout;
+    @Bind(R.id.fragment_mci_verification_relative_layout1) RelativeLayout relativeLayout;
 
     public MCIVerificationFragment() {
         // Required empty public constructor
@@ -57,20 +63,76 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_mciverification, container, false);
         ButterKnife.bind(this, view);
+        checkIfKeyboardIsOpen(view);
         return view;
     }
 
-   /* @OnClick(R.id.fragment_mci_verification_image_button1) void skipButton() {
+    public void setRelativeLayoutHeight(boolean isOpen) {
+        if(!isOpen) {
+            ViewGroup.LayoutParams params = relativeLayout.getLayoutParams();
+            // Changes the height and width to the specified *pixels*
+            params.height = 0;
+            relativeLayout.setLayoutParams(params);
+        }
+            else {
+            ViewGroup.LayoutParams params = relativeLayout.getLayoutParams();
+            // Changes the height and width to the specified *pixels*
+            params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            relativeLayout.setLayoutParams(params);
+        }
+    }
+
+    public void checkIfKeyboardIsOpen(final View view) {
+        view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+
+                Rect r = new Rect();
+                view.getWindowVisibleDisplayFrame(r);
+                int screenHeight = view.getRootView().getHeight();
+
+                // r.bottom is the position above soft keypad or device button.
+                // if keypad is shown, the r.bottom is smaller than that before.
+                int keypadHeight = screenHeight - r.bottom;
+
+                Log.d(TAG, "keypadHeight = " + keypadHeight);
+
+                if (keypadHeight > screenHeight * 0.15) { // 0.15 ratio is perhaps enough to determine keypad height.
+                    // keyboard is opened
+                    showKeyboard(true);
+                    setRelativeLayoutHeight(true);
+                }
+                else {
+                    // keyboard is closed
+                    showKeyboard(false);
+                    setRelativeLayoutHeight(false);
+                }
+            }
+        });
+    }
+
+    public void showKeyboard(boolean  showKeyBoard) {
+        if(showKeyBoard) {
+            linearLayout.setVisibility(View.GONE);
+            unlockView.setVisibility(View.GONE);
+        } else {
+            linearLayout.setVisibility(View.VISIBLE);
+            unlockView.setVisibility(View.VISIBLE);
+        }
+    }
+
+
+    @OnClick(R.id.fragment_mci_verification_button1) void submitButton() {
         InputMethodManager imm = (InputMethodManager)mainActivity.getSystemService(
                 Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(mciCode.getWindowToken(), 0);
         mainActivity.replaceFragment(R.layout.fragment_main, null);
-    }*/
+    }
 
-    @OnClick(R.id.fragment_mci_verification_button1) void submitButton() {
-       /* InputMethodManager imm = (InputMethodManager)mainActivity.getSystemService(
+    @OnClick(R.id.fragment_mci_verification_button2) void skipButton() {
+        InputMethodManager imm = (InputMethodManager)mainActivity.getSystemService(
                 Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(mciCode.getWindowToken(), 0);*/
+        imm.hideSoftInputFromWindow(mciCode.getWindowToken(), 0);
         mainActivity.replaceFragment(R.layout.fragment_main, null);
     }
 

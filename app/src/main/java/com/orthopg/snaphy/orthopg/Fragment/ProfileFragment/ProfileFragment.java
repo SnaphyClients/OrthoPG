@@ -38,7 +38,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.fragment_profile_textview1) TextView logout;
     @Bind(R.id.fragment_profile_textview2) TextView email;
     @Bind(R.id.fragment_profile_textview3) TextView mciNumber;
-    @Bind(R.id.fragment_profile_textview4) TextView speciality;
+    /*@Bind(R.id.fragment_profile_textview4) TextView speciality;*/
     @Bind(R.id.fragment_profile_textview5) TextView name;
     @Bind(R.id.fragment_profile_tab_layout) TabLayout tabLayout;
     @Bind(R.id.fragment_profile_view_pager) ViewPager viewPager;
@@ -71,14 +71,14 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
     }
 
     @OnClick(R.id.fragment_profile_imagebutton1) void editMCINumber() {
-        showDialog();
+        showMCIDialog();
     }
 
-    @OnClick(R.id.fragment_profile_imagebutton2) void editSpeciality() {
-        showDialog();
+    @OnClick(R.id.fragment_profile_imagebutton2) void editName() {
+        showNameDialog();
     }
 
-    public void showDialog() {
+    public void showMCIDialog() {
 
         final Dialog dialog = new Dialog(mainActivity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -92,20 +92,42 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
         Button okButton = (Button) dialog.findViewById(R.id.dialog_add_text_button1);
         final EditText editText = (EditText) dialog.findViewById(R.id.dialog_add_text_edittext1);
         editText.setInputType(InputType.TYPE_CLASS_TEXT);
-       /* editText.setText(recipeNameText.getText());
+        editText.setText(mciNumber.getText());
 
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recipeNameText.setText(editText.getText().toString());
-                if(BackgroundService.getOnUploadGlobalModel().getUploadedRecipe()!= null){
-                    BackgroundService.getOnUploadGlobalModel().getUploadedRecipe().setName(editText.getText().toString());
-                }else{
-                    BackgroundService.getEditRecipeFragementGlobalObject().getUploadedRecipe().setName(editText.getText().toString());
-                }
+                mciNumber.setText(editText.getText().toString());
                 dialog.dismiss();
             }
-        });*/
+        });
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+    }
+
+    public void showNameDialog() {
+
+        final Dialog dialog = new Dialog(mainActivity);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_add_text);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        Button okButton = (Button) dialog.findViewById(R.id.dialog_add_text_button1);
+        final EditText editText = (EditText) dialog.findViewById(R.id.dialog_add_text_edittext1);
+        editText.setInputType(InputType.TYPE_CLASS_TEXT);
+        editText.setText(name.getText());
+
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                name.setText(editText.getText().toString());
+                dialog.dismiss();
+            }
+        });
         dialog.show();
         dialog.getWindow().setAttributes(lp);
     }

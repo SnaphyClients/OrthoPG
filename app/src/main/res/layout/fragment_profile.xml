@@ -9,10 +9,36 @@
         android:id="@+id/fragment_profile_container"
         android:background="@color/white">
 
+    <android.support.design.widget.TabLayout
+            android:id="@+id/fragment_profile_tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_below="@+id/fragment_profile_relative_layout1"
+            app:tabMode="scrollable"
+            app:tabGravity="center"
+            app:tabIndicatorColor="@color/colorPrimaryDark"
+            android:background="@color/white"
+            app:tabTextColor="@color/headingColor"
+            app:tabIndicatorHeight="3dp"
+            android:layout_marginTop="15dp"
+            app:tabTextAppearance="@style/TabLayoutTextStyle"
+            app:tabSelectedTextColor="@color/headingColor" />
+
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/fragment_profile_view_pager"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fragment_profile_tab_layout">
+        </android.support.v4.view.ViewPager>
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/fragment_profile_relative_layout1">
+        android:id="@+id/fragment_profile_relative_layout1"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -59,7 +85,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginTop="15dp">
 
                 <TextView
                     android:id="@+id/fragment_profile_textview2"
@@ -97,7 +124,7 @@
 
                 </RelativeLayout>
 
-                <RelativeLayout
+                <!--<RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -120,50 +147,44 @@
                         android:layout_alignParentRight="true"
                         android:src="@mipmap/edit"/>
 
-                </RelativeLayout>
+                </RelativeLayout>-->
 
             </LinearLayout>
 
         </LinearLayout>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginRight="10dp"
+            android:layout_below="@+id/fragment_profile_linear_layout2">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ravi Gupta"
-            android:layout_below="@+id/fragment_profile_linear_layout2"
             android:id="@+id/fragment_profile_textview5"
             android:textColor="@color/buttonColor"
             android:layout_marginLeft="45dp"
             android:layout_marginTop="10dp"/>
 
-
-
-
-    </RelativeLayout>
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/fragment_profile_tab_layout"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_below="@+id/fragment_profile_relative_layout1"
-            app:tabMode="scrollable"
-            app:tabGravity="center"
-            app:tabIndicatorColor="@color/colorPrimaryDark"
-            android:background="@color/white"
-            app:tabTextColor="@color/headingColor"
-            app:tabIndicatorHeight="3dp"
-            android:layout_marginTop="15dp"
-            app:tabTextAppearance="@style/TabLayoutTextStyle"
-            app:tabSelectedTextColor="@color/headingColor" />
-
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/fragment_profile_view_pager"
+        <ImageButton
+            android:id="@+id/fragment_profile_imagebutton2"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/fragment_profile_tab_layout">
-        </android.support.v4.view.ViewPager>
+            android:layout_height="25dp"
+            android:background="@android:color/transparent"
+            android:layout_centerInParent="true"
+            android:layout_gravity="right|center"
+            android:layout_marginTop="8dp"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/edit"/>
 
     </RelativeLayout>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>
 
 
