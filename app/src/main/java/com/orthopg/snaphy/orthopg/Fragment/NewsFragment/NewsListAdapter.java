@@ -1,6 +1,7 @@
 package com.orthopg.snaphy.orthopg.Fragment.NewsFragment;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.News;
+import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 
@@ -16,17 +20,19 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import static android.R.attr.tag;
+
 /**
  * Created by Ravi-Gupta on 9/27/2016.
  */
 public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ViewHolder> {
 
     MainActivity mainActivity;
-    List<NewsModel> newsModelList;
+    DataList<News> newsDataList;
 
-    public NewsListAdapter(MainActivity mainActivity, List<NewsModel> newsModelList) {
+    public NewsListAdapter(MainActivity mainActivity, DataList<News> newsDataList) {
         this.mainActivity = mainActivity;
-        this.newsModelList = newsModelList;
+        this.newsDataList = newsDataList;
     }
 
     @Override
@@ -43,22 +49,54 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        NewsModel newsModel = newsModelList.get(position);
+        News news = newsDataList.get(position);
         ImageView image = holder.imageView;
         TextView heading = holder.heading;
         TextView description = holder.description;
         TextView tag = holder.tag;
 
-        image.setImageDrawable(newsModel.getNewsImage());
-        heading.setText(newsModel.getNewsHeading());
-        description.setText(newsModel.getNewsDescription());
-        tag.setText(newsModel.getType());
+        if(news.getImage() != null){
+            mainActivity.snaphyHelper.loadUnsignedUrl(news.getImage(), image);
+        }
+
+        if(news.getTitle() != null) {
+            if(!news.getTitle().isEmpty()) {
+                heading.setText(news.getTitle());
+            }
+        }
+
+        if(news.getDescription() != null) {
+            if(!news.getDescription().isEmpty()) {
+                description.setText(news.getDescription());
+            }
+        }
+
+        if(news.getType() != null) {
+            final int sdk = android.os.Build.VERSION.SDK_INT;
+            if (!news.getType().isEmpty()) {
+                tag.setText(news.getType());
+                if (news.getType().equals(Constants.NEWS)) {
+                    if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                        tag.setBackgroundDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle));
+                    } else {
+                        tag.setBackground(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle));
+                    }
+
+                } else if (news.getType().equals(Constants.ADV)) {
+                    if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                        tag.setBackgroundDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle_success));
+                    } else {
+                        tag.setBackground(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle_success));
+                    }
+                }
+            }
+        }
 
     }
 
     @Override
     public int getItemCount() {
-        return newsModelList.size();
+        return newsDataList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

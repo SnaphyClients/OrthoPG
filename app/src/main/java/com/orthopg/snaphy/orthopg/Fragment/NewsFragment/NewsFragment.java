@@ -11,6 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
+import com.androidsdk.snaphy.snaphyandroidsdk.list.Listen;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.News;
+import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
+import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
+import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 import com.orthopg.snaphy.orthopg.RecyclerItemClickListener;
@@ -33,10 +39,14 @@ public class NewsFragment extends android.support.v4.app.Fragment {
 
     private OnFragmentInteractionListener mListener;
     @Bind(R.id.fragment_news_recycler_view) RecyclerView recyclerView;
+    @Bind(R.id.fragment_news_progressBar) CircleProgressBar progressBar;
     StaggeredGridLayoutManager staggeredGridLayoutManager;
     NewsListAdapter newsListAdapter;
     MainActivity mainActivity;
     List<NewsModel> newsModelList = new ArrayList<>();
+
+    NewsPresenter newsPresenter;
+    DataList<News> newsDataList;
 
     public NewsFragment() {
         // Required empty public constructor
@@ -62,8 +72,7 @@ public class NewsFragment extends android.support.v4.app.Fragment {
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
         setInitialData();
-        newsListAdapter = new NewsListAdapter(mainActivity, newsModelList);
-        recyclerView.setAdapter(newsListAdapter);
+        loadPresenter();
 
         recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(mainActivity, new RecyclerItemClickListener.OnItemClickListener() {
@@ -77,6 +86,38 @@ public class NewsFragment extends android.support.v4.app.Fragment {
 
         return view;
     }
+
+    public void loadPresenter() {
+        newsPresenter = new NewsPresenter(mainActivity.snaphyHelper.getLoopBackAdapter(), progressBar, mainActivity);
+        newsDataList = Presenter.getInstance().getList(News.class, Constants.NEWS_LIST_NEWS_FRAGMENT);
+
+        newsDataList.subscribe(this, new Listen<News>() {
+            @Override
+            public void onInit(DataList<News> dataList) {
+                super.onInit(dataList);
+                newsListAdapter = new NewsListAdapter(mainActivity, dataList);
+                recyclerView.setAdapter(newsListAdapter);
+            }
+
+            @Override
+            public void onChange(DataList<News> dataList) {
+                super.onChange(dataList);
+                newsListAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onClear() {
+                super.onClear();
+                newsListAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onRemove(News element, DataList<News> dataList) {
+                super.onRemove(element, dataList);
+            }
+        });
+    }
+
 
     public void setInitialData() {
         newsModelList.add(new NewsModel(getActivity().getResources().getDrawable(R.drawable.demo_news_image_1), "news", "Foot and Ankel", "An elderly frail gentleman presented to casualty after having a fall." +
