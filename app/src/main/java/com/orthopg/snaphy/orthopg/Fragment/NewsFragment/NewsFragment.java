@@ -78,8 +78,14 @@ public class NewsFragment extends android.support.v4.app.Fragment {
                 new RecyclerItemClickListener(mainActivity, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        Intent intent= new Intent(Intent.ACTION_VIEW,Uri.parse("http://timesofindia.indiatimes.com/business/india-business/Revenue-gained-from-Income-Declaration-Scheme-to-be-spent-on-infrastructure-rural-economy/articleshow/54635163.cms"));
-                        startActivity(intent);
+                        News news = newsDataList.get(position);
+                        if(news.getUrl() != null) {
+                            if(!news.getUrl().isEmpty()) {
+                                Intent intent= new Intent(Intent.ACTION_VIEW,Uri.parse(news.getUrl()));
+                                startActivity(intent);
+                            }
+                        }
+
                     }
                 })
         );
