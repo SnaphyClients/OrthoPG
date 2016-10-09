@@ -89,7 +89,7 @@ public class NewsFragment extends android.support.v4.app.Fragment {
                                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(news.getUrl()));
                                     startActivity(intent);
                                 } else {
-                                    TastyToast.makeText(getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+                                    TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
                                 }
                             }
                         }

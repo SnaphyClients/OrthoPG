@@ -49,17 +49,21 @@
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
             android:background="@color/white"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|enterAlways">
+
+            <HorizontalScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:background="#f7f7f7">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center"
@@ -70,11 +74,14 @@
                     <Button
                         android:id="@+id/fragment_case_button1"
                         android:layout_width="75dp"
-                        android:layout_height="45dp"
+                        android:layout_height="30dp"
                         android:text="Trending"
-                        android:textSize="12sp"
-                        android:background="@android:color/transparent"
+                        android:textSize="11sp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@android:color/white"
                         android:textColor="@color/buttonColor"/>
+<!--
 
                     <View
                         android:layout_width="1dp"
@@ -82,35 +89,78 @@
                         android:background="@color/lineColor">
 
                     </View>
+-->
 
                     <Button
                         android:id="@+id/fragment_case_button2"
                         android:layout_width="50dp"
-                        android:layout_height="45dp"
+                        android:layout_height="30dp"
                         android:text="New"
-                        android:textSize="12sp"
-                        android:background="@android:color/transparent"
+                        android:textSize="11sp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@android:color/white"
                         android:textColor="@color/colorPrimary"/>
-
+<!--
                     <View
                         android:layout_width="1dp"
                         android:layout_height="20dp"
                         android:background="@color/lineColor">
 
-                    </View>
+                    </View>-->
 
                     <Button
                         android:id="@+id/fragment_case_button3"
                         android:layout_width="75dp"
-                        android:layout_height="45dp"
+                        android:layout_height="30dp"
                         android:text="Unsolved"
+                        android:textSize="11sp"
+                        android:background="@android:color/white"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:textColor="@color/buttonColor"/>
+<!--
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="20dp"
+                        android:background="@color/lineColor">
+
+                    </View>-->
+
+                    <Button
+                        android:id="@+id/fragment_case_button4"
+                        android:layout_width="75dp"
+                        android:layout_height="30dp"
+                        android:text="Solved"
+                        android:textSize="11sp"
+                        android:background="@android:color/white"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="@color/buttonColor"/>
+
+                   <!-- <View
+                        android:layout_width="1dp"
+                        android:layout_height="20dp"
+                        android:background="@color/lineColor">
+
+                    </View>-->
+
+                    <Button
+                        android:id="@+id/fragment_case_button5"
+                        android:layout_width="75dp"
+                        android:layout_height="30dp"
+                        android:text="Posted"
                         android:textSize="12sp"
-                        android:background="@android:color/transparent"
+                        android:background="@android:color/white"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="10dp"
                         android:textColor="@color/buttonColor"/>
 
                 </LinearLayout>
 
             </LinearLayout>
+
+            </HorizontalScrollView>
             
 
 

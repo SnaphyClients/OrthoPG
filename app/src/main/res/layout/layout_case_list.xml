@@ -18,7 +18,6 @@
         android:paddingTop="15dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
-
             android:id="@+id/layout_case_list_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -89,7 +88,7 @@
             android:text="case"
             android:layout_marginTop="0dp"
             android:background="@drawable/curved_rectangle"
-            android:textColor="@color/white"
+            android:textColor="@color/primary"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:gravity="center"
@@ -164,94 +163,117 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="15dp">
+                android:layout_marginRight="10dp">
 
             <ImageView
-                android:layout_width="80dp"
+                android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:background="@drawable/rectangle"
                 android:layout_marginTop="5dp"
+                android:visibility="gone"
                 android:paddingLeft="10dp"/>
 
                 <LinearLayout
-                    android:layout_width="80dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <ImageButton
                         android:id="@+id/layout_case_list_imagebutton1"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
                         android:layout_gravity="center"
                         android:src="@mipmap/save_unselected"
                         android:background="@android:color/transparent"/>
 
-                    <View
+                    <!--<View
                         android:layout_width="1dp"
                         android:id="@+id/view2"
                         android:layout_height="18dp"
                         android:layout_gravity="center"
-                        android:background="@color/headingColor"></View>
+                        android:background="@color/headingColor"></View>-->
+
+                    <ImageView
+                        android:layout_width="5dp"
+                        android:layout_height="5dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/circle_heading_color"/>
 
                     <TextView
                         android:id="@+id/layout_case_list_textview9"
-                        android:layout_width="match_parent"
+                        android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:text="5"
+                        android:layout_marginTop="3dp"
                         android:textAlignment="center"
-                        android:textSize="14sp"
-                        android:textColor="@color/headingColor"
-                        android:layout_gravity="center|left"
-                        android:layout_marginTop="1dp"
-                        android:gravity="center|left"/>
+                        android:textSize="18sp"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/headingColor" />
 
 
                 </LinearLayout>
 
             </RelativeLayout>
 
+            <View
+                android:layout_width="1dp"
+                android:id="@+id/view1"
+                android:layout_height="18dp"
+                android:layout_marginTop="2dp"
+                android:layout_gravity="center"
+                android:background="@color/headingColor"></View>
+
            <RelativeLayout
                android:layout_width="wrap_content"
-               android:layout_height="wrap_content">
+               android:layout_height="wrap_content"
+               android:layout_marginLeft="10dp">
 
-               <ImageView
+              <!-- <ImageView
                    android:layout_width="80dp"
                    android:layout_height="30dp"
                    android:background="@drawable/rectangle"
                    android:layout_marginTop="5dp"
                    android:paddingLeft="10dp"/>
-
+-->
                <LinearLayout
-                   android:layout_width="80dp"
+                   android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:orientation="horizontal">
 
                     <ImageButton
                         android:id="@+id/layout_case_list_imagebutton2"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
                         android:src="@mipmap/like_unselected"
-                        android:layout_gravity="top"
+                        android:layout_gravity="center"
                         android:layout_alignLeft="@+id/view1"
                         android:background="@android:color/transparent"/>
 
-                    <View
+                  <!--  <View
                         android:layout_width="1dp"
                         android:id="@+id/view1"
                         android:layout_height="18dp"
                         android:layout_gravity="center"
-                        android:background="@color/headingColor"></View>
+                        android:background="@color/headingColor"></View>-->
+
+                   <ImageView
+                       android:layout_width="5dp"
+                       android:layout_height="5dp"
+                       android:layout_marginTop="7dp"
+                       android:layout_gravity="center"
+                       android:background="@drawable/circle_heading_color"/>
 
                    <TextView
                        android:id="@+id/layout_case_list_textview8"
-                       android:layout_width="match_parent"
-                       android:layout_height="40dp"
+                       android:layout_width="20dp"
+                       android:layout_height="20dp"
                        android:text="5"
-                       android:textAlignment="center"
-                       android:textSize="14sp"
+                       android:textSize="18sp"
                        android:textColor="@color/headingColor"
-                       android:layout_marginTop="1dp"
-                       android:gravity="center"/>
+                       android:layout_marginTop="10dp"
+                       android:textAlignment="center"
+                       android:gravity="center_vertical"/>
 
                </LinearLayout>
 

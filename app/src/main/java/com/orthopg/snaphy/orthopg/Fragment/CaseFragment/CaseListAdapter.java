@@ -1,6 +1,7 @@
 package com.orthopg.snaphy.orthopg.Fragment.CaseFragment;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -139,6 +140,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
             if(!postDetail.getType().isEmpty()) {
                 tag.setText(postDetail.getType());
                 if(postDetail.getType().equals(Constants.CASE)){
+                    tag.setTextColor(Color.parseColor(Constants.PRIMARY));
                     if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
                         tag.setBackgroundDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle));
                     } else {
@@ -146,12 +148,14 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                     }
 
                 } else if(postDetail.getType().equals(Constants.BOOK_REVIEW)) {
+                    tag.setTextColor(Color.parseColor(Constants.WARNING));
                     if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
                         tag.setBackgroundDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle_warning));
                     } else {
                         tag.setBackground(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle_warning));
                     }
                 } else if(postDetail.getType().equals(Constants.INTERVIEW)) {
+                    tag.setTextColor(Color.parseColor(Constants.SUCCESS));
                     if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
                         tag.setBackgroundDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle_success));
                     } else {
@@ -285,7 +289,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                     }
                 } else {
                     //Show Toast
-                    TastyToast.makeText(getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+                    TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
 
                 }
             }
