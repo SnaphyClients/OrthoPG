@@ -9,6 +9,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
@@ -21,6 +23,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.BooksFragment;
 import com.orthopg.snaphy.orthopg.Fragment.CaseDetailFragment.CaseDetailFragment;
 import com.orthopg.snaphy.orthopg.Fragment.CaseDetailFragment.PostAnswerFragment;
@@ -45,6 +48,7 @@ import com.orthopg.snaphy.orthopg.Fragment.PostedCasesFragment.PostedCasesFragme
 import com.orthopg.snaphy.orthopg.Fragment.ProfileFragment.ProfileFragment;
 import com.orthopg.snaphy.orthopg.Fragment.SavedCasesFragment.SavedCasesFragment;
 import com.orthopg.snaphy.orthopg.Interface.OnFragmentChange;
+import com.sdsmdg.tastytoast.TastyToast;
 import com.strongloop.android.loopback.AccessToken;
 import com.strongloop.android.loopback.AccessTokenRepository;
 import com.strongloop.android.loopback.LocalInstallation;
@@ -62,6 +66,8 @@ import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
 
 
@@ -84,14 +90,20 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
     GoogleCloudMessaging gcm;
     public static LocalInstallation installation;
     public SnaphyHelper snaphyHelper;
-    String dayOrTime;
     SharedPreferences sharedPreferences;
+    CircleProgressBar progressBar;
+    TextView notConnectedText;
+    Button retryButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+        progressBar = (CircleProgressBar) findViewById(R.id.activity_main_progressBar);
+        notConnectedText = (TextView) findViewById(R.id.activity_main_textview1);
+        retryButton = (Button) findViewById(R.id.activity_main_button1);
         context = getApplicationContext();
         snaphyHelper = new SnaphyHelper(this);
         final Handler handler = new Handler();
@@ -111,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             // Internet is connected
             boolean displayHelpScreen = sharedPreferences.getBoolean("showHelpScreen", false);
             if(!displayHelpScreen) {
+                stopProgressBar(progressBar);
                 editor.putBoolean("showHelpScreen", true);
                 editor.commit();
                 replaceFragment(R.layout.fragment_help, null);
@@ -121,7 +134,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             }
         } else {
             // No Internet is connected
-            Toast.makeText(this, "Internet not connected", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Internet not connected", Toast.LENGTH_SHORT).show();
+            hideRetryButton(false);
         }
 
         /*parseDate();*/
@@ -558,7 +572,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
 
             Presenter.getInstance().addModel(Constants.LOGIN_CUSTOMER, user);
 
-            //TODO move to home..
+            //move to home..
             //Now move to home fragment finally..
             moveToHome();
 
@@ -567,7 +581,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         }else{
             //Register for push service..
             snaphyHelper.registerInstallation(null);
-            //TODO SHOW ERROR MESSAGE..
+            //SHOW ERROR MESSAGE..
             Log.v(Constants.TAG, "Error in add Customer Method");
             //Toast.makeText(this, Constants.ERROR_MESSAGE, Toast.LENGTH_SHORT).show();
         }
@@ -601,8 +615,10 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             // Open MCI Fragment
             replaceFragment(R.layout.fragment_mciverification, null);
         } else {
-            //TODO Display message that verification is under process
+            //Display message that verification is under process
+            TastyToast.makeText(getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
             // Move to home
+            replaceFragment(R.layout.fragment_main,null);
             // Make cases, books and News unclickable
         }
     }
@@ -614,14 +630,14 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         if (current != null) {
             //Now add this to list..
             Presenter.getInstance().addModel(Constants.LOGIN_CUSTOMER, current);
-            //TODO move to home
             //Move to home fragment
             moveToHome();
         } else {
             customerRepository.findCurrentUser(new com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback<Customer>() {
                 @Override
                 public void onBefore() {
-                    //TODO Show progress bar..
+                    //Show progress bar..
+                    startProgressBar(progressBar);
                 }
 
                 @Override
@@ -639,8 +655,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
                             googleLogout();
                             moveToLogin();
                         } else {
-                            //TODO SHOW INTERNET CONNECTION ERROR.
-                            //showDialog();
+                            //SHOW INTERNET CONNECTION ERROR.
+                            hideRetryButton(false);
                         }
 
                     }
@@ -648,12 +664,46 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
 
                 @Override
                 public void onFinally() {
-                    //TODO END PROGRESS BAR..
+                    //END PROGRESS BAR..
+                    stopProgressBar(progressBar);
 
                 }
             });
         }
 
+    }
+
+    @OnClick(R.id.activity_main_button1) void retryButton() {
+        hideRetryButton(true);
+        sharedPreferences = this.getApplicationContext().getSharedPreferences("HelpScreen", 0);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        if(snaphyHelper.isNetworkAvailable()) {
+            // Internet is connected
+            boolean displayHelpScreen = sharedPreferences.getBoolean("showHelpScreen", false);
+            if(!displayHelpScreen) {
+                editor.putBoolean("showHelpScreen", true);
+                editor.commit();
+                replaceFragment(R.layout.fragment_help, null);
+            } else {
+                //Check Login
+                checkLogin();
+
+            }
+        } else {
+            // No Internet is connected
+            TastyToast.makeText(getApplicationContext(), "Internet not connected", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+
+        }
+    }
+
+    public void hideRetryButton(boolean ishide) {
+        if(ishide) {
+            notConnectedText.setVisibility(View.GONE);
+            retryButton.setVisibility(View.GONE);
+        } else {
+            notConnectedText.setVisibility(View.VISIBLE);
+            retryButton.setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -688,6 +738,9 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
 
 
     public void moveToLogin(){
+        if(progressBar != null) {
+            stopProgressBar(progressBar);
+        }
         replaceFragment(R.layout.fragment_login, null);
     }
 

@@ -1,8 +1,6 @@
 package com.orthopg.snaphy.orthopg.Fragment.CaseFragment;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,16 +9,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Post;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.PostDetail;
+import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.Fragment.PostedCasesFragment.PostedCasesFragment;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
-import com.orthopg.snaphy.orthopg.RecyclerItemClickListener;
+import com.sdsmdg.tastytoast.TastyToast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -83,6 +84,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         TextView selectedAnswer = holder.selectedAnswer;
         TextView numberOfLike = holder.numberOfLikes;
         TextView numberOfSave = holder.numberOfSave;
+        LinearLayout linearLayout = holder.linearLayout;
 
         caseImages.setLayoutManager(new LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false));
 
@@ -245,7 +247,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
             }
         });
 
-        caseImages.addOnItemTouchListener(
+       /* caseImages.addOnItemTouchListener(
                 new RecyclerItemClickListener(mainActivity, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position_) {
@@ -266,6 +268,25 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                     mainActivity.replaceFragment(R.id.fragment_case_button4, null);
                 } else {
                     mainActivity.replaceFragment(R.id.layout_case_list_textview4, position);
+                }
+            }
+        });*/
+
+        final Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+        final String MCINumber = customer.getMciNumber() != null ? customer.getMciNumber() : "";
+        linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (TAG.equals(PostedCasesFragment.TAG)) {
+                    if (!MCINumber.isEmpty()) {
+                        mainActivity.replaceFragment(R.id.fragment_case_button4, null);
+                    } else {
+                        mainActivity.replaceFragment(R.id.layout_case_list_textview4, position);
+                    }
+                } else {
+                    //Show Toast
+                    TastyToast.makeText(getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+
                 }
             }
         });
@@ -318,6 +339,8 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         @Bind(R.id.layout_case_list_button2) ImageButton editButton;
         @Bind(R.id.layout_case_list_textview8) TextView numberOfLikes;
         @Bind(R.id.layout_case_list_textview9) TextView numberOfSave;
+        @Bind(R.id.layout_case_list_linear_layout)
+        LinearLayout linearLayout;
 
 
         public ViewHolder(View itemView) {

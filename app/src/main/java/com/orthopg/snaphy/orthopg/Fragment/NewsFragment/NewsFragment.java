@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.Listen;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.News;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
@@ -20,6 +21,7 @@ import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 import com.orthopg.snaphy.orthopg.RecyclerItemClickListener;
+import com.sdsmdg.tastytoast.TastyToast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +76,8 @@ public class NewsFragment extends android.support.v4.app.Fragment {
         setInitialData();
         loadPresenter();
 
+        final Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+        final String MCINumber = customer.getMciNumber() != null ? customer.getMciNumber() : "";
         recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(mainActivity, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
@@ -81,8 +85,12 @@ public class NewsFragment extends android.support.v4.app.Fragment {
                         News news = newsDataList.get(position);
                         if(news.getUrl() != null) {
                             if(!news.getUrl().isEmpty()) {
-                                Intent intent= new Intent(Intent.ACTION_VIEW,Uri.parse(news.getUrl()));
-                                startActivity(intent);
+                                if(!MCINumber.isEmpty()) {
+                                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(news.getUrl()));
+                                    startActivity(intent);
+                                } else {
+                                    TastyToast.makeText(getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+                                }
                             }
                         }
 

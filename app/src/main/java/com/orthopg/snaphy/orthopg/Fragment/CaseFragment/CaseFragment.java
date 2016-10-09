@@ -87,7 +87,7 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         swipeRefreshLayoutListener();
         loadPresenter();
-        //recyclerViewLoadMoreEventData();
+        recyclerViewLoadMoreEventData();
         return view;
     }
 
@@ -152,6 +152,18 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                             <= (firstVisibleItem + visibleThreshold)) {
                         //Fetch more data here
                         //EventBus.getDefault().post(TrackCollection.progressBar, Constants.REQUEST_LOAD_MORE_EVENT_FROM_HOME_FRAGMENT);
+                        // Refresh Items here
+                        if(isTrendingSelected) {
+                            casePresenter.fetchPost(Constants.TRENDING, false);
+                        }
+
+                        if(isNewSelected) {
+                            casePresenter.fetchPost(Constants.LATEST, false);
+                        }
+
+                        if(isUnsolvedSelected) {
+                            casePresenter.fetchPost(Constants.UNSOLVED, false);
+                        }
                         loading = true;
                     }
                 }

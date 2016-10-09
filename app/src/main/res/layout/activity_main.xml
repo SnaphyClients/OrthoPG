@@ -4,10 +4,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/container"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.orthopg.snaphy.orthopg.MainActivity">
+
+    <com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:id="@+id/activity_main_progressBar"
+        android:layout_centerInParent="true"
+        app:mlpb_progress_stoke_width="3dp"
+        app:mlpb_progress_color="#566da9"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="Internet not connected"
+        android:textAlignment="center"
+        android:layout_centerInParent="true"
+        android:id="@+id/activity_main_textview1"
+        android:textColor="@color/warning"
+        android:visibility="gone"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="Retry"
+        android:background="@drawable/curved_rectangle_warning"
+        android:textColor="@color/white"
+        android:layout_centerInParent="true"
+        android:id="@+id/activity_main_button1"
+        android:layout_below="@+id/activity_main_textview1"
+        android:layout_marginTop="15dp"
+        android:visibility="gone"/>
+
+
 </RelativeLayout>

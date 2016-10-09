@@ -20,7 +20,8 @@ public class NewsPresenter {
 
     RestAdapter restAdapter;
     DataList<News> newsDataList;
-    public int limit = 5;
+    public double limit = 5;
+    public double skip = 0;
     CircleProgressBar circleProgressBar;
     MainActivity mainActivity;
 
@@ -37,13 +38,23 @@ public class NewsPresenter {
         }
     }
 
-    public void fetchNews() {
+    public void fetchNews(boolean reset) {
+        if(reset){
+            skip = 0;
+            //Clear the list..
+            newsDataList.clear();
+        }
+
+        if(skip > 0){
+            skip = skip + limit;
+        }
         HashMap<String, Object> filter = new HashMap<>();
         NewsRepository newsRepository = restAdapter.createRepository(NewsRepository.class);
         newsRepository.find(filter, new DataListCallback<News>() {
             @Override
             public void onBefore() {
                 super.onBefore();
+                mainActivity.startProgressBar(circleProgressBar);
             }
 
             @Override
@@ -59,6 +70,7 @@ public class NewsPresenter {
             @Override
             public void onFinally() {
                 super.onFinally();
+                mainActivity.stopProgressBar(circleProgressBar);
             }
         });
     }
