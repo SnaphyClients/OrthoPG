@@ -1,12 +1,12 @@
 package com.orthopg.snaphy.orthopg.Fragment.ProfileFragment;
 
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,8 +45,6 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.fragment_profile_textview3) TextView mciNumber;
     /*@Bind(R.id.fragment_profile_textview4) TextView speciality;*/
     @Bind(R.id.fragment_profile_textview5) TextView name;
-    @Bind(R.id.fragment_profile_tab_layout) TabLayout tabLayout;
-    @Bind(R.id.fragment_profile_view_pager) ViewPager viewPager;
     MainActivity mainActivity;
 
     public ProfileFragment() {
@@ -69,9 +67,6 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
-        viewPager.setAdapter(new ProfileFragmentTabLayoutAdapter(mainActivity.getSupportFragmentManager()));
-        tabLayout.setupWithViewPager(viewPager);
-        setTextInTabLayout();
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,14 +145,6 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
         }
     }
 
-    /**
-     * Set Text for Tab Layout
-     */
-    public void setTextInTabLayout() {
-        tabLayout.getTabAt(0).setText("Saved Cases");
-        tabLayout.getTabAt(1).setText("Posted Cases");
-        tabLayout.getTabAt(2).setText("Menu");
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -170,6 +157,43 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
                     + " must implement OnFragmentInteractionListener");
         }
     }
+
+    @OnClick(R.id.fragment_menu_button1) void openAboutUs(){
+        mainActivity.replaceFragment(R.id.fragment_menu_button1, null);
+    }
+
+    @OnClick(R.id.fragment_menu_button2) void openContactUs(){
+        mainActivity.replaceFragment(R.id.fragment_menu_button2, null);
+    }
+
+    @OnClick(R.id.fragment_menu_button3) void openFAQS(){
+        mainActivity.replaceFragment(R.id.fragment_menu_button3, null);
+    }
+
+    @OnClick(R.id.fragment_menu_button4) void openFeedback() {
+        Uri uri = Uri.parse("market://details?id=" + Constants.APP_PLAY_STORE);// this.getPackageName()
+        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+        try {
+            startActivity(goToMarket);
+        } catch (ActivityNotFoundException e) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + Constants.APP_PLAY_STORE)));
+        }
+    }
+
+    @OnClick(R.id.fragment_menu_button5) void openShare() {
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        String shareBody = Constants.APP_SHARE_TEXT;
+        shareBody = shareBody + "http://play.google.com/store/apps/details?id=" + Constants.APP_PLAY_STORE;
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "OrthoPG");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        startActivity(Intent.createChooser(sharingIntent, "Share Via"));
+    }
+
+    @OnClick(R.id.fragment_menu_button6) void openTermsAndConditions(){
+        mainActivity.replaceFragment(R.id.fragment_menu_button6, null);
+    }
+
 
     @Override
     public void onDetach() {

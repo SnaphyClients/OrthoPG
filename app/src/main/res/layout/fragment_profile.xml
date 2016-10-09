@@ -5,32 +5,86 @@
         android:clickable="true"
         tools:context="com.orthopg.snaphy.orthopg.Fragment.ProfileFragment.ProfileFragment"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/fragment_profile_container"
         android:background="@color/white">
 
-    <android.support.design.widget.TabLayout
-            android:id="@+id/fragment_profile_tab_layout"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_below="@+id/fragment_profile_relative_layout1"
-            app:tabMode="scrollable"
-            app:tabGravity="center"
-            app:tabIndicatorColor="@color/colorPrimaryDark"
-            android:background="@color/white"
-            app:tabTextColor="@color/headingColor"
-            app:tabIndicatorHeight="3dp"
-            android:layout_marginTop="15dp"
-            app:tabTextAppearance="@style/TabLayoutTextStyle"
-            app:tabSelectedTextColor="@color/headingColor" />
+   <LinearLayout
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:orientation="vertical"
+       android:layout_marginTop="25dp"
+       android:layout_marginLeft="15dp"
+       android:layout_below="@+id/fragment_profile_relative_layout1">
 
+       <Button
+           android:id="@+id/fragment_menu_button1"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:background="@android:color/transparent"
+           android:text="About us"
+           android:textAllCaps="false"
+           android:gravity="left|center"
+           android:textColor="#555"
+           android:paddingLeft="15dp"
+           android:layout_marginTop="10dp"/>
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/fragment_profile_view_pager"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/fragment_profile_tab_layout">
-        </android.support.v4.view.ViewPager>
+       <Button
+           android:id="@+id/fragment_menu_button2"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:background="@android:color/transparent"
+           android:text="Contact us"
+           android:textAllCaps="false"
+           android:gravity="left|center"
+           android:textColor="#555"
+           android:paddingLeft="15dp"/>
+
+       <Button
+           android:id="@+id/fragment_menu_button3"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:background="@android:color/transparent"
+           android:text="FAQs"
+           android:textAllCaps="false"
+           android:gravity="left|center"
+           android:textColor="#555"
+           android:paddingLeft="15dp"/>
+
+       <Button
+           android:id="@+id/fragment_menu_button4"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:background="@android:color/transparent"
+           android:text="Feedback"
+           android:textAllCaps="false"
+           android:gravity="left|center"
+           android:textColor="#555"
+           android:paddingLeft="15dp"/>
+
+       <Button
+           android:id="@+id/fragment_menu_button5"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:background="@android:color/transparent"
+           android:text="Share"
+           android:textAllCaps="false"
+           android:textColor="#555"
+           android:gravity="left|center"
+           android:paddingLeft="15dp"/>
+
+       <Button
+           android:id="@+id/fragment_menu_button6"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:background="@android:color/transparent"
+           android:text="Terms and Conditions"
+           android:textAllCaps="false"
+           android:textColor="#555"
+           android:gravity="left|center"
+           android:paddingLeft="15dp"/>
+
+   </LinearLayout>
 
     <RelativeLayout
         android:layout_width="wrap_content"

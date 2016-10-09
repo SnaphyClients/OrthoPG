@@ -50,6 +50,8 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     boolean isTrendingSelected = true;
     boolean isNewSelected = false;
     boolean isUnsolvedSelected = false;
+    boolean isSavedSelected = false;
+    boolean isPostedSelected = false;
 
     /*Infinite Loading dataset*/
     private int previousTotal = 0;
@@ -62,6 +64,8 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.fragment_case_button1) Button trendingButton;
     @Bind(R.id.fragment_case_button2) Button newCaseButton;
     @Bind(R.id.fragment_case_button3) Button unsolvedCaseButton;
+    @Bind(R.id.fragment_case_button6) Button postedCaseButton;
+    @Bind(R.id.fragment_case_button5) Button savedCaseButton;
 
     public CaseFragment() {
         // Required empty public constructor
@@ -107,23 +111,41 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                 if(isUnsolvedSelected) {
                     casePresenter.fetchPost(Constants.UNSOLVED, true);
                 }
+
+                if(isSavedSelected) {
+
+                }
+
+                if(isPostedSelected) {
+
+                }
+
+
             }
         });
     }//http://sapandiwakar.in/pull-to-refresh-for-android-recyclerview-or-any-other-vertically-scrolling-view/
 
     @OnClick(R.id.fragment_case_button1) void trendingButtonClick() {
-        changeButtonColor(true, false, false);
+        changeButtonColor(true, false, false, false, false);
         casePresenter.fetchPost(Constants.TRENDING, true);
     }
 
     @OnClick(R.id.fragment_case_button2) void newButtonClick() {
-        changeButtonColor(false, true, false);
+        changeButtonColor(false, true, false, false, false);
         casePresenter.fetchPost(Constants.LATEST, true);
     }
 
     @OnClick(R.id.fragment_case_button3) void unsolvedButtonClick() {
-        changeButtonColor(false, false, true);
+        changeButtonColor(false, false, true, false, false);
         casePresenter.fetchPost(Constants.UNSOLVED, true);
+    }
+
+    @OnClick(R.id.fragment_case_button5) void savedButtonClick() {
+        changeButtonColor(false, false, false, true, false);
+    }
+
+    @OnClick(R.id.fragment_case_button6) void postedButtonClick() {
+        changeButtonColor(false, false, true, false, true);
     }
 
     public void recyclerViewLoadMoreEventData() {
@@ -209,14 +231,19 @@ public class CaseFragment extends android.support.v4.app.Fragment {
 
 
 
-    public void changeButtonColor(boolean trending, boolean newCase, boolean unsolved) {
+    public void changeButtonColor(boolean trending, boolean newCase, boolean unsolved, boolean saved, boolean posted) {
         trendingButton.setTextColor(Color.parseColor("#777777"));
         newCaseButton.setTextColor(Color.parseColor("#777777"));
         unsolvedCaseButton.setTextColor(Color.parseColor("#777777"));
+        savedCaseButton.setTextColor(Color.parseColor("#777777"));
+        postedCaseButton.setTextColor(Color.parseColor("#777777"));
+        
 
         isTrendingSelected = false;
         isNewSelected = false;
         isUnsolvedSelected = false;
+        isSavedSelected = false;
+        isPostedSelected = false;
 
         if(trending) {
             trendingButton.setTextColor(Color.parseColor("#3F51B5"));
@@ -232,6 +259,17 @@ public class CaseFragment extends android.support.v4.app.Fragment {
             unsolvedCaseButton.setTextColor(Color.parseColor("#3F51B5"));
             isUnsolvedSelected = true;
         }
+
+        if(saved) {
+            savedCaseButton.setTextColor(Color.parseColor("#3F51B5"));
+            isSavedSelected = true;
+        }
+
+        if(posted) {
+            postedCaseButton.setTextColor(Color.parseColor("#3F51B5"));
+            isPostedSelected = true;
+        }
+
     }
 
     @OnClick(R.id.fragment_case_button4) void postCaseButtonClick() {

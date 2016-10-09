@@ -67,8 +67,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center"
-                    android:paddingTop="7dp"
-                    android:paddingBottom="7dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
                     android:id="@+id/fragment_case_linear_layout">
 
                     <Button
@@ -78,8 +78,8 @@
                         android:text="Trending"
                         android:textSize="11sp"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginRight="5dp"
-                        android:background="@android:color/white"
+                        android:layout_marginRight="7dp"
+                        android:background="@drawable/border_shadow"
                         android:textColor="@color/buttonColor"/>
 <!--
 
@@ -95,11 +95,11 @@
                         android:id="@+id/fragment_case_button2"
                         android:layout_width="50dp"
                         android:layout_height="30dp"
-                        android:text="New"
+                        android:text="Latest"
                         android:textSize="11sp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:background="@android:color/white"
+                        android:layout_marginLeft="7dp"
+                        android:layout_marginRight="7dp"
+                        android:background="@drawable/border_shadow"
                         android:textColor="@color/colorPrimary"/>
 <!--
                     <View
@@ -115,9 +115,9 @@
                         android:layout_height="30dp"
                         android:text="Unsolved"
                         android:textSize="11sp"
-                        android:background="@android:color/white"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
+                        android:background="@drawable/border_shadow"
+                        android:layout_marginLeft="7dp"
+                        android:layout_marginRight="7dp"
                         android:textColor="@color/buttonColor"/>
 <!--
                     <View
@@ -128,14 +128,14 @@
                     </View>-->
 
                     <Button
-                        android:id="@+id/fragment_case_button4"
+                        android:id="@+id/fragment_case_button6"
                         android:layout_width="75dp"
                         android:layout_height="30dp"
-                        android:text="Solved"
+                        android:text="Saved"
                         android:textSize="11sp"
-                        android:background="@android:color/white"
-                        android:layout_marginRight="5dp"
-                        android:layout_marginLeft="5dp"
+                        android:background="@drawable/border_shadow"
+                        android:layout_marginRight="7dp"
+                        android:layout_marginLeft="7dp"
                         android:textColor="@color/buttonColor"/>
 
                    <!-- <View
@@ -151,8 +151,8 @@
                         android:layout_height="30dp"
                         android:text="Posted"
                         android:textSize="12sp"
-                        android:background="@android:color/white"
-                        android:layout_marginLeft="5dp"
+                        android:background="@drawable/border_shadow"
+                        android:layout_marginLeft="7dp"
                         android:layout_marginRight="10dp"
                         android:textColor="@color/buttonColor"/>
 
