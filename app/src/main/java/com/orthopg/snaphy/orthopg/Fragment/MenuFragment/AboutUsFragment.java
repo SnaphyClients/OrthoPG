@@ -40,7 +40,7 @@ public class AboutUsFragment extends android.support.v4.app.Fragment {
 
     private OnFragmentInteractionListener mListener;
     public static String TAG = "AboutUsFragment";
-    @Bind(R.id.fragment_about_us_textview1) TextView aboutUsText;
+    @Bind(R.id.fragment_about_us_textview2) TextView aboutUsText;
     @Bind(R.id.fragment_about_us_progressBar)
     CircleProgressBar progressBar;
     MainActivity mainActivity;

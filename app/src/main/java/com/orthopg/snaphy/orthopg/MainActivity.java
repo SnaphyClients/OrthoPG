@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
@@ -174,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
                 openFAQsFragment(fragmentTransaction);
                 break;
 
-            case R.id.fragment_menu_button4:
+            case R.id.fragment_menu_button6:
                 openTermsAndConditionsFragment(fragmentTransaction);
                 break;
 
@@ -197,6 +196,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             case R.id.fragment_case_detail_button4:
                 openPostAnswerFragment(fragmentTransaction);
                 break;
+
         }
     }
 
