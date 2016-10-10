@@ -54,6 +54,7 @@ public class Constants {
     public static String NEWS = "news";
     public static String ADV = "advertisement";
     public static String Doctor = "Dr. ";
+    public static String ANONYMOUS = "Anonymous";
 
     public static String PRIMARY = "#428bca";
     public static String INFO = "#5bc0de";

@@ -27,6 +27,8 @@ import com.sdsmdg.tastytoast.TastyToast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import static android.R.attr.name;
+
 /**
  * Created by Ravi-Gupta on 9/21/2016.
  */
@@ -109,20 +111,25 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         }
 
         if(post.getCustomer() != null) {
-            //TODO ADD ANONYMOUS USER LATER..
-            String name = mainActivity.snaphyHelper.getName(post.getCustomer().getFirstName(), post.getCustomer().getLastName());
-            if(!name.isEmpty()){
-                name = Constants.Doctor + name;
-            }
-            userName.setText(name);
-
-            if(post.getCustomer().getProfilePic() != null){
-                mainActivity.snaphyHelper.loadUnSignedThumbnailImage(post.getCustomer().getProfilePic(), imageView, R.mipmap.anonymous);
-            }else{
-                //Set deault image..
-                //TODO CHANGE BACKGROUND COLOR TO BLUE..
+            if(post.getAnonymous()){
                 imageView.setImageResource(R.mipmap.anonymous);
+                userName.setText(Constants.ANONYMOUS);
+            }else{
+                String name = mainActivity.snaphyHelper.getName(post.getCustomer().getFirstName(), post.getCustomer().getLastName());
+                if(!name.isEmpty()){
+                    name = Constants.Doctor + name;
+                }
+                userName.setText(name);
+
+                if(post.getCustomer().getProfilePic() != null){
+                    mainActivity.snaphyHelper.loadUnSignedThumbnailImage(post.getCustomer().getProfilePic(), imageView, R.mipmap.anonymous);
+                }else{
+                    //Set deault image..
+                    //TODO CHANGE BACKGROUND COLOR TO BLUE..
+                    imageView.setImageResource(R.mipmap.anonymous);
+                }
             }
+
         }
 
 
@@ -166,9 +173,17 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                         tag.setBackground(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle_success));
                     }
                 }
+            }
+        }
+
+
+        if(postDetail.getHasAcceptedAnswer()){
+            if(postDetail.getComment() != null){
 
             }
         }
+
+
 
        /* if(postDetail.getAcceptedAnswer() != null) {
             // Add Selected Answer

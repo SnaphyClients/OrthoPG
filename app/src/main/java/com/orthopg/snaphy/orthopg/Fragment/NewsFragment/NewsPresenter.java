@@ -53,6 +53,9 @@ public class NewsPresenter {
         HashMap<String, Object> filter = new HashMap<>();
         filter.put("skip", skip);
         filter.put("limit", limit);
+        HashMap<String, Object> where = new HashMap<>();
+        where.put("status", Constants.PUBLISH);
+        filter.put("where", where);
         NewsRepository newsRepository = restAdapter.createRepository(NewsRepository.class);
         newsRepository.find(filter, new DataListCallback<News>() {
             @Override

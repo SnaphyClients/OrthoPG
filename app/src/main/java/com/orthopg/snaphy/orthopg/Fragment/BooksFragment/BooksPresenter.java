@@ -51,6 +51,7 @@ public class BooksPresenter {
         HashMap<String, Object> filter = new HashMap<>();
         filter.put("skip", skip);
         filter.put("limit", limit);
+        //TODO ADD WHERE..
         BookRepository bookRepository =  restAdapter.createRepository(BookRepository.class);
         bookRepository.find(filter, new DataListCallback<Book>() {
             @Override
