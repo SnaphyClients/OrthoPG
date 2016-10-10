@@ -108,20 +108,17 @@ public class NewsFragment extends android.support.v4.app.Fragment {
         newsDataList.subscribe(this, new Listen<News>() {
             @Override
             public void onInit(DataList<News> dataList) {
-                super.onInit(dataList);
                 newsListAdapter = new NewsListAdapter(mainActivity, dataList);
                 recyclerView.setAdapter(newsListAdapter);
             }
 
             @Override
             public void onChange(DataList<News> dataList) {
-                super.onChange(dataList);
                 newsListAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onClear() {
-                super.onClear();
                 newsListAdapter.notifyDataSetChanged();
             }
 
@@ -130,6 +127,8 @@ public class NewsFragment extends android.support.v4.app.Fragment {
                 super.onRemove(element, dataList);
             }
         });
+
+        newsPresenter.fetchNews(true);
     }
 
 

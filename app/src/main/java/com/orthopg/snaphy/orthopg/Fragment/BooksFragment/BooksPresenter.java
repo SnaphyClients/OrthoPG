@@ -20,7 +20,8 @@ public class BooksPresenter {
 
     RestAdapter restAdapter;
     DataList<Book> bookDataList;
-    public int limit = 5;
+    public double limit = 5;
+    public double skip = 0;
     CircleProgressBar circleProgressBar;
     MainActivity mainActivity;
 
@@ -37,18 +38,31 @@ public class BooksPresenter {
         }
     }
 
-    public void fetchBooks(){
+    public void fetchBooks(boolean reset){
+        if(reset){
+            skip = 0;
+            //Clear the list..
+            bookDataList.clear();
+        }
+
+        if(skip > 0){
+            skip = skip + limit;
+        }
         HashMap<String, Object> filter = new HashMap<>();
+        filter.put("skip", skip);
+        filter.put("limit", limit);
         BookRepository bookRepository =  restAdapter.createRepository(BookRepository.class);
         bookRepository.find(filter, new DataListCallback<Book>() {
             @Override
             public void onBefore() {
-                super.onBefore();
+                //ADD PROGRESS BAR
+                mainActivity.startProgressBar(circleProgressBar);
             }
 
             @Override
             public void onSuccess(DataList<Book> objects) {
                 super.onSuccess(objects);
+                bookDataList.addAll(objects);
             }
 
             @Override
@@ -59,6 +73,9 @@ public class BooksPresenter {
             @Override
             public void onFinally() {
                 super.onFinally();
+                //STOP PROGRESS BAR
+                mainActivity.stopProgressBar(circleProgressBar);
+
             }
         });
     }

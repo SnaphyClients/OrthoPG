@@ -1,5 +1,7 @@
 package com.orthopg.snaphy.orthopg.Fragment.NewsFragment;
 
+import android.util.Log;
+
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.DataListCallback;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.News;
@@ -49,6 +51,8 @@ public class NewsPresenter {
             skip = skip + limit;
         }
         HashMap<String, Object> filter = new HashMap<>();
+        filter.put("skip", skip);
+        filter.put("limit", limit);
         NewsRepository newsRepository = restAdapter.createRepository(NewsRepository.class);
         newsRepository.find(filter, new DataListCallback<News>() {
             @Override
@@ -59,17 +63,16 @@ public class NewsPresenter {
 
             @Override
             public void onSuccess(DataList<News> objects) {
-                super.onSuccess(objects);
+                newsDataList.addAll(objects);
             }
 
             @Override
             public void onError(Throwable t) {
-                super.onError(t);
+                Log.e(Constants.TAG, t.toString());
             }
 
             @Override
             public void onFinally() {
-                super.onFinally();
                 mainActivity.stopProgressBar(circleProgressBar);
             }
         });

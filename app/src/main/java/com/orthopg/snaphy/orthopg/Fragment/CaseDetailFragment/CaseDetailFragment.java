@@ -167,10 +167,14 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
 
 
 
-        if(!post.getDescription().isEmpty()){
-            description.setVisibility(View.VISIBLE);
-            description.setText(post.getDescription());
-        }else{
+        if(post.getDescription() != null) {
+            if (!post.getDescription().isEmpty()) {
+                description.setVisibility(View.VISIBLE);
+                description.setText(post.getDescription());
+            } else {
+                description.setVisibility(View.GONE);
+            }
+        } else {
             description.setVisibility(View.GONE);
         }
         //Now load case image list..

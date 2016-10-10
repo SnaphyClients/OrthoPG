@@ -10,6 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
+import com.androidsdk.snaphy.snaphyandroidsdk.list.Listen;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Book;
+import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
+import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
+import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 
@@ -31,11 +37,13 @@ public class BooksFragment extends android.support.v4.app.Fragment {
 
     private OnFragmentInteractionListener mListener;
     @Bind(R.id.fragment_books_recycler_view) RecyclerView recyclerView;
+    @Bind(R.id.fragment_books_progressBar) CircleProgressBar progressBar;
     LinearLayoutManager linearLayoutManager;
     BooksListAdapter booksListAdapter;
     List<BooksModel> booksModelList = new ArrayList<>();
     MainActivity mainActivity;
-
+    DataList<Book> bookDataList;
+    BooksPresenter booksPresenter;
     public BooksFragment() {
         // Required empty public constructor
     }
@@ -60,9 +68,9 @@ public class BooksFragment extends android.support.v4.app.Fragment {
         recyclerView.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
-        setInitialData();
-        booksListAdapter = new BooksListAdapter(mainActivity, booksModelList);
-        recyclerView.setAdapter(booksListAdapter);
+        //setInitialData();
+
+        loadPresenter();
         return view;
     }
 
@@ -76,6 +84,41 @@ public class BooksFragment extends android.support.v4.app.Fragment {
         booksModelList.add(new BooksModel(getActivity().getResources().getDrawable(R.drawable.demo_book_5),getActivity().getResources().getDrawable(R.drawable.demo_book_6),"Callum Chapman","All examinees will electronically submit the Case Report Work File (CRWF) for each case using the ABO website electronic" +
                 " submission portal.",true));
     }
+
+
+    public void loadPresenter() {
+        booksPresenter = new BooksPresenter(mainActivity.snaphyHelper.getLoopBackAdapter(), progressBar, mainActivity);
+        bookDataList = Presenter.getInstance().getList(Book.class, Constants.BOOK_LIST_BOOKS_FRAGMENT);
+
+        bookDataList.subscribe(this, new Listen<Book>() {
+                    @Override
+                    public void onInit(DataList<Book> dataList) {
+                        super.onInit(dataList);
+                        booksListAdapter = new BooksListAdapter(mainActivity, dataList);
+                        recyclerView.setAdapter(booksListAdapter);
+                    }
+
+                    @Override
+                    public void onChange(DataList<Book> dataList) {
+                        super.onChange(dataList);
+                        booksListAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onClear() {
+                        super.onClear();
+                        booksListAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onRemove(Book element, DataList<Book> dataList) {
+                        super.onRemove(element, dataList);
+                    }
+                } );
+
+                booksPresenter.fetchBooks(true);
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

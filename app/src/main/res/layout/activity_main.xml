@@ -29,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:text="Retry"
-        android:background="@drawable/curved_rectangle_warning"
+        android:background="@drawable/retry_button"
         android:textColor="@color/white"
         android:layout_centerInParent="true"
         android:id="@+id/activity_main_button1"

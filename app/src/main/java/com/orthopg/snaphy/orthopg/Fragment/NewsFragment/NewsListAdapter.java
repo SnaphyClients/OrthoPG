@@ -1,6 +1,7 @@
 package com.orthopg.snaphy.orthopg.Fragment.NewsFragment;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,12 +16,8 @@ import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
-
-import static android.R.attr.tag;
 
 /**
  * Created by Ravi-Gupta on 9/27/2016.
@@ -76,6 +73,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ViewHo
             if (!news.getType().isEmpty()) {
                 tag.setText(news.getType());
                 if (news.getType().equals(Constants.NEWS)) {
+                    tag.setTextColor(Color.parseColor(Constants.PRIMARY));
                     if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
                         tag.setBackgroundDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle));
                     } else {
@@ -83,6 +81,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ViewHo
                     }
 
                 } else if (news.getType().equals(Constants.ADV)) {
+                    tag.setTextColor(Color.parseColor(Constants.SUCCESS));
                     if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
                         tag.setBackgroundDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle_success));
                     } else {

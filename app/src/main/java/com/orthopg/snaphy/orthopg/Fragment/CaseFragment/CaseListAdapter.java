@@ -73,8 +73,8 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         TextView caseHeading = holder.caseHeading;
         TextView userName = holder.userName;
         TextView casePostedTime = holder.casePostedTime;
-        final ImageButton like = holder.like;
-        final ImageButton saveCase = holder.saveCase;
+        final ImageView like = holder.like;
+        final ImageView saveCase = holder.saveCase;
         RecyclerView caseImages = holder.caseImages;
         TextView caseDescription = holder.caseDescription;
         TextView tag = holder.tag;
@@ -285,16 +285,15 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TAG.equals(PostedCasesFragment.TAG)) {
+                if (!TAG.equals(PostedCasesFragment.TAG)) {
                     if (!MCINumber.isEmpty()) {
-                        mainActivity.replaceFragment(R.id.fragment_case_button4, null);
-                    } else {
+                        //mainActivity.replaceFragment(R.id.fragment_case_button4, null);
                         mainActivity.replaceFragment(R.id.layout_case_list_textview4, position);
+                    } else {
+                        TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
                     }
                 } else {
                     //Show Toast
-                    TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
-
                 }
             }
         });
@@ -335,8 +334,8 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         @Bind(R.id.layout_case_list_textview1) TextView caseHeading;
         @Bind(R.id.layout_case_list_textview2) TextView userName;
         @Bind(R.id.layout_case_list_textview3) TextView casePostedTime;
-        @Bind(R.id.layout_case_list_imagebutton2) ImageButton like;
-        @Bind(R.id.layout_case_list_imagebutton1) ImageButton saveCase;
+        @Bind(R.id.layout_case_list_imagebutton2) ImageView like;
+        @Bind(R.id.layout_case_list_imagebutton1) ImageView saveCase;
         @Bind(R.id.layout_case_list_recycler_view) RecyclerView caseImages;
         @Bind(R.id.layout_case_list_textview4) TextView caseDescription;
         @Bind(R.id.layout_case_list_textview5) TextView tag;

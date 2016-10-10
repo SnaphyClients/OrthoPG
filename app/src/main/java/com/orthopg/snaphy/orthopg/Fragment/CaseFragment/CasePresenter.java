@@ -12,6 +12,8 @@ import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.strongloop.android.loopback.RestAdapter;
 
+import java.util.HashMap;
+
 /**
  * Created by Ravi-Gupta on 10/4/2016.
  */
@@ -20,9 +22,12 @@ public class CasePresenter {
     RestAdapter restAdapter;
     DataList<PostDetail> postDetails;
     public double limit = 5;
+
     public double skip = 0;
     CircleProgressBar circleProgressBar;
     MainActivity mainActivity;
+    HashMap<String, Double> track = new HashMap<>();
+
 
     public CasePresenter(RestAdapter restAdapter, CircleProgressBar progressBar, MainActivity mainActivity){
         this.restAdapter = restAdapter;
@@ -44,18 +49,20 @@ public class CasePresenter {
      * @param listType String trending|unsolved|new
      */
     public void fetchPost(String listType, boolean reset){
+
         if(reset){
-            skip = 0;
+            track.put(listType, 0.0);
             //Clear the list..
             postDetails.clear();
         }
 
         if(skip > 0){
+            track.put(listType, track.get(listType) + limit);
             skip = skip + limit;
         }
 
         PostDetailRepository postDetailRepository =  restAdapter.createRepository(PostDetailRepository.class);
-        postDetailRepository.getPostDetail(skip, limit, listType, new DataListCallback<PostDetail>() {
+        postDetailRepository.getPostDetail(track.get(listType), limit, listType, new DataListCallback<PostDetail>() {
             @Override
             public void onBefore() {
                 //Start loading bar..
