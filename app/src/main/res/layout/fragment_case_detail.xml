@@ -284,37 +284,37 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="15dp"
+                android:layout_marginRight="10dp"
                 android:layout_gravity="center">
 
-                <ImageView
+              <!--  <ImageView
                     android:layout_width="70dp"
                     android:layout_height="35dp"
                     android:background="@drawable/rectangle"
                     android:layout_marginTop="3dp"
-                    android:paddingLeft="10dp"/>
+                    android:paddingLeft="10dp"/>-->
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <ImageButton
+                    <ImageView
                         android:id="@+id/layout_case_detail_imagebutton1"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center|right"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:cropToPadding="true"
                         android:src="@mipmap/save_unselected"
-                        android:paddingLeft="5dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_gravity="right|center"
                         android:background="@android:color/transparent"/>
 
-                    <View
-                        android:layout_width="1dp"
-                        android:id="@+id/view2"
-                        android:layout_height="18dp"
-                        android:layout_gravity="center"
-                        android:background="@color/headingColor"></View>
+                    <ImageView
+                        android:layout_width="5dp"
+                        android:layout_height="5dp"
+                        android:layout_gravity="bottom"
+                        android:layout_marginBottom="17dp"
+                        android:background="@drawable/circle_heading_color"/>
 
                     <TextView
                         android:id="@+id/layout_case_details_textview6"
@@ -322,14 +322,23 @@
                         android:layout_height="40dp"
                         android:text="45"
                         android:layout_gravity="center"
-                        android:paddingLeft="9dp"
-                        android:layout_marginTop="1dp"
+                        android:paddingLeft="5dp"
+                        android:textColor="@color/headingColor"
+                        android:layout_marginTop="2dp"
                         android:gravity="center"/>
 
 
                 </LinearLayout>
 
             </RelativeLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:id="@+id/view3"
+                android:layout_height="18dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="3dp"
+                android:background="@color/headingColor"></View>
 
 
             <RelativeLayout
@@ -338,34 +347,34 @@
                 android:layout_marginRight="15dp"
                 android:layout_gravity="center">
 
-                <ImageView
+               <!-- <ImageView
                     android:layout_width="70dp"
                     android:layout_height="35dp"
                     android:background="@drawable/rectangle"
                     android:layout_marginTop="3dp"
-                    android:paddingLeft="10dp"/>
+                    android:paddingLeft="10dp"/>-->
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="3dp">
 
-                    <ImageButton
+                    <ImageView
                         android:id="@+id/layout_case_detail_imagebutton2"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
                         android:layout_gravity="center|right"
-                        android:cropToPadding="true"
                         android:src="@mipmap/like_unselected"
-                        android:paddingLeft="5dp"
+                        android:layout_marginTop="2dp"
                         android:background="@android:color/transparent"/>
 
-                    <View
-                        android:layout_width="1dp"
-                        android:id="@+id/view3"
-                        android:layout_height="18dp"
-                        android:layout_gravity="center"
-                        android:background="@color/headingColor"></View>
+                    <ImageView
+                        android:layout_width="5dp"
+                        android:layout_height="5dp"
+                        android:layout_gravity="bottom"
+                        android:layout_marginBottom="18dp"
+                        android:background="@drawable/circle_heading_color"/>
 
                     <TextView
                         android:id="@+id/layout_case_details_textview7"
@@ -373,8 +382,9 @@
                         android:layout_height="40dp"
                         android:text="45"
                         android:layout_gravity="center"
-                        android:paddingLeft="9dp"
-                        android:layout_marginTop="1dp"
+                        android:paddingLeft="5dp"
+                        android:textColor="@color/headingColor"
+                        android:layout_marginTop="3dp"
                         android:gravity="center"/>
 
 

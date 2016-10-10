@@ -36,6 +36,8 @@ public class Constants {
     public static String NEWS_LIST_NEWS_FRAGMENT = "NewsListNewsFragment";
     /*END OF DATA LIST IDs*/
 
+    public static String ZOOM_IMAGE_ID = "ZoomImageId";
+
 
     /*IDs*/
     public static String LOGIN_CUSTOMER = "loginCustomer";

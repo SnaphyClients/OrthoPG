@@ -24,16 +24,21 @@ import com.androidsdk.snaphy.snaphyandroidsdk.models.PostDetail;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.Fragment.CaseFragment.CaseImageAdapter;
+import com.orthopg.snaphy.orthopg.ImageZoom.ImageZoomDialog;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
+import com.orthopg.snaphy.orthopg.RecyclerItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static android.media.CamcorderProfile.get;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,8 +55,8 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.layout_case_detail_recycler_view) RecyclerView imageRecyclerView;
     @Bind(R.id.layout_case_detail_recycler_view2) RecyclerView commentsRecyclerView;
     @Bind(R.id.fragment_case_detail_button4) Button answerButton;
-    @Bind(R.id.layout_case_detail_imagebutton1) ImageButton saveButton;
-    @Bind(R.id.layout_case_detail_imagebutton2) ImageButton likeButton;
+    @Bind(R.id.layout_case_detail_imagebutton1) ImageView saveButton;
+    @Bind(R.id.layout_case_detail_imagebutton2) ImageView likeButton;
     @Bind(R.id.layout_case_detail_textview1) TextView caseHeading;
     @Bind(R.id.layout_case_details_textview2) TextView userName;
     @Bind(R.id.layout_case_details_textview3) TextView time;
@@ -98,9 +103,23 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         ButterKnife.bind(this, view);
 
         imageRecyclerView.setLayoutManager(new LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false));
-
-
         commentsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        imageRecyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(mainActivity, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        if(post.getPostImages() != null ){
+                            if(post.getPostImages().size() != 0) {
+                                Map<String, Object> drawableObj = post.getPostImages().get(position);
+                                ImageZoomDialog imageZoomDialog = new ImageZoomDialog();
+                                Presenter.getInstance().addModel(Constants.ZOOM_IMAGE_ID, drawableObj);
+                                imageZoomDialog.show(mainActivity.getFragmentManager(), ImageZoomDialog.TAG);
+                                }
+                            }
+                    }
+                })
+        );
 
         loadPostData(position);
         return view;
@@ -235,22 +254,6 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         userName.setVisibility(View.VISIBLE);
     }
 
-    /*public void setInitialData() {
-        imageList.add((getActivity().getResources().getDrawable(R.drawable.demo_books_image_1)));
-        imageList.add((getActivity().getResources().getDrawable(R.drawable.demo_books_image_2)));
-        imageList.add((getActivity().getResources().getDrawable(R.drawable.demo_books_image_3)));
-
-        commentModelList.add(new CommentModel(true, "Aadish Surana", "Medial epicondylitis, also known as golfer's elbow, baseball elbow, suitcase elbow, or forehand tennis elbow, is characterized by pain" +
-                " from the elbow to the wrist on the inside (medial side) of the elbow. "));
-        commentModelList.add(new CommentModel(false, "Ravi Gupta", "The pain is caused by damage to the tendons that bend the wrist toward the palm." +
-                " A tendon is a tough cord of tissue that connects muscles to bones."));
-        commentModelList.add(new CommentModel(false, "Pulkit Dubey", "Medial epicondylitis, also known as golfer's elbow, baseball elbow, suitcase elbow, or forehand tennis elbow, is characterized by pain" +
-                " from the elbow to the wrist on the inside (medial side) of the elbow. "));
-        commentModelList.add(new CommentModel(false, "Robins Gupta", "The pain is caused by damage to the tendons that bend the wrist toward the palm." +
-                " A tendon is a tough cord of tissue that connects muscles to bones."));
-        commentModelList.add(new CommentModel(false, "Imran Sajid", "Medial epicondylitis, also known as golfer's elbow, baseball elbow, suitcase elbow, or forehand tennis elbow, is characterized by pain" +
-                " from the elbow to the wrist on the inside (medial side) of the elbow. "));
-    }*/
 
     @OnClick(R.id.fragment_case_detail_image_button1) void backButton() {
         mainActivity.onBackPressed();
@@ -280,7 +283,6 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         mainActivity.replaceFragment(R.id.fragment_case_detail_button4, null);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
