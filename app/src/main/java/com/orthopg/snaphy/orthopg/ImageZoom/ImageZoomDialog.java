@@ -46,7 +46,7 @@ public class ImageZoomDialog extends DialogFragment {
         //setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
         //This makes the dialog take up the full width
         lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        lp.height = ViewGroup.LayoutParams.MATCH_PARENT;
         window.setAttributes(lp);
     }
 
@@ -68,14 +68,6 @@ public class ImageZoomDialog extends DialogFragment {
         if(drawableObj != null){
             mainActivity.snaphyHelper.loadUnsignedUrl(drawableObj, zoomImageview);
         }
-      /*  BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inTempStorage = new byte[24*1024];
-        options.inJustDecodeBounds = false;
-        options.inSampleSize=8;
-        Bitmap bitmap2 = BitmapFactory.decodeFile(image.getPath(), options);
-        Bitmap bitmap = ThumbnailUtils.extractThumbnail(bitmap2, 400, 600);
-        zoomImageview.setImageBitmap(bitmap);*/
-        //Log.v("signin",d+"  Image  "+bitmap);
         return view;
     }
 }

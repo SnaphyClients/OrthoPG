@@ -18,6 +18,7 @@ import com.androidsdk.snaphy.snaphyandroidsdk.models.Book;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -82,6 +83,8 @@ public class BooksListAdapter extends RecyclerView.Adapter<BooksListAdapter.View
             downloadBook.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    File direct = new File(Environment.getExternalStorageDirectory()
+                            + "/OrthoPG");
                     Map<String, Object> hashMap =  (Map<String, Object>)booksModel.getUploadBook();
                     if(hashMap.get("url") !=  null){
                         HashMap<String, String> url = (HashMap<String, String>)hashMap.get("url");
@@ -102,7 +105,7 @@ public class BooksListAdapter extends RecyclerView.Adapter<BooksListAdapter.View
                                 request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
                             }
                             if(booksModel.getTitle() != null) {
-                                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, unSignedUrl);
+                                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, booksModel.getTitle()+".pdf");
                             }
 
 
