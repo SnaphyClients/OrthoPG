@@ -91,7 +91,7 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         swipeRefreshLayoutListener();
         loadPresenter();
-        recyclerViewLoadMoreEventData();
+        //recyclerViewLoadMoreEventData();
         return view;
     }
 
@@ -145,7 +145,7 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     }
 
     @OnClick(R.id.fragment_case_button6) void postedButtonClick() {
-        changeButtonColor(false, false, true, false, true);
+        changeButtonColor(false, false, false, false, true);
     }
 
     public void recyclerViewLoadMoreEventData() {
@@ -203,7 +203,7 @@ public class CaseFragment extends android.support.v4.app.Fragment {
             @Override
             public void onInit(DataList<PostDetail> dataList) {
                 super.onInit(dataList);
-                caseListAdapter = new CaseListAdapter(mainActivity, dataList, TAG);
+                caseListAdapter = new CaseListAdapter(mainActivity, dataList, TAG, casePresenter);
                 recyclerView.setAdapter(caseListAdapter);
             }
 

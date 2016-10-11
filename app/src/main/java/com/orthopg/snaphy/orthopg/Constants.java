@@ -42,6 +42,8 @@ public class Constants {
     /*IDs*/
     public static String LOGIN_CUSTOMER = "loginCustomer";
     public static String GOOGLE_API_CLIENT = "googleApiClient";
+    public static String TRACK_LIKE = "trackLike";
+    public static String TRACK_SAVE = "trackSave";
 
     public static String TRENDING = "trending";
     public static String LATEST = "latest";
