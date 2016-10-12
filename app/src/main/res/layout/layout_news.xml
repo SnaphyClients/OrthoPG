@@ -49,6 +49,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="5dp"
+        android:maxLength="256"
         android:text="The War Doctor is an incarnation of the Doctor,[6] the protagonist of the BBC science fiction television programme Doctor Who. He is portrayed by English actor John Hurt."/>
 
 

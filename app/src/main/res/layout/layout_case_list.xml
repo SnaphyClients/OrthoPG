@@ -134,18 +134,18 @@
 
         <ImageButton
             android:id="@+id/layout_case_list_button1"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:background="@android:color/transparent"
             android:src="@mipmap/edit"
-            android:visibility="gone"
             android:gravity="center"
+            android:visibility="gone"
             android:layout_gravity="center" />
 
         <ImageButton
             android:id="@+id/layout_case_list_button2"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:background="@android:color/transparent"
             android:src="@mipmap/delete_case"
             android:gravity="center"

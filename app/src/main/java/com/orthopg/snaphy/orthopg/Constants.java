@@ -37,6 +37,7 @@ public class Constants {
     /*END OF DATA LIST IDs*/
 
     public static String ZOOM_IMAGE_ID = "ZoomImageId";
+    public static String CASE_PRESENTER_ID = "CasePresenterId";
 
 
     /*IDs*/

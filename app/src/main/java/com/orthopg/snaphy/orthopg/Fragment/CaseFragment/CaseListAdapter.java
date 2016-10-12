@@ -311,7 +311,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                             TrackLike trackLike = new TrackLike();
                             trackLike.state = true;
                             trackLike.likePost = object;
-                            showLike(post, like, trackLike, numberOfLike, postDetail);
+                            //showLike(post, like, trackLike, numberOfLike, postDetail);
                         }
 
                         @Override
@@ -326,7 +326,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                     final TrackLike trackLike = (TrackLike)Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).get(post.getId());
                     if(trackLike.state){
                         trackLike.state = false;
-                        showLike(post, like, trackLike, numberOfLike, postDetail);
+                        //showLike(post, like, trackLike, numberOfLike, postDetail);
                         //delete like
                         casePresenter.removeLike(trackLike.likePost, new ObjectCallback<JSONObject>() {
                             @Override
@@ -338,7 +338,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                             @Override
                             public void onSuccess(JSONObject object) {
                                 trackLike.state = false;
-                                showLike(post, like, trackLike, numberOfLike, postDetail);
+                                //showLike(post, like, trackLike, numberOfLike, postDetail);
                             }
 
                             @Override
@@ -366,7 +366,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                             public void onSuccess(LikePost object) {
                                 trackLike.state = true;
                                 trackLike.likePost = object;
-                                showLike(post, like, trackLike, numberOfLike, postDetail);
+                                //showLike(post, like, trackLike, numberOfLike, postDetail);
                             }
 
                             @Override
@@ -402,7 +402,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                             TrackSave trackSave = new TrackSave();
                             trackSave.state = true;
                             trackSave.savePost = object;
-                            showSave(post, saveCase, trackSave, numberOfSave, postDetail);
+                            //showSave(post, saveCase, trackSave, numberOfSave, postDetail);
                         }
 
                         @Override
@@ -417,7 +417,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                     final TrackSave trackSave = (TrackSave)Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).get(post.getId());
                     if(trackSave.state){
                         trackSave.state = false;
-                        showSave(post, saveCase, trackSave, numberOfSave, postDetail);
+                        //showSave(post, saveCase, trackSave, numberOfSave, postDetail);
                         //delete like
                         casePresenter.removeSave(trackSave.savePost, new ObjectCallback<JSONObject>() {
                             @Override
@@ -429,7 +429,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                             @Override
                             public void onSuccess(JSONObject object) {
                                 trackSave.state = false;
-                                showSave(post, saveCase, trackSave, numberOfSave, postDetail);
+                                //showSave(post, saveCase, trackSave, numberOfSave, postDetail);
                             }
 
                             @Override
@@ -457,7 +457,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                             public void onSuccess(SavePost object) {
                                 trackSave.state = true;
                                 trackSave.savePost = object;
-                                showSave(post, saveCase, trackSave, numberOfSave, postDetail);
+                                //showSave(post, saveCase, trackSave, numberOfSave, postDetail);
                             }
 
                             @Override

@@ -2,6 +2,7 @@ package com.orthopg.snaphy.orthopg.Fragment.CaseFragment;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -87,6 +88,7 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_case, container, false);
         ButterKnife.bind(this, view);
+        Typeface typeface = Typeface.createFromAsset(mainActivity.getAssets(), "fonts/OpenSans-Regular.ttf");
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         swipeRefreshLayoutListener();
@@ -196,6 +198,7 @@ public class CaseFragment extends android.support.v4.app.Fragment {
 
     private void loadPresenter(){
         casePresenter = new CasePresenter(mainActivity.snaphyHelper.getLoopBackAdapter(), progressBar, mainActivity);
+        Presenter.getInstance().addModel(Constants.CASE_PRESENTER_ID, casePresenter);
         postDetails = Presenter.getInstance().getList(PostDetail.class, Constants.POST_DETAIL_LIST_CASE_FRAGMENT);
         //By default fetch the trending list..
         trendingButtonClick();
