@@ -216,6 +216,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
                 Log.e(Constants.TAG, "Successfully Logout!!");
                 mainActivity.googleLogout();
                 mainActivity.moveToLogin();
+                mainActivity.snaphyHelper.registerInstallation(null);
                 //Remove the customer..
                 Presenter.getInstance().removeModelFromList(Constants.LOGIN_CUSTOMER);
             }

@@ -596,7 +596,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         } else {
             //Register installation id of login customer..
             //Register installation moved to home...
-            //snaphyHelper.registerInstallation(customer);
+            snaphyHelper.registerInstallation(customer);
             final String MCINumber = customer.getMciNumber() != null ? customer.getMciNumber() : "";
             if(customer.getStatus() != null){
                 if(customer.getStatus().equals(Constants.ALLOW)) {
