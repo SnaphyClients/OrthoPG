@@ -21,6 +21,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
+import com.sdsmdg.tastytoast.TastyToast;
 
 import org.json.JSONObject;
 
@@ -137,7 +138,7 @@ public class LoginFragment extends android.support.v4.app.Fragment {
             }
 
         } else {
-            //Snackbar.make(rootView, Constants.ERROR_MESSAGE, Snackbar.LENGTH_SHORT).show();
+            TastyToast.makeText(mainActivity.getApplicationContext(), Constants.ERROR_MESSAGE, TastyToast.LENGTH_SHORT, TastyToast.ERROR);
         }
     }
 

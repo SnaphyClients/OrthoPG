@@ -111,8 +111,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             public void run() {
                 // Check device for Play Services APK.
                 snaphyHelper.checkPlayServices();
-                //TODO Call this method after succefull login later.
-                snaphyHelper.registerInstallation(null);
             }
         }, 100);
 
@@ -134,6 +132,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         } else {
             // No Internet is connected
             //Toast.makeText(this, "Internet not connected", Toast.LENGTH_SHORT).show();
+            TastyToast.makeText(getApplicationContext(), "Connection Error! Check your network", TastyToast.LENGTH_LONG, TastyToast.ERROR);
             hideRetryButton(false);
         }
 
@@ -577,13 +576,14 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             moveToHome();
 
             //Register for push service..
-            snaphyHelper.registerInstallation(user);
+            //Register installation moved to home...
+            //snaphyHelper.registerInstallation(user);
         }else{
             //Register for push service..
-            snaphyHelper.registerInstallation(null);
+            //snaphyHelper.registerInstallation(null);
             //SHOW ERROR MESSAGE..
             Log.v(Constants.TAG, "Error in add Customer Method");
-            //Toast.makeText(this, Constants.ERROR_MESSAGE, Toast.LENGTH_SHORT).show();
+            TastyToast.makeText(getApplicationContext(), Constants.ERROR_MESSAGE, TastyToast.LENGTH_SHORT, TastyToast.ERROR);
         }
 
     }
@@ -594,6 +594,9 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             //Customer not login
             moveToLogin();
         } else {
+            //Register installation id of login customer..
+            //Register installation moved to home...
+            //snaphyHelper.registerInstallation(customer);
             final String MCINumber = customer.getMciNumber() != null ? customer.getMciNumber() : "";
             if(customer.getStatus() != null){
                 if(customer.getStatus().equals(Constants.ALLOW)) {

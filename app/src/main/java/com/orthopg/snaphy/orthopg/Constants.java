@@ -20,15 +20,15 @@ public class Constants {
     public static String baseUrl = "http://192.168.1.107:3000";
     //public static String baseUrl = "http://ec2-54-209-33-191.compute-1.amazonaws.com:3000";
     public static String apiUrl = baseUrl+"/api";
-    //TODO CHANGE IT LATER
     public static final String AMAZON_CLOUD_FRONT_URL = "http://d3j3ux0h7dntsg.cloudfront.net";
     /**
      * Substitute you own sender ID here. This is the project number you got
      * from the API Console, as described in "Getting Started."
      */
+    //TODO CHANGE IT UNTIL THIS
     public static String SENDER_ID = "673699478279";
     public static String LOOPBACK_APP_ID = "mapstrack-snaphy-push-application";
-    //TODO CHANGE IT UNTIL THIS
+
 
     /*DATA LIST IDs*/
     public static String POST_DETAIL_LIST_CASE_FRAGMENT = "PostDetailsListCaseFragment";
@@ -77,6 +77,8 @@ public class Constants {
     public static String HOURS = "hours";
     public static String MINUTES = "minutes";
     public static String SECONDS = "seconds";
+
+    public static String ERROR_MESSAGE = "Cannot login ! Try again later";
 
 
 }

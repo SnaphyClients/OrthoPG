@@ -73,7 +73,6 @@ public class NewsFragment extends android.support.v4.app.Fragment {
         recyclerView.setHasFixedSize(true);
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
-        setInitialData();
         loadPresenter();
 
         final Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
@@ -132,18 +131,6 @@ public class NewsFragment extends android.support.v4.app.Fragment {
     }
 
 
-    public void setInitialData() {
-        newsModelList.add(new NewsModel(getActivity().getResources().getDrawable(R.drawable.demo_news_image_1), "news", "Foot and Ankel", "An elderly frail gentleman presented to casualty after having a fall." +
-                " Shortly after, he developed chest pain. He had fractured his proximal right femur."));
-        newsModelList.add(new NewsModel(getActivity().getResources().getDrawable(R.drawable.demo_news_image_2), "news", "Shoulder and Elbow", "He was assessed by the cardiology team, whom he was known to, stabilized and prepared him for operation." +
-                " The following day he developed further chest pain and ECG changes, which resulted in postponing the surgery."));
-        newsModelList.add(new NewsModel(getActivity().getResources().getDrawable(R.drawable.demo_news_image_3), "news", "Pelvic Trauma", "In the case mentioned above, the patient presented with proximal femur fracture and myocardial infarction. "));
-        newsModelList.add(new NewsModel(getActivity().getResources().getDrawable(R.drawable.demo_news_image_4), "Adv", "Zeal Cough Syrup", "The cardiologists treated him conservatively because the risk of intervention and surgery was higher than the surgery alone." +
-                " The patient was well informed of the potential high risk of mortality in view of his underlying medical problems."));
-        newsModelList.add(new NewsModel(getActivity().getResources().getDrawable(R.drawable.demo_news_image_5), "news", "Knee Dislocation", "He disliked the conservative management of his fractured hip, by means of analgesia and physiotherapy. He was very keen to undergo the operation," +
-                " as he wanted to get back on his feet and independent life. Hence he made his mind against all the odds."));
-        newsModelList.add(new NewsModel(getActivity().getResources().getDrawable(R.drawable.demo_news_image_6), "news", "Bilateral Femoral Fractures", "Patient was prepared for the surgery and had a successful dynamic hip screw operation."));
-    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
