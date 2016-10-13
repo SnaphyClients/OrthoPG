@@ -13,8 +13,12 @@ import android.widget.EditText;
 import android.widget.Scroller;
 import android.widget.Toast;
 
+import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
+import com.orthopg.snaphy.orthopg.Constants;
+import com.orthopg.snaphy.orthopg.CustomModel.NewCase;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
+import com.sdsmdg.tastytoast.TastyToast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -60,8 +64,39 @@ public class CaseDescriptionFragment extends android.support.v4.app.Fragment {
         description.setScroller(new Scroller(mainActivity));
         description.setVerticalScrollBarEnabled(true);
         description.setMovementMethod(new ScrollingMovementMethod());
+        //Load previous data..
+        loadDescription();
         return view;
     }
+
+
+    public void loadDescription(){
+        if(Presenter.getInstance().getModel(NewCase.class, Constants.ADD_NEW_CASE) != null){
+            NewCase newCase = Presenter.getInstance().getModel(NewCase.class, Constants.ADD_NEW_CASE);
+            if(newCase.getPost() != null){
+                if(newCase.getPost().getDescription() != null){
+                    if(!newCase.getPost().getDescription().isEmpty()){
+                        //Load the heading..
+                        description.setText(newCase.getPost().getDescription());
+                    }
+                }
+            }
+
+        }
+    }
+
+
+    public void saveDescription(String desc){
+        if(Presenter.getInstance().getModel(NewCase.class, Constants.ADD_NEW_CASE) != null){
+            NewCase newCase = Presenter.getInstance().getModel(NewCase.class, Constants.ADD_NEW_CASE);
+            if(newCase.getPost() != null){
+                newCase.getPost().setDescription(desc);
+            }
+        }
+    }
+
+
+
     @OnClick(R.id.fragment_case_description_button1) void postCase() {
         InputMethodManager im = (InputMethodManager)mainActivity.getSystemService(
                 Context.INPUT_METHOD_SERVICE);
@@ -73,6 +108,20 @@ public class CaseDescriptionFragment extends android.support.v4.app.Fragment {
         InputMethodManager imm = (InputMethodManager)mainActivity.getSystemService(
                 Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(description.getWindowToken(), 0);
+        if(description.getText() != null) {
+            String desc = description.getText().toString();
+            if (desc != null) {
+                desc = desc.trim();
+                if (!desc.isEmpty()) {
+                    //Now load desc to post.
+                    saveDescription(desc);
+                    //Now add to Presenter..
+                    mainActivity.replaceFragment(R.id.fragment_case_heading_button1, null);
+                }
+            }
+        }
+        
+        //ASK FOR ANONYMOUS POST AND SAVE THE CASE...
         Toast.makeText(mainActivity, "Case has been posted", Toast.LENGTH_SHORT).show();
     }
 

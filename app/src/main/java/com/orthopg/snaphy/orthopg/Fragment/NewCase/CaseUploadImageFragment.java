@@ -121,40 +121,40 @@ public class CaseUploadImageFragment extends android.support.v4.app.Fragment {
         if(Presenter.getInstance().getModel(NewCase.class, Constants.ADD_NEW_CASE) != null){
             final DataList<TrackImage> trackImages = Presenter.getInstance().getModel(NewCase.class, Constants.ADD_NEW_CASE).getTrackImages();
             if(trackImages != null){
-                if(trackImages.size() != 0){
-                    trackImages.subscribe(this, new Listen<TrackImage>() {
-                        @Override
-                        public void onInit(DataList<TrackImage> dataList) {
-                            caseUploadImageFragmentAdapter = new CaseUploadImageFragmentAdapter(mainActivity, trackImages);
-                            recyclerView.setAdapter(caseUploadImageFragmentAdapter);
-                        }
+                trackImages.subscribe(this, new Listen<TrackImage>() {
+                    @Override
+                    public void onInit(DataList<TrackImage> dataList) {
+                        caseUploadImageFragmentAdapter = new CaseUploadImageFragmentAdapter(mainActivity, trackImages);
+                        recyclerView.setAdapter(caseUploadImageFragmentAdapter);
+                    }
 
-                        @Override
-                        public void onChange(DataList<TrackImage> dataList) {
-                            caseUploadImageFragmentAdapter.notifyDataSetChanged();
-                        }
+                    @Override
+                    public void onChange(DataList<TrackImage> dataList) {
+                        caseUploadImageFragmentAdapter.notifyDataSetChanged();
+                    }
 
-                        @Override
-                        public void onClear() {
-                            super.onClear();
-                        }
+                    @Override
+                    public void onClear() {
+                        super.onClear();
+                    }
 
-                        @Override
-                        public void onRemove(TrackImage element, DataList<TrackImage> dataList) {
-                            //TODO Destroy the element from list.. and also the cropped file...
-                            if(element != null){
-                                if(element.isDownloaded()){
-                                    if(element.getImageModel() != null){
-                                        //Store it to deleted models for later..use..
-                                        Presenter.getInstance().getModel(NewCase.class, Constants.ADD_NEW_CASE).getDeletedModels().add(element.getImageModel());
-                                    }
-                                }else{
-                                    //TODO: Later remove cropped from local file too..
+                    @Override
+                    public void onRemove(TrackImage element, DataList<TrackImage> dataList) {
+
+                        if(element != null){
+                            if(element.isDownloaded()){
+                                if(element.getImageModel() != null){
+                                    //Store it to deleted models for later..use..
+                                    //TODO: Delete the items of deletedModels after save..of images
+                                    Presenter.getInstance().getModel(NewCase.class, Constants.ADD_NEW_CASE).getDeletedModels().add(element.getImageModel());
                                 }
+                            }else{
+                                //TODO: Later remove cropped from local file too..
                             }
                         }
-                    });
-                }
+                    }
+                });
+
             }
         }
     }
@@ -206,7 +206,7 @@ public class CaseUploadImageFragment extends android.support.v4.app.Fragment {
                 if(globalUri != null){
                     trackImage.setUri(globalUri);
                     trackImage.setDownloaded(false);
-                    //Add to list..
+                    //Add to list....
                     Presenter.getInstance().getModel(NewCase.class, Constants.ADD_NEW_CASE).getTrackImages().add(trackImage);
                 }
             }
