@@ -113,10 +113,7 @@ public class CaseDescriptionFragment extends android.support.v4.app.Fragment {
                 Context.INPUT_METHOD_SERVICE);
         im.hideSoftInputFromWindow(description.getWindowToken(), 0);
 
-        //TODO: What is the reason behind this code?
-        for(int i = 0; i< 3; i++) {
-            mainActivity.onBackPressed();
-        }
+
         InputMethodManager imm = (InputMethodManager)mainActivity.getSystemService(
                 Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(description.getWindowToken(), 0);
@@ -147,7 +144,7 @@ public class CaseDescriptionFragment extends android.support.v4.app.Fragment {
             if(post != null){
                 post.setAnonymous(isAnonym);
                 //Now save the data.
-                newCase.saveAllImages(new DataListCallback<Map<String, Object>>() {
+                newCase.saveAllImages(/*new DataListCallback<Map<String, Object>>() {
                     @Override
                     public void onBefore() {
                         TastyToast.makeText(mainActivity.getApplicationContext(), Constants.SAVING_POST, TastyToast.LENGTH_SHORT, TastyToast.DEFAULT);
@@ -163,8 +160,9 @@ public class CaseDescriptionFragment extends android.support.v4.app.Fragment {
                         post.save(new VoidCallback() {
                             @Override
                             public void onSuccess() {
-                                TastyToast.makeText(mainActivity.getApplicationContext(), Constants.SUCCESS_SAVED, TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
                                 mainActivity.stopProgressBar(progressBar);
+                                moveToHome();
+
                             }
 
                             @Override
@@ -185,8 +183,18 @@ public class CaseDescriptionFragment extends android.support.v4.app.Fragment {
                     public void onFinally() {
                         mainActivity.stopProgressBar(progressBar);
                     }
-                });
+                }*/);
             }
+        }
+    }
+
+
+    public void moveToHome(){
+        TastyToast.makeText(mainActivity.getApplicationContext(), Constants.SUCCESS_SAVED, TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
+
+        //TODO: What is the reason behind this code?
+        for(int i = 0; i< 3; i++) {
+            mainActivity.onBackPressed();
         }
     }
 

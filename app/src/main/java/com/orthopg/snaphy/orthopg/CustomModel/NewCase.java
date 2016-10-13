@@ -39,15 +39,15 @@ public class NewCase {
     }
 
     //A callback to indicate when all data is saved..
-    public void saveAllImages(final DataListCallback<Map<String, Object>> callback){
-        callback.onBefore();
+    public void saveAllImages(/*inal DataListCallback<Map<String, Object>> callback*/){
+        //callback.onBefore();
         if(trackImages != null){
             if(trackImages.size() != 0){
                 postImages.subscribe(this, new Listen<Map<String, Object>>() {
                     @Override
                     public void onInit(DataList<Map<String, Object>> dataList) {
                         //Start saving image..
-                        getConvertImageToHashMap();
+
                     }
 
                     @Override
@@ -61,8 +61,8 @@ public class NewCase {
                         }
 
                         if(done){
-                            callback.onSuccess(postImages);
-                            callback.onFinally();
+                            /*callback.onSuccess(postImages);
+                            callback.onFinally();*/
                         }
                     }
 
@@ -77,11 +77,17 @@ public class NewCase {
                     }
                 });
             }else{
+                /*DataList<Map<String, Object>> success = new DataList<>();
+                callback.onSuccess(success);
+                callback.onFinally();*/
 
             }
         }else{
-
+            /*DataList<Map<String, Object>> success = new DataList<>();
+            callback.onSuccess(success);
+            callback.onFinally();*/
         }
+        getConvertImageToHashMap();
 
     }
 

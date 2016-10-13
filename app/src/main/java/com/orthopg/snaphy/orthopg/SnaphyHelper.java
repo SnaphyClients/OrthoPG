@@ -530,7 +530,6 @@ public class SnaphyHelper {
         String fileName = String.valueOf(date.getTime());
         //create a file to write bitmap data
         File file = new File(mainActivity.getCacheDir(), fileName + ".jpg");
-
         try{
             file.createNewFile();
             //Now converting image to bitmap..
@@ -548,9 +547,8 @@ public class SnaphyHelper {
             bitmap = null;
 
 
-
             CustomContainerRepository containerRepo = getLoopBackAdapter().createRepository(CustomContainerRepository.class);
-            CustomFileRepository customFileRepository = getLoopBackAdapter().createRepository(CustomFileRepository.class);
+            //CustomFileRepository customFileRepository = getLoopBackAdapter().createRepository(CustomFileRepository.class);
             Map<String, String> objectHashMap = new HashMap<>();
             objectHashMap.put("name", containerName);
             CustomContainer container1 = containerRepo.createObject(objectHashMap);
