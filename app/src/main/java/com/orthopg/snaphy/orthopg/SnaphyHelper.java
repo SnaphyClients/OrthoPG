@@ -27,6 +27,7 @@ import com.bumptech.glide.request.target.Target;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.sdsmdg.tastytoast.TastyToast;
 import com.strongloop.android.loopback.LocalInstallation;
 import com.strongloop.android.loopback.RestAdapter;
 import com.strongloop.android.loopback.callbacks.VoidCallback;
@@ -568,11 +569,14 @@ public class SnaphyHelper {
             });
         }
         catch (IOException e){
-            //TODO SHOW MESSAGE TRY AGAIN UPLOADING IMAGE..
+            TastyToast.makeText(mainActivity.getApplicationContext(), Constants.UPLOAD_ERROR, TastyToast.LENGTH_SHORT, TastyToast.ERROR);
             Log.e(Constants.TAG, e.toString());
         }
 
     }
+
+
+
 
     public void  uploadImageToContainer(String containerName, File imageFile, final String TAG) {
         Date date = new Date();
@@ -626,16 +630,25 @@ public class SnaphyHelper {
     }
 
 
+
     public String getName(String firstName, String lastName){
         String name = "";
-        if(!firstName.isEmpty()) {
-            name = firstName;
-            if(!lastName.isEmpty()) {
-                name = name + " "+ lastName;
+        if(firstName != null){
+            if(!firstName.isEmpty()) {
+                name = firstName;
+                if(lastName != null){
+                    if(!lastName.isEmpty()) {
+                        name = name + " "+ lastName;
+                    }
+                }
             }
+            return WordUtils.capitalize(name);
+        }else{
+            return "";
         }
-        return WordUtils.capitalize(name);
     }
+
+
 
     public boolean isNetworkAvailable() {
         boolean haveConnectedWifi = false;

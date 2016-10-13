@@ -9,9 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Post;
+import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
+import com.orthopg.snaphy.orthopg.Constants;
+import com.orthopg.snaphy.orthopg.CustomModel.NewCase;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
+import com.sdsmdg.tastytoast.TastyToast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -54,7 +60,25 @@ public class CaseHeadingFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_case_heading, container, false);
         ButterKnife.bind(this, view);
+        //Load previous data..
+        loadHeading();
         return view;
+    }
+
+
+    public void loadHeading(){
+        if(Presenter.getInstance().getModel(NewCase.class, Constants.ADD_NEW_CASE) != null){
+            NewCase newCase = Presenter.getInstance().getModel(NewCase.class, Constants.ADD_NEW_CASE);
+            if(newCase.getPost() != null){
+                if(newCase.getPost().getHeading() != null){
+                    if(!newCase.getPost().getHeading().isEmpty()){
+                        //Load the heading..
+                        heading.setText(newCase.getPost().getHeading());
+                    }
+                }
+            }
+
+        }
     }
 
     @OnClick(R.id.fragment_case_heading_image_button1) void crossButton() {
@@ -68,8 +92,43 @@ public class CaseHeadingFragment extends android.support.v4.app.Fragment {
         InputMethodManager imm = (InputMethodManager)mainActivity.getSystemService(
                 Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(heading.getWindowToken(), 0);
-        mainActivity.replaceFragment(R.id.fragment_case_heading_button1, null);
+        moveNext(heading);
     }
+
+
+    public void saveHeading(String title){
+        if(Presenter.getInstance().getModel(NewCase.class, Constants.ADD_NEW_CASE) != null){
+            NewCase newCase = Presenter.getInstance().getModel(NewCase.class, Constants.ADD_NEW_CASE);
+            if(newCase.getPost() != null){
+                newCase.getPost().setHeading(title);
+            }
+        }
+    }
+
+
+
+    public void moveNext(TextView heading){
+        if(heading.getText() != null){
+            String title = heading.getText().toString();
+            if(title != null){
+                title = title.trim();
+                if(!title.isEmpty()){
+                    //Now load title to post.
+                    saveHeading(title);
+                    //Now add to Presenter..
+                    mainActivity.replaceFragment(R.id.fragment_case_heading_button1, null);
+                }else{
+                    TastyToast.makeText(mainActivity.getApplicationContext(), Constants.HEADING_REQUIRED_MESSAGE, TastyToast.LENGTH_SHORT, TastyToast.WARNING);
+                }
+            }else{
+                TastyToast.makeText(mainActivity.getApplicationContext(), Constants.HEADING_REQUIRED_MESSAGE, TastyToast.LENGTH_SHORT, TastyToast.WARNING);
+            }
+        }else{
+            TastyToast.makeText(mainActivity.getApplicationContext(), Constants.HEADING_REQUIRED_MESSAGE, TastyToast.LENGTH_SHORT, TastyToast.WARNING);
+        }
+    }
+
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

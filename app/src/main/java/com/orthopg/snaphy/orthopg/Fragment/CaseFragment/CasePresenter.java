@@ -6,14 +6,17 @@ import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.DataListCallback;
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.LikePost;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Post;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.PostDetail;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.SavePost;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.LikePostRepository;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.PostDetailRepository;
+import com.androidsdk.snaphy.snaphyandroidsdk.repository.PostRepository;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.SavePostRepository;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.orthopg.snaphy.orthopg.Constants;
+import com.orthopg.snaphy.orthopg.CustomModel.NewCase;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.strongloop.android.loopback.RestAdapter;
 
@@ -166,6 +169,19 @@ public class CasePresenter {
             savePostRepository.deleteById((String) savePost.getId(), callback);
         }
 
+    }
+
+
+    /**
+     * Reset or Create a new object if not present..
+     */
+    public void InitNewCaseObject(){
+        PostRepository postRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(PostRepository.class);
+        HashMap<String, Object> hashMap = new HashMap<>();
+        Post post = postRepository.createObject(hashMap);
+        NewCase newCase = new NewCase(post);
+        //Now add to Presenter interface..
+        Presenter.getInstance().addModel(Constants.ADD_NEW_CASE, newCase);
     }
 
 

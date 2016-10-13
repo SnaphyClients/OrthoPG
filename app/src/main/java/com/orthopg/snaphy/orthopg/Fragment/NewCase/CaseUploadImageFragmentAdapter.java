@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
+import com.orthopg.snaphy.orthopg.CustomModel.TrackImage;
+import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 
 import java.util.List;
@@ -21,10 +24,13 @@ import butterknife.ButterKnife;
  */
 public class CaseUploadImageFragmentAdapter extends RecyclerView.Adapter<CaseUploadImageFragmentAdapter.ViewHolder>{
 
-    List<Uri> imageURI;
+    //List<Uri> imageURI;
+    DataList<TrackImage> trackImages;
+    MainActivity mainActivity;
 
-    public CaseUploadImageFragmentAdapter(List<Uri> imageURI) {
-        this.imageURI = imageURI;
+    public CaseUploadImageFragmentAdapter(MainActivity mainActivity, DataList<TrackImage> trackImages) {
+        this.trackImages = trackImages;
+        this.mainActivity = mainActivity;
     }
 
     @Override
@@ -40,18 +46,39 @@ public class CaseUploadImageFragmentAdapter extends RecyclerView.Adapter<CaseUpl
     }
 
     @Override
-    public void onBindViewHolder(CaseUploadImageFragmentAdapter.ViewHolder holder, int position) {
-        Uri uri = imageURI.get(position);
+    public void onBindViewHolder(CaseUploadImageFragmentAdapter.ViewHolder holder, final int position) {
+
+        TrackImage trackImage = trackImages.get(position);
 
         ImageView imageView = holder.imageView;
         ImageButton delete = holder.delete;
 
-        imageView.setImageURI(uri);
+        if(trackImage.isDownloaded()){
+            //Load using url..
+            if(trackImage.getImageModel() != null){
+                //Load image..
+                mainActivity.snaphyHelper.loadUnsignedUrl(trackImage.getImageModel().getHashMap(), imageView);
+            }
+        }else{
+            //Load from local file..
+            if(trackImage.getUri() != null){
+                imageView.setImageURI(trackImage.getUri());
+            }
+        }
+        //On delete just remove the image..
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Just remove the trackImage from list..
+                trackImages.remove(position);
+            }
+        });
+
     }
 
     @Override
     public int getItemCount() {
-        return imageURI.size();
+        return trackImages.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

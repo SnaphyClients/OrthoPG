@@ -36,9 +36,11 @@ public class Constants {
     public static String NEWS_LIST_NEWS_FRAGMENT = "NewsListNewsFragment";
     /*END OF DATA LIST IDs*/
 
+    /*MOdel IDs*/
     public static String ZOOM_IMAGE_ID = "ZoomImageId";
     public static String CASE_PRESENTER_ID = "CasePresenterId";
-
+    public static String ADD_NEW_CASE = "ADD_NEW_CASE";
+    /*---------------*/
 
     /*IDs*/
     public static String LOGIN_CUSTOMER = "loginCustomer";
@@ -78,7 +80,15 @@ public class Constants {
     public static String MINUTES = "minutes";
     public static String SECONDS = "seconds";
 
-    public static String ERROR_MESSAGE = "Cannot login ! Try again later";
 
+
+    /*-------------------------------------------------------------------------------------------------------*/
+    /*MESSAGES AREA*/
+    public static String ERROR_MESSAGE = "Cannot login ! Try again later";
+    public static String UPLOAD_ERROR = "Cannot Upload Image ! Try again";
+    public static String HEADING_REQUIRED_MESSAGE = "Heading cannot be blank";
+
+
+    /*--------------------------------------------------------------------------------------------------------*/
 
 }

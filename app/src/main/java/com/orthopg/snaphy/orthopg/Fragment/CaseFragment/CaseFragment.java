@@ -276,6 +276,8 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     }
 
     @OnClick(R.id.fragment_case_button4) void postCaseButtonClick() {
+        //First create a post object then..move to fragment..
+        casePresenter.InitNewCaseObject();
         mainActivity.replaceFragment(R.id.fragment_case_button4, null);
     }
 
