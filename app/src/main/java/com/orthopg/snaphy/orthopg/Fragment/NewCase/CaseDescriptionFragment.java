@@ -113,6 +113,7 @@ public class CaseDescriptionFragment extends android.support.v4.app.Fragment {
                 Context.INPUT_METHOD_SERVICE);
         im.hideSoftInputFromWindow(description.getWindowToken(), 0);
 
+        //TODO: What is the reason behind this code?
         for(int i = 0; i< 3; i++) {
             mainActivity.onBackPressed();
         }
@@ -128,14 +129,14 @@ public class CaseDescriptionFragment extends android.support.v4.app.Fragment {
                     saveDescription(desc);
                     postCaseAsAnonymousDialog();
                     //Now add to Presenter..
-                    //TODO DISPLAY THIS AFTER SUCCESSFULL SAVING ..
+                    //TODO: DISPLAY THIS AFTER SUCCESSFULL SAVING ..
                     //mainActivity.replaceFragment(R.id.fragment_case_description_button1, null);
                 }
             }
         }
 
         //ASK FOR ANONYMOUS POST AND SAVE THE CASE...
-        Toast.makeText(mainActivity, "Case has been posted", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(mainActivity, "Case has been posted", Toast.LENGTH_SHORT).show();
     }
 
 

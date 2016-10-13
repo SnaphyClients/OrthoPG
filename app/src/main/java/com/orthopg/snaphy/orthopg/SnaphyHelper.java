@@ -536,7 +536,7 @@ public class SnaphyHelper {
             //Now converting image to bitmap..
             Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getPath());
             ByteArrayOutputStream out = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 40, out);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 60, out);
             //Bitmap decoded = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
             byte[] bitmapdata = out.toByteArray();
             FileOutputStream fos = new FileOutputStream(file);
