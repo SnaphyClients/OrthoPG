@@ -11,6 +11,7 @@ public class Constants {
     public static final String APP_PHONE = "tel:+91-9873046993";
     public static String APP_PLAY_STORE = "com.orthopg.snaphy.orthopg";
     public static String APP_SHARE_TEXT = "Orthopedic Doctors Largest Network \n\n";
+    public static String CONTAINER = "orthopg";
 
     private static String SHA_KEY = "D6:E7:88:AB:D1:8E:4F:88:A8:0D:34:ED:6E:57:FC:9F:EB:8C:7B:CC";
     public static String CLIENT_ID = "1045211377196-k556pl54qlqrmnin81fm7e7dseud686r.apps.googleusercontent.com";
@@ -86,7 +87,10 @@ public class Constants {
     /*MESSAGES AREA*/
     public static String ERROR_MESSAGE = "Cannot login ! Try again later";
     public static String UPLOAD_ERROR = "Cannot Upload Image ! Try again";
+    public static String CASE_UPLOAD_ERROR = "Cannot Save! Check your network";
     public static String HEADING_REQUIRED_MESSAGE = "Heading cannot be blank";
+    public static String SUCCESS_SAVED = "Case saved";
+    public static String SAVING_POST = "Saving case";
 
 
     /*--------------------------------------------------------------------------------------------------------*/

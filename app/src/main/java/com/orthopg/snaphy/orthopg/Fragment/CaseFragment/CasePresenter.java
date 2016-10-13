@@ -179,7 +179,7 @@ public class CasePresenter {
         PostRepository postRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(PostRepository.class);
         HashMap<String, Object> hashMap = new HashMap<>();
         Post post = postRepository.createObject(hashMap);
-        NewCase newCase = new NewCase(post);
+        NewCase newCase = new NewCase(mainActivity, post);
         //Now add to Presenter interface..
         Presenter.getInstance().addModel(Constants.ADD_NEW_CASE, newCase);
     }
