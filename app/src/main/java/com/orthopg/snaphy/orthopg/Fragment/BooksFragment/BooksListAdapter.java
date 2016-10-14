@@ -95,6 +95,7 @@ public class BooksListAdapter extends RecyclerView.Adapter<BooksListAdapter.View
                             DownloadManager.Request request = new DownloadManager.Request(uri);
 
                             request.setDescription("OrthoPG");
+                            request.setMimeType("application/pdf");
 
                             if(booksModel.getTitle() != null) {
                                 request.setDescription(booksModel.getTitle().toString());
@@ -124,6 +125,38 @@ public class BooksListAdapter extends RecyclerView.Adapter<BooksListAdapter.View
 
 
     }
+
+    /*@Override
+protected void onResume() {
+    super.onResume();
+    IntentFilter intentFilter = new IntentFilter(
+            DownloadManager.ACTION_DOWNLOAD_COMPLETE);
+    registerReceiver(broadcast, intentFilter);
+}
+
+public void showPdf() {
+    try {
+        File file = new File(Environment.getExternalStorageDirectory()
+                + "/Download/" + name + "CV.pdf");//name here is the name of any string you want to pass to the method
+        if (!file.isDirectory())
+            file.mkdir();
+        Intent testIntent = new Intent("com.adobe.reader");
+        testIntent.setType("application/pdf");
+        testIntent.setAction(Intent.ACTION_VIEW);
+        Uri uri = Uri.fromFile(file);
+        testIntent.setDataAndType(uri, "application/pdf");
+        startActivity(testIntent);
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
+BroadcastReceiver broadcast = new BroadcastReceiver() {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        showPdf();
+    }
+};*/
 
     @Override
     public int getItemCount() {

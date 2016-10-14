@@ -37,6 +37,8 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
@@ -533,8 +535,10 @@ public class SnaphyHelper {
         try{
             file.createNewFile();
             //Now converting image to bitmap..
-            Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getPath());
+            Bitmap bitmap = decodeFile(imageFile);
+                    /*BitmapFactory.decodeFile(imageFile.getPath());*/
             ByteArrayOutputStream out = new ByteArrayOutputStream();
+
             bitmap.compress(Bitmap.CompressFormat.JPEG, 60, out);
             //Bitmap decoded = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
             byte[] bitmapdata = out.toByteArray();
@@ -571,6 +575,32 @@ public class SnaphyHelper {
             Log.e(Constants.TAG, e.toString());
         }
 
+    }
+
+    // Decodes image and scales it to reduce memory consumption
+    private Bitmap decodeFile(File f) {
+        try {
+            // Decode image size
+            BitmapFactory.Options o = new BitmapFactory.Options();
+            o.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(new FileInputStream(f), null, o);
+
+            // The new size we want to scale to
+            final int REQUIRED_SIZE=70;
+
+            // Find the correct scale value. It should be the power of 2.
+            int scale = 1;
+            while(o.outWidth / scale / 2 >= REQUIRED_SIZE &&
+                    o.outHeight / scale / 2 >= REQUIRED_SIZE) {
+                scale *= 2;
+            }
+
+            // Decode with inSampleSize
+            BitmapFactory.Options o2 = new BitmapFactory.Options();
+            o2.inSampleSize = scale;
+            return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
+        } catch (FileNotFoundException e) {}
+        return null;
     }
 
 
