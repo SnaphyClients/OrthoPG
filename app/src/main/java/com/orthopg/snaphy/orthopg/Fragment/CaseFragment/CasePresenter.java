@@ -5,6 +5,7 @@ import android.util.Log;
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.DataListCallback;
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.LikePost;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Post;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.PostDetail;
@@ -189,6 +190,132 @@ public class CasePresenter {
 
 
 
+    /**
+     *
+     * @param reset String saved|posted
+     */
+    public void fetchPostedPost(final String listType, boolean reset){
+        Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+        if(customer != null){
+            //Get the list ...
+            final TrackList list = trackList.get(listType);
+            if(list != null) {
+                if (reset) {
+                    list.reset();
+                }
+
+                PostRepository postRepository = restAdapter.createRepository(PostRepository.class);
+                postRepository.getPostedCases(list.getSkip(), list.getLimit(), (String) customer.getId(), new DataListCallback<Post>() {
+                    @Override
+                    public void onBefore() {
+                        if (mainActivity != null) {
+                            //Start loading bar..
+                            mainActivity.startProgressBar(circleProgressBar);
+                        }
+                    }
+
+                    @Override
+                    public void onSuccess(DataList<Post> objects) {
+                        if(objects != null){
+                            for (Post post : objects) {
+                                if (post != null) {
+                                    if (post.getPostDetails() != null) {
+                                        post.getPostDetails().addRelation(post);
+                                    }
+                                }
+                            }
+                            list.getPostDataList().addAll(objects);
+                            //Now increment skip..
+                            list.incrementSkip(objects.size());
+                        }
+                    }
+
+
+                    @Override
+                    public void onError(Throwable t) {
+                        //SHOW ERROR MESSAGE..
+                        Log.e(Constants.TAG, t.toString() + "---CasePresenter.java");
+                    }
+
+                    @Override
+                    public void onFinally() {
+                        if (mainActivity != null) {
+                            //Stop loading bar..
+                            mainActivity.stopProgressBar(circleProgressBar);
+                        }
+                    }
+                });
+            }//list != null
+        }else{
+            Log.e(Constants.TAG, "User not logged! Cannot display SavedCases List");
+        }
+    }
+
+
+    /**
+     *
+     * @param reset String saved|posted
+     */
+    public void fetchSavedPost(final String listType, boolean reset){
+        Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+        if(customer != null){
+            //Get the list ...
+            final TrackList list = trackList.get(listType);
+            if(list != null) {
+                if (reset) {
+                    list.reset();
+                }
+
+                PostRepository postRepository = restAdapter.createRepository(PostRepository.class);
+                postRepository.fetchSavedCases(list.getSkip(), list.getLimit(), (String) customer.getId(), new DataListCallback<Post>() {
+                    @Override
+                    public void onBefore() {
+                        if (mainActivity != null) {
+                            //Start loading bar..
+                            mainActivity.startProgressBar(circleProgressBar);
+                        }
+                    }
+
+                    @Override
+                    public void onSuccess(DataList<Post> objects) {
+                        if(objects != null){
+                            for (Post post : objects) {
+                                if (post != null) {
+                                    if (post.getPostDetails() != null) {
+                                        post.getPostDetails().addRelation(post);
+                                    }
+                                }
+                            }
+                            list.getPostDataList().addAll(objects);
+                            //Now increment skip..
+                            list.incrementSkip(objects.size());
+                        }
+
+                    }
+
+
+                    @Override
+                    public void onError(Throwable t) {
+                        //SHOW ERROR MESSAGE..
+                        Log.e(Constants.TAG, t.toString() + "---CasePresenter.java");
+                    }
+
+                    @Override
+                    public void onFinally() {
+                        if (mainActivity != null) {
+                            //Stop loading bar..
+                            mainActivity.stopProgressBar(circleProgressBar);
+                        }
+                    }
+                });
+            }//list != null
+        }else{
+            Log.e(Constants.TAG, "User not logged! Cannot display SavedCases List");
+        }
+    }
+
+
+
 
 
     /**
@@ -226,7 +353,7 @@ public class CasePresenter {
 
                         list.getPostDetails().addAll(objects);
                         //Now increment skip..
-                        list.incrementSkip();
+                        list.incrementSkip(objects.size());
                     }
                 }
 

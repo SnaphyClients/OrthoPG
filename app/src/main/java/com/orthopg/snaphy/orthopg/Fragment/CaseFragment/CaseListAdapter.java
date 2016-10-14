@@ -80,9 +80,9 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         public Data(TrackList trackListItem, int position ){
             this.trackListItem = trackListItem;
 
-            if(Constants.SELECTED_TAB == Constants.TRENDING
-                    || Constants.SELECTED_TAB == Constants.LATEST
-                    || Constants.SELECTED_TAB == Constants.UNSOLVED){
+            if(Constants.SELECTED_TAB.equals(Constants.TRENDING)
+                    || Constants.SELECTED_TAB.equals(Constants.LATEST)
+                    || Constants.SELECTED_TAB.equals(Constants.UNSOLVED)){
 
                     postDetail  = trackListItem.getPostDetails().get(position);
                     if(postDetail != null){
@@ -630,9 +630,9 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
     @Override
     public int getItemCount() {
         TrackList trackListItem = trackList.get(Constants.SELECTED_TAB);
-        if(Constants.SELECTED_TAB == Constants.TRENDING
-                || Constants.SELECTED_TAB == Constants.LATEST
-                || Constants.SELECTED_TAB == Constants.UNSOLVED){
+        if(Constants.SELECTED_TAB.equals(Constants.TRENDING)
+                || Constants.SELECTED_TAB.equals(Constants.LATEST)
+                || Constants.SELECTED_TAB.equals(Constants.UNSOLVED)){
             return trackListItem.getPostDetails().size();
         }else{
             return trackListItem.getPostDataList().size();

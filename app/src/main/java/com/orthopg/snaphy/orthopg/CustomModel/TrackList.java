@@ -65,8 +65,8 @@ public class TrackList {
         skip = 0.0;
     }
 
-    public void incrementSkip(){
-        skip = skip + limit;
+    public void incrementSkip(double newAdded){
+        skip = skip + newAdded;
     }
 
 }

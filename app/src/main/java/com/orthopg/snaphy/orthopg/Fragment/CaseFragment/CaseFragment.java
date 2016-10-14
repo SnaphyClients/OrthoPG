@@ -16,6 +16,7 @@ import android.widget.Button;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.Listen;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Post;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.PostDetail;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
@@ -68,8 +69,8 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.fragment_case_button1) Button trendingButton;
     @Bind(R.id.fragment_case_button2) Button newCaseButton;
     @Bind(R.id.fragment_case_button3) Button unsolvedCaseButton;
-    @Bind(R.id.fragment_case_button6) Button postedCaseButton;
-    @Bind(R.id.fragment_case_button5) Button savedCaseButton;
+    @Bind(R.id.fragment_case_button5) Button postedCaseButton;
+    @Bind(R.id.fragment_case_button6) Button savedCaseButton;
 
     public CaseFragment() {
         // Required empty public constructor
@@ -82,6 +83,8 @@ public class CaseFragment extends android.support.v4.app.Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        //Default selecting trending option first..
+        Constants.SELECTED_TAB = Constants.TRENDING;
         super.onCreate(savedInstanceState);
     }
 
@@ -118,11 +121,11 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                 }
 
                 if(isSavedSelected) {
-
+                    casePresenter.fetchSavedPost(Constants.SAVED, true);
                 }
 
                 if(isPostedSelected) {
-
+                    casePresenter.fetchPostedPost(Constants.POSTED, true);
                 }
 
 
@@ -148,14 +151,16 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         Constants.SELECTED_TAB = Constants.UNSOLVED;
     }
 
-    @OnClick(R.id.fragment_case_button5) void savedButtonClick() {
+    @OnClick(R.id.fragment_case_button6) void savedButtonClick() {
         changeButtonColor(false, false, false, true, false);
         Constants.SELECTED_TAB = Constants.SAVED;
+        casePresenter.fetchSavedPost(Constants.SAVED, false);
     }
 
-    @OnClick(R.id.fragment_case_button6) void postedButtonClick() {
+    @OnClick(R.id.fragment_case_button5) void postedButtonClick() {
         changeButtonColor(false, false, false, false, true);
         Constants.SELECTED_TAB = Constants.POSTED;
+        casePresenter.fetchPostedPost(Constants.POSTED, false);
     }
 
     public void recyclerViewLoadMoreEventData() {
@@ -196,6 +201,15 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                         if(isUnsolvedSelected) {
                             casePresenter.fetchPost(Constants.UNSOLVED, false);
                         }
+
+                        if(isPostedSelected){
+                            casePresenter.fetchPostedPost(Constants.POSTED, false);
+                        }
+
+                        if(isSavedSelected){
+                            casePresenter.fetchSavedPost(Constants.SAVED, false);
+                        }
+
                         loading = true;
                     }
                 }
@@ -288,14 +302,14 @@ public class CaseFragment extends android.support.v4.app.Fragment {
             trackList.put(Constants.SAVED, savedListData);
 
 
-            savedListData.getPostDetails().subscribe(this, new Listen<PostDetail>() {
+            savedListData.getPostDataList().subscribe(this, new Listen<Post>() {
                 @Override
-                public void onInit(DataList<PostDetail> dataList) {
+                public void onInit(DataList<Post> dataList) {
 
                 }
 
                 @Override
-                public void onChange(DataList<PostDetail> dataList) {
+                public void onChange(DataList<Post> dataList) {
                     super.onChange(dataList);
                     swipeRefreshLayout.setRefreshing(false);
                     caseListAdapter.notifyDataSetChanged();
@@ -311,14 +325,14 @@ public class CaseFragment extends android.support.v4.app.Fragment {
             trackList.put(Constants.POSTED, postedListData);
 
 
-            postedListData.getPostDetails().subscribe(this, new Listen<PostDetail>() {
+            postedListData.getPostDataList() .subscribe(this, new Listen<Post>() {
                 @Override
-                public void onInit(DataList<PostDetail> dataList) {
+                public void onInit(DataList<Post> dataList) {
 
                 }
 
                 @Override
-                public void onChange(DataList<PostDetail> dataList) {
+                public void onChange(DataList<Post> dataList) {
                     super.onChange(dataList);
                     swipeRefreshLayout.setRefreshing(false);
                     caseListAdapter.notifyDataSetChanged();

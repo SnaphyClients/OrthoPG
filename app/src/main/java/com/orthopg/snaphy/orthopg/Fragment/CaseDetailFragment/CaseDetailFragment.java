@@ -29,6 +29,7 @@ import com.androidsdk.snaphy.snaphyandroidsdk.models.PostDetail;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.SavePost;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.orthopg.snaphy.orthopg.Constants;
+import com.orthopg.snaphy.orthopg.CustomModel.TrackList;
 import com.orthopg.snaphy.orthopg.Fragment.CaseFragment.CaseImageAdapter;
 import com.orthopg.snaphy.orthopg.Fragment.CaseFragment.CasePresenter;
 import com.orthopg.snaphy.orthopg.Fragment.CaseFragment.TrackLike;
@@ -145,24 +146,37 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
 
     public void loadPostData(int position){
         //casePresenter = new CasePresenter(mainActivity.snaphyHelper.getLoopBackAdapter(), progressBar, mainActivity);
-        if(Presenter.getInstance().getList(PostDetail.class, Constants.POST_DETAIL_LIST_CASE_FRAGMENT) != null){
-            DataList<PostDetail> postDetails = Presenter.getInstance().getList(PostDetail.class, Constants.POST_DETAIL_LIST_CASE_FRAGMENT);
-            postDetail = postDetails.get(position);
-        }
+        if(Presenter.getInstance().getList(HashMap.class, Constants.LIST_CASE_FRAGMENT) != null){
+            HashMap<String, TrackList> list = Presenter.getInstance().getModel(HashMap.class, Constants.LIST_CASE_FRAGMENT);
+            if(list != null){
+                TrackList trackListItem = list.get(Constants.SELECTED_TAB);
+                if(Constants.SELECTED_TAB.equals(Constants.TRENDING)
+                        || Constants.SELECTED_TAB.equals(Constants.LATEST)
+                        || Constants.SELECTED_TAB.equals(Constants.UNSOLVED)){
 
-        if(postDetail != null){
-            if(postDetail.getPost() != null){
-                post = postDetail.getPost();
-            }else{
-                return;
+                    postDetail  = trackListItem.getPostDetails().get(position);
+                    if(postDetail != null){
+                        post = postDetail.getPost();
+                    }
+                }else{
+                    if(trackListItem.getPostDataList() != null){
+                        if(trackListItem.getPostDataList().size() != 0){
+                            post  = trackListItem.getPostDataList().get(position);
+                            postDetail = post.getPostDetails();
+                        }
+                    }
+                }
             }
-        }else{
-            return;
+
         }
         loadPost();
     }
 
     public void loadPost(){
+        if(post == null){
+            return;
+        }
+
         caseHeading.setText(post.getHeading());
         String name1 = mainActivity.snaphyHelper.getName(post.getCustomer().getFirstName(), post.getCustomer().getLastName());
         if(!name1.isEmpty()){
