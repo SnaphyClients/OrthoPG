@@ -706,6 +706,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         } else {
             notConnectedText.setVisibility(View.VISIBLE);
             retryButton.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
         }
     }
 

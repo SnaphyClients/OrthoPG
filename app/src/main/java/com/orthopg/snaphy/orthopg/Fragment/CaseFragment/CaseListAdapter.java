@@ -101,6 +101,8 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         final TextView numberOfLike = holder.numberOfLikes;
         final TextView numberOfSave = holder.numberOfSave;
         LinearLayout linearLayout = holder.linearLayout;
+        LinearLayout likeLinearLayout = holder.likeLinearLayout;
+        LinearLayout saveLinearLayout = holder.saveLinearLayout;
 
         caseImages.setLayoutManager(new LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false));
 
@@ -293,7 +295,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
 
 
 
-        like.setOnClickListener(new View.OnClickListener() {
+        likeLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).get(post.getId()) == null){
@@ -384,7 +386,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
 
 
 
-        saveCase.setOnClickListener(new View.OnClickListener() {
+        saveLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).get(post.getId()) == null){
@@ -493,6 +495,21 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
 
     }
 
+    public String parseLikeAndSave(int number) {
+        if(number >= 1000) {
+            if(number == 1000) {
+                String convertNumber = 1+"k";
+                return convertNumber;
+            } else {
+                int convertNumber = number/1000;
+                return convertNumber+"k+";
+            }
+        } else {
+            return number+"";
+        }
+    }
+
+
 
     public void showLike(Post post, ImageView like, TrackLike trackLike, TextView numberOfLike, PostDetail postDetail){
         if(trackLike != null){
@@ -500,7 +517,8 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                 Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).put(post.getId(), trackLike);
                 like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_selected));
                 postDetail.setTotalLike(postDetail.getTotalLike() + 1);
-                numberOfLike.setText(String.valueOf((int)postDetail.getTotalLike()));
+                String parsedLike = parseLikeAndSave((int)postDetail.getTotalLike());
+                numberOfLike.setText(parsedLike);
             }else{
                 Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).put(post.getId(), trackLike);
                 like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_unselected));
@@ -509,7 +527,8 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                 } else {
                     postDetail.setTotalLike(postDetail.getTotalLike() - 1);
                 }
-                numberOfLike.setText(String.valueOf((int)postDetail.getTotalLike()));
+                String parsedLike = parseLikeAndSave((int)postDetail.getTotalLike());
+                numberOfLike.setText(parsedLike);
             }
         }
     }
@@ -520,7 +539,8 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                 Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).put(post.getId(), trackSave);
                 saveCase.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_selected));
                 postDetail.setTotalSave(postDetail.getTotalSave() + 1);
-                numberOfSave.setText(String.valueOf((int)postDetail.getTotalSave()));
+                String parsedSave = parseLikeAndSave((int)postDetail.getTotalSave());
+                numberOfSave.setText(parsedSave);
             }else{
                 Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).put(post.getId(), trackSave);
                 saveCase.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_unselected));
@@ -529,7 +549,8 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                 } else {
                     postDetail.setTotalSave(postDetail.getTotalSave() - 1);
                 }
-                numberOfSave.setText(String.valueOf((int)postDetail.getTotalSave()));
+                String parsedSave = parseLikeAndSave((int)postDetail.getTotalSave());
+                numberOfSave.setText(parsedSave);
             }
         }
     }
@@ -580,8 +601,9 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         @Bind(R.id.layout_case_list_button2) ImageButton editButton;
         @Bind(R.id.layout_case_list_textview8) TextView numberOfLikes;
         @Bind(R.id.layout_case_list_textview9) TextView numberOfSave;
-        @Bind(R.id.layout_case_list_linear_layout)
-        LinearLayout linearLayout;
+        @Bind(R.id.layout_case_list_linear_layout) LinearLayout linearLayout;
+        @Bind(R.id.layout_case_list_linear_layout_like) LinearLayout likeLinearLayout;
+        @Bind(R.id.layout_case_list_linear_layout_save) LinearLayout saveLinearLayout;
 
 
         public ViewHolder(View itemView) {

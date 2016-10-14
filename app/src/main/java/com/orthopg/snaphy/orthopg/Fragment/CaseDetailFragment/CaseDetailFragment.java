@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
@@ -80,6 +81,8 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.layout_case_details_textview8) TextView selectedAnswerUserName;
     @Bind(R.id.layout_case_details_textview9) TextView selectedAnswer;
     @Bind(R.id.layout_case_details_imageview1) ImageView isAnswerSelected;
+    @Bind(R.id.fragment_case_detail_linearLayout1) LinearLayout saveLinearLayout;
+    @Bind(R.id.fragment_case_detail_linearLayout2) LinearLayout likeLinearLayout;
     boolean isLiked = false;
     boolean isSaved = false;
     MainActivity mainActivity;
@@ -331,6 +334,20 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
 
     }
 
+    public String parseLikeAndSave(int number) {
+        if(number >= 1000) {
+            if(number == 1000) {
+                String convertNumber = 1+"k";
+                return convertNumber;
+            } else {
+                int convertNumber = number/1000;
+                return convertNumber+"k+";
+            }
+        } else {
+            return number+"";
+        }
+    }
+
 
     public void hideSelectedAnswer(TextView selectedAnswer, ImageView grenTick, TextView userName){
         selectedAnswer.setVisibility(View.GONE);
@@ -373,7 +390,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
     }
 
     public void likeButtonClickListener() {
-        likeButton.setOnClickListener(new View.OnClickListener() {
+        likeLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).get(post.getId()) == null) {
@@ -463,7 +480,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
     }
 
     public void saveButtonClickListener() {
-        saveButton.setOnClickListener(new View.OnClickListener() {
+        saveLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).get(post.getId()) == null){
@@ -558,7 +575,8 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
                 Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).put(post.getId(), trackLike);
                 like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_selected));
                 postDetail.setTotalLike(postDetail.getTotalLike() + 1);
-                numberOfLike.setText(String.valueOf((int)postDetail.getTotalLike()));
+                String parsedLike = parseLikeAndSave((int)postDetail.getTotalLike());
+                numberOfLike.setText(parsedLike);
             }else{
                 Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).put(post.getId(), trackLike);
                 like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_unselected));
@@ -567,7 +585,8 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
                 } else {
                     postDetail.setTotalLike(postDetail.getTotalLike() - 1);
                 }
-                numberOfLike.setText(String.valueOf((int)postDetail.getTotalLike()));
+                String parsedLike = parseLikeAndSave((int)postDetail.getTotalLike());
+                numberOfLike.setText(parsedLike);
             }
         }
     }
@@ -578,7 +597,8 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
                 Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).put(post.getId(), trackSave);
                 saveCase.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_selected));
                 postDetail.setTotalSave(postDetail.getTotalSave() + 1);
-                numberOfSave.setText(String.valueOf((int)postDetail.getTotalSave()));
+                String parsedSave = parseLikeAndSave((int)postDetail.getTotalSave());
+                numberOfSave.setText(parsedSave);
             }else{
                 Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).put(post.getId(), trackSave);
                 saveCase.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_unselected));
@@ -587,7 +607,8 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
                 } else {
                     postDetail.setTotalSave(postDetail.getTotalSave() - 1);
                 }
-                numberOfSave.setText(String.valueOf((int)postDetail.getTotalSave()));
+                String parsedSave = parseLikeAndSave((int)postDetail.getTotalSave());
+                numberOfSave.setText(parsedSave);
             }
         }
     }
