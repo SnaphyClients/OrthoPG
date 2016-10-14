@@ -55,9 +55,6 @@ import com.strongloop.android.loopback.LocalInstallation;
 import com.strongloop.android.loopback.RestAdapter;
 import com.strongloop.android.remoting.JsonUtil;
 
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
@@ -490,7 +487,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
     }
 
 
-    public int convertMonthStringIntoNumber(String month) {
+ /*   public int convertMonthStringIntoNumber(String month) {
         DateTimeFormatter format = DateTimeFormat.forPattern("MMM");
         DateTime jodatime = format.parseDateTime(month);
         // Format for output
@@ -499,7 +496,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         return month_number;
 
     }
-
+*/
 
     /**
      * AddUser method for adding user once the user is successfully signed in
