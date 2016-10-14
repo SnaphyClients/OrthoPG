@@ -16,6 +16,8 @@ import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.CustomerRepository;
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.LoginEvent;
 import com.crashlytics.android.ndk.CrashlyticsNdk;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -97,7 +99,11 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
+        final Fabric fabric = new Fabric.Builder(this)
+                .kits(new Crashlytics())
+                .debuggable(true)
+                .build();
+        Fabric.with(fabric);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         progressBar = (CircleProgressBar) findViewById(R.id.activity_main_progressBar);
@@ -582,7 +588,10 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             //Register for push service..
             //snaphyHelper.registerInstallation(null);
             //SHOW ERROR MESSAGE..
-            Log.v(Constants.TAG, "Error in add Customer Method");
+            Log.v(Constants.TAG, "Error in add User Method");
+            //report faliure login
+            Answers.getInstance().logLogin(new LoginEvent()
+                    .putSuccess(false));
             TastyToast.makeText(getApplicationContext(), Constants.ERROR_MESSAGE, TastyToast.LENGTH_SHORT, TastyToast.ERROR);
         }
 
@@ -652,6 +661,10 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
 
                 @Override
                 public void onError(Throwable t) {
+                    //report faliure login
+                    Answers.getInstance().logLogin(new LoginEvent()
+                            .putSuccess(false).
+                    putCustomAttribute("Login Error", t.getMessage()));
                     //Retry Login
                     if (t.getMessage() != null) {
                         if (t.getMessage().equals("Unauthorized")) {

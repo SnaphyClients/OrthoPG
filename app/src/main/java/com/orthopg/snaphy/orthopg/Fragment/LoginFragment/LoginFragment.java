@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.CustomerRepository;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.LoginEvent;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -93,18 +95,23 @@ public class LoginFragment extends android.support.v4.app.Fragment {
             @Override
             public void onSuccess(JSONObject object) {
                 if (object != null) {
+                    Answers.getInstance().logLogin(new LoginEvent()
+                            .putSuccess(true));
                     Log.i(Constants.TAG, "Google = " + object.toString());
                     mainActivity.addUser(object);
 
                 } else {
                     Log.v(Constants.TAG, "Null");
-
+                    Answers.getInstance().logLogin(new LoginEvent()
+                            .putSuccess(false).putCustomAttribute("Login Error", "Customer object is null"));
                 }
             }
 
             @Override
             public void onError(Throwable t) {
                 Log.e(Constants.TAG, t.toString());
+                Answers.getInstance().logLogin(new LoginEvent()
+                        .putSuccess(false).putCustomAttribute("Login Error", t.toString()));
             }
 
             @Override
