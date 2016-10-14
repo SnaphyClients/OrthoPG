@@ -1,8 +1,12 @@
 package com.orthopg.snaphy.orthopg.CustomModel;
 
-import com.androidsdk.snaphy.snaphyandroidsdk.models.ImageModel;
-import java.io.File;
 import android.net.Uri;
+import android.util.Log;
+
+import com.androidsdk.snaphy.snaphyandroidsdk.models.ImageModel;
+import com.orthopg.snaphy.orthopg.Constants;
+
+import java.io.File;
 
 /**
  * Created by snaphy on 13/10/16.
@@ -22,6 +26,7 @@ public class TrackImage {
         this.uri = uri;
         //Add the file..
         file = new File(uri.getPath());
+        Log.v(Constants.TAG, file+"");
     }
 
     public File getFile() {
