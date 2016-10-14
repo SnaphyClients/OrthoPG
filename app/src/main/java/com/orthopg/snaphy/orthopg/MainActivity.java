@@ -411,7 +411,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         int currentHour = Integer.parseInt(currentDate.toString().substring(11, 13));
         int currentMinute = Integer.parseInt(currentDate.toString().substring(14, 16));
         int currentSecond = Integer.parseInt(currentDate.toString().substring(17, 19));
-        int currentYear = Integer.parseInt(currentDate.toString().substring(24, 28));
+        int currentYear = Integer.parseInt(currentDate.toString().substring(30, 34));
 
         /*******************************CURRENT DATE*************************************/
 
