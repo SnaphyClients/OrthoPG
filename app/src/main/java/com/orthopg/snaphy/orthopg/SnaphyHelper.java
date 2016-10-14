@@ -527,7 +527,7 @@ public class SnaphyHelper {
 
 
 
-    public void uploadWithCallback(String containerName, File imageFile, final ObjectCallback<ImageModel> callback){
+    public void uploadWithCallback(String containerName, File imageFile/*final ObjectCallback<ImageModel> callback*/){
         Date date = new Date();
         String fileName = String.valueOf(date.getTime());
         //create a file to write bitmap data
@@ -535,8 +535,8 @@ public class SnaphyHelper {
         try{
             file.createNewFile();
             //Now converting image to bitmap..
-            Bitmap bitmap = decodeFile(imageFile);
-                    /*BitmapFactory.decodeFile(imageFile.getPath());*/
+            Bitmap bitmap = /*decodeFile(imageFile);*/
+                    BitmapFactory.decodeFile(imageFile.getPath());
             ByteArrayOutputStream out = new ByteArrayOutputStream();
 
             bitmap.compress(Bitmap.CompressFormat.JPEG, 60, out);
@@ -556,17 +556,18 @@ public class SnaphyHelper {
             Map<String, String> objectHashMap = new HashMap<>();
             objectHashMap.put("name", containerName);
             CustomContainer container1 = containerRepo.createObject(objectHashMap);
-            container1.UploadAmazon(file, new com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback<ImageModel>() {
+            container1.UploadAmazon(file, new com.strongloop.android.loopback.callbacks.ObjectCallback<ImageModel>() {
                 @Override
                 public void onSuccess(ImageModel object) {
                     // object
-                    callback.onSuccess(object);
+                    //callback.onSuccess(object);
+                    Log.e(Constants.TAG, object.toString());
                 }
 
                 @Override
                 public void onError(Throwable t) {
-
-                    callback.onError(t);
+                    Log.e(Constants.TAG, t.toString());
+                    //callback.onError(t);
                 }
             });
         }
@@ -586,7 +587,7 @@ public class SnaphyHelper {
             BitmapFactory.decodeStream(new FileInputStream(f), null, o);
 
             // The new size we want to scale to
-            final int REQUIRED_SIZE=70;
+            final int REQUIRED_SIZE=50;
 
             // Find the correct scale value. It should be the power of 2.
             int scale = 1;
@@ -634,7 +635,7 @@ public class SnaphyHelper {
             Map<String, String> objectHashMap = new HashMap<>();
             objectHashMap.put("name", containerName);
             CustomContainer container1 = containerRepo.createObject(objectHashMap);
-            container1.UploadAmazon(file, new ObjectCallback<ImageModel>() {
+            container1.UploadAmazon(file, new com.strongloop.android.loopback.callbacks.ObjectCallback<ImageModel>() {
                 @Override
                 public void onSuccess(ImageModel object) {
                     // object

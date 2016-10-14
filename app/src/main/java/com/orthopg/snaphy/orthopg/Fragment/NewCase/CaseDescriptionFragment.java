@@ -16,6 +16,7 @@ import android.widget.Scroller;
 import android.widget.Toast;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.DataListCallback;
+import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Post;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
@@ -144,7 +145,7 @@ public class CaseDescriptionFragment extends android.support.v4.app.Fragment {
             if(post != null){
                 post.setAnonymous(isAnonym);
                 //Now save the data.
-                newCase.saveAllImages(/*new DataListCallback<Map<String, Object>>() {
+                newCase.saveAllImages(/*new ObjectCallback<DataList<Map<String,Object>>>() {
                     @Override
                     public void onBefore() {
                         TastyToast.makeText(mainActivity.getApplicationContext(), Constants.SAVING_POST, TastyToast.LENGTH_SHORT, TastyToast.DEFAULT);

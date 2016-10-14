@@ -39,10 +39,10 @@ public class NewCase {
     }
 
     //A callback to indicate when all data is saved..
-    public void saveAllImages(/*inal DataListCallback<Map<String, Object>> callback*/){
+    public void saveAllImages(/*final ObjectCallback<DataList<Map<String, Object>>> callback*/){
         //callback.onBefore();
-        if(trackImages != null){
-            if(trackImages.size() != 0){
+        /*if(trackImages != null){
+            *//*if(trackImages.size() != 0){
                 postImages.subscribe(this, new Listen<Map<String, Object>>() {
                     @Override
                     public void onInit(DataList<Map<String, Object>> dataList) {
@@ -61,8 +61,8 @@ public class NewCase {
                         }
 
                         if(done){
-                            /*callback.onSuccess(postImages);
-                            callback.onFinally();*/
+                            callback.onSuccess(postImages);
+                            callback.onFinally();
                         }
                     }
 
@@ -75,24 +75,53 @@ public class NewCase {
                     public void onRemove(Map<String, Object> element, DataList<Map<String, Object>> dataList) {
                         super.onRemove(element, dataList);
                     }
-                });
+                });*//*
             }else{
-                /*DataList<Map<String, Object>> success = new DataList<>();
+                DataList<Map<String, Object>> success = new DataList<>();
                 callback.onSuccess(success);
-                callback.onFinally();*/
+                callback.onFinally();
 
             }
         }else{
-            /*DataList<Map<String, Object>> success = new DataList<>();
+            DataList<Map<String, Object>> success = new DataList<>();
             callback.onSuccess(success);
-            callback.onFinally();*/
-        }
+            callback.onFinally();
+        }*/
         getConvertImageToHashMap();
 
     }
 
+
+
     public void getConvertImageToHashMap(){
-        final List<Integer> removedIndex = new ArrayList<>();
+        TrackImage trackImage = trackImages.get(0);
+        mainActivity.snaphyHelper.uploadWithCallback(Constants.CONTAINER, trackImage.getFile()/*new ObjectCallback<ImageModel>() {
+            @Override
+            public void onBefore() {
+                super.onBefore();
+            }
+
+            @Override
+            public void onSuccess(ImageModel object) {
+                if(object != null){
+                    *//*trackImage.setDownloaded(true);
+                    trackImage.setImageModel(object);*//*
+                    postImages.add(object.getHashMap());
+                }
+                //TODO Later check the else cond and remove the index here too..
+            }
+            @Override
+            public void onError(Throwable t) {
+                super.onError(t);
+                Log.e(Constants.TAG, t.toString());
+            }
+
+            @Override
+            public void onFinally() {
+                super.onFinally();
+            }
+        }*/);
+        /*final List<Integer> removedIndex = new ArrayList<>();
         if(trackImages != null){
             int i = 0;
             for(final TrackImage trackImage : trackImages){
@@ -121,7 +150,7 @@ public class NewCase {
                                         trackImage.setImageModel(object);
                                         postImages.add(object.getHashMap());
                                     }
-                                    //TODO LAter check the else cond and remove the index here too..
+                                    //TODO Later check the else cond and remove the index here too..
                                 }
                                 @Override
                                 public void onError(Throwable t) {
@@ -155,7 +184,7 @@ public class NewCase {
             }
 
 
-        }
+        }*/
     }
 
 
