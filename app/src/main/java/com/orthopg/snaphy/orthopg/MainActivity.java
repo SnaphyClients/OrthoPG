@@ -18,7 +18,6 @@ import com.androidsdk.snaphy.snaphyandroidsdk.repository.CustomerRepository;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.LoginEvent;
-import com.crashlytics.android.ndk.CrashlyticsNdk;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -62,16 +61,13 @@ import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
-import java.util.TimeZone;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
-
 
 
 public class MainActivity extends AppCompatActivity implements OnFragmentChange, LoginFragment.OnFragmentInteractionListener,
@@ -361,15 +357,15 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         }
     }
 
-    public String parseDate(String postedCase) {
+    public String parseDate(String postedDate) {
 
-        //TODO MONTH DAY TO NUMBER CONVERTER
-        String postedDate = "Sat Oct 08 05:30:00 GMT+05:30 2016";
-        //Fri Oct 07 16:01:58 GMT+05:30 2016 JAVA
+
 
         //JAVA Current Date
-        Date date = new Date();
-        String currentDate = String.format("%tc", date);
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String strDate = sdf.format(c.getTime());
+        String currentDate = strDate;
 
          String time = applyRegexOnDate(postedDate, currentDate);
           return time;
@@ -382,23 +378,15 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
 
         /*******************************POSTED DATE*************************************/
 
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
-        format.setTimeZone(TimeZone.getTimeZone("IST"));
-        /*java.util.Date date_ = null;
-       *//* try {
-            date_ = format.parse(postedDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }*/
 
         Log.v(Constants.TAG, postedDate);
         Log.v(Constants.TAG, currentDate);
         int postedDayOfMonth = Integer.parseInt(postedDate.toString().substring(8, 10));
-        int postedMonth = convertMonthStringIntoNumber((postedDate.toString().substring(4, 7)));
+        int postedMonth = Integer.parseInt(postedDate.toString().substring(5, 7));
         int postedHour = Integer.parseInt(postedDate.toString().substring(11, 13));
         int postedMinute = Integer.parseInt(postedDate.toString().substring(14, 16));
         int postedSecond = Integer.parseInt(postedDate.toString().substring(17, 19));
-        int postedYear = Integer.parseInt(postedDate.toString().substring(30, 34));
+        int postedYear = Integer.parseInt(postedDate.toString().substring(0, 4));
 
         /*******************************POSTED DATE*************************************/
 
@@ -407,11 +395,11 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         /*******************************CURRENT DATE*************************************/
 
         int currentDayOfMonth = Integer.parseInt(currentDate.toString().substring(8, 10));
-        int currentMonth = convertMonthStringIntoNumber(currentDate.toString().substring(4, 7));
+        int currentMonth = Integer.parseInt(currentDate.toString().substring(5, 7));
         int currentHour = Integer.parseInt(currentDate.toString().substring(11, 13));
         int currentMinute = Integer.parseInt(currentDate.toString().substring(14, 16));
         int currentSecond = Integer.parseInt(currentDate.toString().substring(17, 19));
-        int currentYear = Integer.parseInt(currentDate.toString().substring(30, 34));
+        int currentYear = Integer.parseInt(currentDate.toString().substring(0, 4));
 
         /*******************************CURRENT DATE*************************************/
 
