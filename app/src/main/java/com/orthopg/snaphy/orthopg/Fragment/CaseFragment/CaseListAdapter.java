@@ -24,6 +24,7 @@ import com.androidsdk.snaphy.snaphyandroidsdk.models.PostDetail;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.SavePost;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.orthopg.snaphy.orthopg.Constants;
+import com.orthopg.snaphy.orthopg.CustomModel.TrackList;
 import com.orthopg.snaphy.orthopg.Fragment.PostedCasesFragment.PostedCasesFragment;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
@@ -46,13 +47,13 @@ import static com.orthopg.snaphy.orthopg.R.mipmap.like;
 public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHolder> {
 
     MainActivity mainActivity;
-    DataList<PostDetail> postDetailDataList;
+    HashMap<String, TrackList> trackList;
     String TAG;
     CasePresenter casePresenter;
 
-    public CaseListAdapter(MainActivity mainActivity,  DataList<PostDetail> postDetailDataList, String TAG, CasePresenter casePresenter) {
+    public CaseListAdapter(MainActivity mainActivity, HashMap<String, TrackList> trackList, String TAG, CasePresenter casePresenter) {
         this.mainActivity = mainActivity;
-        this.postDetailDataList = postDetailDataList;
+        this.trackList = trackList;
         this.TAG = TAG;
         this.casePresenter = casePresenter;
     }
@@ -69,443 +70,475 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         return viewHolder;
     }
 
+    //Storing data
+    private class Data{
+        public PostDetail postDetail;
+        public Post post;
+        public  TrackList trackListItem;
+
+        //Constructor.
+        public Data(TrackList trackListItem, int position ){
+            this.trackListItem = trackListItem;
+
+            if(Constants.SELECTED_TAB == Constants.TRENDING
+                    || Constants.SELECTED_TAB == Constants.LATEST
+                    || Constants.SELECTED_TAB == Constants.UNSOLVED){
+
+                    postDetail  = trackListItem.getPostDetails().get(position);
+                    if(postDetail != null){
+                        post = postDetail.getPost();
+                    }
+            }else{
+                if(trackListItem.getPostDataList() != null){
+                    if(trackListItem.getPostDataList().size() != 0){
+                        post  = trackListItem.getPostDataList().get(position);
+
+                        postDetail = post.getPostDetails();
+
+                    }
+                }
+            }
+        }
+
+    }
+
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        final PostDetail postDetail = postDetailDataList.get(position);
-        final Post post;
-        if(postDetail != null){
-            if(postDetail.getPost() != null){
-                post = postDetail.getPost();
-            }else{
+        //get the list..
+        TrackList trackListItem = trackList.get(Constants.SELECTED_TAB);
+
+
+
+        if(trackListItem != null) {
+            final Data data = new Data(trackListItem, position);
+
+            if (data.postDetail == null || data.post == null) {
+                Log.e(Constants.TAG, "CaseListAdapter returning postDetail or post obj is null");
                 return;
             }
-        }else{
-            return;
-        }
-        CaseImageAdapter caseImageAdapter;
 
-        ImageView imageView = holder.userImage;
-        TextView caseHeading = holder.caseHeading;
-        TextView userName = holder.userName;
-        TextView casePostedTime = holder.casePostedTime;
-        final ImageView like = holder.like;
-        final ImageView saveCase = holder.saveCase;
-        RecyclerView caseImages = holder.caseImages;
-        TextView caseDescription = holder.caseDescription;
-        TextView tag = holder.tag;
-        TextView delete = holder.deleteButton;
-        TextView edit = holder.editButton;
-        ImageView isAnswerSelected = holder.isAnswerSelected;
-        TextView selectedAnswerUserName = holder.selectedAnswerUserName;
-        TextView selectedAnswer = holder.selectedAnswer;
-        final TextView numberOfLike = holder.numberOfLikes;
-        final TextView numberOfSave = holder.numberOfSave;
-        LinearLayout linearLayout = holder.linearLayout;
-        LinearLayout likeLinearLayout = holder.likeLinearLayout;
-        LinearLayout saveLinearLayout = holder.saveLinearLayout;
+            CaseImageAdapter caseImageAdapter;
 
-        caseImages.setLayoutManager(new LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false));
+            ImageView imageView = holder.userImage;
+            TextView caseHeading = holder.caseHeading;
+            TextView userName = holder.userName;
+            TextView casePostedTime = holder.casePostedTime;
+            final ImageView like = holder.like;
+            final ImageView saveCase = holder.saveCase;
+            RecyclerView caseImages = holder.caseImages;
+            TextView caseDescription = holder.caseDescription;
+            TextView tag = holder.tag;
+            TextView delete = holder.deleteButton;
+            TextView edit = holder.editButton;
+            ImageView isAnswerSelected = holder.isAnswerSelected;
+            TextView selectedAnswerUserName = holder.selectedAnswerUserName;
+            TextView selectedAnswer = holder.selectedAnswer;
+            final TextView numberOfLike = holder.numberOfLikes;
+            final TextView numberOfSave = holder.numberOfSave;
+            LinearLayout linearLayout = holder.linearLayout;
+            LinearLayout likeLinearLayout = holder.likeLinearLayout;
+            LinearLayout saveLinearLayout = holder.saveLinearLayout;
+
+            caseImages.setLayoutManager(new LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false));
 
 
-        if(!post.getHeading().isEmpty()){
-            caseHeading.setText(post.getHeading());
-        }
+            if (!data.post.getHeading().isEmpty()) {
+                caseHeading.setText(data.post.getHeading());
+            }
 
 
-        //Now load case image list..
-        if(post.getPostImages() != null ){
-            if(post.getPostImages().size() == 0){
+            //Now load case image list..
+            if (data.post.getPostImages() != null) {
+                if (data.post.getPostImages().size() == 0) {
+                    caseImages.setVisibility(View.GONE);
+                } else {
+                    caseImages.setVisibility(View.VISIBLE);
+                    caseImageAdapter = new CaseImageAdapter(mainActivity, data.post.getPostImages());
+                    caseImages.setAdapter(caseImageAdapter);
+                }
+            } else {
                 caseImages.setVisibility(View.GONE);
-            }else{
-                caseImages.setVisibility(View.VISIBLE);
-                caseImageAdapter = new CaseImageAdapter(mainActivity, post.getPostImages());
-                caseImages.setAdapter(caseImageAdapter);
             }
-        }else{
-            caseImages.setVisibility(View.GONE);
-        }
 
-        if(post.getCustomer() != null) {
-            if(post.getAnonymous()){
-                imageView.setImageResource(R.mipmap.anonymous);
-                userName.setText(Constants.ANONYMOUS);
-            }else{
-                String name = mainActivity.snaphyHelper.getName(post.getCustomer().getFirstName(), post.getCustomer().getLastName());
-                if(!name.isEmpty()){
-                    name = Constants.Doctor + name;
-                }
-                userName.setText(name);
-
-                if(post.getCustomer().getProfilePic() != null){
-                    mainActivity.snaphyHelper.loadUnSignedThumbnailImage(post.getCustomer().getProfilePic(), imageView, R.mipmap.anonymous);
-                }else{
-                    //Set deault image..
-                    //TODO CHANGE BACKGROUND COLOR TO BLUE..
+            if (data.post.getCustomer() != null) {
+                if (data.post.getAnonymous()) {
                     imageView.setImageResource(R.mipmap.anonymous);
+                    userName.setText(Constants.ANONYMOUS);
+                } else {
+                    String name = mainActivity.snaphyHelper.getName(data.post.getCustomer().getFirstName(), data.post.getCustomer().getLastName());
+                    if (!name.isEmpty()) {
+                        name = Constants.Doctor + name;
+                    }
+                    userName.setText(name);
+
+                    if (data.post.getCustomer().getProfilePic() != null) {
+                        mainActivity.snaphyHelper.loadUnSignedThumbnailImage(data.post.getCustomer().getProfilePic(), imageView, R.mipmap.anonymous);
+                    } else {
+                        //Set deault image..
+                        //TODO CHANGE BACKGROUND COLOR TO BLUE..
+                        imageView.setImageResource(R.mipmap.anonymous);
+                    }
                 }
+
             }
 
-        }
 
+            setTime(casePostedTime, data.postDetail.getAdded());
 
-        setTime(casePostedTime, postDetail.getAdded());
-
-        if(post.getDescription() != null) {
-            if (!post.getDescription().isEmpty()) {
-                caseDescription.setVisibility(View.VISIBLE);
-                caseDescription.setText(post.getDescription());
+            if (data.post.getDescription() != null) {
+                if (!data.post.getDescription().isEmpty()) {
+                    caseDescription.setVisibility(View.VISIBLE);
+                    caseDescription.setText(data.post.getDescription());
+                } else {
+                    caseDescription.setVisibility(View.GONE);
+                }
             } else {
                 caseDescription.setVisibility(View.GONE);
             }
-        } else {
-            caseDescription.setVisibility(View.GONE);
-        }
 
-        if(postDetail != null) {
-            final int sdk = android.os.Build.VERSION.SDK_INT;
-            if(!postDetail.getType().isEmpty()) {
-                tag.setText(postDetail.getType());
-                if(postDetail.getType().equals(Constants.CASE)){
-                    tag.setTextColor(Color.parseColor(Constants.PRIMARY));
-                    if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                        tag.setBackgroundDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle));
-                    } else {
-                        tag.setBackground(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle));
-                    }
+            if (data.postDetail != null) {
+                final int sdk = android.os.Build.VERSION.SDK_INT;
+                if (!data.postDetail.getType().isEmpty()) {
+                    tag.setText(data.postDetail.getType());
+                    if (data.postDetail.getType().equals(Constants.CASE)) {
+                        tag.setTextColor(Color.parseColor(Constants.PRIMARY));
+                        if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                            tag.setBackgroundDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle));
+                        } else {
+                            tag.setBackground(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle));
+                        }
 
-                } else if(postDetail.getType().equals(Constants.BOOK_REVIEW)) {
-                    tag.setTextColor(Color.parseColor(Constants.WARNING));
-                    if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                        tag.setBackgroundDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle_warning));
-                    } else {
-                        tag.setBackground(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle_warning));
-                    }
-                } else if(postDetail.getType().equals(Constants.INTERVIEW)) {
-                    tag.setTextColor(Color.parseColor(Constants.SUCCESS));
-                    if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                        tag.setBackgroundDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle_success));
-                    } else {
-                        tag.setBackground(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle_success));
+                    } else if (data.postDetail.getType().equals(Constants.BOOK_REVIEW)) {
+                        tag.setTextColor(Color.parseColor(Constants.WARNING));
+                        if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                            tag.setBackgroundDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle_warning));
+                        } else {
+                            tag.setBackground(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle_warning));
+                        }
+                    } else if (data.postDetail.getType().equals(Constants.INTERVIEW)) {
+                        tag.setTextColor(Color.parseColor(Constants.SUCCESS));
+                        if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                            tag.setBackgroundDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle_success));
+                        } else {
+                            tag.setBackground(ContextCompat.getDrawable(mainActivity, R.drawable.curved_rectangle_success));
+                        }
                     }
                 }
             }
-        }
 
 
-        if(postDetail.getHasAcceptedAnswer()){
-            //Show accepted answer..
-            if(postDetail.getComment() != null){
-                showSelectedAnswer(selectedAnswer, isAnswerSelected,selectedAnswerUserName);
-                Comment acceptedAnswer = postDetail.getComment();
-                if(acceptedAnswer.getCustomer() != null){
-                    String name = mainActivity.snaphyHelper.getName(acceptedAnswer.getCustomer().getFirstName(), acceptedAnswer.getCustomer().getLastName());
-                    if(!name.isEmpty()){
-                        name = Constants.Doctor + name.replace("^[Dd][Rr]", "");
+            if (data.postDetail.getHasAcceptedAnswer()) {
+                //Show accepted answer..
+                if (data.postDetail.getComment() != null) {
+                    showSelectedAnswer(selectedAnswer, isAnswerSelected, selectedAnswerUserName);
+                    Comment acceptedAnswer = data.postDetail.getComment();
+                    if (acceptedAnswer.getCustomer() != null) {
+                        String name = mainActivity.snaphyHelper.getName(acceptedAnswer.getCustomer().getFirstName(), acceptedAnswer.getCustomer().getLastName());
+                        if (!name.isEmpty()) {
+                            name = Constants.Doctor + name.replace("^[Dd][Rr]", "");
+                        }
+                        selectedAnswerUserName.setText(name);
                     }
-                    selectedAnswerUserName.setText(name);
-                }
 
-                if(postDetail.getComment().getAnswer() != null){
-                    selectedAnswer.setText(postDetail.getComment().getAnswer());
-                }
+                    if (data.postDetail.getComment().getAnswer() != null) {
+                        selectedAnswer.setText(data.postDetail.getComment().getAnswer());
+                    }
 
-            }else{
+                } else {
+                    ///hide accepted answer..
+                    hideSelectedAnswer(selectedAnswer, isAnswerSelected, selectedAnswerUserName);
+                }
+            } else {
                 ///hide accepted answer..
-                hideSelectedAnswer(selectedAnswer, isAnswerSelected,selectedAnswerUserName);
+                hideSelectedAnswer(selectedAnswer, isAnswerSelected, selectedAnswerUserName);
             }
-        }else{
-            ///hide accepted answer..
-            hideSelectedAnswer(selectedAnswer, isAnswerSelected,selectedAnswerUserName);
-        }
 
 
-        //TOTAL LIKE
-        numberOfLike.setText(String.valueOf((int)postDetail.getTotalLike()));
-        //TOTAL SAVE..
-        numberOfSave.setText(String.valueOf((int)postDetail.getTotalSave()));
+            //TOTAL LIKE
+            numberOfLike.setText(String.valueOf((int) data.postDetail.getTotalLike()));
+            //TOTAL SAVE..
+            numberOfSave.setText(String.valueOf((int) data.postDetail.getTotalSave()));
 
 
-        if(Constants.SELECTED_TAB.equals(Constants.POSTED)) {
-            delete.setVisibility(View.VISIBLE);
-            edit.setVisibility(View.VISIBLE);
-        } else {
-            delete.setVisibility(View.GONE);
-            edit.setVisibility(View.GONE);
-        }
+            if (Constants.SELECTED_TAB.equals(Constants.POSTED)) {
+                delete.setVisibility(View.VISIBLE);
+                edit.setVisibility(View.VISIBLE);
+            } else {
+                delete.setVisibility(View.GONE);
+                edit.setVisibility(View.GONE);
+            }
 
-        final Customer loginCustomer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
-        //Customer logged in
-        if(loginCustomer != null && post.getId() != null){
-            casePresenter.fetchTotalLike((String)loginCustomer.getId(), (String) post.getId(), new ObjectCallback<LikePost>() {
-                @Override
-                public void onSuccess(LikePost object) {
-                    if(object != null){
-                        TrackLike trackLike = new TrackLike();
-                        trackLike.likePost = object;
-                        trackLike.state = true;
-                        Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).put(post.getId(), trackLike);
-                        like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_selected));
-                    }else{
-                        TrackLike trackLike = new TrackLike();
-                        trackLike.state = false;
-                        Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).put(post.getId(), trackLike);
-                        like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_unselected));
-                    }
-                }
-
-                @Override
-                public void onError(Throwable t) {
-                    super.onError(t);
-                    Log.e(Constants.TAG, t.toString());
-                    TrackLike trackLike = new TrackLike();
-                    trackLike.state = false;
-                    Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).put(post.getId(), trackLike);
-                    like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_unselected));
-                }
-            });
-
-
-            casePresenter.fetchTotalSave((String) loginCustomer.getId(), (String) post.getId(), new ObjectCallback<SavePost>() {
-                @Override
-                public void onSuccess(SavePost object) {
-                    if(object != null){
-                        TrackSave trackSave = new TrackSave();
-                        trackSave.savePost = object;
-                        trackSave.state = true;
-                        Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).put(post.getId(), trackSave);
-                        saveCase.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_selected));
-                    }else{
-                        TrackSave trackSave = new TrackSave();
-                        trackSave.state = false;
-                        Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).put(post.getId(), trackSave);
-                        saveCase.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_unselected));
-                    }
-                }
-
-                @Override
-                public void onError(Throwable t) {
-                    Log.e(Constants.TAG, t.toString());
-                    TrackSave trackSave = new TrackSave();
-                    trackSave.state = false;
-                    Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).put(post.getId(), trackSave);
-                    saveCase.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_unselected));
-                }
-            });
-        }
-
-
-
-        likeLinearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).get(post.getId()) == null){
-                    //Add like
-                    casePresenter.addLike((String) loginCustomer.getId(), (String) post.getId(), new ObjectCallback<LikePost>() {
-                        @Override
-                        public void onBefore() {
+            final Customer loginCustomer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+            //Customer logged in
+            if (loginCustomer != null && data.post.getId() != null) {
+                casePresenter.fetchTotalLike((String) loginCustomer.getId(), (String) data.post.getId(), new ObjectCallback<LikePost>() {
+                    @Override
+                    public void onSuccess(LikePost object) {
+                        if (object != null) {
                             TrackLike trackLike = new TrackLike();
-                            trackLike.state = true;
-                            showLike(post, like, trackLike,numberOfLike, postDetail);
-                        }
-
-                        @Override
-                        public void onSuccess(LikePost object) {
-                            TrackLike trackLike = new TrackLike();
-                            trackLike.state = true;
                             trackLike.likePost = object;
-                            //showLike(post, like, trackLike, numberOfLike, postDetail);
-                        }
-
-                        @Override
-                        public void onError(Throwable t) {
+                            trackLike.state = true;
+                            Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).put(data.post.getId(), trackLike);
+                            like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_selected));
+                        } else {
                             TrackLike trackLike = new TrackLike();
                             trackLike.state = false;
-                            showLike(post, like, trackLike, numberOfLike, postDetail);
-                            //TODO add toast..
+                            Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).put(data.post.getId(), trackLike);
+                            like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_unselected));
                         }
-                    });
-                }else{
-                    final TrackLike trackLike = (TrackLike)Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).get(post.getId());
-                    if(trackLike.state){
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                        Log.e(Constants.TAG, t.toString());
+                        TrackLike trackLike = new TrackLike();
                         trackLike.state = false;
-                        //showLike(post, like, trackLike, numberOfLike, postDetail);
-                        //delete like
-                        casePresenter.removeLike(trackLike.likePost, new ObjectCallback<JSONObject>() {
+                        Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).put(data.post.getId(), trackLike);
+                        like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_unselected));
+                    }
+                });
+
+
+                casePresenter.fetchTotalSave((String) loginCustomer.getId(), (String) data.post.getId(), new ObjectCallback<SavePost>() {
+                    @Override
+                    public void onSuccess(SavePost object) {
+                        if (object != null) {
+                            TrackSave trackSave = new TrackSave();
+                            trackSave.savePost = object;
+                            trackSave.state = true;
+                            Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).put(data.post.getId(), trackSave);
+                            saveCase.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_selected));
+                        } else {
+                            TrackSave trackSave = new TrackSave();
+                            trackSave.state = false;
+                            Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).put(data.post.getId(), trackSave);
+                            saveCase.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_unselected));
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        Log.e(Constants.TAG, t.toString());
+                        TrackSave trackSave = new TrackSave();
+                        trackSave.state = false;
+                        Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).put(data.post.getId(), trackSave);
+                        saveCase.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_unselected));
+                    }
+                });
+            }
+
+
+            likeLinearLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).get(data.post.getId()) == null) {
+                        //Add like
+                        casePresenter.addLike((String) loginCustomer.getId(), (String) data.post.getId(), new ObjectCallback<LikePost>() {
                             @Override
                             public void onBefore() {
-                                trackLike.state = false;
-                                showLike(post, like, trackLike, numberOfLike, postDetail);
-                            }
-
-                            @Override
-                            public void onSuccess(JSONObject object) {
-                                trackLike.state = false;
-                                //showLike(post, like, trackLike, numberOfLike, postDetail);
-                            }
-
-                            @Override
-                            public void onError(Throwable t) {
+                                TrackLike trackLike = new TrackLike();
                                 trackLike.state = true;
-                                showLike(post, like, trackLike, numberOfLike, postDetail);
-                            }
-
-                            @Override
-                            public void onFinally() {
-                                super.onFinally();
-                            }
-                        });
-
-                    }else{
-                        //add like..
-                        casePresenter.addLike((String) loginCustomer.getId(), (String) post.getId(), new ObjectCallback<LikePost>() {
-                            @Override
-                            public void onBefore() {
-                                trackLike.state = true;
-                                showLike(post, like, trackLike, numberOfLike, postDetail);
+                                showLike(data.post, like, trackLike, numberOfLike, data.postDetail);
                             }
 
                             @Override
                             public void onSuccess(LikePost object) {
+                                TrackLike trackLike = new TrackLike();
                                 trackLike.state = true;
                                 trackLike.likePost = object;
-                                //showLike(post, like, trackLike, numberOfLike, postDetail);
+                                //showLike(data.post, like, trackLike, numberOfLike, data.postDetail);
                             }
 
                             @Override
                             public void onError(Throwable t) {
+                                TrackLike trackLike = new TrackLike();
                                 trackLike.state = false;
-                                showLike(post, like, trackLike, numberOfLike, postDetail);
+                                showLike(data.post, like, trackLike, numberOfLike, data.postDetail);
                                 //TODO add toast..
                             }
                         });
+                    } else {
+                        final TrackLike trackLike = (TrackLike) Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).get(data.post.getId());
+                        if (trackLike.state) {
+                            trackLike.state = false;
+                            //showLike(data.post, like, trackLike, numberOfLike, data.postDetail);
+                            //delete like
+                            casePresenter.removeLike(trackLike.likePost, new ObjectCallback<JSONObject>() {
+                                @Override
+                                public void onBefore() {
+                                    trackLike.state = false;
+                                    showLike(data.post, like, trackLike, numberOfLike, data.postDetail);
+                                }
+
+                                @Override
+                                public void onSuccess(JSONObject object) {
+                                    trackLike.state = false;
+                                    //showLike(data.post, like, trackLike, numberOfLike, data.postDetail);
+                                }
+
+                                @Override
+                                public void onError(Throwable t) {
+                                    trackLike.state = true;
+                                    showLike(data.post, like, trackLike, numberOfLike, data.postDetail);
+                                }
+
+                                @Override
+                                public void onFinally() {
+                                    super.onFinally();
+                                }
+                            });
+
+                        } else {
+                            //add like..
+                            casePresenter.addLike((String) loginCustomer.getId(), (String) data.post.getId(), new ObjectCallback<LikePost>() {
+                                @Override
+                                public void onBefore() {
+                                    trackLike.state = true;
+                                    showLike(data.post, like, trackLike, numberOfLike, data.postDetail);
+                                }
+
+                                @Override
+                                public void onSuccess(LikePost object) {
+                                    trackLike.state = true;
+                                    trackLike.likePost = object;
+                                    //showLike(data.post, like, trackLike, numberOfLike, data.postDetail);
+                                }
+
+                                @Override
+                                public void onError(Throwable t) {
+                                    trackLike.state = false;
+                                    showLike(data.post, like, trackLike, numberOfLike, data.postDetail);
+                                    //TODO add toast..
+                                }
+                            });
+                        }
                     }
                 }
-            }
-        });
+            });
 
 
-
-
-        saveLinearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).get(post.getId()) == null){
-                    //Add like
-                    casePresenter.addSave((String) loginCustomer.getId(), (String) post.getId(), new ObjectCallback<SavePost>() {
-                        @Override
-                        public void onBefore() {
-                            TrackSave trackSave = new TrackSave();
-                            trackSave.state = true;
-                            showSave(post, saveCase, trackSave, numberOfSave, postDetail);
-                        }
-
-                        @Override
-                        public void onSuccess(SavePost object) {
-                            TrackSave trackSave = new TrackSave();
-                            trackSave.state = true;
-                            trackSave.savePost = object;
-                            //showSave(post, saveCase, trackSave, numberOfSave, postDetail);
-                        }
-
-                        @Override
-                        public void onError(Throwable t) {
-                            TrackSave trackSave = new TrackSave();
-                            trackSave.state = false;
-                            showSave(post, saveCase, trackSave, numberOfSave, postDetail);
-                            //TODO add toast..
-                        }
-                    });
-                }else{
-                    final TrackSave trackSave = (TrackSave)Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).get(post.getId());
-                    if(trackSave.state){
-                        trackSave.state = false;
-                        //showSave(post, saveCase, trackSave, numberOfSave, postDetail);
-                        //delete like
-                        casePresenter.removeSave(trackSave.savePost, new ObjectCallback<JSONObject>() {
+            saveLinearLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).get(data.post.getId()) == null) {
+                        //Add like
+                        casePresenter.addSave((String) loginCustomer.getId(), (String) data.post.getId(), new ObjectCallback<SavePost>() {
                             @Override
                             public void onBefore() {
-                                trackSave.state = false;
-                                showSave(post, saveCase, trackSave, numberOfSave, postDetail);
-                            }
-
-                            @Override
-                            public void onSuccess(JSONObject object) {
-                                trackSave.state = false;
-                                //showSave(post, saveCase, trackSave, numberOfSave, postDetail);
-                            }
-
-                            @Override
-                            public void onError(Throwable t) {
+                                TrackSave trackSave = new TrackSave();
                                 trackSave.state = true;
-                                showSave(post, saveCase, trackSave, numberOfSave, postDetail);
-                            }
-
-                            @Override
-                            public void onFinally() {
-                                super.onFinally();
-                            }
-                        });
-
-                    }else{
-                        //add like..
-                        casePresenter.addSave((String) loginCustomer.getId(), (String) post.getId(), new ObjectCallback<SavePost>() {
-                            @Override
-                            public void onBefore() {
-                                trackSave.state = true;
-                                showSave(post, saveCase, trackSave, numberOfSave, postDetail);
+                                showSave(data.post, saveCase, trackSave, numberOfSave, data.postDetail);
                             }
 
                             @Override
                             public void onSuccess(SavePost object) {
+                                TrackSave trackSave = new TrackSave();
                                 trackSave.state = true;
                                 trackSave.savePost = object;
-                                //showSave(post, saveCase, trackSave, numberOfSave, postDetail);
+                                //showSave(data.post, saveCase, trackSave, numberOfSave, data.postDetail);
                             }
 
                             @Override
                             public void onError(Throwable t) {
+                                TrackSave trackSave = new TrackSave();
                                 trackSave.state = false;
-                                showSave(post, saveCase, trackSave, numberOfSave, postDetail);
+                                showSave(data.post, saveCase, trackSave, numberOfSave, data.postDetail);
                                 //TODO add toast..
                             }
                         });
-                    }
-                }
-            }
-        });
-
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-
-        final Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
-        final String MCINumber = customer.getMciNumber() != null ? customer.getMciNumber() : "";
-        linearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!TAG.equals(PostedCasesFragment.TAG)) {
-                    if (!MCINumber.isEmpty()) {
-                        //mainActivity.replaceFragment(R.id.fragment_case_button4, null);
-                        mainActivity.replaceFragment(R.id.layout_case_list_textview4, position);
                     } else {
-                        TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+                        final TrackSave trackSave = (TrackSave) Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).get(data.post.getId());
+                        if (trackSave.state) {
+                            trackSave.state = false;
+                            //showSave(data.post, saveCase, trackSave, numberOfSave, data.postDetail);
+                            //delete like
+                            casePresenter.removeSave(trackSave.savePost, new ObjectCallback<JSONObject>() {
+                                @Override
+                                public void onBefore() {
+                                    trackSave.state = false;
+                                    showSave(data.post, saveCase, trackSave, numberOfSave, data.postDetail);
+                                }
+
+                                @Override
+                                public void onSuccess(JSONObject object) {
+                                    trackSave.state = false;
+                                    //showSave(data.post, saveCase, trackSave, numberOfSave, data.postDetail);
+                                }
+
+                                @Override
+                                public void onError(Throwable t) {
+                                    trackSave.state = true;
+                                    showSave(data.post, saveCase, trackSave, numberOfSave, data.postDetail);
+                                }
+
+                                @Override
+                                public void onFinally() {
+                                    super.onFinally();
+                                }
+                            });
+
+                        } else {
+                            //add like..
+                            casePresenter.addSave((String) loginCustomer.getId(), (String) data.post.getId(), new ObjectCallback<SavePost>() {
+                                @Override
+                                public void onBefore() {
+                                    trackSave.state = true;
+                                    showSave(data.post, saveCase, trackSave, numberOfSave, data.postDetail);
+                                }
+
+                                @Override
+                                public void onSuccess(SavePost object) {
+                                    trackSave.state = true;
+                                    trackSave.savePost = object;
+                                    //showSave(data.post, saveCase, trackSave, numberOfSave, data.postDetail);
+                                }
+
+                                @Override
+                                public void onError(Throwable t) {
+                                    trackSave.state = false;
+                                    showSave(data.post, saveCase, trackSave, numberOfSave, data.postDetail);
+                                    //TODO add toast..
+                                }
+                            });
+                        }
                     }
-                } else {
-                    //Show Toast
                 }
-            }
-        });
+            });
+
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
+            edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
+
+            final Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+            final String MCINumber = customer.getMciNumber() != null ? customer.getMciNumber() : "";
+            linearLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!TAG.equals(PostedCasesFragment.TAG)) {
+                        if (!MCINumber.isEmpty()) {
+                            //mainActivity.replaceFragment(R.id.fragment_case_button4, null);
+                            mainActivity.replaceFragment(R.id.layout_case_list_textview4, position);
+                        } else {
+                            TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+                        }
+                    } else {
+                        //Show Toast
+                    }
+                }
+            });
+        }//if data != null
 
     }
 
@@ -596,7 +629,14 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return postDetailDataList.size();
+        TrackList trackListItem = trackList.get(Constants.SELECTED_TAB);
+        if(Constants.SELECTED_TAB == Constants.TRENDING
+                || Constants.SELECTED_TAB == Constants.LATEST
+                || Constants.SELECTED_TAB == Constants.UNSOLVED){
+            return trackListItem.getPostDetails().size();
+        }else{
+            return trackListItem.getPostDataList().size();
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

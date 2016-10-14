@@ -46,7 +46,7 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
     LinearLayoutManager linearLayoutManager;
     CaseListAdapter caseListAdapter;
-    MainActivity mainActivity;;
+    MainActivity mainActivity;
     public static String TAG = "CaseFragment";
     CasePresenter casePresenter;
     HashMap<String, TrackList> trackList;
@@ -203,42 +203,138 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         });
     }
 
-
+    //Create all lists..
     private void loadPresenter(){
+        //Trending list..
         casePresenter = new CasePresenter(mainActivity.snaphyHelper.getLoopBackAdapter(), progressBar, mainActivity);
         Presenter.getInstance().addModel(Constants.CASE_PRESENTER_ID, casePresenter);
         trackList = Presenter.getInstance().getModel(HashMap.class, Constants.LIST_CASE_FRAGMENT);
-        TrackList list = trackList.get()
+        caseListAdapter = new CaseListAdapter(mainActivity, trackList, TAG, casePresenter);
+        recyclerView.setAdapter(caseListAdapter);
+
+        if(trackList.get(Constants.TRENDING) == null){
+            TrackList trendingListData = new TrackList(Constants.TRENDING);
+            trackList.put(Constants.TRENDING, trendingListData);
+
+
+            trendingListData.getPostDetails().subscribe(this, new Listen<PostDetail>() {
+                @Override
+                public void onInit(DataList<PostDetail> dataList) {
+
+                }
+
+                @Override
+                public void onChange(DataList<PostDetail> dataList) {
+                    super.onChange(dataList);
+                    swipeRefreshLayout.setRefreshing(false);
+                    caseListAdapter.notifyDataSetChanged();
+
+                }
+            });
+
+
+        }
+
+        if(trackList.get(Constants.LATEST) == null){
+            TrackList latestListData = new TrackList(Constants.LATEST);
+            trackList.put(Constants.LATEST, latestListData);
+
+
+            latestListData.getPostDetails().subscribe(this, new Listen<PostDetail>() {
+                @Override
+                public void onInit(DataList<PostDetail> dataList) {
+
+                }
+
+                @Override
+                public void onChange(DataList<PostDetail> dataList) {
+                    super.onChange(dataList);
+                    swipeRefreshLayout.setRefreshing(false);
+                    caseListAdapter.notifyDataSetChanged();
+
+                }
+            });
+
+
+        }
+
+
+        if(trackList.get(Constants.UNSOLVED) == null){
+            TrackList unsolvedListData = new TrackList(Constants.UNSOLVED);
+            trackList.put(Constants.UNSOLVED, unsolvedListData);
+
+
+            unsolvedListData.getPostDetails().subscribe(this, new Listen<PostDetail>() {
+                @Override
+                public void onInit(DataList<PostDetail> dataList) {
+
+                }
+
+                @Override
+                public void onChange(DataList<PostDetail> dataList) {
+                    super.onChange(dataList);
+                    swipeRefreshLayout.setRefreshing(false);
+                    caseListAdapter.notifyDataSetChanged();
+
+                }
+            });
+
+
+        }
+
+
+        if(trackList.get(Constants.SAVED) == null){
+            TrackList savedListData = new TrackList(Constants.SAVED);
+            trackList.put(Constants.SAVED, savedListData);
+
+
+            savedListData.getPostDetails().subscribe(this, new Listen<PostDetail>() {
+                @Override
+                public void onInit(DataList<PostDetail> dataList) {
+
+                }
+
+                @Override
+                public void onChange(DataList<PostDetail> dataList) {
+                    super.onChange(dataList);
+                    swipeRefreshLayout.setRefreshing(false);
+                    caseListAdapter.notifyDataSetChanged();
+
+                }
+            });
+
+
+        }
+
+        if(trackList.get(Constants.POSTED) == null){
+            TrackList postedListData = new TrackList(Constants.POSTED);
+            trackList.put(Constants.POSTED, postedListData);
+
+
+            postedListData.getPostDetails().subscribe(this, new Listen<PostDetail>() {
+                @Override
+                public void onInit(DataList<PostDetail> dataList) {
+
+                }
+
+                @Override
+                public void onChange(DataList<PostDetail> dataList) {
+                    super.onChange(dataList);
+                    swipeRefreshLayout.setRefreshing(false);
+                    caseListAdapter.notifyDataSetChanged();
+
+                }
+            });
+
+
+        }
+
+
         //By default fetch the trending list..
         trendingButtonClick();
-        postDetails.subscribe(this, new Listen<PostDetail>() {
-            @Override
-            public void onInit(DataList<PostDetail> dataList) {
-                super.onInit(dataList);
-                caseListAdapter = new CaseListAdapter(mainActivity, dataList, TAG, casePresenter);
-                recyclerView.setAdapter(caseListAdapter);
-            }
-
-            @Override
-            public void onChange(DataList<PostDetail> dataList) {
-                super.onChange(dataList);
-                swipeRefreshLayout.setRefreshing(false);
-                caseListAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onClear() {
-                super.onClear();
-                caseListAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onRemove(PostDetail element, DataList<PostDetail> dataList) {
-                super.onRemove(element, dataList);
-            }
-        });
     }
+
+
 
 
 
@@ -318,11 +414,24 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         mListener = null;
     }
 
+    private void unsubscribeAll(){
+        HashMap<String, TrackList> trackList = Presenter.getInstance().getModel(HashMap.class, Constants.LIST_CASE_FRAGMENT);
+        if(trackList != null){
+            trackList.get(Constants.TRENDING).getPostDetails().unsubscribe(this);
+            trackList.get(Constants.LATEST).getPostDetails().unsubscribe(this);
+            trackList.get(Constants.UNSOLVED).getPostDetails().unsubscribe(this);
+
+            trackList.get(Constants.POSTED).getPostDataList().unsubscribe(this);
+            trackList.get(Constants.SAVED).getPostDataList().unsubscribe(this);
+        }
+        Presenter.getInstance().removeFromList(Constants.LIST_CASE_FRAGMENT);
+    }
+
+
     @Override
     public void onDestroy(){
         super.onDestroy();
-        postDetails.unsubscribe(this);
-        Presenter.getInstance().removeFromList(Constants.POST_DETAIL_LIST_CASE_FRAGMENT);
+        unsubscribeAll();
     }
 
     /**

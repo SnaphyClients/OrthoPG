@@ -74,6 +74,8 @@ public class CasePresenter {
     }
 
 
+
+
     public void fetchTotalLike(String customerId, String postId, final ObjectCallback<LikePost> callback){
         LikePostRepository likePostRepository = restAdapter.createRepository(LikePostRepository.class);
         HashMap<String, Object> filter = new HashMap<>();

@@ -12,8 +12,14 @@ public class TrackList {
     private String listType;
     private Double skip = 0.0;
     private int limit = 5;
-    private DataList<PostDetail> postDetails = new DataList<>();
-    private DataList<Post> postDataList = new DataList<>();
+    private DataList<PostDetail> postDetails;
+    private DataList<Post> postDataList;
+
+    public TrackList(String listType){
+        this.listType = listType;
+        this.postDetails = new DataList<>();
+        this.postDataList = new DataList<>();
+    }
 
 
     public int getLimit() {
