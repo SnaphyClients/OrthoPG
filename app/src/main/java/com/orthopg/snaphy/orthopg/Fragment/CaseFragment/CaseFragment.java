@@ -20,8 +20,11 @@ import com.androidsdk.snaphy.snaphyandroidsdk.models.PostDetail;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.orthopg.snaphy.orthopg.Constants;
+import com.orthopg.snaphy.orthopg.CustomModel.TrackList;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
+
+import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -46,7 +49,7 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     MainActivity mainActivity;;
     public static String TAG = "CaseFragment";
     CasePresenter casePresenter;
-    DataList<PostDetail> postDetails;
+    HashMap<String, TrackList> trackList;
 
     boolean isTrendingSelected = true;
     boolean isNewSelected = false;
@@ -93,7 +96,7 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         swipeRefreshLayoutListener();
         loadPresenter();
-        //recyclerViewLoadMoreEventData();
+        recyclerViewLoadMoreEventData();
         return view;
     }
 
@@ -130,24 +133,29 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     @OnClick(R.id.fragment_case_button1) void trendingButtonClick() {
         changeButtonColor(true, false, false, false, false);
         casePresenter.fetchPost(Constants.TRENDING, true);
+        Constants.SELECTED_TAB = Constants.TRENDING;
     }
 
     @OnClick(R.id.fragment_case_button2) void newButtonClick() {
         changeButtonColor(false, true, false, false, false);
         casePresenter.fetchPost(Constants.LATEST, true);
+        Constants.SELECTED_TAB = Constants.LATEST;
     }
 
     @OnClick(R.id.fragment_case_button3) void unsolvedButtonClick() {
         changeButtonColor(false, false, true, false, false);
         casePresenter.fetchPost(Constants.UNSOLVED, true);
+        Constants.SELECTED_TAB = Constants.UNSOLVED;
     }
 
     @OnClick(R.id.fragment_case_button5) void savedButtonClick() {
         changeButtonColor(false, false, false, true, false);
+        Constants.SELECTED_TAB = Constants.SAVED;
     }
 
     @OnClick(R.id.fragment_case_button6) void postedButtonClick() {
         changeButtonColor(false, false, false, false, true);
+        Constants.SELECTED_TAB = Constants.POSTED;
     }
 
     public void recyclerViewLoadMoreEventData() {
@@ -199,7 +207,8 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     private void loadPresenter(){
         casePresenter = new CasePresenter(mainActivity.snaphyHelper.getLoopBackAdapter(), progressBar, mainActivity);
         Presenter.getInstance().addModel(Constants.CASE_PRESENTER_ID, casePresenter);
-        postDetails = Presenter.getInstance().getList(PostDetail.class, Constants.POST_DETAIL_LIST_CASE_FRAGMENT);
+        trackList = Presenter.getInstance().getModel(HashMap.class, Constants.LIST_CASE_FRAGMENT);
+        TrackList list = trackList.get()
         //By default fetch the trending list..
         trendingButtonClick();
         postDetails.subscribe(this, new Listen<PostDetail>() {

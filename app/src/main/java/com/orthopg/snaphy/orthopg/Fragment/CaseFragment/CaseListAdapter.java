@@ -93,8 +93,8 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         RecyclerView caseImages = holder.caseImages;
         TextView caseDescription = holder.caseDescription;
         TextView tag = holder.tag;
-        ImageButton delete = holder.deleteButton;
-        ImageButton edit = holder.editButton;
+        TextView delete = holder.deleteButton;
+        TextView edit = holder.editButton;
         ImageView isAnswerSelected = holder.isAnswerSelected;
         TextView selectedAnswerUserName = holder.selectedAnswerUserName;
         TextView selectedAnswer = holder.selectedAnswer;
@@ -225,7 +225,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         numberOfSave.setText(String.valueOf((int)postDetail.getTotalSave()));
 
 
-        if(TAG.equals(PostedCasesFragment.TAG)) {
+        if(Constants.SELECTED_TAB.equals(Constants.POSTED)) {
             delete.setVisibility(View.VISIBLE);
             edit.setVisibility(View.VISIBLE);
         } else {
@@ -474,6 +474,20 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
             }
         });
 
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
 
         final Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
         final String MCINumber = customer.getMciNumber() != null ? customer.getMciNumber() : "";
@@ -599,8 +613,8 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         @Bind(R.id.layout_case_list_imageview1) ImageView isAnswerSelected;
         @Bind(R.id.layout_case_list_textview6) TextView selectedAnswerUserName;
         @Bind(R.id.layout_case_list_textview7) TextView selectedAnswer;
-        @Bind(R.id.layout_case_list_button1) ImageButton deleteButton;
-        @Bind(R.id.layout_case_list_button2) ImageButton editButton;
+        @Bind(R.id.layout_case_list_button2) TextView deleteButton;
+        @Bind(R.id.layout_case_list_button1) TextView editButton;
         @Bind(R.id.layout_case_list_textview8) TextView numberOfLikes;
         @Bind(R.id.layout_case_list_textview9) TextView numberOfSave;
         @Bind(R.id.layout_case_list_linear_layout) LinearLayout linearLayout;

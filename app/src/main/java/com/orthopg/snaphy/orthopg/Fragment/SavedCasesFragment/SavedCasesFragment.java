@@ -11,8 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
+import com.androidsdk.snaphy.snaphyandroidsdk.list.Listen;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Post;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.PostDetail;
+import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
+import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.Fragment.CaseFragment.CaseListAdapter;
 import com.orthopg.snaphy.orthopg.Fragment.CaseFragment.CaseModel;
+import com.orthopg.snaphy.orthopg.Fragment.CaseFragment.CasePresenter;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 
@@ -21,6 +28,8 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import static com.orthopg.snaphy.orthopg.R.id.swipeRefreshLayout;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,8 +45,13 @@ public class SavedCasesFragment extends android.support.v4.app.Fragment {
     MainActivity mainActivity;
     @Bind(R.id.fragment_saved_case_recycler_view) RecyclerView recyclerView;
     CaseListAdapter caseListAdapter;
-    List<CaseModel> caseModelList = new ArrayList<>();
-    List<Drawable> imageList = new ArrayList<>();
+    SavedCasesPresenter casePresenter;
+    DataList<Post> postDataList;
+
+
+
+    /*List<CaseModel> caseModelList = new ArrayList<>();
+    List<Drawable> imageList = new ArrayList<>();*/
     public static String TAG = "SavedCasesFragment";
 
     public SavedCasesFragment() {
@@ -61,13 +75,58 @@ public class SavedCasesFragment extends android.support.v4.app.Fragment {
         View view = inflater.inflate(R.layout.fragment_saved_cases, container, false);
         ButterKnife.bind(this, view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        setInitialData();
+        //loadPresenter();
         /*caseListAdapter = new CaseListAdapter(mainActivity, caseModelList, TAG);*/
         /*recyclerView.setAdapter(caseListAdapter);*/
         return view;
     }
 
-    public void setInitialData() {
+
+
+    /*private void loadPresenter(){
+        if(mainActivity != null){
+            casePresenter = new SavedCasesPresenter(mainActivity.snaphyHelper.getLoopBackAdapter(), progressBar, mainActivity);
+            Presenter.getInstance().addModel(Constants.SAVED_CASE_PRESENTER_ID, casePresenter);
+            postDataList = Presenter.getInstance().getList(Post.class, Constants.SAVED_CASE_LIST);
+            //By default fetch the trending list..
+            postDataList.subscribe(this, new Listen<PostDetail>() {
+                @Override
+                public void onInit(DataList<PostDetail> dataList) {
+                    super.onInit(dataList);
+                    *//*caseListAdapter = new CaseListAdapter(mainActivity, dataList, TAG, casePresenter);
+                    recyclerView.setAdapter(caseListAdapter);*//*
+                }
+
+                @Override
+                public void onChange(DataList<PostDetail> dataList) {
+                    super.onChange(dataList);
+                    swipeRefreshLayout.setRefreshing(false);
+                    caseListAdapter.notifyDataSetChanged();
+
+                }
+
+                @Override
+                public void onClear() {
+                    super.onClear();
+                    caseListAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onRemove(PostDetail element, DataList<PostDetail> dataList) {
+                    super.onRemove(element, dataList);
+                }
+            });
+
+            //Fetch the server data..
+            casePresenter.fetchSavedPost(true);
+        }
+    }
+*/
+
+
+
+
+    /*public void setInitialData() {
 
         imageList.add((getActivity().getResources().getDrawable(R.drawable.demo_books_image_1)));
         imageList.add((getActivity().getResources().getDrawable(R.drawable.demo_books_image_2)));
@@ -97,7 +156,7 @@ public class SavedCasesFragment extends android.support.v4.app.Fragment {
                 " a French professor at the University of Paris coined the term in the first textbook written on the subject in 1741.", "case", true, "Aadish Surana",
                 "Many developments in orthopedic surgery have resulted from experiences during wartime."));
     }
-
+*/
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

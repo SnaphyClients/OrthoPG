@@ -132,31 +132,55 @@
         android:orientation="horizontal"
         android:paddingTop="5dp">
 
-        <ImageButton
-            android:id="@+id/layout_case_list_button1"
+       <!-- <ImageButton
+
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@android:color/transparent"
             android:src="@mipmap/edit"
             android:gravity="center"
             android:visibility="gone"
-            android:layout_gravity="center" />
+            android:layout_gravity="center" />-->
 
-        <ImageButton
+        <TextView
+            android:id="@+id/layout_case_list_button1"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:background="@drawable/curved_rectangle_warning"
+            android:text="edit"
+            android:textColor="@color/warning"/>
+
+        <TextView
             android:id="@+id/layout_case_list_button2"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:background="@drawable/curved_rectangle_danger"
+            android:text="delete"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/danger"/>
+
+       <!-- <ImageButton
+
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@android:color/transparent"
             android:src="@mipmap/delete_case"
             android:gravity="center"
             android:visibility="gone"
-            android:layout_gravity="center" />
+            android:layout_gravity="center" />-->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingTop="5dp"
             android:layout_gravity="right"
             android:gravity="right">
 

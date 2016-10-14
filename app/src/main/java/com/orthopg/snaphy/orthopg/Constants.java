@@ -12,6 +12,7 @@ public class Constants {
     public static String APP_PLAY_STORE = "com.orthopg.snaphy.orthopg";
     public static String APP_SHARE_TEXT = "Orthopedic Doctors Largest Network \n\n";
     public static String CONTAINER = "orthopg";
+    public static String SELECTED_TAB = "Trending";
 
     private static String SHA_KEY = "D6:E7:88:AB:D1:8E:4F:88:A8:0D:34:ED:6E:57:FC:9F:EB:8C:7B:CC";
     public static String CLIENT_ID = "1045211377196-k556pl54qlqrmnin81fm7e7dseud686r.apps.googleusercontent.com";
@@ -32,7 +33,8 @@ public class Constants {
 
 
     /*DATA LIST IDs*/
-    public static String POST_DETAIL_LIST_CASE_FRAGMENT = "PostDetailsListCaseFragment";
+    public static String LIST_CASE_FRAGMENT = "ListCaseFragment";
+    public static String SAVED_CASE_LIST = "SavedCaseList";
     public static String BOOK_LIST_BOOKS_FRAGMENT = "BookListBooksFragment";
     public static String NEWS_LIST_NEWS_FRAGMENT = "NewsListNewsFragment";
     /*END OF DATA LIST IDs*/
@@ -40,6 +42,7 @@ public class Constants {
     /*MOdel IDs*/
     public static String ZOOM_IMAGE_ID = "ZoomImageId";
     public static String CASE_PRESENTER_ID = "CasePresenterId";
+    public static String SAVED_CASE_PRESENTER_ID = "SavedCasePresenterId";
     public static String ADD_NEW_CASE = "ADD_NEW_CASE";
     /*---------------*/
 
@@ -52,6 +55,8 @@ public class Constants {
     public static String TRENDING = "trending";
     public static String LATEST = "latest";
     public static String UNSOLVED = "unsolved";
+    public static String SAVED = "saved";
+    public static String POSTED = "posted";
     public static String PUBLISH = "publish";
     public static String ALLOW = "allow";
     public static String CASE = "case";
