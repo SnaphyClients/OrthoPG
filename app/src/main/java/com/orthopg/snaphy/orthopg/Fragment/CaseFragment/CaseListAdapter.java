@@ -501,8 +501,8 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                 String convertNumber = 1+"k";
                 return convertNumber;
             } else {
-                int convertNumber = number/1000;
-                return convertNumber+"k+";
+                double convertNumber = number/1000;
+                return convertNumber+"k";
             }
         } else {
             return number+"";
@@ -571,6 +571,8 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
 
     public void setTime(TextView casePostedTime, String date){
         //TODO DEFINE TIME HERE..
+        String parseDate = mainActivity.parseDate(date);
+        casePostedTime.setText(parseDate + " ago");
         //PARSE The javascript format date first..
         //casePostedTime.setText(caseModel.getPostTime());
     }

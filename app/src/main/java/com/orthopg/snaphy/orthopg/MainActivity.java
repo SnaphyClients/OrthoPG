@@ -56,6 +56,9 @@ import com.strongloop.android.loopback.LocalInstallation;
 import com.strongloop.android.loopback.RestAdapter;
 import com.strongloop.android.remoting.JsonUtil;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
@@ -64,8 +67,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -360,7 +361,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         }
     }
 
-    public void parseDate() {
+    public String parseDate(String postedCase) {
 
         //TODO MONTH DAY TO NUMBER CONVERTER
         String postedDate = "Sat Oct 08 05:30:00 GMT+05:30 2016";
@@ -368,14 +369,15 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
 
         //JAVA Current Date
         Date date = new Date();
-        String currentDate = String.format("Current Date/Time : %tc", date);
+        String currentDate = String.format("%tc", date);
 
-        applyRegexOnDate(postedDate, currentDate);
+         String time = applyRegexOnDate(postedDate, currentDate);
+          return time;
 
 
     }
 
-    public void applyRegexOnDate(String postedDate, String currentDate) {
+    public String applyRegexOnDate(String postedDate, String currentDate) {
         //Fri Oct 07 16:01:58 GMT+05:30 2016 JAVA
 
         /*******************************POSTED DATE*************************************/
@@ -389,18 +391,13 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             e.printStackTrace();
         }*/
 
+        Log.v(Constants.TAG, postedDate);
+        Log.v(Constants.TAG, currentDate);
         int postedDayOfMonth = Integer.parseInt(postedDate.toString().substring(8, 10));
-        int postedMonth = Integer.parseInt(postedDate.toString().substring(4, 7));
+        int postedMonth = convertMonthStringIntoNumber((postedDate.toString().substring(4, 7)));
         int postedHour = Integer.parseInt(postedDate.toString().substring(11, 13));
         int postedMinute = Integer.parseInt(postedDate.toString().substring(14, 16));
         int postedSecond = Integer.parseInt(postedDate.toString().substring(17, 19));
-
-        Pattern p = Pattern.compile("\\b\\d{4}\\b");
-        Matcher m = p.matcher(postedDate.toString());
-        String orderYear = "";
-        while (m.find()) {
-            orderYear = m.group().toString();
-        }
         int postedYear = Integer.parseInt(postedDate.toString().substring(30, 34));
 
         /*******************************POSTED DATE*************************************/
@@ -410,23 +407,18 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         /*******************************CURRENT DATE*************************************/
 
         int currentDayOfMonth = Integer.parseInt(currentDate.toString().substring(8, 10));
-        int currentMonth = Integer.parseInt(currentDate.toString().substring(4, 7));
+        int currentMonth = convertMonthStringIntoNumber(currentDate.toString().substring(4, 7));
         int currentHour = Integer.parseInt(currentDate.toString().substring(11, 13));
         int currentMinute = Integer.parseInt(currentDate.toString().substring(14, 16));
         int currentSecond = Integer.parseInt(currentDate.toString().substring(17, 19));
-
-        Pattern p1 = Pattern.compile("\\b\\d{4}\\b");
-        Matcher m1 = p1.matcher(currentDate.toString());
-        String orderYear1 = "";
-        while (m1.find()) {
-            orderYear1 = m.group().toString();
-        }
-        int currentYear = Integer.parseInt(currentDate.toString().substring(30, 34));
+        int currentYear = Integer.parseInt(currentDate.toString().substring(24, 28));
 
         /*******************************CURRENT DATE*************************************/
 
         String time = getPostedTime(currentYear, currentMonth, currentDayOfMonth, currentHour, currentMinute, currentSecond,
                 postedYear, postedMonth, postedDayOfMonth, postedHour, postedMinute,postedSecond);
+
+        return time;
     }
 
 
@@ -510,46 +502,16 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
     }
 
 
-    public void convertMonthStringIntoNumber() {
-        /*DateTimeFormatter format = DateTimeFormat.forPattern("MMM");
-        DateTime instance        = format.withLocale(Locale.ENGLISH).parseDateTime("IST");
+    public int convertMonthStringIntoNumber(String month) {
+        DateTimeFormatter format = DateTimeFormat.forPattern("MMM");
+        DateTime jodatime = format.parseDateTime(month);
+        // Format for output
 
-        int month_number         = instance.getMonthOfYear();
-        String month_text        = instance.monthOfYear().getAsText(Locale.ENGLISH);
-
-        System.out.println( "Month Number: " + month_number );
-        System.out.println( "Month Text:   " + month_text   );*/
+        int month_number = jodatime.getMonthOfYear();
+        return month_number;
 
     }
 
-   /* public String parseDate(String date){
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
-        format.setTimeZone(TimeZone.getTimeZone("IST"));
-        java.util.Date date_ = null;
-        try {
-            date_ = format.parse(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        //Now parsing time..
-
-        Log.v(Constants.TAG, date_.toString());
-        String orderDay = date_.toString().substring(8, 10);
-        String orderMonth = date_.toString().substring(4, 7);
-
-        Pattern p = Pattern.compile("\\b\\d{4}\\b");
-        Matcher m = p.matcher(date_.toString());
-        String orderYear = "";
-        while (m.find()) {
-            orderYear = m.group().toString();
-        }
-
-        //String orderYear = date_.toString().substring(30, 34);
-
-        String actualDate = orderDay + " " + orderMonth.toUpperCase()+ " "+ orderYear;
-        Log.v(Constants.TAG, actualDate);
-        return actualDate;
-    }*/
 
     /**
      * AddUser method for adding user once the user is successfully signed in

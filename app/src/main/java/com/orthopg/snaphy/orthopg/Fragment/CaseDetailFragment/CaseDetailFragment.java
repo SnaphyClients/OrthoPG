@@ -50,6 +50,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static android.R.attr.name;
 import static android.media.CamcorderProfile.get;
 import static com.orthopg.snaphy.orthopg.R.mipmap.like;
 
@@ -163,7 +164,14 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
 
     public void loadPost(){
         caseHeading.setText(post.getHeading());
-        userName.setText(mainActivity.snaphyHelper.getName(post.getCustomer().getFirstName(), post.getCustomer().getLastName()));
+        String name1 = mainActivity.snaphyHelper.getName(post.getCustomer().getFirstName(), post.getCustomer().getLastName());
+        if(!name1.isEmpty()){
+            name1 = Constants.Doctor + name1.replace("^[Dd][Rr]", "");
+        }
+
+        userName.setText(name1);
+
+        setTime(time, postDetail.getAdded());
 
         if(post.getCustomer() != null){
             Customer customer = post.getCustomer();
@@ -334,14 +342,22 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
 
     }
 
+    public void setTime(TextView casePostedTime, String date){
+        //TODO DEFINE TIME HERE..
+        String parseDate = mainActivity.parseDate(date);
+        casePostedTime.setText(parseDate + " ago");
+        //PARSE The javascript format date first..
+        //casePostedTime.setText(caseModel.getPostTime());
+    }
+
     public String parseLikeAndSave(int number) {
         if(number >= 1000) {
             if(number == 1000) {
                 String convertNumber = 1+"k";
                 return convertNumber;
             } else {
-                int convertNumber = number/1000;
-                return convertNumber+"k+";
+                double convertNumber = number/1000;
+                return convertNumber+"k";
             }
         } else {
             return number+"";
