@@ -16,6 +16,7 @@ import android.widget.Button;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.Listen;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Post;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.PostDetail;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
@@ -24,6 +25,8 @@ import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.CustomModel.TrackList;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
+import com.sdsmdg.tastytoast.TastyToast;
+import com.strongloop.android.loopback.callbacks.VoidCallback;
 
 import java.util.HashMap;
 
@@ -135,32 +138,33 @@ public class CaseFragment extends android.support.v4.app.Fragment {
 
     @OnClick(R.id.fragment_case_button1) void trendingButtonClick() {
         changeButtonColor(true, false, false, false, false);
-        casePresenter.fetchPost(Constants.TRENDING, true);
         Constants.SELECTED_TAB = Constants.TRENDING;
+        casePresenter.fetchPost(Constants.TRENDING, true);
     }
 
     @OnClick(R.id.fragment_case_button2) void newButtonClick() {
         changeButtonColor(false, true, false, false, false);
-        casePresenter.fetchPost(Constants.LATEST, true);
         Constants.SELECTED_TAB = Constants.LATEST;
+        casePresenter.fetchPost(Constants.LATEST, true);
+
     }
 
     @OnClick(R.id.fragment_case_button3) void unsolvedButtonClick() {
         changeButtonColor(false, false, true, false, false);
-        casePresenter.fetchPost(Constants.UNSOLVED, true);
         Constants.SELECTED_TAB = Constants.UNSOLVED;
+        casePresenter.fetchPost(Constants.UNSOLVED, true);
     }
 
     @OnClick(R.id.fragment_case_button6) void savedButtonClick() {
         changeButtonColor(false, false, false, true, false);
         Constants.SELECTED_TAB = Constants.SAVED;
-        casePresenter.fetchSavedPost(Constants.SAVED, false);
+        casePresenter.fetchSavedPost(Constants.SAVED, true);
     }
 
     @OnClick(R.id.fragment_case_button5) void postedButtonClick() {
         changeButtonColor(false, false, false, false, true);
         Constants.SELECTED_TAB = Constants.POSTED;
-        casePresenter.fetchPostedPost(Constants.POSTED, false);
+        casePresenter.fetchPostedPost(Constants.POSTED, true);
     }
 
     public void recyclerViewLoadMoreEventData() {
@@ -223,6 +227,8 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         casePresenter = new CasePresenter(mainActivity.snaphyHelper.getLoopBackAdapter(), progressBar, mainActivity);
         Presenter.getInstance().addModel(Constants.CASE_PRESENTER_ID, casePresenter);
         trackList = Presenter.getInstance().getModel(HashMap.class, Constants.LIST_CASE_FRAGMENT);
+        unsubscribeAll();
+        trackList.clear();
         caseListAdapter = new CaseListAdapter(mainActivity, trackList, TAG, casePresenter);
         recyclerView.setAdapter(caseListAdapter);
 
@@ -234,7 +240,7 @@ public class CaseFragment extends android.support.v4.app.Fragment {
             trendingListData.getPostDetails().subscribe(this, new Listen<PostDetail>() {
                 @Override
                 public void onInit(DataList<PostDetail> dataList) {
-
+                    caseListAdapter.notifyDataSetChanged();
                 }
 
                 @Override
@@ -257,7 +263,7 @@ public class CaseFragment extends android.support.v4.app.Fragment {
             latestListData.getPostDetails().subscribe(this, new Listen<PostDetail>() {
                 @Override
                 public void onInit(DataList<PostDetail> dataList) {
-
+                    caseListAdapter.notifyDataSetChanged();
                 }
 
                 @Override
@@ -281,7 +287,7 @@ public class CaseFragment extends android.support.v4.app.Fragment {
             unsolvedListData.getPostDetails().subscribe(this, new Listen<PostDetail>() {
                 @Override
                 public void onInit(DataList<PostDetail> dataList) {
-
+                    caseListAdapter.notifyDataSetChanged();
                 }
 
                 @Override
@@ -305,7 +311,7 @@ public class CaseFragment extends android.support.v4.app.Fragment {
             savedListData.getPostDataList().subscribe(this, new Listen<Post>() {
                 @Override
                 public void onInit(DataList<Post> dataList) {
-
+                    caseListAdapter.notifyDataSetChanged();
                 }
 
                 @Override
@@ -325,21 +331,52 @@ public class CaseFragment extends android.support.v4.app.Fragment {
             trackList.put(Constants.POSTED, postedListData);
 
 
-            postedListData.getPostDataList() .subscribe(this, new Listen<Post>() {
+            postedListData.getPostDataList().subscribe(this, new Listen<Post>() {
                 @Override
                 public void onInit(DataList<Post> dataList) {
-
+                    //swipeRefreshLayout.setRefreshing(false);
+                    caseListAdapter.notifyDataSetChanged();
                 }
 
                 @Override
                 public void onChange(DataList<Post> dataList) {
                     super.onChange(dataList);
-                    swipeRefreshLayout.setRefreshing(false);
+                    //swipeRefreshLayout.setRefreshing(false);
                     caseListAdapter.notifyDataSetChanged();
 
                 }
-            });
 
+                @Override
+                public void onClear() {
+                    //swipeRefreshLayout.setRefreshing(false);
+                    caseListAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onRemove(final Post element, int index, final DataList<Post> dataList) {
+                    super.onRemove(element, index, dataList);
+                    caseListAdapter.notifyDataSetChanged();
+                    element.destroy(new VoidCallback() {
+                        @Override
+                        public void onSuccess() {
+                            if(mainActivity != null){
+                                TastyToast.makeText(mainActivity.getApplicationContext(), Constants.DELETE_SUCCESS_POST, TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable t) {
+                            dataList.add(element);
+                            caseListAdapter.notifyDataSetChanged();
+                            if(mainActivity != null){
+                                TastyToast.makeText(mainActivity.getApplicationContext(), Constants.DELETE_ERROR_POST, TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+                            }
+
+                        }
+                    });
+                }
+
+            });
 
         }
 
@@ -431,12 +468,26 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     private void unsubscribeAll(){
         HashMap<String, TrackList> trackList = Presenter.getInstance().getModel(HashMap.class, Constants.LIST_CASE_FRAGMENT);
         if(trackList != null){
-            trackList.get(Constants.TRENDING).getPostDetails().unsubscribe(this);
-            trackList.get(Constants.LATEST).getPostDetails().unsubscribe(this);
-            trackList.get(Constants.UNSOLVED).getPostDetails().unsubscribe(this);
+            if(trackList.get(Constants.TRENDING) != null){
+                trackList.get(Constants.TRENDING).getPostDetails().unsubscribe(this);
+            }
+            if(trackList.get(Constants.LATEST) != null){
+                trackList.get(Constants.LATEST).getPostDetails().unsubscribe(this);
+            }
 
-            trackList.get(Constants.POSTED).getPostDataList().unsubscribe(this);
-            trackList.get(Constants.SAVED).getPostDataList().unsubscribe(this);
+            if(trackList.get(Constants.UNSOLVED) != null){
+                trackList.get(Constants.UNSOLVED).getPostDetails().unsubscribe(this);
+            }
+
+            if(trackList.get(Constants.POSTED) != null){
+                trackList.get(Constants.POSTED).getPostDataList().unsubscribe(this);
+            }
+
+            if(trackList.get(Constants.SAVED) != null){
+                trackList.get(Constants.SAVED).getPostDataList().unsubscribe(this);
+            }
+
+
         }
         Presenter.getInstance().removeFromList(Constants.LIST_CASE_FRAGMENT);
     }

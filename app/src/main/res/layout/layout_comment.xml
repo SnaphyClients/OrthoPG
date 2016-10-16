@@ -1,19 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content" android:paddingTop="5dp"
+    android:paddingBottom="5dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="7dp">
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="5dp">
 
-        <ImageView
-            android:id="@+id/layout_comment_imageview1"
-            android:layout_width="25dp"
-            android:layout_height="22dp"
-            android:src="@mipmap/unselected"
-            android:layout_marginLeft="7dp" />
+        <LinearLayout
+            android:layout_width="35dp"
+            android:layout_height="25dp"
+            android:background="@drawable/default_curved_rectangle"
+            android:gravity="center"
+            android:layout_marginLeft="7dp">
+
+            <ImageView
+                android:id="@+id/layout_comment_imageview1"
+                android:layout_width="35dp"
+                android:layout_height="25dp"
+                android:src="@mipmap/unselected"
+                android:layout_gravity="center_horizontal"/>
+
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/layout_comment_textview1"
@@ -23,16 +35,36 @@
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold"
             android:paddingTop="0dp"
-            android:layout_marginLeft="35dp"
+            android:layout_marginLeft="55dp"
             android:layout_centerVertical="true"/>
 
-        <ImageButton
+        <TextView
+            android:id="@+id/layout_comment_imagebutton1"
             android:layout_width="wrap_content"
-            android:layout_height="28dp"
-            android:src="@mipmap/edit"
-            android:background="@android:color/transparent"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:background="@drawable/curved_rectangle_warning"
+            android:text="edit"
+            android:textColor="@color/warning"
+            android:layout_toLeftOf="@+id/layout_comment_imagebutton2"/>
+
+        <TextView
+            android:id="@+id/layout_comment_imagebutton2"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:background="@drawable/curved_rectangle_danger"
+            android:text="delete"
+            android:layout_marginLeft="10dp"
             android:layout_alignParentRight="true"
-            android:id="@+id/layout_comment_imagebutton1"/>
+            android:textColor="@color/danger"
+            android:layout_marginRight="7dp"/>
 
     </RelativeLayout>
 
@@ -47,9 +79,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#EEE"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
+        android:background="#f1f1f1"
         android:layout_marginTop="12dp"/>
 
 

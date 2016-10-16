@@ -117,7 +117,7 @@
         android:id="@+id/layout_case_list_textview4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="12dp"
         android:textSize="12sp"
         android:maxLength="256"
         android:text="This patient underwent a diagnostic arthro.The patellofemoral comparment, medial gutter,and medial meniscus were normal. "/>
@@ -130,7 +130,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingTop="5dp">
+        android:paddingTop="14dp">
 
        <!-- <ImageButton
 
@@ -311,14 +311,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
 
         <ImageView
             android:id="@+id/layout_case_list_imageview1"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="35dp"
+            android:layout_height="30dp"
             android:src="@mipmap/selected"
             android:layout_gravity="left"/>
+
 
         <TextView
             android:id="@+id/layout_case_list_textview6"
@@ -338,6 +341,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12sp"
+        android:layout_marginTop="7dp"
         android:text="There was a radial tear of the lateral meniscus in the white-white zone which required partial meniscectomy. "/>
 
     <View

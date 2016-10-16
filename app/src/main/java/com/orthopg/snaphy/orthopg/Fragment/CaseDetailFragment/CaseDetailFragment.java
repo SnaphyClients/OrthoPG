@@ -90,7 +90,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
     MainActivity mainActivity;
     Post post;
     CaseImageAdapter caseImageAdapter;
-    List<CommentModel> commentModelList = new ArrayList<>();
+    //List<CommentModel> commentModelList = new ArrayList<>();
     CaseDetailFragmentCommentAdapter caseDetailFragmentCommentAdapter;
     int position;
     PostDetail postDetail;
@@ -146,7 +146,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
 
     public void loadPostData(int position){
         //casePresenter = new CasePresenter(mainActivity.snaphyHelper.getLoopBackAdapter(), progressBar, mainActivity);
-        if(Presenter.getInstance().getList(HashMap.class, Constants.LIST_CASE_FRAGMENT) != null){
+        if(Presenter.getInstance().getModel(HashMap.class, Constants.LIST_CASE_FRAGMENT) != null){
             HashMap<String, TrackList> list = Presenter.getInstance().getModel(HashMap.class, Constants.LIST_CASE_FRAGMENT);
             if(list != null){
                 TrackList trackListItem = list.get(Constants.SELECTED_TAB);
@@ -350,7 +350,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
 
         //TODO ADD COMMENTS LATER..
 
-        caseDetailFragmentCommentAdapter = new CaseDetailFragmentCommentAdapter(mainActivity, commentModelList);
+        caseDetailFragmentCommentAdapter = new CaseDetailFragmentCommentAdapter(mainActivity, post);
         commentsRecyclerView.setAdapter(caseDetailFragmentCommentAdapter);
 
 

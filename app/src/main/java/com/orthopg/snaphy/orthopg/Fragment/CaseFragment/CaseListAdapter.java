@@ -29,6 +29,7 @@ import com.orthopg.snaphy.orthopg.Fragment.PostedCasesFragment.PostedCasesFragme
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 import com.sdsmdg.tastytoast.TastyToast;
+import com.strongloop.android.loopback.callbacks.VoidCallback;
 
 import org.json.JSONObject;
 
@@ -105,7 +106,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         //get the list..
-        TrackList trackListItem = trackList.get(Constants.SELECTED_TAB);
+        final TrackList trackListItem = trackList.get(Constants.SELECTED_TAB);
 
 
 
@@ -509,14 +510,26 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    //remove the data..
+                    DataList<Post> posts = trackListItem.getPostDataList();
+                    if(posts != null){
+                        if(data.post != null){
+                            //remove the post item from list..
+                            posts.remove(data.post);
 
+                        }
+                    }
                 }
             });
 
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    if(data.post != null){
+                        //Add post to edit data..prepare for edit..
+                        casePresenter.InitNewCaseObject(data.post);
+                        mainActivity.replaceFragment(R.id.fragment_case_button4, null);
+                    }
                 }
             });
 

@@ -139,7 +139,7 @@ public class CaseUploadImageFragment extends android.support.v4.app.Fragment {
                     }
 
                     @Override
-                    public void onRemove(TrackImage element, DataList<TrackImage> dataList) {
+                    public void onRemove(TrackImage element, int index, DataList<TrackImage> dataList) {
 
                         if(element != null){
                             if(element.isDownloaded()){

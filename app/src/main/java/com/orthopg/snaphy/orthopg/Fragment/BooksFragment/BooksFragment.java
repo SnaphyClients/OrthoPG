@@ -95,8 +95,8 @@ public class BooksFragment extends android.support.v4.app.Fragment {
                     }
 
                     @Override
-                    public void onRemove(Book element, DataList<Book> dataList) {
-                        super.onRemove(element, dataList);
+                    public void onRemove(Book element, int index, DataList<Book> dataList) {
+                        super.onRemove(element, index, dataList);
                     }
                 } );
 

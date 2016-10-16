@@ -126,8 +126,8 @@ public class NewsFragment extends android.support.v4.app.Fragment {
             }
 
             @Override
-            public void onRemove(News element, DataList<News> dataList) {
-                super.onRemove(element, dataList);
+            public void onRemove(News element, int index, DataList<News> dataList) {
+                super.onRemove(element, index, dataList);
             }
         });
 

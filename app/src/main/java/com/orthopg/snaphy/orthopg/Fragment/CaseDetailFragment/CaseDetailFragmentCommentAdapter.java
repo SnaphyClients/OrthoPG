@@ -15,6 +15,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Comment;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Post;
+import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
+import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 
@@ -28,12 +34,12 @@ import butterknife.ButterKnife;
  */
 public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseDetailFragmentCommentAdapter.ViewHolder> {
 
-    List<CommentModel> commentModelList;
+    Post post;
     MainActivity mainActivity;
 
-    public CaseDetailFragmentCommentAdapter(MainActivity mainActivity, List<CommentModel> commentModelList) {
+    public CaseDetailFragmentCommentAdapter(MainActivity mainActivity, Post post) {
         this.mainActivity = mainActivity;
-        this.commentModelList = commentModelList;
+        this.post = post;
     }
 
     @Override
@@ -50,35 +56,94 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
 
     @Override
     public void onBindViewHolder(CaseDetailFragmentCommentAdapter.ViewHolder holder, int position) {
-        CommentModel commentModel = commentModelList.get(position);
+        if(post == null){
+            return;
+        }
+        DataList<Comment> commentDataList = post.getComments();
+        if(commentDataList == null){
+            return;
+        }
+
+        Comment comment = commentDataList.get(position);
+
 
         ImageView isSelected = holder.isSelected;
         TextView userName = holder.userName;
         final TextView answer = holder.answer;
-        ImageButton editComment = holder.editComment;
+        TextView editComment = holder.editComment;
+        TextView deleteComment = holder.deleteComment;
 
-        if(commentModel.isSelected()) {
-            isSelected.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.selected));
-        } else {
-            isSelected.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.unselected));
+
+        ///Set not solved tick mark if customer has posted the Post..
+        Customer loginCustomer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+        if(loginCustomer != null){
+            if(post.getCustomer() != null){
+                if(post.getCustomer().getId() != null){
+                    if(post.getCustomer().getId().toString().equals(loginCustomer.getId().toString())){
+                        //Display the accept answer option..
+                        isSelected.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.unselected));
+
+                        //Also add the click listener..
+                        isSelected.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                //SHOW LOADING BAR..
+                                //TODO: ADD SELECT ANSWER-REMOVE ANSWER LOGIC
+                            }
+                        });
+                    }
+                }
+            }
+
+
+            //Add edit button on comments..
+            if(comment.getCustomer() != null){
+                if(comment.getCustomer().getId().toString().equals(loginCustomer.getId().toString())){
+                    //Displays button
+                    editComment.setVisibility(View.VISIBLE);
+                    //Display the edit comment button..
+                    editComment.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //TODO: HANDLE EDIT COMMENT LOGIC..
+                            showCommentDialog(answer);
+                        }
+                    });
+                }else{
+                    editComment.setVisibility(View.GONE);
+                }
+            }else{
+                editComment.setVisibility(View.GONE);
+            }
+
+        }else{
+            editComment.setVisibility(View.GONE);
         }
 
-        userName.setText(commentModel.getName());
-        answer.setText(commentModel.getAnswer());
 
-        isSelected.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
+        if(comment != null & mainActivity != null){
+            if(comment.getCustomer() != null){
+                String name = mainActivity.snaphyHelper.getName(comment.getCustomer().getFirstName(), comment.getCustomer().getLastName());
+                if(!name.isEmpty()){
+                    userName.setVisibility(View.VISIBLE);
+                    name = Constants.Doctor + name.replace("^[Dd][Rr]", "");
+                    userName.setText(name);
+                }else{
+                    userName.setVisibility(View.GONE);
+                }
             }
-        });
 
-        editComment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showCommentDialog(answer);
+            if(comment.getAnswer() != null){
+                if(!comment.getAnswer().isEmpty()){
+                    answer.setVisibility(View.VISIBLE);
+                    answer.setText(comment.getAnswer().trim());
+                }else{
+                    answer.setVisibility(View.GONE);
+                }
             }
-        });
+
+        }
+
     }
 
     public void showCommentDialog(final TextView answer) {
@@ -110,7 +175,14 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
 
     @Override
     public int getItemCount() {
-        return commentModelList.size();
+        if(post == null){
+            return 0;
+        }
+        DataList<Comment> commentDataList = post.getComments();
+        if(commentDataList == null){
+            return 0;
+        }
+        return commentDataList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -118,7 +190,8 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
         @Bind(R.id.layout_comment_imageview1) ImageView isSelected;
         @Bind(R.id.layout_comment_textview1) TextView userName;
         @Bind(R.id.layout_comment_textview2) TextView answer;
-        @Bind(R.id.layout_comment_imagebutton1) ImageButton editComment;
+        @Bind(R.id.layout_comment_imagebutton1) TextView editComment;
+        @Bind(R.id.layout_comment_imagebutton2) TextView deleteComment;
 
         public ViewHolder(View itemView) {
             super(itemView);
