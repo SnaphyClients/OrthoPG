@@ -113,6 +113,11 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
         position = bundle.getInt("position");
+        //Remove the in edit data..
+        if(Presenter.getInstance().getModel(Post.class, Constants.EDIT_IN_PROCESS_COMMENT_POST_MODEL) != null){
+            //Remove the data..
+            Presenter.getInstance().removeModelFromList(Constants.EDIT_IN_PROCESS_COMMENT_POST_MODEL);
+        }
     }
 
     @Override
@@ -376,11 +381,8 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
     }
 
     public void setTime(TextView casePostedTime, String date){
-        //TODO DEFINE TIME HERE..
         String parseDate = mainActivity.parseDate(date);
         casePostedTime.setText(parseDate + " ago");
-        //PARSE The javascript format date first..
-        //casePostedTime.setText(caseModel.getPostTime());
     }
 
     public String parseLikeAndSave(int number) {
@@ -416,6 +418,10 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
 
 
     @OnClick(R.id.fragment_case_detail_button4) void postAnswer() {
+        if(post != null){
+            //Prepare the data..
+            Presenter.getInstance().addModel(Constants.EDIT_IN_PROCESS_COMMENT_POST_MODEL, post);
+        }
         mainActivity.replaceFragment(R.id.fragment_case_detail_button4, null);
     }
 
@@ -466,6 +472,8 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         //Now notify change..
         notifyCaseFragmentChange();
     }
+
+
 
 
 
