@@ -349,9 +349,7 @@
         android:layout_height="1dp"
         android:background="#EEEEEE"
         android:layout_marginTop="25dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="45dp"
-        android:layout_marginRight="45dp"/>
+        android:layout_marginBottom="10dp" />
 
 
 

@@ -9,13 +9,6 @@
     tools:context="com.orthopg.snaphy.orthopg.Fragment.CaseDetailFragment.CaseDetailFragment">
 
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#DDDDDD"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="45dp"/>
-
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -274,8 +267,6 @@
                 android:id="@+id/layout_case_detail_recycler_view2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingRight="30dp"
-                android:paddingLeft="30dp"
                 android:layout_marginBottom="40dp" />
 
         </android.support.v4.widget.NestedScrollView>
@@ -454,5 +445,11 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#DDDDDD"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="45dp"/>
 
 </RelativeLayout>

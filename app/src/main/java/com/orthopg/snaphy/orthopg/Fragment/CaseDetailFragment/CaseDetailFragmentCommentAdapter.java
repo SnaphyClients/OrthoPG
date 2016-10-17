@@ -24,6 +24,7 @@ import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
@@ -36,10 +37,12 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
 
     Post post;
     MainActivity mainActivity;
+    HashMap<Object, Boolean> trackCommentSelected;
 
     public CaseDetailFragmentCommentAdapter(MainActivity mainActivity, Post post) {
         this.mainActivity = mainActivity;
         this.post = post;
+        this.trackCommentSelected = new HashMap<>();
     }
 
     @Override
@@ -64,15 +67,18 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
             return;
         }
 
-        Comment comment = commentDataList.get(position);
+        final Comment comment = commentDataList.get(position);
 
 
-        ImageView isSelected = holder.isSelected;
+        final ImageView isSelected = holder.isSelected;
         TextView userName = holder.userName;
         final TextView answer = holder.answer;
         TextView editComment = holder.editComment;
         TextView deleteComment = holder.deleteComment;
 
+        if(comment.getId() != null){
+            trackCommentSelected.put(comment.getId(), false);
+        }
 
         ///Set not solved tick mark if customer has posted the Post..
         Customer loginCustomer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
@@ -87,8 +93,19 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
                         isSelected.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                //SHOW LOADING BAR..
-                                //TODO: ADD SELECT ANSWER-REMOVE ANSWER LOGIC
+                                boolean isAnswerStateSelectedPreviously = trackCommentSelected.get(comment.getId());
+
+                                if(isAnswerStateSelectedPreviously){
+                                    //TODO: remove accepted answer...
+                                    //Display the accept answer option..
+                                    isSelected.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.unselected));
+                                }else{
+                                    //TODO: add accepted answer...
+                                    isSelected.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.selected));
+                                }
+
+                                //Now change the state.
+                                trackCommentSelected.put(comment.getId(), !isAnswerStateSelectedPreviously);
                             }
                         });
                     }
@@ -109,15 +126,28 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
                             showCommentDialog(answer);
                         }
                     });
+
+                    //show delete button..
+                    deleteComment.setVisibility(View.VISIBLE);
+                    deleteComment.setOnClickListener(new View.OnClickListener(){
+                        @Override
+                        public void onClick(View v) {
+                            //TODO: HANDLE DELETE COMMENT LOGIC..
+
+                        }
+                    });
                 }else{
                     editComment.setVisibility(View.GONE);
+                    deleteComment.setVisibility(View.GONE);
                 }
             }else{
                 editComment.setVisibility(View.GONE);
+                deleteComment.setVisibility(View.GONE);
             }
 
         }else{
             editComment.setVisibility(View.GONE);
+            deleteComment.setVisibility(View.GONE);
         }
 
 

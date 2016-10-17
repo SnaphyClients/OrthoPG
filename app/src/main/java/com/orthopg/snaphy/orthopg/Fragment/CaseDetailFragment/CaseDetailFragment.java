@@ -94,6 +94,8 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
     CaseDetailFragmentCommentAdapter caseDetailFragmentCommentAdapter;
     int position;
     PostDetail postDetail;
+    DataList<PostDetail> getPostDataList;
+    DataList<Post> postList;
     CasePresenter casePresenter;
     Customer loginCustomer;
 
@@ -153,7 +155,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
                 if(Constants.SELECTED_TAB.equals(Constants.TRENDING)
                         || Constants.SELECTED_TAB.equals(Constants.LATEST)
                         || Constants.SELECTED_TAB.equals(Constants.UNSOLVED)){
-
+                    getPostDataList = trackListItem.getPostDetails();
                     postDetail  = trackListItem.getPostDetails().get(position);
                     if(postDetail != null){
                         post = postDetail.getPost();
@@ -162,6 +164,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
                     if(trackListItem.getPostDataList() != null){
                         if(trackListItem.getPostDataList().size() != 0){
                             post  = trackListItem.getPostDataList().get(position);
+                            postList = trackListItem.getPostDataList();
                             postDetail = post.getPostDetails();
                         }
                     }
@@ -170,6 +173,22 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
 
         }
         loadPost();
+    }
+
+    /*Notify Case Fragment about change..*/
+    public void notifyCaseFragmentChange(){
+        if(Constants.SELECTED_TAB.equals(Constants.TRENDING)
+                || Constants.SELECTED_TAB.equals(Constants.LATEST)
+                || Constants.SELECTED_TAB.equals(Constants.UNSOLVED)){
+
+            if(getPostDataList != null){
+                getPostDataList.publishOnChange();
+            }
+        }else{
+            if(postList != null){
+                postList.publishOnChange();
+            }
+        }
     }
 
     public void loadPost(){
@@ -395,93 +414,70 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         mainActivity.onBackPressed();
     }
 
-    @OnClick(R.id.layout_case_detail_imagebutton1) void savedButton() {
-        if(isSaved) {
-            saveButton.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_unselected));
-            isSaved = false;
-        } else {
-            saveButton.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_selected));
-            isSaved = true;
-        }
-    }
-
-    @OnClick(R.id.layout_case_detail_imagebutton2) void likeButton() {
-        if(isLiked) {
-            likeButton.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_unselected));
-            isLiked = false;
-        } else {
-            likeButton.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_selected));
-            isLiked = true;
-        }
-    }
 
     @OnClick(R.id.fragment_case_detail_button4) void postAnswer() {
         mainActivity.replaceFragment(R.id.fragment_case_detail_button4, null);
     }
 
+    public void showLike(Post post, ImageView like, TrackLike trackLike, TextView numberOfLike, PostDetail postDetail){
+        if(trackLike != null){
+            if(trackLike.state){
+                Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).put(post.getId(), trackLike);
+                like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_selected));
+                postDetail.setTotalLike(postDetail.getTotalLike() + 1);
+                String parsedLike = parseLikeAndSave((int)postDetail.getTotalLike());
+                numberOfLike.setText(parsedLike);
+            }else{
+                Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).put(post.getId(), trackLike);
+                like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_unselected));
+                if(postDetail.getTotalLike() == 0){
+
+                } else {
+                    postDetail.setTotalLike(postDetail.getTotalLike() - 1);
+                }
+                String parsedLike = parseLikeAndSave((int)postDetail.getTotalLike());
+                numberOfLike.setText(parsedLike);
+            }
+        }
+        //Now notify change..
+        notifyCaseFragmentChange();
+    }
+
+    public void showSave(Post post, ImageView saveCase, TrackSave trackSave, TextView numberOfSave, PostDetail postDetail){
+        if(trackSave != null){
+            if(trackSave.state){
+                Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).put(post.getId(), trackSave);
+                saveCase.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_selected));
+                postDetail.setTotalSave(postDetail.getTotalSave() + 1);
+                String parsedSave = parseLikeAndSave((int)postDetail.getTotalSave());
+                numberOfSave.setText(parsedSave);
+            }else{
+                Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).put(post.getId(), trackSave);
+                saveCase.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_unselected));
+                if(postDetail.getTotalSave() == 0) {
+
+                } else {
+                    postDetail.setTotalSave(postDetail.getTotalSave() - 1);
+                }
+                String parsedSave = parseLikeAndSave((int)postDetail.getTotalSave());
+                numberOfSave.setText(parsedSave);
+            }
+        }
+        //Now notify change..
+        notifyCaseFragmentChange();
+    }
+
+
+
     public void likeButtonClickListener() {
         likeLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).get(post.getId()) == null) {
-                    //Add like
-                    casePresenter.addLike((String) loginCustomer.getId(), (String) post.getId(), new ObjectCallback<LikePost>() {
-                        @Override
-                        public void onBefore() {
-                            TrackLike trackLike = new TrackLike();
-                            trackLike.state = true;
-                            showLike(post, likeButton, trackLike, numberOfLike, postDetail);
-                        }
-
-                        @Override
-                        public void onSuccess(LikePost object) {
-                            TrackLike trackLike = new TrackLike();
-                            trackLike.state = true;
-                            trackLike.likePost = object;
-                            //showLike(post, like, trackLike, numberOfLike, postDetail);
-                        }
-
-                        @Override
-                        public void onError(Throwable t) {
-                            TrackLike trackLike = new TrackLike();
-                            trackLike.state = false;
-                            showLike(post, likeButton, trackLike, numberOfLike, postDetail);
-                            //TODO add toast..
-                        }
-                    });
-                } else {
-                    final TrackLike trackLike = (TrackLike) Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).get(post.getId());
-                    if (trackLike.state) {
-                        trackLike.state = false;
-                        //showLike(post, like, trackLike, numberOfLike, postDetail);
-                        //delete like
-                        casePresenter.removeLike(trackLike.likePost, new ObjectCallback<JSONObject>() {
-                            @Override
-                            public void onBefore() {
-                                trackLike.state = false;
-                                showLike(post, likeButton, trackLike, numberOfLike, postDetail);
-                            }
-
-                            @Override
-                            public void onSuccess(JSONObject object) {
-                                trackLike.state = false;
-                                //showLike(post, like, trackLike, numberOfLike, postDetail);
-                            }
-
-                            @Override
-                            public void onError(Throwable t) {
-                                trackLike.state = true;
-                                showLike(post, likeButton, trackLike, numberOfLike, postDetail);
-                            }
-
-                            @Override
-                            public void onFinally() {
-                                super.onFinally();
-                            }
-                        });
-
-                    } else {
-                        //add like..
+                HashMap<Object, TrackLike> trackLikeHashMap = Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE);
+                if(trackLikeHashMap != null){
+                    if(trackLikeHashMap.get(post.getId()) == null){
+                        final TrackLike trackLike = new TrackLike();
+                        //Add like
                         casePresenter.addLike((String) loginCustomer.getId(), (String) post.getId(), new ObjectCallback<LikePost>() {
                             @Override
                             public void onBefore() {
@@ -491,18 +487,64 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
 
                             @Override
                             public void onSuccess(LikePost object) {
-                                trackLike.state = true;
                                 trackLike.likePost = object;
-                                //showLike(post, like, trackLike, numberOfLike, postDetail);
                             }
 
                             @Override
                             public void onError(Throwable t) {
+                                TrackLike trackLike = new TrackLike();
                                 trackLike.state = false;
                                 showLike(post, likeButton, trackLike, numberOfLike, postDetail);
-                                //TODO add toast..
                             }
                         });
+                    }else{
+                        final TrackLike trackLike = (TrackLike) Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).get(post.getId());
+                        if (trackLike.state) {
+                            trackLike.state = false;
+                            casePresenter.removeLike(trackLike.likePost, new ObjectCallback<JSONObject>() {
+                                @Override
+                                public void onBefore() {
+                                    trackLike.state = false;
+                                    showLike(post, likeButton, trackLike, numberOfLike, postDetail);
+                                }
+
+                                @Override
+                                public void onSuccess(JSONObject object) {
+                                }
+
+                                @Override
+                                public void onError(Throwable t) {
+                                    trackLike.state = true;
+                                    showLike(post, likeButton, trackLike, numberOfLike, postDetail);
+                                }
+
+                                @Override
+                                public void onFinally() {
+                                    super.onFinally();
+                                }
+                            });
+
+                        } else {
+                            //add like..
+                            casePresenter.addLike((String) loginCustomer.getId(), (String) post.getId(), new ObjectCallback<LikePost>() {
+                                @Override
+                                public void onBefore() {
+                                    trackLike.state = true;
+                                    showLike(post, likeButton, trackLike, numberOfLike, postDetail);
+                                }
+
+                                @Override
+                                public void onSuccess(LikePost object) {
+                                    trackLike.likePost = object;
+                                }
+
+                                @Override
+                                public void onError(Throwable t) {
+                                    trackLike.state = false;
+                                    showLike(post, likeButton, trackLike, numberOfLike, postDetail);
+                                }
+                            });
+                        }
                     }
                 }
             }
@@ -514,21 +556,18 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View v) {
                 if(Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).get(post.getId()) == null){
+                    final TrackSave trackSave = new TrackSave();
                     //Add like
                     casePresenter.addSave((String) loginCustomer.getId(), (String) post.getId(), new ObjectCallback<SavePost>() {
                         @Override
                         public void onBefore() {
-                            TrackSave trackSave = new TrackSave();
                             trackSave.state = true;
                             showSave(post, saveButton, trackSave, numberOfSave, postDetail);
                         }
 
                         @Override
                         public void onSuccess(SavePost object) {
-                            TrackSave trackSave = new TrackSave();
-                            trackSave.state = true;
                             trackSave.savePost = object;
-                            //showSave(post, saveCase, trackSave, numberOfSave, postDetail);
                         }
 
                         @Override
@@ -536,15 +575,12 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
                             TrackSave trackSave = new TrackSave();
                             trackSave.state = false;
                             showSave(post, saveButton, trackSave, numberOfSave, postDetail);
-                            //TODO add toast..
                         }
                     });
                 }else{
                     final TrackSave trackSave = (TrackSave)Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).get(post.getId());
                     if(trackSave.state){
                         trackSave.state = false;
-                        //showSave(post, saveCase, trackSave, numberOfSave, postDetail);
-                        //delete like
                         casePresenter.removeSave(trackSave.savePost, new ObjectCallback<JSONObject>() {
                             @Override
                             public void onBefore() {
@@ -554,8 +590,6 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
 
                             @Override
                             public void onSuccess(JSONObject object) {
-                                trackSave.state = false;
-                                //showSave(post, saveCase, trackSave, numberOfSave, postDetail);
                             }
 
                             @Override
@@ -581,16 +615,13 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
 
                             @Override
                             public void onSuccess(SavePost object) {
-                                trackSave.state = true;
                                 trackSave.savePost = object;
-                                //showSave(post, saveCase, trackSave, numberOfSave, postDetail);
                             }
 
                             @Override
                             public void onError(Throwable t) {
                                 trackSave.state = false;
                                 showSave(post, saveButton, trackSave, numberOfSave, postDetail);
-                                //TODO add toast..
                             }
                         });
                     }
@@ -599,49 +630,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         });
     }
 
-    public void showLike(Post post, ImageView like, TrackLike trackLike, TextView numberOfLike, PostDetail postDetail){
-        if(trackLike != null){
-            if(trackLike.state){
-                Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).put(post.getId(), trackLike);
-                like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_selected));
-                postDetail.setTotalLike(postDetail.getTotalLike() + 1);
-                String parsedLike = parseLikeAndSave((int)postDetail.getTotalLike());
-                numberOfLike.setText(parsedLike);
-            }else{
-                Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).put(post.getId(), trackLike);
-                like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_unselected));
-                if(postDetail.getTotalLike() == 0){
 
-                } else {
-                    postDetail.setTotalLike(postDetail.getTotalLike() - 1);
-                }
-                String parsedLike = parseLikeAndSave((int)postDetail.getTotalLike());
-                numberOfLike.setText(parsedLike);
-            }
-        }
-    }
-
-    public void showSave(Post post, ImageView saveCase, TrackSave trackSave, TextView numberOfSave, PostDetail postDetail){
-        if(trackSave != null){
-            if(trackSave.state){
-                Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).put(post.getId(), trackSave);
-                saveCase.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_selected));
-                postDetail.setTotalSave(postDetail.getTotalSave() + 1);
-                String parsedSave = parseLikeAndSave((int)postDetail.getTotalSave());
-                numberOfSave.setText(parsedSave);
-            }else{
-                Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).put(post.getId(), trackSave);
-                saveCase.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_unselected));
-                if(postDetail.getTotalSave() == 0) {
-
-                } else {
-                    postDetail.setTotalSave(postDetail.getTotalSave() - 1);
-                }
-                String parsedSave = parseLikeAndSave((int)postDetail.getTotalSave());
-                numberOfSave.setText(parsedSave);
-            }
-        }
-    }
 
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

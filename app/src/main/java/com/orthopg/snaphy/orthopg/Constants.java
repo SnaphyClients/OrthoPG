@@ -92,12 +92,16 @@ public class Constants {
     /*MESSAGES AREA*/
     public static String ERROR_MESSAGE = "Cannot login ! Try again later";
     public static String UPLOAD_ERROR = "Cannot Upload Image ! Try again";
+    public static String ERROR_UPDATING_MCI = "Cannot Update MCI! Try again later";
+    public static String ERROR_UPDATING_NAME = "Cannot Update Name! Try again later";
+    public static String ERROR_FIRST_NAME_EMPTY = "First Name cannot be empty";
     public static String CASE_UPLOAD_ERROR = "Cannot Save! Check your network";
     public static String HEADING_REQUIRED_MESSAGE = "Heading cannot be blank";
     public static String SUCCESS_SAVED = "Case saved";
     public static String SAVING_POST = "Saving case";
     public static String DELETE_ERROR_POST = "Cannot Delete! Try again.";
     public static String DELETE_SUCCESS_POST = "Case successfully deleted.";
+    public static String ACCEPT_ANSWER_ERROR_COMMENT = "Cannot Accept Answer! Try again later";
 
 
     /*--------------------------------------------------------------------------------------------------------*/

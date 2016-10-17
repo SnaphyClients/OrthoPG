@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#333"
-            android:hint="Enter Text"
+            android:hint="Enter First Name"
             android:paddingTop="7dp"
             android:inputType="number"
             android:textSize="14sp"
@@ -24,10 +24,31 @@
 
     </android.support.design.widget.TextInputLayout>
 
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="15dp"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#333"
+            android:hint="Enter Last Name"
+            android:paddingTop="7dp"
+            android:inputType="number"
+            android:textSize="14sp"
+            android:id="@+id/dialog_add_text_edittext2"
+            android:layout_marginBottom="7dp"/>
+
+
+    </android.support.design.widget.TextInputLayout>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="35dp"
-        android:text="OK"
+        android:text="Update Name"
         android:background="@android:color/transparent"
         android:textColor="@color/colorPrimary"
         android:layout_gravity="right"
@@ -35,6 +56,7 @@
         android:id="@+id/dialog_add_text_button1"
         android:gravity="right|center_vertical"
         android:paddingRight="10dp"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"/>
 
 </LinearLayout>
