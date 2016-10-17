@@ -51,27 +51,12 @@ public class CasePresenter {
         circleProgressBar = progressBar;
         this.mainActivity = mainActivity;
         //Only add if not initialized already..
-        if(Presenter.getInstance().getModel(HashMap.class, Constants.LIST_CASE_FRAGMENT) == null){
-            trackList = new HashMap<String, TrackList>();
-            Presenter.getInstance().addModel(Constants.LIST_CASE_FRAGMENT, trackList);
-        }else{
-            trackList = Presenter.getInstance().getModel(HashMap.class, Constants.LIST_CASE_FRAGMENT);
-        }
-
-        if(Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE) == null){
-            HashMap<Object, TrackLike> trackLike = new HashMap<>();
-            Presenter.getInstance().addModel(Constants.TRACK_LIKE, trackLike);
-        }else{
-            trackLike = Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE);
-        }
-
-        if(Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE) == null){
-            HashMap<Object, TrackSave> trackSave = new HashMap<>();
-            Presenter.getInstance().addModel(Constants.TRACK_SAVE, trackSave);
-        }else{
-            trackSave = Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE);
-        }
-
+        trackList = new HashMap<String, TrackList>();
+        Presenter.getInstance().addModel(Constants.LIST_CASE_FRAGMENT, trackList);
+        HashMap<Object, TrackLike> trackLike = new HashMap<>();
+        Presenter.getInstance().addModel(Constants.TRACK_LIKE, trackLike);
+        HashMap<Object, TrackSave> trackSave = new HashMap<>();
+        Presenter.getInstance().addModel(Constants.TRACK_SAVE, trackSave);
     }
 
 

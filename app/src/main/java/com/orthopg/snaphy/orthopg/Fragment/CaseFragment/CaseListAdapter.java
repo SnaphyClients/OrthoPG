@@ -439,7 +439,6 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                     } else {
                         final TrackSave trackSave = (TrackSave) Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).get(data.post.getId());
                         if (trackSave.state) {
-                            trackSave.state = false;
                             //showSave(data.post, saveCase, trackSave, numberOfSave, data.postDetail);
                             //delete like
                             casePresenter.removeSave(trackSave.savePost, new ObjectCallback<JSONObject>() {
@@ -451,7 +450,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
 
                                 @Override
                                 public void onSuccess(JSONObject object) {
-                                    //trackSave.state = false;
+                                    trackSave.state = false;
                                     //showSave(data.post, saveCase, trackSave, numberOfSave, data.postDetail);
                                 }
 
@@ -560,20 +559,20 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
     public void showLike(Post post, ImageView like, TrackLike trackLike, TextView numberOfLike, PostDetail postDetail){
         if(trackLike != null){
             if(trackLike.state){
-                Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).put(post.getId(), trackLike);
                 like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_selected));
                 postDetail.setTotalLike(postDetail.getTotalLike() + 1);
                 String parsedLike = parseLikeAndSave((int)postDetail.getTotalLike());
                 numberOfLike.setText(parsedLike);
-            }else{
                 Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).put(post.getId(), trackLike);
+            }else{
+                trackLike.likePost = null;
                 like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_unselected));
                 if(postDetail.getTotalLike() == 0){
-
                 } else {
                     postDetail.setTotalLike(postDetail.getTotalLike() - 1);
                 }
                 String parsedLike = parseLikeAndSave((int)postDetail.getTotalLike());
+                Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).put(post.getId(), trackLike);
                 numberOfLike.setText(parsedLike);
             }
         }
@@ -588,15 +587,15 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                 String parsedSave = parseLikeAndSave((int)postDetail.getTotalSave());
                 numberOfSave.setText(parsedSave);
             }else{
-                Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).put(post.getId(), trackSave);
                 saveCase.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_unselected));
+                trackSave.savePost = null;
                 if(postDetail.getTotalSave() == 0) {
-
                 } else {
                     postDetail.setTotalSave(postDetail.getTotalSave() - 1);
                 }
                 String parsedSave = parseLikeAndSave((int)postDetail.getTotalSave());
                 numberOfSave.setText(parsedSave);
+                Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).put(post.getId(), trackSave);
             }
         }
     }

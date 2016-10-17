@@ -428,13 +428,13 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
     public void showLike(Post post, ImageView like, TrackLike trackLike, TextView numberOfLike, PostDetail postDetail){
         if(trackLike != null){
             if(trackLike.state){
-                Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).put(post.getId(), trackLike);
                 like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_selected));
                 postDetail.setTotalLike(postDetail.getTotalLike() + 1);
                 String parsedLike = parseLikeAndSave((int)postDetail.getTotalLike());
                 numberOfLike.setText(parsedLike);
-            }else{
                 Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).put(post.getId(), trackLike);
+            }else{
+                trackLike.likePost = null;
                 like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_unselected));
                 if(postDetail.getTotalLike() == 0){
 
@@ -443,6 +443,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
                 }
                 String parsedLike = parseLikeAndSave((int)postDetail.getTotalLike());
                 numberOfLike.setText(parsedLike);
+                Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).put(post.getId(), trackLike);
             }
         }
         //Now notify change..
@@ -452,13 +453,12 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
     public void showSave(Post post, ImageView saveCase, TrackSave trackSave, TextView numberOfSave, PostDetail postDetail){
         if(trackSave != null){
             if(trackSave.state){
-                Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).put(post.getId(), trackSave);
                 saveCase.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_selected));
                 postDetail.setTotalSave(postDetail.getTotalSave() + 1);
                 String parsedSave = parseLikeAndSave((int)postDetail.getTotalSave());
                 numberOfSave.setText(parsedSave);
-            }else{
                 Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).put(post.getId(), trackSave);
+            }else{
                 saveCase.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_unselected));
                 if(postDetail.getTotalSave() == 0) {
 
@@ -467,6 +467,8 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
                 }
                 String parsedSave = parseLikeAndSave((int)postDetail.getTotalSave());
                 numberOfSave.setText(parsedSave);
+                trackSave.savePost = null;
+                Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).put(post.getId(), trackSave);
             }
         }
         //Now notify change..

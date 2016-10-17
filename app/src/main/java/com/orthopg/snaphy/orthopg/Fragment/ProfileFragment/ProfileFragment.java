@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -143,7 +142,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
 
         final Dialog dialog = new Dialog(mainActivity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_add_text);
+        dialog.setContentView(R.layout.dialog_add_mci);
 
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(dialog.getWindow().getAttributes());
@@ -151,7 +150,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
         Button okButton = (Button) dialog.findViewById(R.id.dialog_add_text_button1);
-        final EditText editText = (EditText) dialog.findViewById(R.id.dialog_add_text_edittext1);
+        final EditText editText = (EditText) dialog.findViewById(R.id.dialog_add_text_editMCI);
         editText.setInputType(InputType.TYPE_CLASS_TEXT);
 
         if(loginCustomer.getMciNumber() != null){

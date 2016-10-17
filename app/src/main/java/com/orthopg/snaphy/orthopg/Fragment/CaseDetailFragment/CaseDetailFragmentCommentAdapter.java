@@ -39,11 +39,16 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
     MainActivity mainActivity;
     HashMap<Object, Boolean> trackCommentSelected;
 
+
+
     public CaseDetailFragmentCommentAdapter(MainActivity mainActivity, Post post) {
         this.mainActivity = mainActivity;
         this.post = post;
         this.trackCommentSelected = new HashMap<>();
     }
+
+
+
 
     @Override
     public CaseDetailFragmentCommentAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -56,6 +61,8 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
         ViewHolder viewHolder = new ViewHolder(caseCommentView);
         return viewHolder;
     }
+
+
 
     @Override
     public void onBindViewHolder(CaseDetailFragmentCommentAdapter.ViewHolder holder, int position) {
@@ -176,6 +183,9 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
 
     }
 
+
+
+
     public void showCommentDialog(final TextView answer) {
 
         final Dialog dialog = new Dialog(mainActivity);
@@ -203,6 +213,9 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
         dialog.getWindow().setAttributes(lp);
     }
 
+
+
+
     @Override
     public int getItemCount() {
         if(post == null){
@@ -215,8 +228,11 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
         return commentDataList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
 
+
+
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.layout_comment_imageview1) ImageView isSelected;
         @Bind(R.id.layout_comment_textview1) TextView userName;
         @Bind(R.id.layout_comment_textview2) TextView answer;
