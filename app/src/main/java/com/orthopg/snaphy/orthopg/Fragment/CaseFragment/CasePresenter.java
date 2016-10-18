@@ -37,13 +37,6 @@ public class CasePresenter {
     public double limit = 5;
     CircleProgressBar circleProgressBar;
     MainActivity mainActivity;
-    //HashMap<String, Double> track = new HashMap<>();
-    //Track the like of logged customer based on each post.
-    HashMap<Object, TrackLike> trackLike = new HashMap<>();
-    HashMap<Object, TrackSave> trackSave = new HashMap<>();
-
-
-
 
 
     public CasePresenter(RestAdapter restAdapter, CircleProgressBar progressBar, MainActivity mainActivity){
@@ -129,6 +122,7 @@ public class CasePresenter {
 
     public void addLike(String customerId, String postId, final ObjectCallback<LikePost> callback){
         if(customerId.isEmpty() || postId.isEmpty()){
+            callback.onBefore();
             Throwable throwable = new Throwable("CustomerId or PostId is empty");
             callback.onError(throwable);
             callback.onFinally();
@@ -148,11 +142,13 @@ public class CasePresenter {
                 LikePostRepository likePostRepository = restAdapter.createRepository(LikePostRepository.class);
                 likePostRepository.deleteById((String) likePost.getId(), callback);
             }else{
+                callback.onBefore();
                 Throwable throwable = new Throwable("Like Post id is null");
                 callback.onError(throwable);
                 callback.onFinally();
             }
         }else{
+            callback.onBefore();
             Throwable throwable = new Throwable("Like Post is null");
             callback.onError(throwable);
             callback.onFinally();
@@ -161,12 +157,13 @@ public class CasePresenter {
 
     public void addSave(String customerId, String postId, final ObjectCallback<SavePost> callback){
         if(customerId.isEmpty() || postId.isEmpty()){
+            callback.onBefore();
             Throwable throwable = new Throwable("CustomerId or PostId is empty");
             callback.onError(throwable);
             callback.onFinally();
             return;
         }
-        
+
         HashMap<String, Object> data = new HashMap<>();
         data.put("customerId", customerId);
         data.put("postId", postId);
@@ -180,11 +177,13 @@ public class CasePresenter {
                 SavePostRepository savePostRepository = restAdapter.createRepository(SavePostRepository.class);
                 savePostRepository.deleteById((String) savePost.getId(), callback);
             }else{
+                callback.onBefore();
                 Throwable throwable = new Throwable("Save Post id is null");
                 callback.onError(throwable);
                 callback.onFinally();
             }
         }else{
+            callback.onBefore();
             Throwable throwable = new Throwable("Save Post is null");
             callback.onError(throwable);
             callback.onFinally();

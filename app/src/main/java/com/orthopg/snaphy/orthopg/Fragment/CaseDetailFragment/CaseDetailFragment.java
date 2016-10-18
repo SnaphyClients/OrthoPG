@@ -185,27 +185,34 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         //casePresenter = new CasePresenter(mainActivity.snaphyHelper.getLoopBackAdapter(), progressBar, mainActivity);
         if(Presenter.getInstance().getModel(HashMap.class, Constants.LIST_CASE_FRAGMENT) != null){
             HashMap<String, TrackList> list = Presenter.getInstance().getModel(HashMap.class, Constants.LIST_CASE_FRAGMENT);
-            if(list != null){
-                TrackList trackListItem = list.get(Constants.SELECTED_TAB);
-                if(Constants.SELECTED_TAB.equals(Constants.TRENDING)
-                        || Constants.SELECTED_TAB.equals(Constants.LATEST)
-                        || Constants.SELECTED_TAB.equals(Constants.UNSOLVED)){
-                    getPostDataList = trackListItem.getPostDetails();
-                    getPostDataList = trackListItem.getPostDetails();
-                    postDetail  = trackListItem.getPostDetails().get(position);
-                    if(postDetail != null){
-                        post = postDetail.getPost();
-                    }
-                }else{
-                    if(trackListItem.getPostDataList() != null){
-                        if(trackListItem.getPostDataList().size() != 0){
-                            post  = trackListItem.getPostDataList().get(position);
-                            postList = trackListItem.getPostDataList();
-                            postDetail = post.getPostDetails();
+            try{
+                if(list != null){
+                    TrackList trackListItem = list.get(Constants.SELECTED_TAB);
+                    if(Constants.SELECTED_TAB.equals(Constants.TRENDING)
+                            || Constants.SELECTED_TAB.equals(Constants.LATEST)
+                            || Constants.SELECTED_TAB.equals(Constants.UNSOLVED)){
+                        getPostDataList = trackListItem.getPostDetails();
+                        getPostDataList = trackListItem.getPostDetails();
+                        postDetail  = trackListItem.getPostDetails().get(position);
+                        if(postDetail != null){
+                            post = postDetail.getPost();
+                        }
+                    }else{
+                        if(trackListItem.getPostDataList() != null){
+                            if(trackListItem.getPostDataList().size() != 0){
+                                post  = trackListItem.getPostDataList().get(position);
+                                postList = trackListItem.getPostDataList();
+                                postDetail = post.getPostDetails();
+                            }
                         }
                     }
                 }
             }
+            catch (java.lang.IndexOutOfBoundsException e){
+                Log.e(Constants.TAG, e.toString());
+                return;
+            }
+
 
         }
         loadPost();
@@ -458,6 +465,9 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
 
 
     public void loadComments() {
+        if(post == null){
+            return;
+        }
         //ADD COMMENTS
         //Add post listener..
         if(post.getComments() == null){
@@ -613,55 +623,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         mainActivity.replaceFragment(R.id.fragment_case_detail_button4, null);
     }
 
-    public void showLike(Post post, ImageView like, TrackLike trackLike, TextView numberOfLike, PostDetail postDetail){
-        if(trackLike != null){
-            if(trackLike.state){
-                like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_selected));
-                postDetail.setTotalLike(postDetail.getTotalLike() + 1);
-                String parsedLike = parseLikeAndSave((int)postDetail.getTotalLike());
-                numberOfLike.setText(parsedLike);
-                Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).put(post.getId(), trackLike);
-            }else{
-                trackLike.likePost = null;
-                like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_unselected));
-                if(postDetail.getTotalLike() == 0){
 
-                } else {
-                    postDetail.setTotalLike(postDetail.getTotalLike() - 1);
-                }
-                String parsedLike = parseLikeAndSave((int)postDetail.getTotalLike());
-                numberOfLike.setText(parsedLike);
-                Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).put(post.getId(), trackLike);
-            }
-        }
-        //Now notify change..
-        notifyCaseFragmentChange();
-    }
-
-    public void showSave(Post post, ImageView saveCase, TrackSave trackSave, TextView numberOfSave, PostDetail postDetail){
-        if(trackSave != null){
-            if(trackSave.state){
-                saveCase.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_selected));
-                postDetail.setTotalSave(postDetail.getTotalSave() + 1);
-                String parsedSave = parseLikeAndSave((int)postDetail.getTotalSave());
-                numberOfSave.setText(parsedSave);
-                Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).put(post.getId(), trackSave);
-            }else{
-                saveCase.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_unselected));
-                if(postDetail.getTotalSave() == 0) {
-
-                } else {
-                    postDetail.setTotalSave(postDetail.getTotalSave() - 1);
-                }
-                String parsedSave = parseLikeAndSave((int)postDetail.getTotalSave());
-                numberOfSave.setText(parsedSave);
-                trackSave.savePost = null;
-                Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).put(post.getId(), trackSave);
-            }
-        }
-        //Now notify change..
-        notifyCaseFragmentChange();
-    }
 
 
 
@@ -690,9 +652,15 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
 
                             @Override
                             public void onError(Throwable t) {
-                                TrackLike trackLike = new TrackLike();
+                                Log.e(Constants.TAG, t.toString());
                                 trackLike.state = false;
-                                showLike(post, likeButton, trackLike, numberOfLike, postDetail);
+                                if(t.getMessage() != null){
+                                    if(!t.getMessage().equals("java.net.SocketTimeoutException")) {
+                                        showLike(post, likeButton, trackLike, numberOfLike, postDetail);
+                                    }
+                                }
+                                //highlightLike(likeButton, trackLike.state);
+
                             }
                         });
                     }else{
@@ -712,8 +680,15 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
 
                                 @Override
                                 public void onError(Throwable t) {
+                                    Log.e(Constants.TAG, t.toString());
                                     trackLike.state = true;
-                                    showLike(post, likeButton, trackLike, numberOfLike, postDetail);
+                                    if(t.getMessage() != null){
+                                        //Dont add in case of socket exception
+                                        if(!t.getMessage().equals("java.net.SocketTimeoutException")){
+                                            showLike(post, likeButton, trackLike, numberOfLike, postDetail);
+                                        }
+                                    }
+                                    //highlightLike(likeButton, trackLike.state);
                                 }
 
                                 @Override
@@ -738,8 +713,14 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
 
                                 @Override
                                 public void onError(Throwable t) {
+                                    Log.e(Constants.TAG, t.toString());
                                     trackLike.state = false;
-                                    showLike(post, likeButton, trackLike, numberOfLike, postDetail);
+                                    //highlightLike(likeButton, trackLike.state);
+                                    if(t.getMessage() != null){
+                                        if(!t.getMessage().equals("java.net.SocketTimeoutException")) {
+                                            showLike(post, likeButton, trackLike, numberOfLike, postDetail);
+                                        }
+                                    }
                                 }
                             });
                         }
@@ -747,6 +728,77 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
                 }
             }
         });
+    }
+
+    public void highlightLike(ImageView like, boolean state){
+        if(state){
+            like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_selected));
+        }else{
+            like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_unselected));
+        }
+
+    }
+
+    public void highlightSave(ImageView saveCase, boolean state){
+        if(state){
+            saveCase.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_selected));
+        }else{
+            saveCase.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_unselected));
+        }
+    }
+
+
+    public void showLike(Post post, ImageView like, TrackLike trackLike, TextView numberOfLike, PostDetail postDetail){
+        if(trackLike != null){
+            if(trackLike.state){
+                postDetail.setTotalLike(postDetail.getTotalLike() + 1);
+                String parsedLike = parseLikeAndSave((int)postDetail.getTotalLike());
+                numberOfLike.setText(parsedLike);
+                Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).put(post.getId(), trackLike);
+            }else{
+                trackLike.likePost = null;
+
+                if(postDetail.getTotalLike() == 0){
+
+                } else {
+                    postDetail.setTotalLike(postDetail.getTotalLike() - 1);
+                }
+                String parsedLike = parseLikeAndSave((int)postDetail.getTotalLike());
+                numberOfLike.setText(parsedLike);
+                Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).put(post.getId(), trackLike);
+            }
+
+            highlightLike(like, trackLike.state);
+        }
+        //Now notify change..
+        notifyCaseFragmentChange();
+    }
+
+    public void showSave(Post post, ImageView saveCase, TrackSave trackSave, TextView numberOfSave, PostDetail postDetail){
+        if(trackSave != null){
+            if(trackSave.state){
+                //saveCase.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_selected));
+                postDetail.setTotalSave(postDetail.getTotalSave() + 1);
+                String parsedSave = parseLikeAndSave((int)postDetail.getTotalSave());
+                numberOfSave.setText(parsedSave);
+                Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).put(post.getId(), trackSave);
+            }else{
+                //saveCase.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.save_unselected));
+                if(postDetail.getTotalSave() == 0) {
+
+                } else {
+                    postDetail.setTotalSave(postDetail.getTotalSave() - 1);
+                }
+                String parsedSave = parseLikeAndSave((int)postDetail.getTotalSave());
+                numberOfSave.setText(parsedSave);
+                trackSave.savePost = null;
+                Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).put(post.getId(), trackSave);
+            }
+            //Highlight save
+            highlightSave(saveCase, trackSave.state);
+        }
+        //Now notify change..
+        notifyCaseFragmentChange();
     }
 
     public void saveButtonClickListener() {
@@ -770,9 +822,14 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
 
                         @Override
                         public void onError(Throwable t) {
-                            TrackSave trackSave = new TrackSave();
+                            Log.e(Constants.TAG, t.toString());
                             trackSave.state = false;
-                            showSave(post, saveButton, trackSave, numberOfSave, postDetail);
+                            //highlightSave(saveButton, trackSave.state );
+                            if(t.getMessage() != null){
+                                if(!t.getMessage().equals("java.net.SocketTimeoutException")) {
+                                    showSave(post, saveButton, trackSave, numberOfSave, postDetail);
+                                }
+                            }
                         }
                     });
                 }else{
@@ -792,8 +849,14 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
 
                             @Override
                             public void onError(Throwable t) {
+                                Log.e(Constants.TAG, t.toString());
                                 trackSave.state = true;
-                                showSave(post, saveButton, trackSave, numberOfSave, postDetail);
+                                //highlightSave(saveButton, trackSave.state);
+                                if(t.getMessage() != null){
+                                    if(!t.getMessage().equals("java.net.SocketTimeoutException")) {
+                                        showSave(post, saveButton, trackSave, numberOfSave, postDetail);
+                                    }
+                                }
                             }
 
                             @Override
@@ -818,8 +881,14 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
 
                             @Override
                             public void onError(Throwable t) {
+                                Log.e(Constants.TAG, t.toString());
                                 trackSave.state = false;
-                                showSave(post, saveButton, trackSave, numberOfSave, postDetail);
+                                if(t.getMessage() != null){
+                                    if(!t.getMessage().equals("java.net.SocketTimeoutException")) {
+                                        showSave(post, saveButton, trackSave, numberOfSave, postDetail);
+                                    }
+                                }
+                                //highlightSave(saveButton, trackSave.state);
                             }
                         });
                     }
