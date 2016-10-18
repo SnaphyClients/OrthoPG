@@ -101,7 +101,7 @@ public class Constants {
     public static String HEADING_REQUIRED_MESSAGE = "Heading cannot be blank";
     public static String SUCCESS_SAVED = "Case saved";
     public static String SAVING_POST = "Saving case";
-    public static String DELETE_ERROR_POST = "Cannot Delete! Try again.";
+    public static String DELETE_ERROR_POST = "Cannot Delete! Try again later.";
     public static String DELETE_SUCCESS_POST = "Case successfully deleted.";
     public static String ACCEPT_ANSWER_ERROR_COMMENT = "Cannot Accept Answer! Try again later";
     public static String BLANK_COMMENT_ERROR = "Comment cannot be blank";

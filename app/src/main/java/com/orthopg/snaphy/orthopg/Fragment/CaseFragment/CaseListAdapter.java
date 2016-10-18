@@ -517,6 +517,13 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                 }
             });
 
+            linearLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mainActivity.replaceFragment(R.id.layout_case_list_textview4, position);
+                }
+            });
+
 
 
         }//if data != null

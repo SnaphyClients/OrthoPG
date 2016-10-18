@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
@@ -90,6 +91,7 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
         final TextView answer = holder.answer;
         TextView editComment = holder.editComment;
         TextView deleteComment = holder.deleteComment;
+        LinearLayout linearLayout = holder.linearLayout;
 
         //Add isSelected tab.
         commentState.setIsSelected(isSelected);
@@ -125,8 +127,17 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
                                 removeOtherAcceptedAnswerState(commentState.getComment());
                             }
                         });
+                    }else{
+                        isSelected.setVisibility(View.GONE);
+                        linearLayout.setVisibility(View.GONE);
                     }
+                }else{
+                    isSelected.setVisibility(View.GONE);
+                    linearLayout.setVisibility(View.GONE);
                 }
+            }else{
+                isSelected.setVisibility(View.GONE);
+                linearLayout.setVisibility(View.GONE);
             }
 
 
@@ -149,7 +160,10 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
                     deleteComment.setOnClickListener(new View.OnClickListener(){
                         @Override
                         public void onClick(View v) {
-                            //TODO: HANDLE DELETE COMMENT LOGIC..
+                            //TODO: ASK FOR DIALOG..
+                            //Remove the comment from list..
+                            post.getComments().remove(comment);
+
 
                         }
                     });
@@ -248,6 +262,8 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
         @Bind(R.id.layout_comment_textview2) TextView answer;
         @Bind(R.id.layout_comment_imagebutton1) TextView editComment;
         @Bind(R.id.layout_comment_imagebutton2) TextView deleteComment;
+        @Bind(R.id.layout_comment_linear_layout_1)
+        LinearLayout linearLayout;
 
 
         public ViewHolder(View itemView) {

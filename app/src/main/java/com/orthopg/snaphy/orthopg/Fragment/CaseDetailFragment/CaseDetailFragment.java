@@ -29,6 +29,7 @@ import com.androidsdk.snaphy.snaphyandroidsdk.models.Post;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.PostDetail;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.SavePost;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
+import com.androidsdk.snaphy.snaphyandroidsdk.repository.CommentRepository;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.CustomModel.CommentState;
@@ -41,6 +42,8 @@ import com.orthopg.snaphy.orthopg.ImageZoom.ImageZoomDialog;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 import com.orthopg.snaphy.orthopg.RecyclerItemClickListener;
+import com.sdsmdg.tastytoast.TastyToast;
+import com.strongloop.android.loopback.callbacks.VoidCallback;
 
 import org.json.JSONObject;
 
@@ -127,8 +130,6 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
         position = bundle.getInt("position");
-        //Add progress bar..
-        caseDetailPresenter = new CaseDetailPresenter(mainActivity.snaphyHelper.getLoopBackAdapter(), progressBar, mainActivity, post, position);
         //Remove the in edit data..
         if(Presenter.getInstance().getModel(Post.class, Constants.EDIT_IN_PROCESS_COMMENT_POST_MODEL) != null){
             //Remove the data..
@@ -142,6 +143,9 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_case_detail, container, false);
         ButterKnife.bind(this, view);
+        mainActivity.stopProgressBar(progressBar);
+        //Add progress bar..
+        caseDetailPresenter = new CaseDetailPresenter(mainActivity.snaphyHelper.getLoopBackAdapter(), progressBar, mainActivity, post, position);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         imageRecyclerView.setLayoutManager(new LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false));
         commentsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -224,6 +228,9 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         if(post == null){
             return;
         }
+        loginCustomer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+        casePresenter = Presenter.getInstance().getModel(CasePresenter.class, Constants.CASE_PRESENTER_ID);
+
         caseHeading.setText(post.getHeading());
         String name1 = mainActivity.snaphyHelper.getName(post.getCustomer().getFirstName(), post.getCustomer().getLastName());
         if(!name1.isEmpty()){
@@ -319,34 +326,42 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
                 if(postDetail.getComment().getAnswer() != null){
                     selectedAnswer.setText(postDetail.getComment().getAnswer());
                 }
+                //Adding login customer..
+                if(loginCustomer != null) {
+                    if (post.getCustomer() != null) {
+                        if (post.getCustomer().getId() != null) {
+                            if (post.getCustomer().getId().toString().equals(loginCustomer.getId().toString())) {
+                                //Set click listener for selected answer..
+                                isAnswerSelected.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        //Add on click logic..
+                                        CommentState commentState = commentStateDataList.get((String) postDetail.getComment().getId());
+                                        if (commentState != null) {
+                                            if (commentState.isState()) {
+                                                //Remove accepted answer...
+                                                //Display the accept answer option..
+                                                isAnswerSelected.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.unselected));
+                                                //Remove the answer..
+                                                caseDetailPresenter.acceptAnswer((String) post.getId(), (String) postDetail.getComment().getId(), false);
+                                                //Reload the case presenter after the ..load..
+                                            } else {
+                                                //ACCEPT ANSWER
+                                                isAnswerSelected.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.selected));
+                                                caseDetailPresenter.acceptAnswer((String) post.getId(), (String) postDetail.getComment().getId(), true);
+                                            }
 
-                //Set click listener for selected answer..
-                isAnswerSelected.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //Add on click logic..
-                        CommentState commentState = commentStateDataList.get((String)postDetail.getComment().getId());
-                        if(commentState != null){
-                            if(commentState.isState()){
-                                //Remove accepted answer...
-                                //Display the accept answer option..
-                                isAnswerSelected.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.unselected));
-                                //Remove the answer..
-                                caseDetailPresenter.acceptAnswer((String)post.getId(), (String) postDetail.getComment().getId(), false);
-                                //Reload the case presenter after the ..load..
-                            }else{
-                                //ACCEPT ANSWER
-                                isAnswerSelected.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.selected));
-                                caseDetailPresenter.acceptAnswer((String)post.getId(), (String) postDetail.getComment().getId(), true);
+                                            //Now change the state.
+                                            commentState.setState(!commentState.isState());
+                                            removeOtherAcceptedAnswerState(postDetail.getComment());
+                                        }
+
+                                    }
+                                });
                             }
-
-                            //Now change the state.
-                            commentState.setState(!commentState.isState());
-                            removeOtherAcceptedAnswerState(postDetail.getComment());
                         }
-
                     }
-                });
+                }
 
             }else{
                 ///hide accepted answer..
@@ -359,8 +374,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
 
         /** Adding Like and Save**/
 
-        loginCustomer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
-        casePresenter = Presenter.getInstance().getModel(CasePresenter.class, Constants.CASE_PRESENTER_ID);
+
 
         //Customer logged in
         if(loginCustomer != null && post.getId() != null){
@@ -468,7 +482,31 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
             }
 
             @Override
-            public void onRemove(Comment element, int index, DataList<Comment> dataList) {
+            public void onRemove(final Comment element, final int index, final DataList<Comment> dataList) {
+                CommentRepository commentRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(CommentRepository.class);
+                commentRepository.deleteById((String) element.getId(), new ObjectCallback<JSONObject>() {
+                    @Override
+                    public void onBefore() {
+                        super.onBefore();
+                    }
+
+                    @Override
+                    public void onSuccess(JSONObject object) {
+                        super.onSuccess(object);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        dataList.add(index, element);
+                        Log.e(Constants.TAG, t.toString());
+                        TastyToast.makeText(mainActivity.getApplicationContext(), Constants.DELETE_ERROR_POST, TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+                    }
+
+                    @Override
+                    public void onFinally() {
+                        super.onFinally();
+                    }
+                });
                 caseDetailFragmentCommentAdapter.notifyDataSetChanged();
             }
         });

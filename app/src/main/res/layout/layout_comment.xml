@@ -16,6 +16,7 @@
             android:layout_width="35dp"
             android:layout_height="25dp"
             android:background="@drawable/default_curved_rectangle"
+            android:id="@+id/layout_comment_linear_layout_1"
             android:gravity="center"
             android:layout_marginLeft="7dp">
 
