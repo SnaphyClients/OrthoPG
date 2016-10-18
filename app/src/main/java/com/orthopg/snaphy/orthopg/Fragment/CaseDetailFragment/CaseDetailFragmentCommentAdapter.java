@@ -21,6 +21,7 @@ import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Post;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.orthopg.snaphy.orthopg.Constants;
+import com.orthopg.snaphy.orthopg.CustomModel.CommentState;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 
@@ -37,14 +38,15 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
 
     Post post;
     MainActivity mainActivity;
-    HashMap<Object, Boolean> trackCommentSelected;
+    CaseDetailPresenter caseDetailPresenter;
+    HashMap<String, CommentState> commentStateDataList;
 
 
-
-    public CaseDetailFragmentCommentAdapter(MainActivity mainActivity, Post post) {
+    public CaseDetailFragmentCommentAdapter(MainActivity mainActivity, Post post , CaseDetailPresenter caseDetailPresenter, HashMap<String, CommentState> commentStateDataList) {
         this.mainActivity = mainActivity;
         this.post = post;
-        this.trackCommentSelected = new HashMap<>();
+        this.caseDetailPresenter = caseDetailPresenter;
+        this.commentStateDataList = commentStateDataList;
     }
 
 
@@ -75,7 +77,13 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
         }
 
         final Comment comment = commentDataList.get(position);
-
+        final CommentState commentState;
+        if(commentStateDataList.get((String)comment.getId()) == null){
+             commentState = new CommentState(comment);
+             commentStateDataList.put((String)comment.getId(), commentState);
+        }else{
+            commentState = commentStateDataList.get((String)comment.getId());
+        }
 
         final ImageView isSelected = holder.isSelected;
         TextView userName = holder.userName;
@@ -83,9 +91,8 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
         TextView editComment = holder.editComment;
         TextView deleteComment = holder.deleteComment;
 
-        if(comment.getId() != null){
-            trackCommentSelected.put(comment.getId(), false);
-        }
+        //Add isSelected tab.
+        commentState.setIsSelected(isSelected);
 
         ///Set not solved tick mark if customer has posted the Post..
         Customer loginCustomer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
@@ -100,19 +107,22 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
                         isSelected.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                boolean isAnswerStateSelectedPreviously = trackCommentSelected.get(comment.getId());
-
-                                if(isAnswerStateSelectedPreviously){
-                                    //TODO: remove accepted answer...
+                                if(commentState.isState()){
+                                    //Remove accepted answer...
                                     //Display the accept answer option..
                                     isSelected.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.unselected));
+                                    //Remove the answer..
+                                    caseDetailPresenter.acceptAnswer((String)post.getId(), (String) comment.getId(), false);
+                                    //Reload the case presenter after the ..load..
                                 }else{
-                                    //TODO: add accepted answer...
+                                    //ACCEPT ANSWER
                                     isSelected.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.selected));
+                                    caseDetailPresenter.acceptAnswer((String)post.getId(), (String) comment.getId(), true);
                                 }
 
                                 //Now change the state.
-                                trackCommentSelected.put(comment.getId(), !isAnswerStateSelectedPreviously);
+                                commentState.setState(!commentState.isState());
+                                removeOtherAcceptedAnswerState(commentState.getComment());
                             }
                         });
                     }
@@ -130,7 +140,7 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
                         @Override
                         public void onClick(View v) {
                             //TODO: HANDLE EDIT COMMENT LOGIC..
-                            showCommentDialog(answer);
+                            showCommentDialog(comment);
                         }
                     });
 
@@ -186,31 +196,15 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
 
 
 
-    public void showCommentDialog(final TextView answer) {
+    public void showCommentDialog(Comment comment) {
 
-        final Dialog dialog = new Dialog(mainActivity);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_add_text);
+        if(post != null){
+            //Prepare the data..
+            Presenter.getInstance().addModel(Constants.EDIT_IN_PROCESS_COMMENT_POST_MODEL, post);
+        }
 
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-
-        Button okButton = (Button) dialog.findViewById(R.id.dialog_add_text_button1);
-        final EditText editText = (EditText) dialog.findViewById(R.id.dialog_add_text_edittext1);
-        editText.setInputType(InputType.TYPE_CLASS_TEXT);
-        editText.setText(answer.getText());
-
-        okButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                answer.setText(editText.getText().toString());
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
-        dialog.getWindow().setAttributes(lp);
+        Presenter.getInstance().addModel(Constants.EDIT_IN_PROCESS_COMMENT_MODEL, comment);
+        mainActivity.replaceFragment(R.id.fragment_case_detail_button4, null);
     }
 
 
@@ -229,6 +223,22 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
     }
 
 
+    public void removeOtherAcceptedAnswerState(Comment exceptComment){
+        if(exceptComment != null && commentStateDataList != null){
+            for(String key: commentStateDataList.keySet()){
+                //Change except comment...
+                if(!key.toString().equals((String)exceptComment.getId())){
+                    //Now set all state to false..
+                    CommentState commentState = commentStateDataList.get(key);
+                    commentState.setState(false);
+                    //Replace the highlighted tick mark with default tick..
+                    commentState.getIsSelected().setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.unselected));
+                }
+            }
+        }
+    }
+
+
 
 
 
@@ -238,6 +248,7 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
         @Bind(R.id.layout_comment_textview2) TextView answer;
         @Bind(R.id.layout_comment_imagebutton1) TextView editComment;
         @Bind(R.id.layout_comment_imagebutton2) TextView deleteComment;
+
 
         public ViewHolder(View itemView) {
             super(itemView);

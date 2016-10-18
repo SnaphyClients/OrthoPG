@@ -48,12 +48,12 @@
         "source": "/home/snaphy/snaphy_clients/OrthoPG/android/OrthoPG/snaphyandroidsdk/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/layout/notification_template_media.xml"
     },
     {
-        "merged": "/home/snaphy/snaphy_clients/OrthoPG/android/OrthoPG/snaphyandroidsdk/build/intermediates/res/merged/release/layout/abc_activity_chooser_view.xml",
-        "source": "/home/snaphy/snaphy_clients/OrthoPG/android/OrthoPG/snaphyandroidsdk/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/layout/abc_activity_chooser_view.xml"
-    },
-    {
         "merged": "/home/snaphy/snaphy_clients/OrthoPG/android/OrthoPG/snaphyandroidsdk/build/intermediates/res/merged/release/layout/select_dialog_item_material.xml",
         "source": "/home/snaphy/snaphy_clients/OrthoPG/android/OrthoPG/snaphyandroidsdk/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/layout/select_dialog_item_material.xml"
+    },
+    {
+        "merged": "/home/snaphy/snaphy_clients/OrthoPG/android/OrthoPG/snaphyandroidsdk/build/intermediates/res/merged/release/layout/abc_activity_chooser_view.xml",
+        "source": "/home/snaphy/snaphy_clients/OrthoPG/android/OrthoPG/snaphyandroidsdk/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/layout/abc_activity_chooser_view.xml"
     },
     {
         "merged": "/home/snaphy/snaphy_clients/OrthoPG/android/OrthoPG/snaphyandroidsdk/build/intermediates/res/merged/release/layout/abc_alert_dialog_button_bar_material.xml",

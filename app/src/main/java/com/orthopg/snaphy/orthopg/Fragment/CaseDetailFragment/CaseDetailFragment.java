@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
+import com.androidsdk.snaphy.snaphyandroidsdk.list.Listen;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Comment;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.LikePost;
@@ -29,6 +30,7 @@ import com.androidsdk.snaphy.snaphyandroidsdk.models.PostDetail;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.SavePost;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.orthopg.snaphy.orthopg.Constants;
+import com.orthopg.snaphy.orthopg.CustomModel.CommentState;
 import com.orthopg.snaphy.orthopg.CustomModel.TrackList;
 import com.orthopg.snaphy.orthopg.Fragment.CaseFragment.CaseImageAdapter;
 import com.orthopg.snaphy.orthopg.Fragment.CaseFragment.CasePresenter;
@@ -97,7 +99,17 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
     DataList<PostDetail> getPostDataList;
     DataList<Post> postList;
     CasePresenter casePresenter;
+    CaseDetailPresenter caseDetailPresenter;
     Customer loginCustomer;
+    HashMap<String, CommentState> commentStateDataList;
+
+    LinearLayoutManager linearLayoutManager;
+    /*Infinite Loading dataset*/
+    private int previousTotal = 0;
+    private boolean loading = true;
+    private int visibleThreshold = 2;
+    int firstVisibleItem, visibleItemCount, totalItemCount;
+    /*Infinite Loading data set*/
 
     public CaseDetailFragment() {
         // Required empty public constructor
@@ -113,6 +125,8 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
         position = bundle.getInt("position");
+        //Add progress bar..
+        caseDetailPresenter = new CaseDetailPresenter(mainActivity.snaphyHelper.getLoopBackAdapter(), null, mainActivity, post, position);
         //Remove the in edit data..
         if(Presenter.getInstance().getModel(Post.class, Constants.EDIT_IN_PROCESS_COMMENT_POST_MODEL) != null){
             //Remove the data..
@@ -126,10 +140,20 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_case_detail, container, false);
         ButterKnife.bind(this, view);
-
+        linearLayoutManager = new LinearLayoutManager(getActivity());
         imageRecyclerView.setLayoutManager(new LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false));
         commentsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        //Adding a list for tracking accepted answer datalist..
+        commentStateDataList = new HashMap<>();
 
+        likeButtonClickListener();
+        saveButtonClickListener();
+        loadPostData(position);
+        loadComments();
+        //Add load more..
+        recyclerViewLoadMoreEventData();
+
+        //addOnItemTouchListener
         imageRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(mainActivity, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
@@ -140,14 +164,11 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
                                 ImageZoomDialog imageZoomDialog = new ImageZoomDialog();
                                 Presenter.getInstance().addModel(Constants.ZOOM_IMAGE_ID, drawableObj);
                                 imageZoomDialog.show(mainActivity.getFragmentManager(), ImageZoomDialog.TAG);
-                                }
                             }
+                        }
                     }
                 })
         );
-        likeButtonClickListener();
-        saveButtonClickListener();
-        loadPostData(position);
         return view;
     }
 
@@ -160,6 +181,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
                 if(Constants.SELECTED_TAB.equals(Constants.TRENDING)
                         || Constants.SELECTED_TAB.equals(Constants.LATEST)
                         || Constants.SELECTED_TAB.equals(Constants.UNSOLVED)){
+                    getPostDataList = trackListItem.getPostDetails();
                     getPostDataList = trackListItem.getPostDetails();
                     postDetail  = trackListItem.getPostDetails().get(position);
                     if(postDetail != null){
@@ -200,7 +222,6 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         if(post == null){
             return;
         }
-
         caseHeading.setText(post.getHeading());
         String name1 = mainActivity.snaphyHelper.getName(post.getCustomer().getFirstName(), post.getCustomer().getLastName());
         if(!name1.isEmpty()){
@@ -283,7 +304,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         if(postDetail.getHasAcceptedAnswer()){
             //Show accepted answer..
             if(postDetail.getComment() != null){
-                showSelectedAnswer(selectedAnswer, isAnswerSelected,selectedAnswerUserName);
+                showSelectedAnswer(selectedAnswer, isAnswerSelected,selectedAnswerUserName, postDetail.getComment());
                 Comment acceptedAnswer = postDetail.getComment();
                 if(acceptedAnswer.getCustomer() != null){
                     String name = mainActivity.snaphyHelper.getName(acceptedAnswer.getCustomer().getFirstName(), acceptedAnswer.getCustomer().getLastName());
@@ -297,13 +318,41 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
                     selectedAnswer.setText(postDetail.getComment().getAnswer());
                 }
 
+                //Set click listener for selected answer..
+                isAnswerSelected.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //Add on click logic..
+                        CommentState commentState = commentStateDataList.get((String)postDetail.getComment().getId());
+                        if(commentState != null){
+                            if(commentState.isState()){
+                                //Remove accepted answer...
+                                //Display the accept answer option..
+                                isAnswerSelected.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.unselected));
+                                //Remove the answer..
+                                caseDetailPresenter.acceptAnswer((String)post.getId(), (String) postDetail.getComment().getId(), false);
+                                //Reload the case presenter after the ..load..
+                            }else{
+                                //ACCEPT ANSWER
+                                isAnswerSelected.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.selected));
+                                caseDetailPresenter.acceptAnswer((String)post.getId(), (String) postDetail.getComment().getId(), true);
+                            }
+
+                            //Now change the state.
+                            commentState.setState(!commentState.isState());
+                            removeOtherAcceptedAnswerState(postDetail.getComment());
+                        }
+
+                    }
+                });
+
             }else{
                 ///hide accepted answer..
-                hideSelectedAnswer(selectedAnswer, isAnswerSelected,selectedAnswerUserName);
+                hideSelectedAnswer(selectedAnswer, isAnswerSelected,selectedAnswerUserName, postDetail.getComment());
             }
         }else{
             ///hide accepted answer..
-            hideSelectedAnswer(selectedAnswer, isAnswerSelected,selectedAnswerUserName);
+            hideSelectedAnswer(selectedAnswer, isAnswerSelected,selectedAnswerUserName, postDetail.getComment());
         }
 
         /** Adding Like and Save**/
@@ -369,15 +418,95 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
                 }
             });
         }
-
-        /** Adding Like and Save End Here**/
-
-        //TODO ADD COMMENTS LATER..
-
-        caseDetailFragmentCommentAdapter = new CaseDetailFragmentCommentAdapter(mainActivity, post);
-        commentsRecyclerView.setAdapter(caseDetailFragmentCommentAdapter);
+    }
 
 
+
+    public void removeOtherAcceptedAnswerState(Comment exceptComment){
+        if(exceptComment != null && commentStateDataList != null){
+            for(String key: commentStateDataList.keySet()){
+                //Change except comment...
+                if(!key.toString().equals((String)exceptComment.getId())){
+                    //Now set all state to false..
+                    CommentState commentState = commentStateDataList.get(key);
+                    commentState.setState(false);
+                    //Replace the highlighted tick mark with default tick..
+                    commentState.getIsSelected().setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.unselected));
+                }
+            }
+        }
+    }
+
+
+    public void loadComments() {
+        //ADD COMMENTS
+        //Add post listener..
+        if(post.getComments() == null){
+            DataList<Comment> commentList = new DataList<>();
+            post.setComments(commentList);
+        }
+
+
+        post.getComments().subscribe(this, new Listen<Comment>() {
+            @Override
+            public void onInit(DataList<Comment> dataList) {
+
+                caseDetailFragmentCommentAdapter = new CaseDetailFragmentCommentAdapter(mainActivity, post, caseDetailPresenter, commentStateDataList);
+                commentsRecyclerView.setAdapter(caseDetailFragmentCommentAdapter);
+            }
+
+            @Override
+            public void onChange(DataList<Comment> dataList) {
+                caseDetailFragmentCommentAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onClear() {
+                caseDetailFragmentCommentAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onRemove(Comment element, int index, DataList<Comment> dataList) {
+                caseDetailFragmentCommentAdapter.notifyDataSetChanged();
+            }
+        });
+
+    }
+
+
+    //Load more comment..
+    public void recyclerViewLoadMoreEventData() {
+
+        commentsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (dy > 0) {
+                    visibleItemCount = recyclerView.getChildCount();
+                    totalItemCount = linearLayoutManager.getItemCount();
+                    firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+
+                    if (loading) {
+                        if (totalItemCount > previousTotal) {
+                            loading = false;
+                            previousTotal = totalItemCount;
+                        }
+                    }
+                    if (!loading && (totalItemCount - visibleItemCount)
+                            <= (firstVisibleItem + visibleThreshold)) {
+                        //Add more comment..
+                        caseDetailPresenter.fetchMoreComment(post);
+                        loading = true;
+                    }
+                }
+            }
+        });
     }
 
     public void setTime(TextView casePostedTime, String date){
@@ -400,15 +529,31 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
     }
 
 
-    public void hideSelectedAnswer(TextView selectedAnswer, ImageView grenTick, TextView userName){
+    public void hideSelectedAnswer(TextView selectedAnswer, ImageView greenTick, TextView userName, Comment comment){
         selectedAnswer.setVisibility(View.GONE);
-        grenTick.setVisibility(View.GONE);
+        greenTick.setVisibility(View.GONE);
         userName.setVisibility(View.GONE);
+        //Add comment..
+        if(commentStateDataList != null){
+            CommentState commentState = new CommentState(comment);
+            if(comment != null){
+                commentState.setIsSelected(greenTick);
+                commentStateDataList.put((String)comment.getId(), commentState);
+            }
+        }
     }
-    public void showSelectedAnswer(TextView selectedAnswer, ImageView grenTick, TextView userName){
+    public void showSelectedAnswer(TextView selectedAnswer, ImageView greenTick, TextView userName, Comment comment){
         selectedAnswer.setVisibility(View.VISIBLE);
-        grenTick.setVisibility(View.VISIBLE);
+        greenTick.setVisibility(View.VISIBLE);
         userName.setVisibility(View.VISIBLE);
+        //Add comment..
+        if(commentStateDataList != null){
+            CommentState commentState = new CommentState(comment);
+            commentState.setIsSelected(greenTick);
+            commentState.setState(true);
+            commentStateDataList.put((String)comment.getId(), commentState);
+        }
+
     }
 
 

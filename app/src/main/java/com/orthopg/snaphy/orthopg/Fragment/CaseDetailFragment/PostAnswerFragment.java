@@ -110,10 +110,17 @@ public class PostAnswerFragment extends android.support.v4.app.Fragment {
             comment.setAnswer(commentAnswer.trim());
               //Now save comment..
               if(comment.getId() != null){
-                  //TODO:SHOW LOADING BAR
-                  comment.save(new VoidCallback() {
+                  CommentRepository commentRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(CommentRepository.class);
+                  HashMap<String, Object> commentObj = new HashMap<>();
+                  commentObj.put("answer", comment.getAnswer());
+                  commentRepository.updateAttributes((String) comment.getId(), commentObj, new ObjectCallback<Comment>() {
                       @Override
-                      public void onSuccess() {
+                      public void onBefore() {
+                          //TODO:SHOW LOADING BAR
+                      }
+
+                      @Override
+                      public void onSuccess(Comment object) {
                           //TODO: ADD TO LIST..
                           //TODO: NOTIFY CHANGES TO LIST
                           mainActivity.onBackPressed();
@@ -121,9 +128,13 @@ public class PostAnswerFragment extends android.support.v4.app.Fragment {
 
                       @Override
                       public void onError(Throwable t) {
-                          //TODO: STOP LOADING BAR
                           Log.e(Constants.TAG, t.toString());
                           TastyToast.makeText(mainActivity.getApplicationContext(), Constants.CASE_UPLOAD_ERROR, TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+                      }
+
+                      @Override
+                      public void onFinally() {
+                          //TODO: STOP LOADING BAR
                       }
                   });
               }else{
@@ -205,6 +216,14 @@ public class PostAnswerFragment extends android.support.v4.app.Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        //Remove  both model..
+        Presenter.getInstance().removeModelFromList(Constants.EDIT_IN_PROCESS_COMMENT_POST_MODEL);
+        Presenter.getInstance().removeModelFromList(Constants.EDIT_IN_PROCESS_COMMENT_MODEL);
     }
 
     /**
