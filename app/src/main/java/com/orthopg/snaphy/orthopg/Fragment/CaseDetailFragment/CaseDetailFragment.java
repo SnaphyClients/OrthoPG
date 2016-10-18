@@ -107,6 +107,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
     CaseDetailPresenter caseDetailPresenter;
     Customer loginCustomer;
     HashMap<String, CommentState> commentStateDataList;
+    DataList<String> exceptIdNewAnswerList;
 
     LinearLayoutManager linearLayoutManager;
     /*Infinite Loading dataset*/
@@ -130,6 +131,8 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
         position = bundle.getInt("position");
+        exceptIdNewAnswerList = new DataList<>();
+        Presenter.getInstance().addModel(Constants.EXCEPTED_NEW_ANSWER_LIST, exceptIdNewAnswerList);
         //Remove the in edit data..
         if(Presenter.getInstance().getModel(Post.class, Constants.EDIT_IN_PROCESS_COMMENT_POST_MODEL) != null){
             //Remove the data..

@@ -57,6 +57,14 @@ public class CaseDetailPresenter {
 
     public void fetchMoreComment(final Post post){
         DataList<String> exceptCommentListId = new DataList<>();
+        //Add some recently added answer exception id to the list..
+        DataList<String> exceptIdNewAnswerList = Presenter.getInstance().getModel(DataList.class, Constants.EXCEPTED_NEW_ANSWER_LIST);
+        if(exceptIdNewAnswerList != null){
+            if(exceptIdNewAnswerList.size() != 0){
+                exceptCommentListId.addAll(exceptIdNewAnswerList);
+            }
+        }
+
         if(post != null){
             if(post.getPostDetails() != null){
                 if(post.getPostDetails().getHasAcceptedAnswer()){
@@ -89,9 +97,10 @@ public class CaseDetailPresenter {
                     skip = skip + objects.size();
                     //Add to commentList..
                     if(post != null){
-                        if(post.getComments() != null){
-                            post.getComments().addAll(objects);
+                        if(post.getComments() == null){
+                            post.setComments(new DataList<Comment>());
                         }
+                        post.getComments().addAll(objects);
                     }
                 }
             }

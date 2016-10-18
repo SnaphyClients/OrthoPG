@@ -37,6 +37,7 @@ public class Constants {
     public static String SAVED_CASE_LIST = "SavedCaseList";
     public static String BOOK_LIST_BOOKS_FRAGMENT = "BookListBooksFragment";
     public static String NEWS_LIST_NEWS_FRAGMENT = "NewsListNewsFragment";
+    public static String EXCEPTED_NEW_ANSWER_LIST = "ExceptedAnswerNewAnswerList";
     /*END OF DATA LIST IDs*/
 
     /*MOdel IDs*/

@@ -128,6 +128,13 @@ public class CasePresenter {
 
 
     public void addLike(String customerId, String postId, final ObjectCallback<LikePost> callback){
+        if(customerId.isEmpty() || postId.isEmpty()){
+            Throwable throwable = new Throwable("CustomerId or PostId is empty");
+            callback.onError(throwable);
+            callback.onFinally();
+            return;
+        }
+
         HashMap<String, Object> data = new HashMap<>();
         data.put("customerId", customerId);
         data.put("postId", postId);
@@ -137,10 +144,19 @@ public class CasePresenter {
 
     public void removeLike(LikePost likePost, final ObjectCallback<JSONObject> callback){
         if(likePost != null){
-            LikePostRepository likePostRepository = restAdapter.createRepository(LikePostRepository.class);
-            likePostRepository.deleteById((String) likePost.getId(), callback);
+            if(likePost.getId() != null){
+                LikePostRepository likePostRepository = restAdapter.createRepository(LikePostRepository.class);
+                likePostRepository.deleteById((String) likePost.getId(), callback);
+            }else{
+                Throwable throwable = new Throwable("Like Post id is null");
+                callback.onError(throwable);
+                callback.onFinally();
+            }
+        }else{
+            Throwable throwable = new Throwable("Like Post is null");
+            callback.onError(throwable);
+            callback.onFinally();
         }
-
     }
 
     public void addSave(String customerId, String postId, final ObjectCallback<SavePost> callback){
@@ -153,8 +169,18 @@ public class CasePresenter {
 
     public void removeSave(SavePost savePost, final ObjectCallback<JSONObject> callback){
         if(savePost != null){
-            SavePostRepository savePostRepository = restAdapter.createRepository(SavePostRepository.class);
-            savePostRepository.deleteById((String) savePost.getId(), callback);
+            if(savePost.getId() != null){
+                SavePostRepository savePostRepository = restAdapter.createRepository(SavePostRepository.class);
+                savePostRepository.deleteById((String) savePost.getId(), callback);
+            }else{
+                Throwable throwable = new Throwable("Save Post id is null");
+                callback.onError(throwable);
+                callback.onFinally();
+            }
+        }else{
+            Throwable throwable = new Throwable("Save Post is null");
+            callback.onError(throwable);
+            callback.onFinally();
         }
 
     }

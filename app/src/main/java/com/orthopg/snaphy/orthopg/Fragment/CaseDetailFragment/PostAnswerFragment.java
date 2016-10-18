@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
+import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Comment;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Post;
@@ -43,6 +44,7 @@ public class PostAnswerFragment extends android.support.v4.app.Fragment {
     private OnFragmentInteractionListener mListener;
     public static String TAG = "PostAnswerFragment";
     MainActivity mainActivity;
+
     Comment comment;
     Post post;
     @Bind(R.id.fragment_post_answer_edittext1) EditText answer;
@@ -141,7 +143,7 @@ public class PostAnswerFragment extends android.support.v4.app.Fragment {
                   CommentRepository commentRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(CommentRepository.class);
                   HashMap<String, Object> commentObj = new HashMap<>();
                   commentObj.put("postId", post.getId());
-                  Customer loginCustomer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+                  final Customer loginCustomer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
                   if(loginCustomer != null){
                       commentObj.put("customerId", loginCustomer.getId());
                   }
@@ -154,8 +156,22 @@ public class PostAnswerFragment extends android.support.v4.app.Fragment {
 
                       @Override
                       public void onSuccess(Comment object) {
-                          //TODO: ADD TO LIST..
-                          //TODO: NOTIFY CHANGES TO LIST
+                          object.addRelation(loginCustomer);
+                          object.addRelation(post);
+                          DataList<String> exceptIdNewAnswerList = Presenter.getInstance().getModel(DataList.class, Constants.EXCEPTED_NEW_ANSWER_LIST);
+                          if(exceptIdNewAnswerList !=  null){
+                              if(object != null){
+                                  exceptIdNewAnswerList.add((String)object.getId());
+                              }
+                          }
+
+                          //Now add comment to top of the list..
+                          if(post != null){
+                              if(post.getComments() == null){
+                                  post.setComments(new DataList<Comment>());
+                              }
+                              post.getComments().add(0, object);
+                          }
                           mainActivity.onBackPressed();
                       }
 
