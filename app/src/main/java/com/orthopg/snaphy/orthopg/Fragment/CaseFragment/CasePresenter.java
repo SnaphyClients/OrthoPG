@@ -160,6 +160,13 @@ public class CasePresenter {
     }
 
     public void addSave(String customerId, String postId, final ObjectCallback<SavePost> callback){
+        if(customerId.isEmpty() || postId.isEmpty()){
+            Throwable throwable = new Throwable("CustomerId or PostId is empty");
+            callback.onError(throwable);
+            callback.onFinally();
+            return;
+        }
+        
         HashMap<String, Object> data = new HashMap<>();
         data.put("customerId", customerId);
         data.put("postId", postId);
