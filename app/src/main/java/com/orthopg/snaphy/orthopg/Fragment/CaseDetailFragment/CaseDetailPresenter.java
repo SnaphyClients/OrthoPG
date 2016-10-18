@@ -43,7 +43,7 @@ public class CaseDetailPresenter {
 
     public CaseDetailPresenter(RestAdapter restAdapter, CircleProgressBar progressBar, MainActivity mainActivity, Post post, int position){
         this.restAdapter = restAdapter;
-        circleProgressBar = progressBar;
+        this.circleProgressBar = progressBar;
         this.mainActivity = mainActivity;
         this.position = position;
         if(post != null){

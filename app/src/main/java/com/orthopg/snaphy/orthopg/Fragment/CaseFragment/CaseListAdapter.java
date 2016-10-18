@@ -25,7 +25,6 @@ import com.androidsdk.snaphy.snaphyandroidsdk.models.SavePost;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.CustomModel.TrackList;
-import com.orthopg.snaphy.orthopg.Fragment.PostedCasesFragment.PostedCasesFragment;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 import com.sdsmdg.tastytoast.TastyToast;
@@ -519,23 +518,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
             });
 
 
-            final Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
-            final String MCINumber = customer.getMciNumber() != null ? customer.getMciNumber() : "";
-            linearLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!TAG.equals(PostedCasesFragment.TAG)) {
-                        if (!MCINumber.isEmpty()) {
-                            //mainActivity.replaceFragment(R.id.fragment_case_button4, null);
-                            mainActivity.replaceFragment(R.id.layout_case_list_textview4, position);
-                        } else {
-                            TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
-                        }
-                    } else {
-                        //Show Toast
-                    }
-                }
-            });
+
         }//if data != null
 
     }

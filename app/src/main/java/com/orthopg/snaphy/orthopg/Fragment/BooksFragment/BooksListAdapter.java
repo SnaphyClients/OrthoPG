@@ -106,7 +106,7 @@ public class BooksListAdapter extends RecyclerView.Adapter<BooksListAdapter.View
                                 request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
                             }
                             if(booksModel.getTitle() != null) {
-                                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, booksModel.getTitle()+".pdf");
+                                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, booksModel.getTitle()+ ".pdf");
                             }
 
 
@@ -126,37 +126,6 @@ public class BooksListAdapter extends RecyclerView.Adapter<BooksListAdapter.View
 
     }
 
-    /*@Override
-protected void onResume() {
-    super.onResume();
-    IntentFilter intentFilter = new IntentFilter(
-            DownloadManager.ACTION_DOWNLOAD_COMPLETE);
-    registerReceiver(broadcast, intentFilter);
-}
-
-public void showPdf() {
-    try {
-        File file = new File(Environment.getExternalStorageDirectory()
-                + "/Download/" + name + "CV.pdf");//name here is the name of any string you want to pass to the method
-        if (!file.isDirectory())
-            file.mkdir();
-        Intent testIntent = new Intent("com.adobe.reader");
-        testIntent.setType("application/pdf");
-        testIntent.setAction(Intent.ACTION_VIEW);
-        Uri uri = Uri.fromFile(file);
-        testIntent.setDataAndType(uri, "application/pdf");
-        startActivity(testIntent);
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-}
-
-BroadcastReceiver broadcast = new BroadcastReceiver() {
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        showPdf();
-    }
-};*/
 
     @Override
     public int getItemCount() {

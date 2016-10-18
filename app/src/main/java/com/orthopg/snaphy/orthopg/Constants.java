@@ -105,6 +105,7 @@ public class Constants {
     public static String DELETE_SUCCESS_POST = "Case successfully deleted.";
     public static String ACCEPT_ANSWER_ERROR_COMMENT = "Cannot Accept Answer! Try again later";
     public static String BLANK_COMMENT_ERROR = "Comment cannot be blank";
+    public static String VERIFICATION_IN_PROGRESS = "Verification is under process";
 
 
     /*--------------------------------------------------------------------------------------------------------*/

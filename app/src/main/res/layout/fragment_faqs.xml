@@ -33,7 +33,7 @@
         android:layout_height="match_parent"
         android:id="@+id/fragment_faqs_textview2"
         android:padding="15dp"
-        android:text="FAQS" />
+        android:text="" />
 
     <com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar
         android:layout_width="45dp"

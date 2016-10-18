@@ -29,6 +29,7 @@ import com.androidsdk.snaphy.snaphyandroidsdk.models.Post;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.PostDetail;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.SavePost;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
+import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.CustomModel.CommentState;
 import com.orthopg.snaphy.orthopg.CustomModel.TrackList;
@@ -87,6 +88,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.layout_case_details_imageview1) ImageView isAnswerSelected;
     @Bind(R.id.fragment_case_detail_linearLayout1) LinearLayout saveLinearLayout;
     @Bind(R.id.fragment_case_detail_linearLayout2) LinearLayout likeLinearLayout;
+    @Bind(R.id.fragment_case_progressBar) CircleProgressBar progressBar;
     boolean isLiked = false;
     boolean isSaved = false;
     MainActivity mainActivity;
@@ -126,7 +128,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         Bundle bundle = this.getArguments();
         position = bundle.getInt("position");
         //Add progress bar..
-        caseDetailPresenter = new CaseDetailPresenter(mainActivity.snaphyHelper.getLoopBackAdapter(), null, mainActivity, post, position);
+        caseDetailPresenter = new CaseDetailPresenter(mainActivity.snaphyHelper.getLoopBackAdapter(), progressBar, mainActivity, post, position);
         //Remove the in edit data..
         if(Presenter.getInstance().getModel(Post.class, Constants.EDIT_IN_PROCESS_COMMENT_POST_MODEL) != null){
             //Remove the data..

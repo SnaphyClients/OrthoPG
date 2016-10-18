@@ -47,10 +47,9 @@ public class NewsPresenter {
             newsDataList.clear();
         }
 
-        if(skip > 0){
-            skip = skip + limit;
-        }
         HashMap<String, Object> filter = new HashMap<>();
+        //filter.order = "added DESC";
+        filter.put("order", "added DESC");
         filter.put("skip", skip);
         filter.put("limit", limit);
         HashMap<String, Object> where = new HashMap<>();
@@ -66,7 +65,12 @@ public class NewsPresenter {
 
             @Override
             public void onSuccess(DataList<News> objects) {
-                newsDataList.addAll(objects);
+                if(objects != null){
+                    newsDataList.addAll(objects);
+                    //Now add skip..
+                    skip = skip + objects.size();
+                }
+
             }
 
             @Override

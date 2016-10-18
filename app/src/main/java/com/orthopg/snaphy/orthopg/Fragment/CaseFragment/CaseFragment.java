@@ -103,8 +103,12 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         swipeRefreshLayoutListener();
         loadPresenter();
         recyclerViewLoadMoreEventData();
+
         return view;
     }
+
+
+
 
     public void swipeRefreshLayoutListener() {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
