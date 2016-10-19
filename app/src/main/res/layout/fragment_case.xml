@@ -113,6 +113,17 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="No Case Present"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="#AAA"
+        android:visibility="gone"
+        android:id="@+id/fragment_case_textview1"/>
+
 
     <View
         android:layout_width="match_parent"

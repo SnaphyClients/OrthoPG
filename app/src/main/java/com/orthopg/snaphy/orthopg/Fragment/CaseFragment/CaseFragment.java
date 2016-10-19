@@ -13,10 +13,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.Listen;
-import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Post;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.PostDetail;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
@@ -48,6 +48,7 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.fragment_case_recycler_view) RecyclerView recyclerView;
     @Bind(R.id.fragment_case_progressBar) CircleProgressBar progressBar;
     @Bind(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
+    @Bind(R.id.fragment_case_textview1) TextView noCasePresentText;
     LinearLayoutManager linearLayoutManager;
     CaseListAdapter caseListAdapter;
     MainActivity mainActivity;
@@ -105,6 +106,16 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         recyclerViewLoadMoreEventData();
 
         return view;
+    }
+
+    public void noCasePresent(boolean isNoCasePresent) {
+        if(isNoCasePresent) {
+            recyclerView.setVisibility(View.GONE);
+            noCasePresentText.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            noCasePresentText.setVisibility(View.GONE);
+        }
     }
 
 
@@ -251,6 +262,11 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                 public void onChange(DataList<PostDetail> dataList) {
                     super.onChange(dataList);
                     swipeRefreshLayout.setRefreshing(false);
+                    if(dataList.size() == 0) {
+                        noCasePresent(true);
+                    } else {
+                        noCasePresent(false);
+                    }
                     caseListAdapter.notifyDataSetChanged();
 
                 }
@@ -274,6 +290,11 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                 public void onChange(DataList<PostDetail> dataList) {
                     super.onChange(dataList);
                     swipeRefreshLayout.setRefreshing(false);
+                    if(dataList.size() == 0) {
+                        noCasePresent(true);
+                    } else {
+                        noCasePresent(false);
+                    }
                     caseListAdapter.notifyDataSetChanged();
 
                 }
@@ -298,8 +319,12 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                 public void onChange(DataList<PostDetail> dataList) {
                     super.onChange(dataList);
                     swipeRefreshLayout.setRefreshing(false);
+                    if(dataList.size() == 0) {
+                        noCasePresent(true);
+                    } else {
+                        noCasePresent(false);
+                    }
                     caseListAdapter.notifyDataSetChanged();
-
                 }
             });
 
@@ -322,6 +347,11 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                 public void onChange(DataList<Post> dataList) {
                     super.onChange(dataList);
                     swipeRefreshLayout.setRefreshing(false);
+                    if(dataList.size() == 0) {
+                        noCasePresent(true);
+                    } else {
+                        noCasePresent(false);
+                    }
                     caseListAdapter.notifyDataSetChanged();
 
                 }
@@ -346,6 +376,11 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                 public void onChange(DataList<Post> dataList) {
                     super.onChange(dataList);
                     //swipeRefreshLayout.setRefreshing(false);
+                    if(dataList.size() == 0) {
+                        noCasePresent(true);
+                    } else {
+                        noCasePresent(false);
+                    }
                     caseListAdapter.notifyDataSetChanged();
 
                 }
@@ -360,6 +395,11 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                 public void onRemove(final Post element, int index, final DataList<Post> dataList) {
                     super.onRemove(element, index, dataList);
                     caseListAdapter.notifyDataSetChanged();
+                    if(dataList.size() == 0) {
+                        noCasePresent(true);
+                    } else {
+                        noCasePresent(false);
+                    }
                     element.destroy(new VoidCallback() {
                         @Override
                         public void onSuccess() {
@@ -408,28 +448,39 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         isSavedSelected = false;
         isPostedSelected = false;
 
+        trendingButton.setEnabled(true);
+        newCaseButton.setEnabled(true);
+        postedCaseButton.setEnabled(true);
+        savedCaseButton.setEnabled(true);
+        unsolvedCaseButton.setEnabled(true);
+
         if(trending) {
             trendingButton.setTextColor(Color.parseColor("#3F51B5"));
+            trendingButton.setEnabled(false);
             isTrendingSelected = true;
         }
 
         if(newCase) {
             newCaseButton.setTextColor(Color.parseColor("#3F51B5"));
+            newCaseButton.setEnabled(false);
             isNewSelected = true;
         }
 
         if(unsolved) {
             unsolvedCaseButton.setTextColor(Color.parseColor("#3F51B5"));
+            unsolvedCaseButton.setEnabled(false);
             isUnsolvedSelected = true;
         }
 
         if(saved) {
             savedCaseButton.setTextColor(Color.parseColor("#3F51B5"));
+            savedCaseButton.setEnabled(false);
             isSavedSelected = true;
         }
 
         if(posted) {
             postedCaseButton.setTextColor(Color.parseColor("#3F51B5"));
+            postedCaseButton.setEnabled(false);
             isPostedSelected = true;
         }
 

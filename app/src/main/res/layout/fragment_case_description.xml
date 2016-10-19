@@ -7,7 +7,7 @@
     android:background="@color/white"
     tools:context="com.orthopg.snaphy.orthopg.Fragment.NewCase.CaseDescriptionFragment">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="15dp"
@@ -21,7 +21,31 @@
             android:src="@mipmap/left_icon"
             android:background="@android:color/transparent"/>
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Post As Anonymous"
+                android:layout_marginRight="10dp"
+                android:textSize="15sp"
+                android:textStyle="bold"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:id="@+id/fragment_case_description_checkbox"/>
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
 
     <EditText
         android:id="@+id/fragment_case_description_edittext1"

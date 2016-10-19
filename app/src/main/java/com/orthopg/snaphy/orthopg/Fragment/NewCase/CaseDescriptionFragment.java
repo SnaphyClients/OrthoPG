@@ -1,23 +1,18 @@
 package com.orthopg.snaphy.orthopg.Fragment.NewCase;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Scroller;
-import android.widget.Toast;
 
-import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.DataListCallback;
-import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
-import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Post;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
@@ -26,9 +21,6 @@ import com.orthopg.snaphy.orthopg.CustomModel.NewCase;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 import com.sdsmdg.tastytoast.TastyToast;
-import com.strongloop.android.loopback.callbacks.VoidCallback;
-
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -48,8 +40,8 @@ public class CaseDescriptionFragment extends android.support.v4.app.Fragment {
     MainActivity mainActivity;
     public static String TAG = "CaseDescriptionFragment";
     @Bind(R.id.fragment_case_description_edittext1) EditText description;
-    @Bind(R.id.fragment_case_description_progressBar)
-    CircleProgressBar progressBar;
+    @Bind(R.id.fragment_case_description_progressBar) CircleProgressBar progressBar;
+    @Bind(R.id.fragment_case_description_checkbox) CheckBox checkBox;
 
     public CaseDescriptionFragment() {
         // Required empty public constructor
@@ -200,14 +192,19 @@ public class CaseDescriptionFragment extends android.support.v4.app.Fragment {
     }
 
     public void postCaseAsAnonymousDialog(){
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mainActivity);
+        if(checkBox.isChecked()){
+            saveCase(true);
+        } else {
+            saveCase(false);
+        }
+        /*AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mainActivity);
         alertDialogBuilder.setMessage("Post this case as anonymous");
 
         alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
                 // Do if user in anonymous
-                saveCase(true);
+
                 mainActivity.finish();
 
             }
@@ -216,13 +213,13 @@ public class CaseDescriptionFragment extends android.support.v4.app.Fragment {
         alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                saveCase(false);
+
                 mainActivity.finish();
             }
         });
 
         AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
+        alertDialog.show();*/
     }
 
 
