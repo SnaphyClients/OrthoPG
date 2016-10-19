@@ -1,26 +1,34 @@
 [
     {
-        "merged": "/home/snaphy/snaphy_clients/OrthoPG/android/OrthoPG/snaphyandroidsdk/build/intermediates/res/merged/androidTest/debug/color-v11/abc_background_cache_hint_selector_material_light.xml",
-        "source": "/home/snaphy/snaphy_clients/OrthoPG/android/OrthoPG/snaphyandroidsdk/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/color-v11/abc_background_cache_hint_selector_material_light.xml"
+        "merged": "E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\res\\merged\\androidTest\\debug\\color-v11\\abc_background_cache_hint_selector_material_dark.xml",
+        "source": "E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\color-v11\\abc_background_cache_hint_selector_material_dark.xml"
     },
     {
-        "merged": "/home/snaphy/snaphy_clients/OrthoPG/android/OrthoPG/E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\res\\merged\\androidTest\\debug\\color-v11\\abc_background_cache_hint_selector_material_dark.xml",
-        "source": "/home/snaphy/snaphy_clients/OrthoPG/android/OrthoPG/E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\color-v11\\abc_background_cache_hint_selector_material_dark.xml"
+        "merged": "E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\res\\merged\\androidTest\\debug\\color-v11\\abc_background_cache_hint_selector_material_light.xml",
+        "source": "E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\color-v11\\abc_background_cache_hint_selector_material_light.xml"
     },
     {
-        "merged": "/home/snaphy/snaphy_clients/OrthoPG/android/OrthoPG/E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\res\\merged\\androidTest\\debug\\color-v11\\abc_background_cache_hint_selector_material_light.xml",
-        "source": "/home/snaphy/snaphy_clients/OrthoPG/android/OrthoPG/E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\color-v11\\abc_background_cache_hint_selector_material_light.xml"
+        "merged": "E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\E:\\Clients\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\res\\merged\\androidTest\\debug\\color-v11\\abc_background_cache_hint_selector_material_light.xml",
+        "source": "E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\E:\\Clients\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\color-v11\\abc_background_cache_hint_selector_material_light.xml"
     },
     {
-        "merged": "/home/snaphy/snaphy_clients/OrthoPG/android/OrthoPG/E:\\Clients\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\res\\merged\\androidTest\\debug\\color-v11\\abc_background_cache_hint_selector_material_dark.xml",
-        "source": "/home/snaphy/snaphy_clients/OrthoPG/android/OrthoPG/E:\\Clients\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\color-v11\\abc_background_cache_hint_selector_material_dark.xml"
+        "merged": "E:\\Clients\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\res\\merged\\androidTest\\debug\\color-v11\\abc_background_cache_hint_selector_material_dark.xml",
+        "source": "E:\\Clients\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\color-v11\\abc_background_cache_hint_selector_material_dark.xml"
     },
     {
-        "merged": "/home/snaphy/snaphy_clients/OrthoPG/android/OrthoPG/snaphyandroidsdk/build/intermediates/res/merged/androidTest/debug/color-v11/abc_background_cache_hint_selector_material_dark.xml",
-        "source": "/home/snaphy/snaphy_clients/OrthoPG/android/OrthoPG/snaphyandroidsdk/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/color-v11/abc_background_cache_hint_selector_material_dark.xml"
+        "merged": "E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\res\\merged\\androidTest\\debug\\color-v11\\abc_background_cache_hint_selector_material_dark.xml",
+        "source": "E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\color-v11\\abc_background_cache_hint_selector_material_dark.xml"
     },
     {
-        "merged": "/home/snaphy/snaphy_clients/OrthoPG/android/OrthoPG/E:\\Clients\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\res\\merged\\androidTest\\debug\\color-v11\\abc_background_cache_hint_selector_material_light.xml",
-        "source": "/home/snaphy/snaphy_clients/OrthoPG/android/OrthoPG/E:\\Clients\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\color-v11\\abc_background_cache_hint_selector_material_light.xml"
+        "merged": "E:\\Clients\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\res\\merged\\androidTest\\debug\\color-v11\\abc_background_cache_hint_selector_material_light.xml",
+        "source": "E:\\Clients\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\color-v11\\abc_background_cache_hint_selector_material_light.xml"
+    },
+    {
+        "merged": "E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\res\\merged\\androidTest\\debug\\color-v11\\abc_background_cache_hint_selector_material_light.xml",
+        "source": "E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\color-v11\\abc_background_cache_hint_selector_material_light.xml"
+    },
+    {
+        "merged": "E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\E:\\Clients\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\res\\merged\\androidTest\\debug\\color-v11\\abc_background_cache_hint_selector_material_dark.xml",
+        "source": "E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\E:\\Clients\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\color-v11\\abc_background_cache_hint_selector_material_dark.xml"
     }
 ]
