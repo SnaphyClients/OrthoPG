@@ -12,7 +12,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.News;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.CustomerRepository;
 import com.crashlytics.android.Crashlytics;
@@ -44,9 +46,7 @@ import com.orthopg.snaphy.orthopg.Fragment.NewCase.CaseDescriptionFragment;
 import com.orthopg.snaphy.orthopg.Fragment.NewCase.CaseHeadingFragment;
 import com.orthopg.snaphy.orthopg.Fragment.NewCase.CaseUploadImageFragment;
 import com.orthopg.snaphy.orthopg.Fragment.NewsFragment.NewsFragment;
-import com.orthopg.snaphy.orthopg.Fragment.PostedCasesFragment.PostedCasesFragment;
 import com.orthopg.snaphy.orthopg.Fragment.ProfileFragment.ProfileFragment;
-import com.orthopg.snaphy.orthopg.Fragment.SavedCasesFragment.SavedCasesFragment;
 import com.orthopg.snaphy.orthopg.Interface.OnFragmentChange;
 import com.sdsmdg.tastytoast.TastyToast;
 import com.strongloop.android.loopback.AccessToken;
@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         MCIVerificationFragment.OnFragmentInteractionListener, MainFragment.OnFragmentInteractionListener,
         BooksFragment.OnFragmentInteractionListener, CaseFragment.OnFragmentInteractionListener,
         NewsFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener,
-        SavedCasesFragment.OnFragmentInteractionListener, PostedCasesFragment.OnFragmentInteractionListener,
         MenuFragment.OnFragmentInteractionListener, AboutUsFragment.OnFragmentInteractionListener,
         FAQsFragment.OnFragmentInteractionListener, TermsAndConditionsFragment.OnFragmentInteractionListener,
         ContactUsFragment.OnFragmentInteractionListener, CaseHeadingFragment.OnFragmentInteractionListener,
@@ -114,6 +113,9 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             }
         }, 100);
 
+
+        //Initialize book and news..
+        initializeBookAndNews();
         sharedPreferences = this.getApplicationContext().getSharedPreferences("HelpScreen", 0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         if(snaphyHelper.isNetworkAvailable()) {
@@ -135,8 +137,15 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             TastyToast.makeText(getApplicationContext(), "Connection Error! Check your network", TastyToast.LENGTH_LONG, TastyToast.ERROR);
             hideRetryButton(false);
         }
+    }
 
-        /*parseDate();*/
+
+    public void initializeBookAndNews(){
+        DataList<News> newsDataList = new DataList<>();
+        Presenter.getInstance().addList(Constants.NEWS_LIST_NEWS_FRAGMENT, newsDataList);
+
+        DataList<News> bookDataList = new DataList<>();
+        Presenter.getInstance().addList(Constants.BOOK_LIST_BOOKS_FRAGMENT, bookDataList);
     }
 
 

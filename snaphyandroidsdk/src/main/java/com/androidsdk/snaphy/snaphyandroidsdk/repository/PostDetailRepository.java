@@ -1112,7 +1112,7 @@ public class PostDetailRepository extends ModelRepository<PostDetail> {
     
         
             //Method addRemoveAcceptedAnswer definition
-            public void addRemoveAcceptedAnswer(  String postId,  String commentId,  Boolean add, final ObjectCallback<JSONObject>  callback ){
+            public void addRemoveAcceptedAnswer(  String postId,  String commentId,  Boolean add, final ObjectCallback<Post> callback){
 
                 /**
                 Call the onBefore event
@@ -1136,8 +1136,8 @@ public class PostDetailRepository extends ModelRepository<PostDetail> {
 
                 
                     
-                    invokeStaticMethod("addRemoveAcceptedAnswer", hashMapObject, new Adapter.JsonObjectCallback() {
                     
+                    invokeStaticMethod("addRemoveAcceptedAnswer", hashMapObject, new Adapter.JsonObjectCallback() {
                     
                         @Override
                         public void onError(Throwable t) {
@@ -1149,7 +1149,15 @@ public class PostDetailRepository extends ModelRepository<PostDetail> {
                         @Override
                         public void onSuccess(JSONObject response) {
                             
-                                callback.onSuccess(response);
+                                if(response != null){
+                                    PostRepository postRepo = getRestAdapter().createRepository(PostRepository.class);
+                                    Map<String, Object> result = Util.fromJson(response);
+                                    Post post = postRepo.createObject(result);
+                                    callback.onSuccess(post);
+
+                                }else{
+                                    callback.onSuccess(null);
+                                }
                             
                             //Call the finally method..
                             callback.onFinally();

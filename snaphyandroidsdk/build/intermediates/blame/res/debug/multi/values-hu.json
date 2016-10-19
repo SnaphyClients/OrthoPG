@@ -383,6 +383,7 @@
                 }
             }
         ]
+<<<<<<< HEAD
     },
     {
         "outputFile": "E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-hu\\values-hu.xml",
@@ -1538,5 +1539,7 @@
                 }
             }
         ]
+=======
+>>>>>>> 15149f3c5ccb9940082a414c6c6d8b09bf5ec861
     }
 ]

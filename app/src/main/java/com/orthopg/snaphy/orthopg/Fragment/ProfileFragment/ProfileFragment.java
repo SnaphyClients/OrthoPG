@@ -16,14 +16,17 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.VoidCallback;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.CustomerRepository;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
+import com.sdsmdg.tastytoast.TastyToast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -45,7 +48,9 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.fragment_profile_textview3) TextView mciNumber;
     /*@Bind(R.id.fragment_profile_textview4) TextView speciality;*/
     @Bind(R.id.fragment_profile_textview5) TextView name;
+    @Bind(R.id.layout_profile_image) ImageView profileImage;
     MainActivity mainActivity;
+    Customer loginCustomer;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -67,12 +72,14 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
+        loginCustomer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 logoutButton();
             }
         });
+        displayData();
         return view;
     }
 
@@ -84,11 +91,58 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
         showNameDialog();
     }
 
+    public void displayData(){
+        if(loginCustomer != null){
+            if(loginCustomer.getEmail() != null){
+                if(!loginCustomer.getEmail().isEmpty()){
+                    email.setVisibility(View.VISIBLE);
+                    email.setText(loginCustomer.getEmail());
+                }else{
+                    email.setVisibility(View.GONE);
+                }
+            }else{
+                email.setVisibility(View.GONE);
+            }
+
+            if(loginCustomer.getMciNumber() != null){
+                if(!loginCustomer.getMciNumber().isEmpty()){
+                    mciNumber.setVisibility(View.VISIBLE);
+                    mciNumber.setText(loginCustomer.getMciNumber());
+                }else{
+                    mciNumber.setVisibility(View.GONE);
+                }
+            }else{
+                mciNumber.setVisibility(View.GONE);
+            }
+
+            String userName = mainActivity.snaphyHelper.getName(loginCustomer.getFirstName(), loginCustomer.getLastName());
+            userName = Constants.Doctor + userName.replace("^[Dd][Rr]", "");
+            if(!userName.isEmpty()){
+                name.setVisibility(View.VISIBLE);
+                name.setText(userName);
+            }else{
+                name.setVisibility(View.GONE);
+            }
+
+            if(loginCustomer.getProfilePic() != null){
+                mainActivity.snaphyHelper.loadUnSignedThumbnailImage(loginCustomer.getProfilePic(), profileImage, R.mipmap.anonymous);
+            }else{
+                profileImage.setImageResource(R.mipmap.anonymous);
+            }
+
+        }else{
+            email.setVisibility(View.GONE);
+            mciNumber.setVisibility(View.GONE);
+            name.setVisibility(View.GONE);
+        }
+
+    }
+
     public void showMCIDialog() {
 
         final Dialog dialog = new Dialog(mainActivity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_add_text);
+        dialog.setContentView(R.layout.dialog_add_mci);
 
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(dialog.getWindow().getAttributes());
@@ -96,14 +150,34 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
         Button okButton = (Button) dialog.findViewById(R.id.dialog_add_text_button1);
-        final EditText editText = (EditText) dialog.findViewById(R.id.dialog_add_text_edittext1);
+        final EditText editText = (EditText) dialog.findViewById(R.id.dialog_add_text_editMCI);
         editText.setInputType(InputType.TYPE_CLASS_TEXT);
-        editText.setText(mciNumber.getText());
+
+        if(loginCustomer.getMciNumber() != null){
+            if(!loginCustomer.getMciNumber().isEmpty()){
+                editText.setText(loginCustomer.getMciNumber().trim());
+            }
+        }
+
 
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mciNumber.setText(editText.getText().toString());
+                loginCustomer.setMciNumber(editText.getText().toString().trim());
+                final String oldMCINUMBER = mciNumber.getText().toString();
+                mciNumber.setText(loginCustomer.getMciNumber());
+                loginCustomer.save(new com.strongloop.android.loopback.callbacks.VoidCallback() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        mciNumber.setText(oldMCINUMBER);
+                        TastyToast.makeText(mainActivity.getApplicationContext(), Constants.ERROR_UPDATING_MCI, TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+                    }
+                });
                 dialog.dismiss();
             }
         });
@@ -111,11 +185,15 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
         dialog.getWindow().setAttributes(lp);
     }
 
+
+
+
+
     public void showNameDialog() {
 
         final Dialog dialog = new Dialog(mainActivity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_add_text);
+        dialog.setContentView(R.layout.dialog_edit_name);
 
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(dialog.getWindow().getAttributes());
@@ -123,14 +201,62 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
         Button okButton = (Button) dialog.findViewById(R.id.dialog_add_text_button1);
-        final EditText editText = (EditText) dialog.findViewById(R.id.dialog_add_text_edittext1);
-        editText.setInputType(InputType.TYPE_CLASS_TEXT);
-        editText.setText(name.getText());
+        final EditText firstName = (EditText) dialog.findViewById(R.id.dialog_add_text_edittext1);
+        final EditText lastName = (EditText) dialog.findViewById(R.id.dialog_add_text_edittext2);
+        firstName.setInputType(InputType.TYPE_CLASS_TEXT);
+        lastName.setInputType(InputType.TYPE_CLASS_TEXT);
+
+        if(loginCustomer != null){
+            if(loginCustomer.getFirstName() != null){
+                if(!loginCustomer.getFirstName().isEmpty()){
+                    firstName.setText(loginCustomer.getFirstName().trim());
+                }
+
+                if(!loginCustomer.getLastName().isEmpty()){
+                    lastName.setText(loginCustomer.getLastName().trim());
+                }
+            }
+        }
+
 
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                name.setText(editText.getText().toString());
+                if(firstName.getText() != null){
+                    if(firstName.getText().toString() != null){
+                        if(firstName.getText().toString().trim().isEmpty()){
+                            TastyToast.makeText(mainActivity.getApplicationContext(), Constants.ERROR_FIRST_NAME_EMPTY, TastyToast.LENGTH_SHORT, TastyToast.WARNING);
+                            return;
+                        }else{
+                            loginCustomer.setFirstName(firstName.getText().toString().trim());
+                        }
+                    }
+                }
+
+                if(lastName.getText() != null){
+                    if(lastName.getText().toString() != null){
+                        loginCustomer.setLastName(lastName.getText().toString().trim());
+                    }
+                }
+
+                String userName = mainActivity.snaphyHelper.getName(loginCustomer.getFirstName(), loginCustomer.getLastName());
+                userName = Constants.Doctor + userName.replace("^[Dd][Rr]", "");
+                final String oldName = name.getText().toString();
+                name.setText(userName);
+
+                //Now update the customer..
+                loginCustomer.save(new com.strongloop.android.loopback.callbacks.VoidCallback() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        name.setText(oldName);
+                        TastyToast.makeText(mainActivity.getApplicationContext(), Constants.ERROR_UPDATING_NAME, TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+                    }
+                });
                 dialog.dismiss();
             }
         });
@@ -240,33 +366,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
 
             }
         });
-        /*
-        * new VoidCallback() {
-            @Override
-            public void onSuccess() {
-                //TODO CLOSE LOADING BAR
-                //Move to login fragment..
-                googleLogout();
-                mainActivity.stopService(new Intent(mainActivity, BackgroundService.class));
-                mainActivity.moveToLogin();
-            }
 
-            @Override
-            public void onError(Throwable t) {
-                //TODO CLOSE LOADING BAR
-                Log.e(Constants.TAG, t.toString());
-                BackgroundService.getCustomerRepository().setCurrentUserId(null);
-                //Snackbar.make(rootView,Constants.ERROR_MESSAGE, Snackbar.LENGTH_SHORT).show();
-                mainActivity.getLoopBackAdapter().clearAccessToken();
-                BackgroundService.setCustomer(null);
-                mainActivity.registerInstallation(null);
-                //ALSO ADD GOOGLE LOGOUT AND FACEBOOK LOGOUT HERE..
-                googleLogout();
-                mainActivity.stopService(new Intent(mainActivity, BackgroundService.class));
-                mainActivity.moveToLogin();
-                //Toast.makeText(mainActivity, Constants.ERROR_MESSAGE, Toast.LENGTH_SHORT).show();
-            }
-        }*/
     }
 
 

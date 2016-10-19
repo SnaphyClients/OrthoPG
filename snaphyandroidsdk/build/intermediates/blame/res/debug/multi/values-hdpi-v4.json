@@ -24,6 +24,7 @@
                 }
             }
         ]
+<<<<<<< HEAD
     },
     {
         "outputFile": "E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\E:\\Clients\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-hdpi-v4\\values-hdpi-v4.xml",
@@ -102,5 +103,7 @@
                 }
             }
         ]
+=======
+>>>>>>> 15149f3c5ccb9940082a414c6c6d8b09bf5ec861
     }
 ]

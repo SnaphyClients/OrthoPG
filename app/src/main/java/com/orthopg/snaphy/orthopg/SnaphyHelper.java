@@ -228,8 +228,8 @@ public class SnaphyHelper {
 
 
 
-    public void loadImage(final String imageUri,final ImageView imageView){
-        final int retries = 0;
+    public void loadImage(final String imageUri, final ImageView imageView){
+        //final int retries = 0;
         try {
             Glide.with(mainActivity)
                     .load(imageUri)
@@ -239,15 +239,7 @@ public class SnaphyHelper {
                     .listener(new RequestListener<String, GlideDrawable>() {
                         @Override
                         public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-
-                            if (retries <= 3) {
-                                int track = retries + 1;
-                                Log.e(Constants.TAG, "Image downloading failed. retrying." + track);
-                                loadImage(imageUri, imageView, track);
-
-                            } else {
-                                Log.e(Constants.TAG, "Maximum retries of image downloading done. Cannot download image.");
-                            }
+                            Log.e(Constants.TAG, "Maximum retries of image downloading done. Cannot download image.");
                             return false;
                         }
 
@@ -265,7 +257,7 @@ public class SnaphyHelper {
     }
 
     public void loadImage(final String imageUri,final ImageView imageView, int mipmap){
-        final int retries = 0;
+        ///final int retries = 0;
         try {
             Glide.with(mainActivity)
                     .load(imageUri)
@@ -275,15 +267,7 @@ public class SnaphyHelper {
                     .listener(new RequestListener<String, GlideDrawable>() {
                         @Override
                         public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-
-                            if (retries <= 3) {
-                                int track = retries + 1;
-                                Log.e(Constants.TAG, "Image downloading failed. retrying." + track);
-                                loadImage(imageUri, imageView, track);
-
-                            } else {
-                                Log.e(Constants.TAG, "Maximum retries of image downloading done. Cannot download image.");
-                            }
+                            Log.e(Constants.TAG, "Maximum retries of image downloading done. Cannot download image.");
                             return false;
                         }
 

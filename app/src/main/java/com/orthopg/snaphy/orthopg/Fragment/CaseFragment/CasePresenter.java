@@ -5,6 +5,7 @@ import android.util.Log;
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.DataListCallback;
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.LikePost;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Post;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.PostDetail;
@@ -17,6 +18,7 @@ import com.androidsdk.snaphy.snaphyandroidsdk.repository.SavePostRepository;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.CustomModel.NewCase;
+import com.orthopg.snaphy.orthopg.CustomModel.TrackList;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.strongloop.android.loopback.RestAdapter;
 
@@ -30,19 +32,11 @@ import java.util.HashMap;
 public class CasePresenter {
 
     RestAdapter restAdapter;
-    DataList<PostDetail> postDetails;
+    HashMap<String, TrackList> trackList;
+    //DataList<PostDetail> postDetails;
     public double limit = 5;
-
-    public double skip = 0;
     CircleProgressBar circleProgressBar;
     MainActivity mainActivity;
-    HashMap<String, Double> track = new HashMap<>();
-    //Track the like of logged customer based on each post.
-    HashMap<Object, TrackLike> trackLike;
-    HashMap<Object, TrackSave> trackSave = new HashMap<>();
-
-
-
 
 
     public CasePresenter(RestAdapter restAdapter, CircleProgressBar progressBar, MainActivity mainActivity){
@@ -50,28 +44,15 @@ public class CasePresenter {
         circleProgressBar = progressBar;
         this.mainActivity = mainActivity;
         //Only add if not initialized already..
-        if(Presenter.getInstance().getList(PostDetail.class, Constants.POST_DETAIL_LIST_CASE_FRAGMENT) == null){
-            postDetails = new DataList<>();
-            Presenter.getInstance().addList(Constants.POST_DETAIL_LIST_CASE_FRAGMENT, postDetails);
-        }else{
-            postDetails = Presenter.getInstance().getList(PostDetail.class, Constants.POST_DETAIL_LIST_CASE_FRAGMENT);
-        }
-
-        if(Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE) == null){
-            HashMap<Object, TrackLike> trackLike = new HashMap<>();
-            Presenter.getInstance().addModel(Constants.TRACK_LIKE, trackLike);
-        }else{
-            trackLike = Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE);
-        }
-
-        if(Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE) == null){
-            HashMap<Object, TrackSave> trackSave = new HashMap<>();
-            Presenter.getInstance().addModel(Constants.TRACK_SAVE, trackSave);
-        }else{
-            trackSave = Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE);
-        }
-
+        trackList = new HashMap<String, TrackList>();
+        Presenter.getInstance().addModel(Constants.LIST_CASE_FRAGMENT, trackList);
+        HashMap<Object, TrackLike> trackLike = new HashMap<>();
+        Presenter.getInstance().addModel(Constants.TRACK_LIKE, trackLike);
+        HashMap<Object, TrackSave> trackSave = new HashMap<>();
+        Presenter.getInstance().addModel(Constants.TRACK_SAVE, trackSave);
     }
+
+
 
 
     public void fetchTotalLike(String customerId, String postId, final ObjectCallback<LikePost> callback){
@@ -140,6 +121,14 @@ public class CasePresenter {
 
 
     public void addLike(String customerId, String postId, final ObjectCallback<LikePost> callback){
+        if(customerId.isEmpty() || postId.isEmpty()){
+            callback.onBefore();
+            Throwable throwable = new Throwable("CustomerId or PostId is empty");
+            callback.onError(throwable);
+            callback.onFinally();
+            return;
+        }
+
         HashMap<String, Object> data = new HashMap<>();
         data.put("customerId", customerId);
         data.put("postId", postId);
@@ -149,13 +138,32 @@ public class CasePresenter {
 
     public void removeLike(LikePost likePost, final ObjectCallback<JSONObject> callback){
         if(likePost != null){
-            LikePostRepository likePostRepository = restAdapter.createRepository(LikePostRepository.class);
-            likePostRepository.deleteById((String) likePost.getId(), callback);
+            if(likePost.getId() != null){
+                LikePostRepository likePostRepository = restAdapter.createRepository(LikePostRepository.class);
+                likePostRepository.deleteById((String) likePost.getId(), callback);
+            }else{
+                callback.onBefore();
+                Throwable throwable = new Throwable("Like Post id is null");
+                callback.onError(throwable);
+                callback.onFinally();
+            }
+        }else{
+            callback.onBefore();
+            Throwable throwable = new Throwable("Like Post is null");
+            callback.onError(throwable);
+            callback.onFinally();
         }
-
     }
 
     public void addSave(String customerId, String postId, final ObjectCallback<SavePost> callback){
+        if(customerId.isEmpty() || postId.isEmpty()){
+            callback.onBefore();
+            Throwable throwable = new Throwable("CustomerId or PostId is empty");
+            callback.onError(throwable);
+            callback.onFinally();
+            return;
+        }
+
         HashMap<String, Object> data = new HashMap<>();
         data.put("customerId", customerId);
         data.put("postId", postId);
@@ -165,8 +173,20 @@ public class CasePresenter {
 
     public void removeSave(SavePost savePost, final ObjectCallback<JSONObject> callback){
         if(savePost != null){
-            SavePostRepository savePostRepository = restAdapter.createRepository(SavePostRepository.class);
-            savePostRepository.deleteById((String) savePost.getId(), callback);
+            if(savePost.getId() != null){
+                SavePostRepository savePostRepository = restAdapter.createRepository(SavePostRepository.class);
+                savePostRepository.deleteById((String) savePost.getId(), callback);
+            }else{
+                callback.onBefore();
+                Throwable throwable = new Throwable("Save Post id is null");
+                callback.onError(throwable);
+                callback.onFinally();
+            }
+        }else{
+            callback.onBefore();
+            Throwable throwable = new Throwable("Save Post is null");
+            callback.onError(throwable);
+            callback.onFinally();
         }
 
     }
@@ -179,11 +199,142 @@ public class CasePresenter {
         PostRepository postRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(PostRepository.class);
         HashMap<String, Object> hashMap = new HashMap<>();
         Post post = postRepository.createObject(hashMap);
+        InitNewCaseObject(post);
+    }
+
+
+    public void InitNewCaseObject(Post post){
         NewCase newCase = new NewCase(mainActivity, post);
         //Now add to Presenter interface..
         Presenter.getInstance().addModel(Constants.ADD_NEW_CASE, newCase);
     }
 
+
+
+
+    /**
+     *
+     * @param reset String saved|posted
+     */
+    public void fetchPostedPost(final String listType, boolean reset){
+        Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+        if(customer != null){
+            //Get the list ...
+            final TrackList list = trackList.get(listType);
+            if(list != null) {
+                if (reset) {
+                    list.reset();
+                }
+
+                PostRepository postRepository = restAdapter.createRepository(PostRepository.class);
+                postRepository.getPostedCases(list.getSkip(), list.getLimit(), (String) customer.getId(), new DataListCallback<Post>() {
+                    @Override
+                    public void onBefore() {
+                        if (mainActivity != null) {
+                            //Start loading bar..
+                            mainActivity.startProgressBar(circleProgressBar);
+                        }
+                    }
+
+                    @Override
+                    public void onSuccess(DataList<Post> objects) {
+                        if(objects != null){
+                            for (Post post : objects) {
+                                if (post != null) {
+                                    if (post.getPostDetails() != null) {
+                                        post.getPostDetails().addRelation(post);
+                                    }
+                                }
+                            }
+                            list.getPostDataList().addAll(objects);
+                            //Now increment skip..
+                            list.incrementSkip(objects.size());
+                        }
+                    }
+
+
+                    @Override
+                    public void onError(Throwable t) {
+                        //SHOW ERROR MESSAGE..
+                        Log.e(Constants.TAG, t.toString() + "---CasePresenter.java");
+                    }
+
+                    @Override
+                    public void onFinally() {
+                        if (mainActivity != null) {
+                            //Stop loading bar..
+                            mainActivity.stopProgressBar(circleProgressBar);
+                        }
+                    }
+                });
+            }//list != null
+        }else{
+            Log.e(Constants.TAG, "User not logged! Cannot display SavedCases List");
+        }
+    }
+
+
+    /**
+     *
+     * @param reset String saved|posted
+     */
+    public void fetchSavedPost(final String listType, boolean reset){
+        Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+        if(customer != null){
+            //Get the list ...
+            final TrackList list = trackList.get(listType);
+            if(list != null) {
+                if (reset) {
+                    list.reset();
+                }
+
+                PostRepository postRepository = restAdapter.createRepository(PostRepository.class);
+                postRepository.fetchSavedCases(list.getSkip(), list.getLimit(), (String) customer.getId(), new DataListCallback<Post>() {
+                    @Override
+                    public void onBefore() {
+                        if (mainActivity != null) {
+                            //Start loading bar..
+                            mainActivity.startProgressBar(circleProgressBar);
+                        }
+                    }
+
+                    @Override
+                    public void onSuccess(DataList<Post> objects) {
+                        if(objects != null){
+                            for (Post post : objects) {
+                                if (post != null) {
+                                    if (post.getPostDetails() != null) {
+                                        post.getPostDetails().addRelation(post);
+                                    }
+                                }
+                            }
+                            list.getPostDataList().addAll(objects);
+                            //Now increment skip..
+                            list.incrementSkip(objects.size());
+                        }
+
+                    }
+
+
+                    @Override
+                    public void onError(Throwable t) {
+                        //SHOW ERROR MESSAGE..
+                        Log.e(Constants.TAG, t.toString() + "---CasePresenter.java");
+                    }
+
+                    @Override
+                    public void onFinally() {
+                        if (mainActivity != null) {
+                            //Stop loading bar..
+                            mainActivity.stopProgressBar(circleProgressBar);
+                        }
+                    }
+                });
+            }//list != null
+        }else{
+            Log.e(Constants.TAG, "User not logged! Cannot display SavedCases List");
+        }
+    }
 
 
 
@@ -193,51 +344,56 @@ public class CasePresenter {
      *
      * @param listType String trending|unsolved|new
      */
-    public void fetchPost(String listType, boolean reset){
-
-        if(reset){
-            track.put(listType, 0.0);
-            //Clear the list..
-            postDetails.clear();
-        }
-
-        if(skip > 0){
-            track.put(listType, track.get(listType) + limit);
-            skip = skip + limit;
-        }
-
-        PostDetailRepository postDetailRepository =  restAdapter.createRepository(PostDetailRepository.class);
-        postDetailRepository.getPostDetail(track.get(listType), limit, listType, new DataListCallback<PostDetail>() {
-            @Override
-            public void onBefore() {
-                //Start loading bar..
-                mainActivity.startProgressBar(circleProgressBar);
+    public void fetchPost(final String listType, boolean reset){
+        //Get the list ...
+        final TrackList list = trackList.get(listType);
+        if(list != null){
+            if(reset){
+               list.reset();
             }
 
-            @Override
-            public void onSuccess(DataList<PostDetail> objects) {
-                //Add back refrence...
-                for(PostDetail postDetail : objects){
-                    if(postDetail != null){
-                        if(postDetail.getPost() != null){
-                            postDetail.getPost().addRelation(postDetail);
+
+            PostDetailRepository postDetailRepository =  restAdapter.createRepository(PostDetailRepository.class);
+            postDetailRepository.getPostDetail(list.getSkip(), list.getLimit(), list.getListType(), new DataListCallback<PostDetail>() {
+                @Override
+                public void onBefore() {
+                    //Start loading bar..
+                    mainActivity.startProgressBar(circleProgressBar);
+                }
+
+                @Override
+                public void onSuccess(DataList<PostDetail> objects) {
+                    if(objects != null){
+                        //Add back reference...
+                        for(PostDetail postDetail : objects){
+                            if(postDetail != null){
+                                if(postDetail.getPost() != null){
+                                    postDetail.getPost().addRelation(postDetail);
+                                }
+                            }
                         }
+
+                        list.getPostDetails().addAll(objects);
+                        //Now increment skip..
+                        list.incrementSkip(objects.size());
                     }
                 }
-                postDetails.addAll(objects);
-            }
 
-            @Override
-            public void onError(Throwable t) {
-                //SHOW ERROR MESSAGE..
-                Log.e(Constants.TAG, t.toString() + "---CasePresenter.java");
-            }
+                @Override
+                public void onError(Throwable t) {
+                    //SHOW ERROR MESSAGE..
+                    Log.e(Constants.TAG, t.toString() + "---CasePresenter.java");
+                }
 
-            @Override
-            public void onFinally() {
-                //Stop loading bar..
-                mainActivity.stopProgressBar(circleProgressBar);
-            }
-        });
+                @Override
+                public void onFinally() {
+                    //Stop loading bar..
+                    mainActivity.stopProgressBar(circleProgressBar);
+                }
+            });
+        }else{
+            Log.e(Constants.TAG, "Unknown list type"+ "---CasePresenter.java");
+        }
+
     }
 }

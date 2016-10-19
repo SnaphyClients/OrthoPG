@@ -383,6 +383,7 @@
                 }
             }
         ]
+<<<<<<< HEAD
     },
     {
         "outputFile": "E:\\Clients\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-am\\values-am.xml",
@@ -1538,5 +1539,7 @@
                 }
             }
         ]
+=======
+>>>>>>> 15149f3c5ccb9940082a414c6c6d8b09bf5ec861
     }
 ]

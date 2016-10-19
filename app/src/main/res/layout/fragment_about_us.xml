@@ -31,7 +31,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="About Us"
+        android:text=""
         android:padding="15dp"
         android:id="@+id/fragment_about_us_textview2"
         android:layout_below="@+id/fragment_about_us_textview1"/>

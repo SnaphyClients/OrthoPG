@@ -1,18 +1,6 @@
 [
     {
-        "merged": "E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\res\\merged\\release\\drawable-v23\\abc_control_background_material.xml",
-        "source": "E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable-v23\\abc_control_background_material.xml"
-    },
-    {
-        "merged": "E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\res\\merged\\release\\drawable-v23\\abc_control_background_material.xml",
-        "source": "E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable-v23\\abc_control_background_material.xml"
-    },
-    {
-        "merged": "E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\E:\\Clients\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\res\\merged\\release\\drawable-v23\\abc_control_background_material.xml",
-        "source": "E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\E:\\Clients\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable-v23\\abc_control_background_material.xml"
-    },
-    {
-        "merged": "E:\\Clients\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\res\\merged\\release\\drawable-v23\\abc_control_background_material.xml",
-        "source": "E:\\Clients\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable-v23\\abc_control_background_material.xml"
+        "merged": "/home/snaphy/snaphy_clients/OrthoPG/android/OrthoPG/snaphyandroidsdk/build/intermediates/res/merged/release/drawable-v23/abc_control_background_material.xml",
+        "source": "/home/snaphy/snaphy_clients/OrthoPG/android/OrthoPG/snaphyandroidsdk/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/drawable-v23/abc_control_background_material.xml"
     }
 ]

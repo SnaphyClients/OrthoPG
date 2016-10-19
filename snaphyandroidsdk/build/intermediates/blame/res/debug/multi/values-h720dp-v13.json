@@ -1,5 +1,6 @@
 [
     {
+<<<<<<< HEAD
         "outputFile": "E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\E:\\Clients\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-h720dp-v13\\values-h720dp-v13.xml",
         "map": [
             {
@@ -49,6 +50,9 @@
     },
     {
         "outputFile": "E:\\Clients\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-h720dp-v13\\values-h720dp-v13.xml",
+=======
+        "outputFile": "/home/snaphy/snaphy_clients/OrthoPG/android/OrthoPG/snaphyandroidsdk/build/intermediates/incremental/mergeDebugResources/merged.dir/values-h720dp-v13/values-h720dp-v13.xml",
+>>>>>>> 15149f3c5ccb9940082a414c6c6d8b09bf5ec861
         "map": [
             {
                 "to": {

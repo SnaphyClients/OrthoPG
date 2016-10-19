@@ -1,5 +1,7 @@
 package com.orthopg.snaphy.orthopg.Fragment.BooksFragment;
 
+import android.util.Log;
+
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.DataListCallback;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Book;
@@ -45,13 +47,10 @@ public class BooksPresenter {
             bookDataList.clear();
         }
 
-        if(skip > 0){
-            skip = skip + limit;
-        }
         HashMap<String, Object> filter = new HashMap<>();
         filter.put("skip", skip);
         filter.put("limit", limit);
-        //TODO ADD WHERE..
+        filter.put("order", "added DESC");
         BookRepository bookRepository =  restAdapter.createRepository(BookRepository.class);
         bookRepository.find(filter, new DataListCallback<Book>() {
             @Override
@@ -63,12 +62,18 @@ public class BooksPresenter {
             @Override
             public void onSuccess(DataList<Book> objects) {
                 super.onSuccess(objects);
-                bookDataList.addAll(objects);
+                if(objects != null){
+                    bookDataList.addAll(objects);
+
+                    //Now add skip..
+                    skip = skip + objects.size();
+                }
             }
 
             @Override
             public void onError(Throwable t) {
                 super.onError(t);
+                Log.e(Constants.TAG, t.toString());
             }
 
             @Override

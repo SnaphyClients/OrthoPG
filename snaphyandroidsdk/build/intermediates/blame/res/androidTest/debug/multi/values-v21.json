@@ -1698,6 +1698,7 @@
                 }
             }
         ]
+<<<<<<< HEAD
     },
     {
         "outputFile": "E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\E:\\Clients\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-v21\\values-v21.xml",
@@ -6798,5 +6799,7 @@
                 }
             }
         ]
+=======
+>>>>>>> 15149f3c5ccb9940082a414c6c6d8b09bf5ec861
     }
 ]

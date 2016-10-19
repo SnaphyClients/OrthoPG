@@ -364,6 +364,7 @@
                 }
             }
         ]
+<<<<<<< HEAD
     },
     {
         "outputFile": "E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-az-rAZ\\values-az-rAZ.xml",
@@ -1462,5 +1463,7 @@
                 }
             }
         ]
+=======
+>>>>>>> 15149f3c5ccb9940082a414c6c6d8b09bf5ec861
     }
 ]

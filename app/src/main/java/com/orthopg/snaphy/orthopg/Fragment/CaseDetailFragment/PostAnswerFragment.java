@@ -4,14 +4,28 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
+import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Comment;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Post;
+import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
+import com.androidsdk.snaphy.snaphyandroidsdk.repository.CommentRepository;
+import com.androidsdk.snaphy.snaphyandroidsdk.repository.PostRepository;
+import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
+import com.sdsmdg.tastytoast.TastyToast;
+import com.strongloop.android.loopback.callbacks.VoidCallback;
+
+import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -30,6 +44,9 @@ public class PostAnswerFragment extends android.support.v4.app.Fragment {
     private OnFragmentInteractionListener mListener;
     public static String TAG = "PostAnswerFragment";
     MainActivity mainActivity;
+
+    Comment comment;
+    Post post;
     @Bind(R.id.fragment_post_answer_edittext1) EditText answer;
 
     public PostAnswerFragment() {
@@ -54,14 +71,135 @@ public class PostAnswerFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_post_answer, container, false);
         ButterKnife.bind(this, view);
+
+        Post post = Presenter.getInstance().getModel(Post.class, Constants.EDIT_IN_PROCESS_COMMENT_POST_MODEL);
+        if(post != null){
+            this.post = post;
+            //Constants.EDIT_IN_PROCESS_COMMENT_POST_MODEL
+            Comment comment = Presenter.getInstance().getModel(Comment.class, Constants.EDIT_IN_PROCESS_COMMENT_MODEL);
+            if(comment == null){
+                CommentRepository commentRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(CommentRepository.class);
+                HashMap<String, Object> commentObj = new HashMap<>();
+                commentObj.put("postId", post.getId());
+                comment = commentRepository.createObject(commentObj);
+                this.comment = comment;
+            }else{
+                this.comment = comment;
+            }
+            //Now load the data in edit..model
+            loadData();
+        }
+
+
         return view;
+    }
+
+    private void loadData(){
+        if(comment != null){
+            if(comment.getAnswer() != null){
+                if(!comment.getAnswer().trim().isEmpty()){
+                    answer.setText(comment.getAnswer());
+                }
+            }
+        }
+    }
+
+
+    private void saveComment(){
+        String commentAnswer = answer.getText().toString();
+        if(commentAnswer != null){
+          if(!commentAnswer.trim().isEmpty()){
+            comment.setAnswer(commentAnswer.trim());
+              //Now save comment..
+              if(comment.getId() != null){
+                  CommentRepository commentRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(CommentRepository.class);
+                  HashMap<String, Object> commentObj = new HashMap<>();
+                  commentObj.put("answer", comment.getAnswer());
+                  commentRepository.updateAttributes((String) comment.getId(), commentObj, new ObjectCallback<Comment>() {
+                      @Override
+                      public void onBefore() {
+                          //TODO:SHOW LOADING BAR
+                      }
+
+                      @Override
+                      public void onSuccess(Comment object) {
+                          //TODO: ADD TO LIST..
+                          //TODO: NOTIFY CHANGES TO LIST
+                          mainActivity.onBackPressed();
+                      }
+
+                      @Override
+                      public void onError(Throwable t) {
+                          Log.e(Constants.TAG, t.toString());
+                          TastyToast.makeText(mainActivity.getApplicationContext(), Constants.CASE_UPLOAD_ERROR, TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+                      }
+
+                      @Override
+                      public void onFinally() {
+                          //TODO: STOP LOADING BAR
+                      }
+                  });
+              }else{
+                  CommentRepository commentRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(CommentRepository.class);
+                  HashMap<String, Object> commentObj = new HashMap<>();
+                  commentObj.put("postId", post.getId());
+                  final Customer loginCustomer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+                  if(loginCustomer != null){
+                      commentObj.put("customerId", loginCustomer.getId());
+                  }
+                  commentObj.put("answer", comment.getAnswer());
+                  commentRepository.create(commentObj, new ObjectCallback<Comment>() {
+                      @Override
+                      public void onBefore() {
+                          //TODO:SHOW LOADING BAR
+                      }
+
+                      @Override
+                      public void onSuccess(Comment object) {
+                          object.addRelation(loginCustomer);
+                          object.addRelation(post);
+                          DataList<String> exceptIdNewAnswerList = Presenter.getInstance().getModel(DataList.class, Constants.EXCEPTED_NEW_ANSWER_LIST);
+                          if(exceptIdNewAnswerList !=  null){
+                              if(object != null){
+                                  exceptIdNewAnswerList.add((String)object.getId());
+                              }
+                          }
+
+                          //Now add comment to top of the list..
+                          if(post != null){
+                              if(post.getComments() == null){
+                                  post.setComments(new DataList<Comment>());
+                              }
+                              post.getComments().add(0, object);
+                          }
+                          mainActivity.onBackPressed();
+                      }
+
+                      @Override
+                      public void onError(Throwable t) {
+                          Log.e(Constants.TAG, t.toString());
+                          TastyToast.makeText(mainActivity.getApplicationContext(), Constants.CASE_UPLOAD_ERROR, TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+                      }
+
+                      @Override
+                      public void onFinally() {
+                          //TODO: STOP LOADING BAR
+
+                      }
+                  });
+              }
+          }else{
+              TastyToast.makeText(mainActivity.getApplicationContext(), Constants.BLANK_COMMENT_ERROR, TastyToast.LENGTH_SHORT, TastyToast.WARNING);
+          }
+        }
     }
 
     @OnClick(R.id.fragment_post_answer_button1) void postButton() {
         InputMethodManager imm = (InputMethodManager)mainActivity.getSystemService(
                 Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(answer.getWindowToken(), 0);
-        mainActivity.onBackPressed();
+        saveComment();
+
     }
 
     @OnClick(R.id.fragment_post_answer_image_button1) void crossButton() {
@@ -94,6 +232,14 @@ public class PostAnswerFragment extends android.support.v4.app.Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        //Remove  both model..
+        Presenter.getInstance().removeModelFromList(Constants.EDIT_IN_PROCESS_COMMENT_POST_MODEL);
+        Presenter.getInstance().removeModelFromList(Constants.EDIT_IN_PROCESS_COMMENT_MODEL);
     }
 
     /**

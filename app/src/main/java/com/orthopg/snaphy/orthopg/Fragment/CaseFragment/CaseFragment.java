@@ -16,12 +16,19 @@ import android.widget.Button;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.Listen;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Post;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.PostDetail;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.orthopg.snaphy.orthopg.Constants;
+import com.orthopg.snaphy.orthopg.CustomModel.TrackList;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
+import com.sdsmdg.tastytoast.TastyToast;
+import com.strongloop.android.loopback.callbacks.VoidCallback;
+
+import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -43,10 +50,10 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
     LinearLayoutManager linearLayoutManager;
     CaseListAdapter caseListAdapter;
-    MainActivity mainActivity;;
+    MainActivity mainActivity;
     public static String TAG = "CaseFragment";
     CasePresenter casePresenter;
-    DataList<PostDetail> postDetails;
+    HashMap<String, TrackList> trackList;
 
     boolean isTrendingSelected = true;
     boolean isNewSelected = false;
@@ -65,8 +72,8 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.fragment_case_button1) Button trendingButton;
     @Bind(R.id.fragment_case_button2) Button newCaseButton;
     @Bind(R.id.fragment_case_button3) Button unsolvedCaseButton;
-    @Bind(R.id.fragment_case_button6) Button postedCaseButton;
-    @Bind(R.id.fragment_case_button5) Button savedCaseButton;
+    @Bind(R.id.fragment_case_button5) Button postedCaseButton;
+    @Bind(R.id.fragment_case_button6) Button savedCaseButton;
 
     public CaseFragment() {
         // Required empty public constructor
@@ -79,6 +86,8 @@ public class CaseFragment extends android.support.v4.app.Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        //Default selecting trending option first..
+        Constants.SELECTED_TAB = Constants.TRENDING;
         super.onCreate(savedInstanceState);
     }
 
@@ -93,9 +102,13 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         swipeRefreshLayoutListener();
         loadPresenter();
-        //recyclerViewLoadMoreEventData();
+        recyclerViewLoadMoreEventData();
+
         return view;
     }
+
+
+
 
     public void swipeRefreshLayoutListener() {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -115,11 +128,11 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                 }
 
                 if(isSavedSelected) {
-
+                    casePresenter.fetchSavedPost(Constants.SAVED, true);
                 }
 
                 if(isPostedSelected) {
-
+                    casePresenter.fetchPostedPost(Constants.POSTED, true);
                 }
 
 
@@ -129,25 +142,33 @@ public class CaseFragment extends android.support.v4.app.Fragment {
 
     @OnClick(R.id.fragment_case_button1) void trendingButtonClick() {
         changeButtonColor(true, false, false, false, false);
+        Constants.SELECTED_TAB = Constants.TRENDING;
         casePresenter.fetchPost(Constants.TRENDING, true);
     }
 
     @OnClick(R.id.fragment_case_button2) void newButtonClick() {
         changeButtonColor(false, true, false, false, false);
+        Constants.SELECTED_TAB = Constants.LATEST;
         casePresenter.fetchPost(Constants.LATEST, true);
+
     }
 
     @OnClick(R.id.fragment_case_button3) void unsolvedButtonClick() {
         changeButtonColor(false, false, true, false, false);
+        Constants.SELECTED_TAB = Constants.UNSOLVED;
         casePresenter.fetchPost(Constants.UNSOLVED, true);
     }
 
-    @OnClick(R.id.fragment_case_button5) void savedButtonClick() {
+    @OnClick(R.id.fragment_case_button6) void savedButtonClick() {
         changeButtonColor(false, false, false, true, false);
+        Constants.SELECTED_TAB = Constants.SAVED;
+        casePresenter.fetchSavedPost(Constants.SAVED, true);
     }
 
-    @OnClick(R.id.fragment_case_button6) void postedButtonClick() {
+    @OnClick(R.id.fragment_case_button5) void postedButtonClick() {
         changeButtonColor(false, false, false, false, true);
+        Constants.SELECTED_TAB = Constants.POSTED;
+        casePresenter.fetchPostedPost(Constants.POSTED, true);
     }
 
     public void recyclerViewLoadMoreEventData() {
@@ -188,6 +209,15 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                         if(isUnsolvedSelected) {
                             casePresenter.fetchPost(Constants.UNSOLVED, false);
                         }
+
+                        if(isPostedSelected){
+                            casePresenter.fetchPostedPost(Constants.POSTED, false);
+                        }
+
+                        if(isSavedSelected){
+                            casePresenter.fetchSavedPost(Constants.SAVED, false);
+                        }
+
                         loading = true;
                     }
                 }
@@ -195,41 +225,171 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         });
     }
 
-
+    //Create all lists..
     private void loadPresenter(){
+        //Trending list..
         casePresenter = new CasePresenter(mainActivity.snaphyHelper.getLoopBackAdapter(), progressBar, mainActivity);
         Presenter.getInstance().addModel(Constants.CASE_PRESENTER_ID, casePresenter);
-        postDetails = Presenter.getInstance().getList(PostDetail.class, Constants.POST_DETAIL_LIST_CASE_FRAGMENT);
+        trackList = Presenter.getInstance().getModel(HashMap.class, Constants.LIST_CASE_FRAGMENT);
+        unsubscribeAll();
+        trackList.clear();
+        caseListAdapter = new CaseListAdapter(mainActivity, trackList, TAG, casePresenter);
+        recyclerView.setAdapter(caseListAdapter);
+
+        if(trackList.get(Constants.TRENDING) == null){
+            TrackList trendingListData = new TrackList(Constants.TRENDING);
+            trackList.put(Constants.TRENDING, trendingListData);
+
+
+            trendingListData.getPostDetails().subscribe(this, new Listen<PostDetail>() {
+                @Override
+                public void onInit(DataList<PostDetail> dataList) {
+                    caseListAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onChange(DataList<PostDetail> dataList) {
+                    super.onChange(dataList);
+                    swipeRefreshLayout.setRefreshing(false);
+                    caseListAdapter.notifyDataSetChanged();
+
+                }
+            });
+
+
+        }
+
+        if(trackList.get(Constants.LATEST) == null){
+            TrackList latestListData = new TrackList(Constants.LATEST);
+            trackList.put(Constants.LATEST, latestListData);
+
+
+            latestListData.getPostDetails().subscribe(this, new Listen<PostDetail>() {
+                @Override
+                public void onInit(DataList<PostDetail> dataList) {
+                    caseListAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onChange(DataList<PostDetail> dataList) {
+                    super.onChange(dataList);
+                    swipeRefreshLayout.setRefreshing(false);
+                    caseListAdapter.notifyDataSetChanged();
+
+                }
+            });
+
+
+        }
+
+
+        if(trackList.get(Constants.UNSOLVED) == null){
+            TrackList unsolvedListData = new TrackList(Constants.UNSOLVED);
+            trackList.put(Constants.UNSOLVED, unsolvedListData);
+
+
+            unsolvedListData.getPostDetails().subscribe(this, new Listen<PostDetail>() {
+                @Override
+                public void onInit(DataList<PostDetail> dataList) {
+                    caseListAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onChange(DataList<PostDetail> dataList) {
+                    super.onChange(dataList);
+                    swipeRefreshLayout.setRefreshing(false);
+                    caseListAdapter.notifyDataSetChanged();
+
+                }
+            });
+
+
+        }
+
+
+        if(trackList.get(Constants.SAVED) == null){
+            TrackList savedListData = new TrackList(Constants.SAVED);
+            trackList.put(Constants.SAVED, savedListData);
+
+
+            savedListData.getPostDataList().subscribe(this, new Listen<Post>() {
+                @Override
+                public void onInit(DataList<Post> dataList) {
+                    caseListAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onChange(DataList<Post> dataList) {
+                    super.onChange(dataList);
+                    swipeRefreshLayout.setRefreshing(false);
+                    caseListAdapter.notifyDataSetChanged();
+
+                }
+            });
+
+
+        }
+
+        if(trackList.get(Constants.POSTED) == null){
+            TrackList postedListData = new TrackList(Constants.POSTED);
+            trackList.put(Constants.POSTED, postedListData);
+
+
+            postedListData.getPostDataList().subscribe(this, new Listen<Post>() {
+                @Override
+                public void onInit(DataList<Post> dataList) {
+                    //swipeRefreshLayout.setRefreshing(false);
+                    caseListAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onChange(DataList<Post> dataList) {
+                    super.onChange(dataList);
+                    //swipeRefreshLayout.setRefreshing(false);
+                    caseListAdapter.notifyDataSetChanged();
+
+                }
+
+                @Override
+                public void onClear() {
+                    //swipeRefreshLayout.setRefreshing(false);
+                    caseListAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onRemove(final Post element, int index, final DataList<Post> dataList) {
+                    super.onRemove(element, index, dataList);
+                    caseListAdapter.notifyDataSetChanged();
+                    element.destroy(new VoidCallback() {
+                        @Override
+                        public void onSuccess() {
+                            if(mainActivity != null){
+                                TastyToast.makeText(mainActivity.getApplicationContext(), Constants.DELETE_SUCCESS_POST, TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable t) {
+                            dataList.add(element);
+                            caseListAdapter.notifyDataSetChanged();
+                            if(mainActivity != null){
+                                TastyToast.makeText(mainActivity.getApplicationContext(), Constants.DELETE_ERROR_POST, TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+                            }
+
+                        }
+                    });
+                }
+
+            });
+
+        }
+
+
         //By default fetch the trending list..
         trendingButtonClick();
-        postDetails.subscribe(this, new Listen<PostDetail>() {
-            @Override
-            public void onInit(DataList<PostDetail> dataList) {
-                super.onInit(dataList);
-                caseListAdapter = new CaseListAdapter(mainActivity, dataList, TAG, casePresenter);
-                recyclerView.setAdapter(caseListAdapter);
-            }
-
-            @Override
-            public void onChange(DataList<PostDetail> dataList) {
-                super.onChange(dataList);
-                swipeRefreshLayout.setRefreshing(false);
-                caseListAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onClear() {
-                super.onClear();
-                caseListAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onRemove(PostDetail element, DataList<PostDetail> dataList) {
-                super.onRemove(element, dataList);
-            }
-        });
     }
+
+
 
 
 
@@ -309,11 +469,38 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         mListener = null;
     }
 
+    private void unsubscribeAll(){
+        HashMap<String, TrackList> trackList = Presenter.getInstance().getModel(HashMap.class, Constants.LIST_CASE_FRAGMENT);
+        if(trackList != null){
+            if(trackList.get(Constants.TRENDING) != null){
+                trackList.get(Constants.TRENDING).getPostDetails().unsubscribe(this);
+            }
+            if(trackList.get(Constants.LATEST) != null){
+                trackList.get(Constants.LATEST).getPostDetails().unsubscribe(this);
+            }
+
+            if(trackList.get(Constants.UNSOLVED) != null){
+                trackList.get(Constants.UNSOLVED).getPostDetails().unsubscribe(this);
+            }
+
+            if(trackList.get(Constants.POSTED) != null){
+                trackList.get(Constants.POSTED).getPostDataList().unsubscribe(this);
+            }
+
+            if(trackList.get(Constants.SAVED) != null){
+                trackList.get(Constants.SAVED).getPostDataList().unsubscribe(this);
+            }
+
+
+        }
+        Presenter.getInstance().removeFromList(Constants.LIST_CASE_FRAGMENT);
+    }
+
+
     @Override
     public void onDestroy(){
         super.onDestroy();
-        postDetails.unsubscribe(this);
-        Presenter.getInstance().removeFromList(Constants.POST_DETAIL_LIST_CASE_FRAGMENT);
+        unsubscribeAll();
     }
 
     /**
