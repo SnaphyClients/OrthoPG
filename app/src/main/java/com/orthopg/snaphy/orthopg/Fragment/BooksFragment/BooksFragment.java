@@ -40,6 +40,13 @@ public class BooksFragment extends android.support.v4.app.Fragment {
     MainActivity mainActivity;
     DataList<Book> bookDataList;
     BooksPresenter booksPresenter;
+    /*Infinite Loading dataset*/
+    private int previousTotal = 0;
+    private boolean loading = true;
+    private int visibleThreshold = 3;
+    int firstVisibleItem, visibleItemCount, totalItemCount;
+    /*Infinite Loading data set*/
+
     public BooksFragment() {
         // Required empty public constructor
     }
@@ -64,8 +71,8 @@ public class BooksFragment extends android.support.v4.app.Fragment {
         recyclerView.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
-
         loadPresenter();
+        recyclerViewLoadMoreEventData();
         return view;
     }
 
@@ -111,6 +118,42 @@ public class BooksFragment extends android.support.v4.app.Fragment {
         }
     }
 
+    public void recyclerViewLoadMoreEventData() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (dy > 0) {
+                    visibleItemCount = recyclerView.getChildCount();
+                    totalItemCount = linearLayoutManager.getItemCount();
+                    firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+
+                    if (loading) {
+                        if (totalItemCount > previousTotal) {
+                            loading = false;
+                            previousTotal = totalItemCount;
+                        }
+                    }
+                    if (!loading && (totalItemCount - visibleItemCount)
+                            <= (firstVisibleItem + visibleThreshold)) {
+                        //Fetch more data here
+                        //EventBus.getDefault().post(TrackCollection.progressBar, Constants.REQUEST_LOAD_MORE_EVENT_FROM_HOME_FRAGMENT);
+                        // Refresh Items here
+                        booksPresenter.fetchBooks(false);
+                        loading = true;
+                    }
+                }
+            }
+        });
+    }
+
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -128,6 +171,7 @@ public class BooksFragment extends android.support.v4.app.Fragment {
         super.onDetach();
         mListener = null;
     }
+
 
     /**
      * This interface must be implemented by activities that contain this

@@ -23,9 +23,6 @@ import com.orthopg.snaphy.orthopg.R;
 import com.orthopg.snaphy.orthopg.RecyclerItemClickListener;
 import com.sdsmdg.tastytoast.TastyToast;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -47,6 +44,13 @@ public class NewsFragment extends android.support.v4.app.Fragment {
     MainActivity mainActivity;
     NewsPresenter newsPresenter;
     DataList<News> newsDataList;
+
+    /*Infinite Loading dataset*/
+    private int previousTotal = 0;
+    private boolean loading = true;
+    private int visibleThreshold = 3;
+    int firstVisibleItem, visibleItemCount, totalItemCount;
+    /*Infinite Loading data set*/
 
     public NewsFragment() {
         // Required empty public constructor
@@ -72,6 +76,7 @@ public class NewsFragment extends android.support.v4.app.Fragment {
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
         loadPresenter();
+        recyclerViewLoadMoreEventData();
 
         final Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
         if(customer != null){
@@ -130,6 +135,41 @@ public class NewsFragment extends android.support.v4.app.Fragment {
         });
 
         newsPresenter.fetchNews(true);
+    }
+
+    public void recyclerViewLoadMoreEventData() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (dy > 0) {
+                    visibleItemCount = recyclerView.getChildCount();
+                    totalItemCount = staggeredGridLayoutManager.getItemCount();
+                    firstVisibleItem = staggeredGridLayoutManager.findFirstVisibleItemPositions(null)[0];
+
+                    if (loading) {
+                        if (totalItemCount > previousTotal) {
+                            loading = false;
+                            previousTotal = totalItemCount;
+                        }
+                    }
+                    if (!loading && (totalItemCount - visibleItemCount)
+                            <= (firstVisibleItem + visibleThreshold)) {
+                        //Fetch more data here
+                        //EventBus.getDefault().post(TrackCollection.progressBar, Constants.REQUEST_LOAD_MORE_EVENT_FROM_HOME_FRAGMENT);
+                        // Refresh Items here
+                        newsPresenter.fetchNews(false);
+                        loading = true;
+                    }
+                }
+            }
+        });
     }
 
 

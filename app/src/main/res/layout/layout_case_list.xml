@@ -49,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingTop="12dp">
+            android:paddingTop="10dp">
 
             <TextView
                 android:id="@+id/layout_case_list_textview2"
@@ -79,24 +79,25 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right|center"
             android:gravity="right"
-            android:paddingTop="5dp">
+            android:paddingTop="8dp">
 
-        <TextView
-            android:id="@+id/layout_case_list_textview5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="case"
-            android:layout_marginTop="0dp"
-            android:background="@drawable/curved_rectangle"
-            android:textColor="@color/primary"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:paddingTop="3dp"
-            android:paddingBottom="4dp"/>
+            <TextView
+                android:id="@+id/layout_case_list_textview5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="case as"
+                android:layout_marginTop="0dp"
+                android:background="@drawable/curved_rectangle"
+                android:textColor="@color/primary"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:gravity="center"
+                android:textSize="10sp"
+                android:layout_gravity="center"
+                android:paddingTop="3dp"
+                android:paddingBottom="4dp"/>
 
-            </LinearLayout>
+        </LinearLayout>
 
     </LinearLayout>
 

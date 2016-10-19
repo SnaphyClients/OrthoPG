@@ -1,17 +1,12 @@
 package com.orthopg.snaphy.orthopg.Fragment.CaseDetailFragment;
 
-import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,7 +22,6 @@ import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 
 import java.util.HashMap;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -162,7 +156,24 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
                         public void onClick(View v) {
                             //TODO: ASK FOR DIALOG..
                             //Remove the comment from list..
-                            post.getComments().remove(comment);
+                            new AlertDialog.Builder(mainActivity)
+                                    .setMessage("Delete this comment?")
+                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            // continue with delete
+                                            post.getComments().remove(comment);
+                                            dialog.cancel();
+                                        }
+                                    })
+                                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            // do nothing
+                                            dialog.cancel();
+                                        }
+                                    })
+                                    .setIcon(android.R.drawable.ic_dialog_alert)
+                                    .show();
+
 
 
                         }
