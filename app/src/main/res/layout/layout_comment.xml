@@ -34,7 +34,7 @@
             android:id="@+id/layout_comment_textview1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Aadish Surana"
+            android:text=""
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold"
             android:paddingTop="0dp"
@@ -97,7 +97,7 @@
         android:textSize="12sp"
         android:paddingRight="30dp"
         android:paddingLeft="30dp"
-        android:text="There was a radial tear of the lateral meniscus in the white-white zone which required partial meniscectomy. "/>
+        android:text=""/>
 
     <View
         android:layout_width="match_parent"

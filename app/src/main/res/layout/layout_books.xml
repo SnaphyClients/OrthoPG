@@ -30,7 +30,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="The Doctor in War"
+        android:text=""
         android:textColor="@color/black"
         android:textSize="17sp"
         android:textStyle="bold"
@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="2dp"
         android:textSize="12sp"
-        android:text="The War Doctor is an incarnation of the Doctor,[6] the protagonist of the BBC science fiction television programme Doctor Who. He is portrayed by English actor John Hurt."/>
+        android:text=""/>
 
     <Button
         android:id="@+id/layout_book_button1"

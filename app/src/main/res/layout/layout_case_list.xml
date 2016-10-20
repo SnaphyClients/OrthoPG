@@ -35,7 +35,7 @@
             android:textSize="15sp"
             android:paddingLeft="5dp"
             android:paddingTop="4dp"
-            android:text="Medical Epicondylitis (Golfer's and Baseball Elbow)"/>
+            android:text=""/>
 
     </LinearLayout>
 
@@ -70,7 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
-                android:text="9 hours ago"/>
+                android:text=""/>
 
         </LinearLayout>
 
@@ -85,7 +85,7 @@
                 android:id="@+id/layout_case_list_textview5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="case as"
+                android:text=""
                 android:layout_marginTop="0dp"
                 android:background="@drawable/curved_rectangle"
                 android:textColor="@color/primary"
@@ -121,7 +121,7 @@
         android:layout_marginTop="12dp"
         android:textSize="12sp"
         android:maxLength="256"
-        android:text="This patient underwent a diagnostic arthro.The patellofemoral comparment, medial gutter,and medial meniscus were normal. "/>
+        android:text=""/>
 
 
     </LinearLayout>
@@ -225,7 +225,7 @@
                         android:id="@+id/layout_case_list_textview9"
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
-                        android:text="5"
+                        android:text="0"
                         android:gravity="center_vertical"
                         android:paddingLeft="7dp"
                         android:paddingRight="7dp"
@@ -293,7 +293,7 @@
                        android:id="@+id/layout_case_list_textview8"
                        android:layout_width="wrap_content"
                        android:layout_height="20dp"
-                       android:text="5"
+                       android:text="0"
                        android:textSize="14sp"
                        android:textColor="@color/headingColor"
                        android:layout_gravity="center_vertical"
@@ -328,7 +328,7 @@
             android:id="@+id/layout_case_list_textview6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Aadish Surana"
+            android:text=""
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold"
             android:paddingTop="3dp"
@@ -343,7 +343,7 @@
         android:layout_height="wrap_content"
         android:textSize="12sp"
         android:layout_marginTop="7dp"
-        android:text="There was a radial tear of the lateral meniscus in the white-white zone which required partial meniscectomy. "/>
+        android:text=""/>
 
     <View
         android:layout_width="wrap_content"

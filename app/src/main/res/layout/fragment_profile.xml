@@ -97,7 +97,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="8dp"
             android:layout_gravity="right"
             android:layout_alignParentRight="true"
             android:id="@+id/fragment_profile_linear_layout1">
@@ -107,10 +107,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Logout"
-                android:padding="15dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="7dp"
+                android:paddingTop="7dp"
                 android:textStyle="bold"
                 android:layout_marginRight="15dp"
                 android:layout_gravity="right"
+                android:background="@drawable/curved_rectangle_danger"
                 android:gravity="right"
                 android:textColor="@color/loginButton"/>
 
@@ -154,7 +158,7 @@
                     android:id="@+id/fragment_profile_textview2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ravigupta9363@gmail.com"
+                    android:text=""
                     android:textColor="@color/buttonColor"
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="10dp"/>
@@ -178,7 +182,7 @@
                         android:id="@+id/fragment_profile_textview3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="DC2/256/145"
+                        android:text=""
                         android:textColor="@color/buttonColor"
                         android:layout_marginTop="2dp"
                         android:gravity="center"
@@ -234,7 +238,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ravi Gupta"
+            android:text=""
             android:id="@+id/fragment_profile_textview5"
             android:textColor="@color/buttonColor"
             android:layout_marginLeft="35dp"
