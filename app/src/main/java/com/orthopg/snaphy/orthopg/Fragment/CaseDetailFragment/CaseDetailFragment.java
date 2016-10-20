@@ -1,8 +1,9 @@
 package com.orthopg.snaphy.orthopg.Fragment.CaseDetailFragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -43,23 +43,16 @@ import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 import com.orthopg.snaphy.orthopg.RecyclerItemClickListener;
 import com.sdsmdg.tastytoast.TastyToast;
-import com.strongloop.android.loopback.callbacks.VoidCallback;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
-
-import static android.R.attr.name;
-import static android.media.CamcorderProfile.get;
-import static com.orthopg.snaphy.orthopg.R.mipmap.like;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -235,7 +228,10 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         }
     }
 
+    @SuppressLint("NewApi")
     public void loadPost(){
+        Typeface font = Typeface.createFromAsset(mainActivity.getAssets(), "fonts/OpenSans-Regular.ttf");
+        Typeface font_bold = Typeface.createFromAsset(mainActivity.getAssets(), "fonts/OpenSans-Bold.ttf");
         if(post == null){
             return;
         }
@@ -243,6 +239,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         casePresenter = Presenter.getInstance().getModel(CasePresenter.class, Constants.CASE_PRESENTER_ID);
 
         caseHeading.setText(post.getHeading());
+        caseHeading.setTypeface(font_bold);
         String name1 = mainActivity.snaphyHelper.getName(post.getCustomer().getFirstName(), post.getCustomer().getLastName());
         if(!name1.isEmpty()){
             name1 = Constants.Doctor + name1.replace("^[Dd][Rr]", "");
@@ -295,6 +292,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
             if (!post.getDescription().isEmpty()) {
                 description.setVisibility(View.VISIBLE);
                 description.setText(post.getDescription());
+                description.setTypeface(font);
             } else {
                 description.setVisibility(View.GONE);
             }

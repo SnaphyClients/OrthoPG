@@ -1,7 +1,9 @@
 package com.orthopg.snaphy.orthopg.Fragment.CaseFragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,8 +28,6 @@ import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.CustomModel.TrackList;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
-import com.sdsmdg.tastytoast.TastyToast;
-import com.strongloop.android.loopback.callbacks.VoidCallback;
 
 import org.json.JSONObject;
 
@@ -36,10 +35,6 @@ import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-
-import static android.R.attr.name;
-import static com.orthopg.snaphy.orthopg.R.id.imageView;
-import static com.orthopg.snaphy.orthopg.R.mipmap.like;
 
 /**
  * Created by Ravi-Gupta on 9/21/2016.
@@ -102,12 +97,14 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
 
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         //get the list..
         final TrackList trackListItem = trackList.get(Constants.SELECTED_TAB);
 
-
+        Typeface font = Typeface.createFromAsset(mainActivity.getAssets(), "fonts/OpenSans-Regular.ttf");
+        Typeface font_bold = Typeface.createFromAsset(mainActivity.getAssets(), "fonts/OpenSans-Bold.ttf");
 
         if(trackListItem != null) {
             final Data data = new Data(trackListItem, position);
@@ -143,6 +140,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
 
 
             if (!data.post.getHeading().isEmpty()) {
+                caseHeading.setTypeface(font_bold);
                 caseHeading.setText(data.post.getHeading());
             }
 
@@ -188,6 +186,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
             if (data.post.getDescription() != null) {
                 if (!data.post.getDescription().isEmpty()) {
                     caseDescription.setVisibility(View.VISIBLE);
+                    caseDescription.setTypeface(font);
                     caseDescription.setText(data.post.getDescription() + "...");
                 } else {
                     caseDescription.setVisibility(View.GONE);

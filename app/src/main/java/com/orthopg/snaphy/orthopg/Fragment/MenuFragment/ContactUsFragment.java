@@ -1,6 +1,7 @@
 package com.orthopg.snaphy.orthopg.Fragment.MenuFragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 
@@ -51,20 +53,20 @@ public class ContactUsFragment extends android.support.v4.app.Fragment {
         return view;
     }
 
-    /*@OnClick( R.id.fragment_contact_button1) void contactButton() {
+    @OnClick( R.id.fragment_contact_us_button2) void contactButton() {
         Intent callIntent = new Intent(Intent.ACTION_DIAL);
         callIntent.setData(Uri.parse(Constants.APP_PHONE));
         startActivity(callIntent);
     }
 
-    @OnClick (R.id.fragment_contact_button2) void emailButton()  {
+    @OnClick (R.id.fragment_contact_us_button1) void emailButton()  {
 
         Intent sendIntent = new Intent(Intent.ACTION_VIEW);
         sendIntent.setType("plain/text");
         sendIntent.setData(Uri.parse("mailto:" + Constants.APP_MAIL));
         sendIntent.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
         startActivity(sendIntent);
-    }*/
+    }
 
     @OnClick(R.id.fragment_contact_us_image_button1) void backButton() {
         mainActivity.onBackPressed();

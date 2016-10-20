@@ -1,7 +1,9 @@
 package com.orthopg.snaphy.orthopg.Fragment.CaseDetailFragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -85,7 +87,7 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
         final TextView answer = holder.answer;
         TextView editComment = holder.editComment;
         TextView deleteComment = holder.deleteComment;
-        LinearLayout linearLayout = holder.linearLayout;
+        final LinearLayout linearLayout = holder.linearLayout;
 
         //Add isSelected tab.
         commentState.setIsSelected(isSelected);
@@ -101,18 +103,31 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
 
                         //Also add the click listener..
                         isSelected.setOnClickListener(new View.OnClickListener() {
+                            @SuppressLint("NewApi")
                             @Override
                             public void onClick(View v) {
                                 if(commentState.isState()){
                                     //Remove accepted answer...
                                     //Display the accept answer option..
                                     isSelected.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.unselected));
+                                    final int sdk = android.os.Build.VERSION.SDK_INT;
+                                    if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                                        linearLayout.setBackgroundDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.default_curved_rectangle));
+                                    } else {
+                                        linearLayout.setBackground(ContextCompat.getDrawable(mainActivity, R.drawable.default_curved_rectangle));
+                                    }
                                     //Remove the answer..
                                     caseDetailPresenter.acceptAnswer((String)post.getId(), (String) comment.getId(), false);
                                     //Reload the case presenter after the ..load..
                                 }else{
                                     //ACCEPT ANSWER
                                     isSelected.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.selected));
+                                    final int sdk = android.os.Build.VERSION.SDK_INT;
+                                    if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                                        linearLayout.setBackgroundDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.like_save_curved_rectangle));
+                                    } else {
+                                        linearLayout.setBackground(ContextCompat.getDrawable(mainActivity, R.drawable.like_save_curved_rectangle));
+                                    }
                                     caseDetailPresenter.acceptAnswer((String)post.getId(), (String) comment.getId(), true);
                                 }
 
@@ -154,7 +169,7 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
                     deleteComment.setOnClickListener(new View.OnClickListener(){
                         @Override
                         public void onClick(View v) {
-                            //TODO: ASK FOR DIALOG..
+                            //ASK FOR DIALOG..
                             //Remove the comment from list..
                             new AlertDialog.Builder(mainActivity)
                                     .setMessage("Delete this comment?")

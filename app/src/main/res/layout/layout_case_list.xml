@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="15sp"
             android:paddingLeft="5dp"
             android:paddingTop="4dp"
             android:text="Medical Epicondylitis (Golfer's and Baseball Elbow)"/>

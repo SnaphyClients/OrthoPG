@@ -2,6 +2,7 @@ package com.orthopg.snaphy.orthopg.Fragment.BooksFragment;
 
 import android.app.DownloadManager;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -58,6 +59,8 @@ public class BooksListAdapter extends RecyclerView.Adapter<BooksListAdapter.View
         TextView bookName = holder.bookName;
         TextView bookDescription = holder.booksDescription;
         Button downloadBook = holder.downloadBook;
+        Typeface font = Typeface.createFromAsset(mainActivity.getAssets(), "fonts/OpenSans-Regular.ttf");
+
         if(booksModel.getFrontCover() != null){
             frontCover.setVisibility(View.VISIBLE);
             mainActivity.snaphyHelper.loadUnsignedUrl(booksModel.getFrontCover(), frontCover );
@@ -76,6 +79,7 @@ public class BooksListAdapter extends RecyclerView.Adapter<BooksListAdapter.View
         }
 
         if(booksModel.getDescription()!= null){
+            bookDescription.setTypeface(font);
             bookDescription.setText(booksModel.getDescription());
         }
 

@@ -17,10 +17,93 @@
 
 
     <TextView
-        android:layout_below="@+id/fragment_contact_us_image_button1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:padding="15dp"
-        android:text="Contact Us" />
+        android:text="Need any help?"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginTop="7dp"
+        android:layout_marginLeft="5dp"
+        android:textColor="#999"
+        android:id="@+id/fragment_contact_us_text_view1"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="50dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/help"
+            android:visibility="gone"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/fragment_contact_us_help"
+            android:layout_marginBottom="25dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:layout_centerHorizontal="true"
+            android:text="Write us at"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#777"
+            android:layout_below="@+id/fragment_contact_us_help"
+            android:id="@+id/fragment_contact_us_text_view_2"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="Email"
+            android:background="@drawable/curved_rectangle"
+            android:layout_below="@+id/fragment_contact_us_text_view_2"
+            android:id="@+id/fragment_contact_us_button1"
+            android:textColor="@color/colorPrimary"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:layout_below="@+id/fragment_contact_us_button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Or"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#777"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:id="@+id/fragment_contact_us_text_view_5"/>
+
+        <TextView
+            android:layout_below="@+id/fragment_contact_us_text_view_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="Call us at"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#777"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:id="@+id/fragment_contact_us_text_view_3"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="Contact us"
+            android:layout_below="@+id/fragment_contact_us_text_view_3"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/curved_rectangle"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:id="@+id/fragment_contact_us_button2"
+            android:textColor="@color/colorPrimary"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>

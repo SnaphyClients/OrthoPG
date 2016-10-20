@@ -1,7 +1,9 @@
 package com.orthopg.snaphy.orthopg.Fragment.NewsFragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -44,6 +46,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ViewHo
         return viewHolder;
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         News news = newsDataList.get(position);
@@ -51,6 +54,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ViewHo
         TextView heading = holder.heading;
         TextView description = holder.description;
         TextView tag = holder.tag;
+        Typeface font = Typeface.createFromAsset(mainActivity.getAssets(), "fonts/OpenSans-Regular.ttf");
 
         if(news.getImage() != null){
             mainActivity.snaphyHelper.loadUnsignedUrl(news.getImage(), image);
@@ -64,6 +68,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ViewHo
 
         if(news.getDescription() != null) {
             if(!news.getDescription().isEmpty()) {
+                description.setTypeface(font);
                 description.setText(news.getDescription());
             }
         }

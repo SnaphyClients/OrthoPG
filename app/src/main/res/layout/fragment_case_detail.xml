@@ -174,10 +174,18 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="45dp"/>
 
+    <com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:id="@+id/fragment_case_progressBar"
+        android:layout_centerInParent="true"
+        app:mlpb_progress_stoke_width="3dp"
+        app:mlpb_progress_color="#566da9"/>
+
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/linearLayout2"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
@@ -241,7 +249,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="15sp"
             android:paddingLeft="5dp"
             android:paddingTop="4dp"
             android:text=""/>
@@ -304,6 +312,7 @@
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
             android:paddingTop="3dp"
+            android:textSize="10sp"
             android:paddingBottom="5dp"
             android:layout_gravity="right|center"
             android:gravity="right"/>
@@ -409,13 +418,5 @@
         </android.support.v4.widget.NestedScrollView>
 
     </android.support.design.widget.CoordinatorLayout>
-
-    <com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:id="@+id/fragment_case_progressBar"
-        android:layout_centerInParent="true"
-        app:mlpb_progress_stoke_width="3dp"
-        app:mlpb_progress_color="#566da9"/>
 
 </RelativeLayout>

@@ -8,7 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
-        android:layout_marginBottom="5dp"
         android:paddingRight="30dp"
         android:paddingLeft="30dp">
 
@@ -18,7 +17,8 @@
             android:background="@drawable/default_curved_rectangle"
             android:id="@+id/layout_comment_linear_layout_1"
             android:gravity="center"
-            android:layout_marginLeft="7dp">
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="10dp">
 
             <ImageView
                 android:id="@+id/layout_comment_imageview1"
@@ -38,8 +38,21 @@
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold"
             android:paddingTop="0dp"
-            android:layout_marginLeft="55dp"
+            android:layout_marginLeft="0dp"
+            android:layout_toRightOf="@+id/layout_comment_linear_layout_1"
             android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="2dp"
+        android:layout_gravity="right"
+        android:layout_marginBottom="10dp">
+
 
         <TextView
             android:id="@+id/layout_comment_imagebutton1"
@@ -49,9 +62,12 @@
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
             android:background="@drawable/curved_rectangle_warning"
             android:text="edit"
             android:textColor="@color/warning"
+            android:textSize="10sp"
             android:layout_toLeftOf="@+id/layout_comment_imagebutton2"/>
 
         <TextView
@@ -65,11 +81,14 @@
             android:background="@drawable/curved_rectangle_danger"
             android:text="delete"
             android:layout_marginLeft="10dp"
+            android:textSize="10sp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
             android:layout_alignParentRight="true"
             android:textColor="@color/danger"
             android:layout_marginRight="7dp"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/layout_comment_textview2"
