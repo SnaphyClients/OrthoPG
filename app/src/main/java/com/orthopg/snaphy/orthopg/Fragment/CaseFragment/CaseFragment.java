@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.Listen;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Post;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.PostDetail;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
@@ -488,8 +489,19 @@ public class CaseFragment extends android.support.v4.app.Fragment {
 
     @OnClick(R.id.fragment_case_button4) void postCaseButtonClick() {
         //First create a post object then..move to fragment..
-        casePresenter.InitNewCaseObject();
-        mainActivity.replaceFragment(R.id.fragment_case_button4, null);
+        Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+        if(customer != null) {
+            final String MCINumber = customer.getMciNumber() != null ? customer.getMciNumber() : "";
+            if(!MCINumber.isEmpty()) {
+                casePresenter.InitNewCaseObject();
+                mainActivity.replaceFragment(R.id.fragment_case_button4, null);
+            } else {
+                TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+
+            }
+        }
+
+
     }
 
 

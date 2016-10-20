@@ -28,6 +28,7 @@ import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.CustomModel.TrackList;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
+import com.sdsmdg.tastytoast.TastyToast;
 
 import org.json.JSONObject;
 
@@ -519,7 +520,16 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
             linearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mainActivity.replaceFragment(R.id.layout_case_list_textview4, position);
+                    Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+                    if(customer != null) {
+                        final String MCINumber = customer.getMciNumber() != null ? customer.getMciNumber() : "";
+                        if(!MCINumber.isEmpty()) {
+                            mainActivity.replaceFragment(R.id.layout_case_list_textview4, position);
+                        } else {
+                            TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+
+                        }
+                    }
                 }
             });
 

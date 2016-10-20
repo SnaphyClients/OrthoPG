@@ -97,8 +97,8 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/login_doc"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="65dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="15dp"
                 android:hint="MCI NUMBER"
                 android:gravity="center"
                 android:id="@+id/fragment_mci_verification_edittext1"/>

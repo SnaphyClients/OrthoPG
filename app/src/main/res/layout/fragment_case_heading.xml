@@ -29,7 +29,8 @@
         android:paddingRight="20dp"
         android:paddingLeft="20dp"
         android:textColor="#999"
-        android:textColorHint="#999">
+        android:textColorHint="#999"
+        android:layout_marginBottom="50dp">
         <requestFocus/>
     </EditText>
 
