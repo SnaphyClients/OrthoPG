@@ -109,6 +109,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
     HashMap<String, CommentState> commentStateDataList;
     DataList<String> exceptIdNewAnswerList;
 
+
     LinearLayoutManager linearLayoutManager;
     /*Infinite Loading dataset*/
     private int previousTotal = 0;

@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:clickable="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.orthopg.snaphy.orthopg.Fragment.CaseDetailFragment.PostAnswerFragment">
 
     <ImageButton
@@ -42,5 +43,13 @@
         android:text="Post Answer"
         android:textStyle="bold"
         android:textSize="17sp"/>
+
+    <com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:id="@+id/fragment_post_answer_progressBar"
+        android:layout_centerInParent="true"
+        app:mlpb_progress_stoke_width="3dp"
+        app:mlpb_progress_color="#566da9"/>
 
 </RelativeLayout>

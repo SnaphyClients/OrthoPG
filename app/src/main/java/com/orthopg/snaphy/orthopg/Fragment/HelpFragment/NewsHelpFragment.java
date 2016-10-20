@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
@@ -27,8 +28,8 @@ import butterknife.OnClick;
 public class NewsHelpFragment extends android.support.v4.app.Fragment {
 
     private OnFragmentInteractionListener mListener;
-    @Bind(R.id.fragment_news_help_imagebutton1)
-    ImageButton cancel;
+    @Bind(R.id.fragment_news_help_imagebutton1) ImageButton cancel;
+    @Bind(R.id.fragment_news_help_textview1) TextView startButton;
     MainActivity mainActivity;
 
 
@@ -56,6 +57,10 @@ public class NewsHelpFragment extends android.support.v4.app.Fragment {
     }
 
     @OnClick(R.id.fragment_news_help_imagebutton1) void cancelButton() {
+        mainActivity.replaceFragment(R.layout.fragment_login, null);
+    }
+
+    @OnClick(R.id.fragment_news_help_textview1) void startButton() {
         mainActivity.replaceFragment(R.layout.fragment_login, null);
     }
 

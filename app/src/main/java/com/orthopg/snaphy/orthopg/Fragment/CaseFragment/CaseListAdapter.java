@@ -188,7 +188,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
             if (data.post.getDescription() != null) {
                 if (!data.post.getDescription().isEmpty()) {
                     caseDescription.setVisibility(View.VISIBLE);
-                    caseDescription.setText(data.post.getDescription());
+                    caseDescription.setText(data.post.getDescription() + "...");
                 } else {
                     caseDescription.setVisibility(View.GONE);
                 }

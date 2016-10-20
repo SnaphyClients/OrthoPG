@@ -10,7 +10,6 @@
             android:adjustViewBounds="true"
             android:layout_margin="7dp"
             android:padding="10dp"
-            android:src="@drawable/demo_news_image_3"
             android:id="@+id/layout_upload_image_recycler_view_imageview1"/>
 
         <ImageButton

@@ -18,12 +18,11 @@ import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Post;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.CommentRepository;
-import com.androidsdk.snaphy.snaphyandroidsdk.repository.PostRepository;
+import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 import com.sdsmdg.tastytoast.TastyToast;
-import com.strongloop.android.loopback.callbacks.VoidCallback;
 
 import java.util.HashMap;
 
@@ -43,6 +42,8 @@ public class PostAnswerFragment extends android.support.v4.app.Fragment {
 
     private OnFragmentInteractionListener mListener;
     public static String TAG = "PostAnswerFragment";
+    @Bind(R.id.fragment_post_answer_progressBar)
+    CircleProgressBar progressBar;
     MainActivity mainActivity;
 
     Comment comment;
@@ -71,7 +72,7 @@ public class PostAnswerFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_post_answer, container, false);
         ButterKnife.bind(this, view);
-
+        mainActivity.stopProgressBar(progressBar);
         Post post = Presenter.getInstance().getModel(Post.class, Constants.EDIT_IN_PROCESS_COMMENT_POST_MODEL);
         if(post != null){
             this.post = post;
@@ -118,7 +119,8 @@ public class PostAnswerFragment extends android.support.v4.app.Fragment {
                   commentRepository.updateAttributes((String) comment.getId(), commentObj, new ObjectCallback<Comment>() {
                       @Override
                       public void onBefore() {
-                          //TODO:SHOW LOADING BAR
+                          //SHOW LOADING BAR
+                          mainActivity.startProgressBar(progressBar);
                       }
 
                       @Override
@@ -136,7 +138,8 @@ public class PostAnswerFragment extends android.support.v4.app.Fragment {
 
                       @Override
                       public void onFinally() {
-                          //TODO: STOP LOADING BAR
+                          //STOP LOADING BAR
+                          mainActivity.stopProgressBar(progressBar);
                       }
                   });
               }else{
@@ -151,7 +154,8 @@ public class PostAnswerFragment extends android.support.v4.app.Fragment {
                   commentRepository.create(commentObj, new ObjectCallback<Comment>() {
                       @Override
                       public void onBefore() {
-                          //TODO:SHOW LOADING BAR
+                          //SHOW LOADING BAR
+                          mainActivity.startProgressBar(progressBar);
                       }
 
                       @Override
@@ -183,7 +187,8 @@ public class PostAnswerFragment extends android.support.v4.app.Fragment {
 
                       @Override
                       public void onFinally() {
-                          //TODO: STOP LOADING BAR
+                          //STOP LOADING BAR
+                          mainActivity.stopProgressBar(progressBar);
 
                       }
                   });
