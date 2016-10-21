@@ -19,7 +19,7 @@ public class Constants {
     private static String CLIENT_SECRET_KEY = "ORFoabt0p6XEOFLmKBsYQGZh";
 
 
-    public static String baseUrl = "http://192.168.1.103:3000";
+    public static String baseUrl = "http://192.168.1.105:3000";
     //public static String baseUrl = "http://ec2-54-209-33-191.compute-1.amazonaws.com:3000";
     public static String apiUrl = baseUrl+"/api";
     public static final String AMAZON_CLOUD_FRONT_URL = "http://d3j3ux0h7dntsg.cloudfront.net";
@@ -107,6 +107,12 @@ public class Constants {
     public static String ACCEPT_ANSWER_ERROR_COMMENT = "Cannot Accept Answer! Try again later";
     public static String BLANK_COMMENT_ERROR = "Comment cannot be blank";
     public static String VERIFICATION_IN_PROGRESS = "Verification is under process";
+
+    public static String NEWS_RELEASE_MESSAGE = "News has been posted by OrthoPG.";
+    public static String BOOKS_RELEASE_MESSAGE = "New book has been released by OrthoPG.";
+    public static String COMMENT_MESSAGE = "has commented on your post.";
+    public static String LIKE_MESSAGE = "has liked on your post.";
+    public static String SAVE_MESSAGE = "has saved on your post.";
 
 
     /*--------------------------------------------------------------------------------------------------------*/

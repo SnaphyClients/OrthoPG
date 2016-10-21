@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -144,6 +145,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         View view = inflater.inflate(R.layout.fragment_case_detail, container, false);
         ButterKnife.bind(this, view);
         mainActivity.stopProgressBar(progressBar);
+        description.setMovementMethod(new ScrollingMovementMethod());
         //Add progress bar..
         caseDetailPresenter = new CaseDetailPresenter(mainActivity.snaphyHelper.getLoopBackAdapter(), progressBar, mainActivity, post, position);
         linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -157,7 +159,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         loadPostData(position);
         loadComments();
         //Add load more..
-        recyclerViewLoadMoreEventData();
+
 
         //addOnItemTouchListener
         imageRecyclerView.addOnItemTouchListener(
@@ -482,6 +484,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
             @Override
             public void onInit(DataList<Comment> dataList) {
                 AppBarLayout.LayoutParams appbarParams = (AppBarLayout.LayoutParams) toolbarLayout.getLayoutParams();
+
                 if(dataList.size() == 0){
                     appbarParams.setScrollFlags(0);
                     toolbarLayout.setLayoutParams(appbarParams);
@@ -492,6 +495,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
 
                 caseDetailFragmentCommentAdapter = new CaseDetailFragmentCommentAdapter(mainActivity, post, caseDetailPresenter, commentStateDataList);
                 commentsRecyclerView.setAdapter(caseDetailFragmentCommentAdapter);
+                recyclerViewLoadMoreEventData();
             }
 
             @Override
@@ -558,13 +562,13 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                if (dy > 0) {
+                if (dy >= 0) {
                     visibleItemCount = recyclerView.getChildCount();
                     totalItemCount = linearLayoutManager.getItemCount();
                     firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
 
                     if (loading) {
-                        if (totalItemCount > previousTotal) {
+                        if (totalItemCount >= previousTotal) {
                             loading = false;
                             previousTotal = totalItemCount;
                         }

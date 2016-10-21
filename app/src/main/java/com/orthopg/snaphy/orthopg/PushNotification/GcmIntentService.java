@@ -17,6 +17,8 @@ import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 
+import org.json.JSONObject;
+
 import java.util.Random;
 import java.util.regex.Matcher;
 
@@ -29,6 +31,9 @@ public class GcmIntentService extends IntentService  {
     private NotificationManager mNotificationManager;
     NotificationCompat.Builder builder;
     private static String verificationCode;
+    String title;
+    String content;
+    String id;
 
     public static String getStatus() {
         return status;
@@ -66,18 +71,74 @@ public class GcmIntentService extends IntentService  {
             } else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
                 String message = (String)extras.getString("message");
                 Log.i(Constants.TAG, "Message is: " + message);
-                /*Gson gson = new Gson();*/
+                JSONObject msg;
+                String event = "" ;
 
-                if (message == "5001") {
+                try {
 
-                    //New order has arrived..
-                    //Send push message..
-                    sendNotification(message , Constants.TAG);
+                    msg = new JSONObject(message);
+                    if(msg.get("event") != null) {
+                        event = (String) msg.get("event");
+                    }
+                    if(msg.get("id") != null) {
+                        id = (String) msg.get("id");
+                    }
 
+                    if (event.equals("newsRelease")) {
+                        String description = "";
+                        if(msg.get("title") != null) {
+                            description = (String) msg.get("title");
+                        }
+                        sendNotification(Constants.NEWS_RELEASE_MESSAGE , description, id, event);
+                    } else if(event.equals("bookRelease")) {
+                        String description = "";
+                        if(msg.get("title") != null) {
+                            description = (String) msg.get("title");
+                        }
+                        sendNotification(Constants.BOOKS_RELEASE_MESSAGE , description, id, event);
+                    } else if(event.equals("comment")) {
+                        String description = "";
+                        String owner = "";
+                        if(msg.get("title") != null) {
+                            description = (String) msg.get("title");
+                        }
+                        if(msg.get("to") != null) {
+                            owner = (String) msg.get("to");
+                        }
+                        sendNotification(owner + " " +Constants.COMMENT_MESSAGE , description, id, event);
+                    } else if(event.equals("like")) {
+                        String description = "";
+                        String owner = "";
+                        if(msg.get("title") != null) {
+                            description = (String) msg.get("title");
+                        }
+                        if(msg.get("to") != null) {
+                            owner = (String) msg.get("to");
+                        }
+                        sendNotification(owner + " " +Constants.LIKE_MESSAGE , description, id, event);
+                    } else if(event.equals("save")) {
+                        String description = "";
+                        String owner = "";
+                        if(msg.get("title") != null) {
+                            description = (String) msg.get("title");
+                        }
+                        if(msg.get("to") != null) {
+                            owner = (String) msg.get("to");
+                        }
+                        sendNotification(owner + " " +Constants.SAVE_MESSAGE , description, id, event);
+                    } else if(event.equals("owner")) {
+
+                    }
+                    else{
+                        sendNotification(message , Constants.TAG, "", "");
+                    }
                 }
-                else{
-                    sendNotification(message , Constants.TAG);
+
+                catch (Exception e) {
+                    Log.v(Constants.TAG, "Error"+"");
                 }
+
+
             }
         }
         // Release the wake lock provided by the WakefulBroadcastReceiver.
@@ -100,7 +161,7 @@ public class GcmIntentService extends IntentService  {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
-                        .setContentTitle("mapstrack")
+                        .setContentTitle(Constants.TAG)
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(msg))
                         .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
@@ -121,7 +182,7 @@ public class GcmIntentService extends IntentService  {
     // Put the message into a notification and post it.
     // This is just one simple example of what you might choose to do with
     // a GCM message.
-    private void sendNotification(String msg, String subject) {
+    private void sendNotification(String msg, String subject, String id, String event) {
         int color = 0xff14649f;
         mNotificationManager = (NotificationManager)
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -152,6 +213,10 @@ public class GcmIntentService extends IntentService  {
         Random random = new Random();
         int randomNumber = random.nextInt(9999 - 1000) + 1000;
         mNotificationManager.notify(randomNumber, mBuilder.build());
+
+        Intent notificationIntent = new Intent(getApplicationContext(), MainActivity.class);
+        notificationIntent.putExtra("event", event);
+        notificationIntent.putExtra("id", id);
 
     }
 

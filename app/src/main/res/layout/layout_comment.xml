@@ -90,13 +90,44 @@
 
     </LinearLayout>
 
-    <TextView
+    <!--<TextView
         android:id="@+id/layout_comment_textview2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
+
+         />-->
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         android:paddingRight="30dp"
-        android:paddingLeft="30dp" />
+        android:paddingLeft="30dp">
+
+        <at.blogc.android.views.ExpandableTextView
+            android:id="@+id/layout_comment_textview2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="3"
+            android:ellipsize="end"
+            android:textSize="12sp" />
+
+        <!-- Optional parameter animation_duration: sets the duration of the expand animation -->
+
+        <Button
+            android:id="@+id/button_toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:background="@android:color/transparent"
+            android:text="more..."
+            android:textColor="@color/colorPrimary"
+            android:textAllCaps="false"
+            android:layout_gravity="right"
+            android:layout_marginRight="12dp" />
+
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"

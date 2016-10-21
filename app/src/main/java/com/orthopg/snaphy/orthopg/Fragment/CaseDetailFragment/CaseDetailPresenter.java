@@ -9,20 +9,14 @@ import com.androidsdk.snaphy.snaphyandroidsdk.models.Comment;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Post;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.PostDetail;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
-import com.androidsdk.snaphy.snaphyandroidsdk.repository.CommentDetailRepository;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.CommentRepository;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.PostDetailRepository;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.orthopg.snaphy.orthopg.Constants;
-import com.orthopg.snaphy.orthopg.CustomModel.CommentState;
 import com.orthopg.snaphy.orthopg.CustomModel.TrackList;
-import com.orthopg.snaphy.orthopg.Fragment.CaseFragment.TrackLike;
-import com.orthopg.snaphy.orthopg.Fragment.CaseFragment.TrackSave;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.sdsmdg.tastytoast.TastyToast;
 import com.strongloop.android.loopback.RestAdapter;
-
-import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -75,7 +69,7 @@ public class CaseDetailPresenter {
             }
         }
         CommentRepository commentRepository = restAdapter.createRepository(CommentRepository.class);
-        commentRepository.fetchPostCommments(postId, skip, limit, exceptCommentListId, new DataListCallback<Comment>() {
+        commentRepository.fetchPostCommments((String) post.getId(), skip, limit, exceptCommentListId, new DataListCallback<Comment>() {
             @Override
             public void onBefore() {
                 if(circleProgressBar != null){

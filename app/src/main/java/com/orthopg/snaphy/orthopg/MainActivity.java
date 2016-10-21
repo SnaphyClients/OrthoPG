@@ -55,12 +55,17 @@ import com.strongloop.android.loopback.LocalInstallation;
 import com.strongloop.android.loopback.RestAdapter;
 import com.strongloop.android.remoting.JsonUtil;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -128,7 +133,14 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
                 replaceFragment(R.layout.fragment_help, null);
             } else {
                 //Check Login
-                checkLogin();
+                String event = getIntent().getStringExtra("event");
+                if(event != null) {
+                    if (event.equals("newsRelease")) {
+                        replaceFragment(R.layout.fragment_main, null);
+                    }
+                } else {
+                    checkLogin();
+                }
 
             }
         } else {
@@ -365,17 +377,62 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
 
     public String parseDate(String postedDate) {
 
+        /*//Posted Case Parsing
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        format.setTimeZone(TimeZone.getTimeZone("GMT"));
+        java.util.Date date_ = null;
+        try {
+            date_ = format.parse(postedDate);
+            Log.v(Constants.TAG, "Posted Date = "+date_);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+*/
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        format.setTimeZone(TimeZone.getTimeZone("UTC"));
+        java.util.Date date_2 = null;
+        try {
+            date_2 = format.parse(postedDate);
+            Log.v(Constants.TAG, "Current Date = "+date_2);
+            java.util.Date a  = date_2;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Log.v(Constants.TAG, "Posted Date = "+date_2);
 
 
-        //JAVA Current Date
+
+        Calendar calender = Calendar.getInstance();
+        calender.setTimeZone(TimeZone.getTimeZone("Asia/Calcutta"));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        String strDate = sdf.format(calender.getTime());
+        String currentDate = strDate;
+        Log.v(Constants.TAG, currentDate);
+
+        //Posted Case Parsing
+
+       /* //JAVA Current Date
         Calendar c = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         String strDate = sdf.format(c.getTime());
         String currentDate = strDate;
 
-         String time = applyRegexOnDate(postedDate, currentDate);
-          return time;
+        SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
+        format.setTimeZone(TimeZone.getTimeZone("IST"));
+        java.util.Date date_2 = null;
+        try {
+            date_2 = format2.parse(currentDate);
+            Log.v(Constants.TAG, "Current Date = "+date_2);
+            java.util.Date a  = date_2;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
+
+*/
+
+        String time = applyRegexOnDate(postedDate, currentDate);
+        return time;
 
     }
 
@@ -388,7 +445,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         Log.v(Constants.TAG, postedDate);
         Log.v(Constants.TAG, currentDate);
         int postedDayOfMonth = Integer.parseInt(postedDate.toString().substring(8, 10));
-        int postedMonth = Integer.parseInt(postedDate.toString().substring(5, 7));
+        int postedMonth = Integer.parseInt((postedDate.toString().substring(5, 7)));
         int postedHour = Integer.parseInt(postedDate.toString().substring(11, 13));
         int postedMinute = Integer.parseInt(postedDate.toString().substring(14, 16));
         int postedSecond = Integer.parseInt(postedDate.toString().substring(17, 19));
@@ -496,7 +553,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
     }
 
 
- /*   public int convertMonthStringIntoNumber(String month) {
+    public int convertMonthStringIntoNumber(String month) {
         DateTimeFormatter format = DateTimeFormat.forPattern("MMM");
         DateTime jodatime = format.parseDateTime(month);
         // Format for output
@@ -505,7 +562,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         return month_number;
 
     }
-*/
 
     /**
      * AddUser method for adding user once the user is successfully signed in

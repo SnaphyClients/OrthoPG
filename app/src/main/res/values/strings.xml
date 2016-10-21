@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">OrthoPG</string>
+    <string name="expand">more...</string>
+    <string name="collapse">less</string>
 </resources>
