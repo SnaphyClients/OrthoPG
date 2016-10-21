@@ -9,18 +9,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Scroller;
 
+import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.DataListCallback;
+import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
+import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Post;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
+import com.androidsdk.snaphy.snaphyandroidsdk.repository.PostRepository;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.CustomModel.NewCase;
+import com.orthopg.snaphy.orthopg.CustomModel.TrackImage;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 import com.sdsmdg.tastytoast.TastyToast;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -42,6 +53,8 @@ public class CaseDescriptionFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.fragment_case_description_edittext1) EditText description;
     @Bind(R.id.fragment_case_description_progressBar) CircleProgressBar progressBar;
     @Bind(R.id.fragment_case_description_checkbox) CheckBox checkBox;
+    @Bind(R.id.fragment_case_description_button1) Button postCaseButton;
+    @Bind(R.id.fragment_case_description_image_button1) ImageButton backButton;
 
     public CaseDescriptionFragment() {
         // Required empty public constructor
@@ -70,6 +83,16 @@ public class CaseDescriptionFragment extends android.support.v4.app.Fragment {
         //Load previous data..
         loadDescription();
         return view;
+    }
+
+    public void enablePostCaseButton() {
+        postCaseButton.setEnabled(true);
+        backButton.setEnabled(true);
+    }
+
+    public void disablePostCaseButton() {
+        postCaseButton.setEnabled(false);
+        backButton.setEnabled(false);
     }
 
 
@@ -135,46 +158,124 @@ public class CaseDescriptionFragment extends android.support.v4.app.Fragment {
             if(post != null){
                 post.setAnonymous(isAnonym);
                 //Now save the data.
-                newCase.saveAllImages(/*new ObjectCallback<DataList<Map<String,Object>>>() {
+                newCase.saveAllImages(new DataListCallback<TrackImage>() {
                     @Override
                     public void onBefore() {
-                        TastyToast.makeText(mainActivity.getApplicationContext(), Constants.SAVING_POST, TastyToast.LENGTH_SHORT, TastyToast.DEFAULT);
+                        //TastyToast.makeText(mainActivity.getApplicationContext(), Constants.SAVING_POST, TastyToast.LENGTH_SHORT, TastyToast.DEFAULT);
                         mainActivity.startProgressBar(progressBar);
+                        //DISABLE ALL BUTTONS
+                        disablePostCaseButton();
                     }
 
                     @Override
-                    public void onSuccess(DataList<Map<String, Object>> objects) {
+                    public void onSuccess(DataList<TrackImage> objects) {
                         mainActivity.startProgressBar(progressBar);
+                        DataList<Map<String, Object>> downloadedImageList = new DataList<Map<String, Object>>();
+                        for(TrackImage imageObj: objects){
+                            if(imageObj.getImageModel() != null){
+                                HashMap<String, Object> downloadedImageObj = imageObj.getImageModel().getHashMap();
+                                downloadedImageList.add(downloadedImageObj);
+                            }
+                        }
+
                         //set post image data..
-                        post.setPostImages(objects);
-                        //Save data finally..
-                        post.save(new VoidCallback() {
-                            @Override
-                            public void onSuccess() {
+                        post.setPostImages(downloadedImageList);
+                        PostRepository postRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(PostRepository.class);
+                        if(post.getId() != null){
+                            Map<String, ? extends Object> postObj = post.toMap();
+                            postObj.remove("id");
+                            postObj.remove("comments");
+                            postObj.remove("likePosts");
+                            postObj.remove("savePosts");
+                            postObj.remove("postSubscribers");
+                            postObj.remove("postDetails");
+                            postObj.remove("customer");
+                            //Update..
+                            postRepository.updateAttributes((String) post.getId(), postObj, new ObjectCallback<Post>() {
+                                @Override
+                                public void onBefore() {
+                                    mainActivity.startProgressBar(progressBar);
+                                    //DISABLE ALL BUTTONS
+                                    disablePostCaseButton();
+                                }
+
+                                @Override
+                                public void onSuccess(Post object) {
+                                    moveToHome();
+                                }
+
+                                @Override
+                                public void onError(Throwable t) {
+                                    TastyToast.makeText(mainActivity.getApplicationContext(), Constants.CASE_UPLOAD_ERROR, TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+
+                                }
+
+                                @Override
+                                public void onFinally() {
+                                    mainActivity.stopProgressBar(progressBar);
+                                    //ENABLE ALL BUTTONS
+                                    enablePostCaseButton();
+                                }
+                            });
+
+                        }else{
+                            Map<String, Object> postObj = new HashMap<String, Object>();
+                            Customer loginCustomer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+                            if(loginCustomer == null){
                                 mainActivity.stopProgressBar(progressBar);
-                                moveToHome();
-
-                            }
-
-                            @Override
-                            public void onError(Throwable t) {
                                 TastyToast.makeText(mainActivity.getApplicationContext(), Constants.CASE_UPLOAD_ERROR, TastyToast.LENGTH_SHORT, TastyToast.ERROR);
-                                mainActivity.stopProgressBar(progressBar);
+                                //ENABLE ALL BUTTONS
+                                enablePostCaseButton();
+                                return;
                             }
-                        });
+                            postObj.put("customerId",  (String)loginCustomer.getId());
+                            postObj.putAll(post.convertMap());
+                            postObj.remove("id");
+                            postObj.remove("comments");
+                            postObj.remove("likePosts");
+                            postObj.remove("savePosts");
+                            postObj.remove("postSubscribers");
+                            postObj.remove("postDetails");
+                            postObj.remove("customer");
+                            postRepository.create(postObj, new ObjectCallback<Post>() {
+                                @Override
+                                public void onBefore() {
+                                    disablePostCaseButton();
+                                    //DISABLE ALL BUTTONS
+                                }
 
+                                @Override
+                                public void onSuccess(Post object) {
+                                    moveToHome();
+                                }
+
+                                @Override
+                                public void onError(Throwable t) {
+                                    TastyToast.makeText(mainActivity.getApplicationContext(), Constants.CASE_UPLOAD_ERROR, TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+                                }
+
+                                @Override
+                                public void onFinally() {
+                                    mainActivity.stopProgressBar(progressBar);
+                                    //ENABLE ALL BUTTONS
+                                    enablePostCaseButton();
+                                }
+                            });
+                        }
                     }
 
                     @Override
                     public void onError(Throwable t) {
-                        super.onError(t);
+                        TastyToast.makeText(mainActivity.getApplicationContext(), Constants.CASE_UPLOAD_ERROR, TastyToast.LENGTH_SHORT, TastyToast.ERROR);
                     }
 
                     @Override
                     public void onFinally() {
                         mainActivity.stopProgressBar(progressBar);
+                        //ENABLE ALL BUTTONS
+                        enablePostCaseButton();
                     }
-                }*/);
+                });
             }
         }
     }
@@ -182,8 +283,6 @@ public class CaseDescriptionFragment extends android.support.v4.app.Fragment {
 
     public void moveToHome(){
         TastyToast.makeText(mainActivity.getApplicationContext(), Constants.SUCCESS_SAVED, TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
-
-        //TODO: What is the reason behind this code?
         for(int i = 0; i< 3; i++) {
             mainActivity.onBackPressed();
         }
@@ -228,7 +327,6 @@ public class CaseDescriptionFragment extends android.support.v4.app.Fragment {
         mainActivity.onBackPressed();
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -264,7 +362,6 @@ public class CaseDescriptionFragment extends android.support.v4.app.Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

@@ -27,11 +27,10 @@ import com.orthopg.snaphy.orthopg.CustomModel.NewCase;
 import com.orthopg.snaphy.orthopg.CustomModel.TrackImage;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
+import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -40,6 +39,8 @@ import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
 import pl.tajchert.nammu.Nammu;
 import pl.tajchert.nammu.PermissionCallback;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,10 +55,13 @@ public class CaseUploadImageFragment extends android.support.v4.app.Fragment {
     private OnFragmentInteractionListener mListener;
     public static String TAG = "CaseUploadImageFragment";
     MainActivity mainActivity;
-    @Bind(R.id.fragment_case_upload_image_recycler_view) RecyclerView recyclerView;
+    @Bind(R.id.fragment_case_upload_image_recycler_view)
+    RecyclerView recyclerView;
     Uri globalUri;
     CaseUploadImageFragmentAdapter caseUploadImageFragmentAdapter;
+    CaseUploadImageFragment that;
     final int CROP_PIC = 2;
+    Context context;
     //http://stackoverflow.com/questions/15807766/android-crop-image-size
 
     public CaseUploadImageFragment() {
@@ -72,6 +76,8 @@ public class CaseUploadImageFragment extends android.support.v4.app.Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = this.getContext();
+        that = this;
     }
 
     @Override
@@ -91,7 +97,8 @@ public class CaseUploadImageFragment extends android.support.v4.app.Fragment {
         return view;
     }
 
-    @OnClick(R.id.fragment_case_upload_image_imageButton1) void backButton() {
+    @OnClick(R.id.fragment_case_upload_image_imageButton1)
+    void backButton() {
         mainActivity.onBackPressed();
     }
 
@@ -101,26 +108,30 @@ public class CaseUploadImageFragment extends android.support.v4.app.Fragment {
     }
     */
 
-    @OnClick(R.id.fragment_case_upload_image_linear_layout3) void openGallery() {
+    @OnClick(R.id.fragment_case_upload_image_linear_layout3)
+    void openGallery() {
         openGalleryFolder();
     }
 
-    @OnClick(R.id.fragment_case_upload_image_imageButton3) void cameraButton() {
+    @OnClick(R.id.fragment_case_upload_image_imageButton3)
+    void cameraButton() {
         openGalleryFolder();
     }
 
-    @OnClick(R.id.fragment_case_upload_image_textview1) void cameraText() {
+    @OnClick(R.id.fragment_case_upload_image_textview1)
+    void cameraText() {
         openGalleryFolder();
     }
 
-    @OnClick(R.id.fragment_case_upload_image_button1) void nextButton() {
+    @OnClick(R.id.fragment_case_upload_image_button1)
+    void nextButton() {
         mainActivity.replaceFragment(R.id.fragment_case_upload_image_button1, null);
     }
 
-    public void loadImages(){
-        if(Presenter.getInstance().getModel(NewCase.class, Constants.ADD_NEW_CASE) != null){
+    public void loadImages() {
+        if (Presenter.getInstance().getModel(NewCase.class, Constants.ADD_NEW_CASE) != null) {
             final DataList<TrackImage> trackImages = Presenter.getInstance().getModel(NewCase.class, Constants.ADD_NEW_CASE).getTrackImages();
-            if(trackImages != null){
+            if (trackImages != null) {
                 trackImages.subscribe(this, new Listen<TrackImage>() {
                     @Override
                     public void onInit(DataList<TrackImage> dataList) {
@@ -141,14 +152,14 @@ public class CaseUploadImageFragment extends android.support.v4.app.Fragment {
                     @Override
                     public void onRemove(TrackImage element, int index, DataList<TrackImage> dataList) {
 
-                        if(element != null){
-                            if(element.isDownloaded()){
-                                if(element.getImageModel() != null){
+                        if (element != null) {
+                            if (element.isDownloaded()) {
+                                if (element.getImageModel() != null) {
                                     //Store it to deleted models for later..use..
                                     //TODO: Delete the items of deletedModels after save..of images
                                     Presenter.getInstance().getModel(NewCase.class, Constants.ADD_NEW_CASE).getDeletedModels().add(element.getImageModel());
                                 }
-                            }else{
+                            } else {
                                 //TODO: Later remove cropped from local file too..
                             }
                         }
@@ -160,11 +171,10 @@ public class CaseUploadImageFragment extends android.support.v4.app.Fragment {
     }
 
 
-
     public void openGalleryFolder() {
         View view1 = mainActivity.getCurrentFocus();
         if (view1 != null) {
-            InputMethodManager imm = (InputMethodManager)mainActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) mainActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view1.getWindowToken(), 0);
         }
         int permissionCheck = ContextCompat.checkSelfPermission(mainActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -189,28 +199,32 @@ public class CaseUploadImageFragment extends android.support.v4.app.Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == CROP_PIC) {
-            //Create a new TrackImage object.
-            TrackImage trackImage = new TrackImage();
-            if(data != null){
-                // get the returned data
-                Bundle extras = data.getExtras();
-                // get the cropped bitmap
-                Bitmap thePic = extras.getParcelable("data");
-                trackImage.setUri(getImageUri(mainActivity, thePic));
-                trackImage.setDownloaded(false);
-                //Add to list..
-                Presenter.getInstance().getModel(NewCase.class, Constants.ADD_NEW_CASE).getTrackImages().add(trackImage);
-            }else{
-                //Crop action is discarded...just upload the whole image..
-                if(globalUri != null){
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if(data != null) {
+                if (resultCode == RESULT_OK) {
+                    Uri resultUri = result.getUri();
+                    TrackImage trackImage = new TrackImage();
+                    if (resultUri != null) {
+                        trackImage.setUri(resultUri);
+                        trackImage.setDownloaded(false);
+                        //Add to list....
+                        Presenter.getInstance().getModel(NewCase.class, Constants.ADD_NEW_CASE).getTrackImages().add(trackImage);
+                    }
+                } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                    Exception error = result.getError();
+                    }
+            } else {
+                TrackImage trackImage = new TrackImage();
+                if (globalUri != null) {
                     trackImage.setUri(globalUri);
                     trackImage.setDownloaded(false);
                     //Add to list....
                     Presenter.getInstance().getModel(NewCase.class, Constants.ADD_NEW_CASE).getTrackImages().add(trackImage);
                 }
             }
-        }else{
+
+        } else {
             EasyImage.handleActivityResult(requestCode, resultCode, data, mainActivity, new DefaultCallback() {
                 @Override
                 public void onImagePickerError(Exception e, EasyImage.ImageSource source) {
@@ -223,11 +237,20 @@ public class CaseUploadImageFragment extends android.support.v4.app.Fragment {
                     final Uri uri = Uri.fromFile(imageFile);
                     //Add a global instance of global uri..
                     globalUri = uri;
-                    performCrop(uri);
+                    // for fragment (DO NOT use `getActivity()`)
+                    CropImage.activity(uri)
+                            .start(getContext(), that);
+                    //performCrop(uri);
+                   /* CropImage.activity(uri)
+                            .setGuidelines(CropImageView.Guidelines.ON)
+                            .start(mainActivity);*/
                 }
 
             });
         }
+
+
+
     }
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {

@@ -511,7 +511,7 @@ public class SnaphyHelper {
 
 
 
-    public void uploadWithCallback(String containerName, File imageFile/*final ObjectCallback<ImageModel> callback*/){
+    public void uploadWithCallback(String containerName, File imageFile, final ObjectCallback<ImageModel> callback){
         Date date = new Date();
         String fileName = String.valueOf(date.getTime());
         //create a file to write bitmap data
@@ -544,14 +544,14 @@ public class SnaphyHelper {
                 @Override
                 public void onSuccess(ImageModel object) {
                     // object
-                    //callback.onSuccess(object);
+                    callback.onSuccess(object);
                     Log.e(Constants.TAG, object.toString());
                 }
 
                 @Override
                 public void onError(Throwable t) {
                     Log.e(Constants.TAG, t.toString());
-                    //callback.onError(t);
+                    callback.onError(t);
                 }
             });
         }

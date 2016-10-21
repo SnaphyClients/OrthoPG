@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,6 +75,7 @@ public class PostAnswerFragment extends android.support.v4.app.Fragment {
         ButterKnife.bind(this, view);
         mainActivity.stopProgressBar(progressBar);
         Post post = Presenter.getInstance().getModel(Post.class, Constants.EDIT_IN_PROCESS_COMMENT_POST_MODEL);
+        answer.setMovementMethod(new ScrollingMovementMethod());
         if(post != null){
             this.post = post;
             //Constants.EDIT_IN_PROCESS_COMMENT_POST_MODEL
