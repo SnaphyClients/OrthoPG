@@ -92,7 +92,7 @@
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:gravity="center"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 android:layout_gravity="center"
                 android:paddingTop="3dp"
                 android:paddingBottom="4dp"/>

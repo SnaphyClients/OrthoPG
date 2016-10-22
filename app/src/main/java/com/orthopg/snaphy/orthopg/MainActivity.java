@@ -166,6 +166,11 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         }
     }
 
+    public void fetchCaseFromId(String id) {
+        /*PostRepository postRepository = snaphyHelper.getLoopBackAdapter().createRepository(PostRepository.class);
+        postRepository.*/
+    }
+
 
     public void initializeBookAndNews(){
         DataList<News> newsDataList = new DataList<>();

@@ -614,7 +614,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
 
 
     public void setTime(TextView casePostedTime, String date){
-        //TODO DEFINE TIME HERE..
+
         String parseDate = mainActivity.parseDate(date);
         casePostedTime.setText(parseDate + " ago");
         //PARSE The javascript format date first..

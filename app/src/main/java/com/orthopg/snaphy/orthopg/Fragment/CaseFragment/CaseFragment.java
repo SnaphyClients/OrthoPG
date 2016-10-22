@@ -109,13 +109,13 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         return view;
     }
 
-    /*public void noCasePresent(boolean isNoCasePresent) {
+    public void noCasePresent(boolean isNoCasePresent) {
         if(isNoCasePresent) {
             noCasePresentText.setVisibility(View.VISIBLE);
         } else {
             noCasePresentText.setVisibility(View.GONE);
         }
-    }*/
+    }
 
 
 
@@ -249,6 +249,11 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         if(trackList.get(Constants.TRENDING) == null){
             TrackList trendingListData = new TrackList(Constants.TRENDING);
             trackList.put(Constants.TRENDING, trendingListData);
+            if(trackList.size() != 0) {
+                noCasePresent(false);
+            } else {
+                noCasePresent(true);
+            }
 
             trendingListData.getPostDetails().subscribe(this, new Listen<PostDetail>() {
                 @Override
@@ -261,6 +266,11 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                     super.onChange(dataList);
                     swipeRefreshLayout.setRefreshing(false);
                     caseListAdapter.notifyDataSetChanged();
+                    if(dataList.size() != 0) {
+                        noCasePresent(false);
+                    }  else {
+                        noCasePresent(true);
+                    }
 
                 }
             });
@@ -271,7 +281,11 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         if(trackList.get(Constants.LATEST) == null){
             TrackList latestListData = new TrackList(Constants.LATEST);
             trackList.put(Constants.LATEST, latestListData);
-
+            if(trackList.size() != 0) {
+                noCasePresent(false);
+            } else {
+                noCasePresent(true);
+            }
 
             latestListData.getPostDetails().subscribe(this, new Listen<PostDetail>() {
                 @Override
@@ -284,6 +298,11 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                     super.onChange(dataList);
                     swipeRefreshLayout.setRefreshing(false);
                     caseListAdapter.notifyDataSetChanged();
+                    if(dataList.size() != 0) {
+                        noCasePresent(false);
+                    }  else {
+                        noCasePresent(true);
+                    }
 
                 }
             });
@@ -295,7 +314,11 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         if(trackList.get(Constants.UNSOLVED) == null){
             TrackList unsolvedListData = new TrackList(Constants.UNSOLVED);
             trackList.put(Constants.UNSOLVED, unsolvedListData);
-
+            if(trackList.size() != 0) {
+                noCasePresent(false);
+            } else {
+                noCasePresent(true);
+            }
 
             unsolvedListData.getPostDetails().subscribe(this, new Listen<PostDetail>() {
                 @Override
@@ -308,6 +331,11 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                     super.onChange(dataList);
                     swipeRefreshLayout.setRefreshing(false);
                     caseListAdapter.notifyDataSetChanged();
+                    if(dataList.size() != 0) {
+                        noCasePresent(false);
+                    }  else {
+                        noCasePresent(true);
+                    }
                 }
             });
 
@@ -318,7 +346,11 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         if(trackList.get(Constants.SAVED) == null){
             TrackList savedListData = new TrackList(Constants.SAVED);
             trackList.put(Constants.SAVED, savedListData);
-
+            if(trackList.size() != 0) {
+                noCasePresent(false);
+            } else {
+                noCasePresent(true);
+            }
 
             savedListData.getPostDataList().subscribe(this, new Listen<Post>() {
                 @Override
@@ -331,6 +363,11 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                     super.onChange(dataList);
                     swipeRefreshLayout.setRefreshing(false);
                     caseListAdapter.notifyDataSetChanged();
+                    if(dataList.size() != 0) {
+                        noCasePresent(false);
+                    }  else {
+                        noCasePresent(true);
+                    }
 
                 }
             });
@@ -341,7 +378,11 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         if(trackList.get(Constants.POSTED) == null){
             TrackList postedListData = new TrackList(Constants.POSTED);
             trackList.put(Constants.POSTED, postedListData);
-
+            if(trackList.size() != 0) {
+                noCasePresent(false);
+            } else {
+                noCasePresent(true);
+            }
 
             postedListData.getPostDataList().subscribe(this, new Listen<Post>() {
                 @Override
@@ -355,6 +396,11 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                     super.onChange(dataList);
                     //swipeRefreshLayout.setRefreshing(false);
                     caseListAdapter.notifyDataSetChanged();
+                    if(dataList.size() != 0) {
+                        noCasePresent(false);
+                    }  else {
+                        noCasePresent(true);
+                    }
 
                 }
 
