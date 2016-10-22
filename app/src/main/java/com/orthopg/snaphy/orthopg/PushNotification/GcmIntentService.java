@@ -6,10 +6,15 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.text.SpannableString;
+import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -105,7 +110,8 @@ public class GcmIntentService extends IntentService  {
                         if(msg.get("to") != null) {
                             owner = (String) msg.get("to");
                         }
-                        sendNotification(owner + " " +Constants.COMMENT_MESSAGE , description, id, event);
+                        CharSequence formatMessage = drawTextViewDesign(owner, Constants.COMMENT_MESSAGE);
+                        sendNotification(formatMessage , description, id, event);
                     } else if(event.equals("like")) {
                         String description = "";
                         String owner = "";
@@ -115,7 +121,8 @@ public class GcmIntentService extends IntentService  {
                         if(msg.get("to") != null) {
                             owner = (String) msg.get("to");
                         }
-                        sendNotification(owner + " " +Constants.LIKE_MESSAGE , description, id, event);
+                        CharSequence formatMessage = drawTextViewDesign(owner, Constants.LIKE_MESSAGE);
+                        sendNotification(formatMessage , description, id, event);
                     } else if(event.equals("save")) {
                         String description = "";
                         String owner = "";
@@ -125,7 +132,8 @@ public class GcmIntentService extends IntentService  {
                         if(msg.get("to") != null) {
                             owner = (String) msg.get("to");
                         }
-                        sendNotification(owner + " " +Constants.SAVE_MESSAGE , description, id, event);
+                        CharSequence formatMessage = drawTextViewDesign(owner, Constants.SAVE_MESSAGE);
+                        sendNotification(formatMessage , description, id, event);
                     } else if(event.equals("owner")) {
 
                     }
@@ -143,6 +151,16 @@ public class GcmIntentService extends IntentService  {
         }
         // Release the wake lock provided by the WakefulBroadcastReceiver.
         GcmBroadcastReceiver.completeWakefulIntent(intent);
+    }
+
+    public CharSequence drawTextViewDesign(String constant, String data) {
+        SpannableString spannableString =  new SpannableString(constant);
+        SpannableString spannableString2 =  new SpannableString(data);
+        spannableString.setSpan(new ForegroundColorSpan(Color.rgb(0, 0, 0)),0,constant.length(),0);
+        spannableString.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, constant.length(), 0);
+        spannableString.setSpan(new RelativeSizeSpan(1.1f), 0, constant.length(), 0);
+        CharSequence result = (TextUtils.concat(spannableString, " ", spannableString2));
+        return result;
     }
 
 
@@ -182,7 +200,7 @@ public class GcmIntentService extends IntentService  {
     // Put the message into a notification and post it.
     // This is just one simple example of what you might choose to do with
     // a GCM message.
-    private void sendNotification(String msg, String subject, String id, String event) {
+    private void sendNotification(CharSequence msg, String subject, String id, String event) {
         int color = 0xff14649f;
         mNotificationManager = (NotificationManager)
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
