@@ -192,8 +192,15 @@ public class GcmIntentService extends IntentService  {
                 Intent.FLAG_ACTIVITY_SINGLE_TOP |
                 Intent.FLAG_ACTIVITY_NEW_TASK);*/
 
+        Intent notificationIntent = new Intent(getApplicationContext(), MainActivity.class);
+        notificationIntent.putExtra("event", event);
+        notificationIntent.putExtra("id", id);
+
+
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, MainActivity.class), 0);
+                notificationIntent, 0);
+
+
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
@@ -214,9 +221,6 @@ public class GcmIntentService extends IntentService  {
         int randomNumber = random.nextInt(9999 - 1000) + 1000;
         mNotificationManager.notify(randomNumber, mBuilder.build());
 
-        Intent notificationIntent = new Intent(getApplicationContext(), MainActivity.class);
-        notificationIntent.putExtra("event", event);
-        notificationIntent.putExtra("id", id);
 
     }
 

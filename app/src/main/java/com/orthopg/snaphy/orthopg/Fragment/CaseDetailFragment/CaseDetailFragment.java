@@ -160,6 +160,11 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         loadComments();
         //Add load more..
 
+        //Load data from server by clicking notification
+        if(Presenter.getInstance().getModel(String.class, Constants.NOTIFICATION_ID) != null) {
+            String caseId = Presenter.getInstance().getModel(String.class, Constants.NOTIFICATION_ID);
+        }
+
 
         //addOnItemTouchListener
         imageRecyclerView.addOnItemTouchListener(

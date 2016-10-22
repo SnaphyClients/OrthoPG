@@ -42,6 +42,8 @@ public class Constants {
 
     /*MOdel IDs*/
     public static String ZOOM_IMAGE_ID = "ZoomImageId";
+    public static String VIEW_PAGER_ID = "ViewPagerId";
+    public static String NOTIFICATION_ID = "notificationId";
     public static String CASE_PRESENTER_ID = "CasePresenterId";
     public static String SAVED_CASE_PRESENTER_ID = "SavedCasePresenterId";
     public static String ADD_NEW_CASE = "ADD_NEW_CASE";
