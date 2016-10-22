@@ -134,6 +134,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
                 replaceFragment(R.layout.fragment_help, null);
             } else {
                 //Check Login
+                stopProgressBar(progressBar);
                 String event = getIntent().getStringExtra("event");
                 String id = getIntent().getStringExtra("id");
                 if(event != null) {

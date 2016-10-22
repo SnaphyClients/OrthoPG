@@ -89,8 +89,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.fragment_case_detail_linearLayout2) LinearLayout likeLinearLayout;
     @Bind(R.id.fragment_case_progressBar) CircleProgressBar progressBar;
     @Bind(R.id.collapsing_toolbar) CollapsingToolbarLayout toolbarLayout;
-    boolean isLiked = false;
-    boolean isSaved = false;
+    int count = 0;
     MainActivity mainActivity;
     Post post;
     CaseImageAdapter caseImageAdapter;
@@ -146,11 +145,9 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         ButterKnife.bind(this, view);
         mainActivity.stopProgressBar(progressBar);
         description.setMovementMethod(new ScrollingMovementMethod());
-        //Add progress bar..
-        caseDetailPresenter = new CaseDetailPresenter(mainActivity.snaphyHelper.getLoopBackAdapter(), progressBar, mainActivity, post, position);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         imageRecyclerView.setLayoutManager(new LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false));
-        commentsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        commentsRecyclerView.setLayoutManager(linearLayoutManager);
         //Adding a list for tracking accepted answer datalist..
         commentStateDataList = new HashMap<>();
 
@@ -219,6 +216,10 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
 
 
         }
+
+        //Add progress bar..
+        caseDetailPresenter = new CaseDetailPresenter(mainActivity.snaphyHelper.getLoopBackAdapter(), progressBar, mainActivity, post, position);
+
         loadPost();
     }
 
@@ -501,6 +502,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
                 caseDetailFragmentCommentAdapter = new CaseDetailFragmentCommentAdapter(mainActivity, post, caseDetailPresenter, commentStateDataList);
                 commentsRecyclerView.setAdapter(caseDetailFragmentCommentAdapter);
                 recyclerViewLoadMoreEventData();
+                count = 1;
             }
 
             @Override
@@ -567,13 +569,18 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                if (dy >= 0) {
+                if(count == 1) {
+                    caseDetailPresenter.fetchMoreComment(post);
+                    count = 2;
+                }
+
+                if (dy > 0) {
                     visibleItemCount = recyclerView.getChildCount();
                     totalItemCount = linearLayoutManager.getItemCount();
                     firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
 
                     if (loading) {
-                        if (totalItemCount >= previousTotal) {
+                        if (totalItemCount > previousTotal) {
                             loading = false;
                             previousTotal = totalItemCount;
                         }

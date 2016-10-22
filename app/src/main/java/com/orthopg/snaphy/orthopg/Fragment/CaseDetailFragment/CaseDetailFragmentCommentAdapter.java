@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,7 +26,6 @@ import com.orthopg.snaphy.orthopg.R;
 
 import java.util.HashMap;
 
-import at.blogc.android.views.ExpandableTextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -87,45 +85,30 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
 
         final ImageView isSelected = holder.isSelected;
         TextView userName = holder.userName;
-        final ExpandableTextView answer = holder.answer;
+        final TextView answer = holder.answer;
+        final TextView longAnswer = holder.fullAnswer;
         TextView editComment = holder.editComment;
         TextView deleteComment = holder.deleteComment;
         final LinearLayout linearLayout = holder.linearLayout;
         final Button buttonToggle = holder.toggleButton;
+        
 
-        // set animation duration via code, but preferable in your layout files by using the animation_duration attribute
-        answer.setAnimationDuration(1000L);
-
-        // set interpolators for both expanding and collapsing animations
-        answer.setInterpolator(new OvershootInterpolator());
-
-        // or set them separately
-        answer.setExpandInterpolator(new OvershootInterpolator());
-        answer.setCollapseInterpolator(new OvershootInterpolator());
-
-        answer.post(new Runnable() {
+        buttonToggle.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                int lineCount = answer.getLineCount();
-                if(lineCount < 3) {
-                    buttonToggle.setVisibility(View.GONE);
+            public void onClick(View v) {
+                if(buttonToggle.getText().equals("more...")) {
+                    longAnswer.setVisibility(View.VISIBLE);
+                    longAnswer.setText(comment.getAnswer().toString());
+                    buttonToggle.setText("less");
+                    answer.setVisibility(View.GONE);
                 } else {
-                    buttonToggle.setVisibility(View.VISIBLE);
+                    longAnswer.setVisibility(View.GONE);
+                    buttonToggle.setText("more...");
+                    answer.setVisibility(View.VISIBLE);
                 }
-                // Use lineCount here
             }
         });
 
-        // toggle the ExpandableTextView
-        buttonToggle.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(final View v)
-            {
-                answer.toggle();
-                buttonToggle.setText(answer.isExpanded() ? R.string.expand : R.string.collapse);
-            }
-        });
 
         //Add isSelected tab.
         commentState.setIsSelected(isSelected);
@@ -323,7 +306,8 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
     public class ViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.layout_comment_imageview1) ImageView isSelected;
         @Bind(R.id.layout_comment_textview1) TextView userName;
-        @Bind(R.id.layout_comment_textview2) ExpandableTextView answer;
+        @Bind(R.id.layout_comment_textview2) TextView answer;
+        @Bind(R.id.layout_comment_textview3) TextView fullAnswer;
         @Bind(R.id.layout_comment_imagebutton1) TextView editComment;
         @Bind(R.id.layout_comment_imagebutton2) TextView deleteComment;
         @Bind(R.id.layout_comment_linear_layout_1) LinearLayout linearLayout;

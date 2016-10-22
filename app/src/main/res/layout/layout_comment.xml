@@ -101,17 +101,24 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingRight="30dp"
         android:paddingLeft="30dp">
 
-        <at.blogc.android.views.ExpandableTextView
+        <TextView
             android:id="@+id/layout_comment_textview2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="3"
             android:ellipsize="end"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/layout_comment_textview3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
             android:textSize="12sp" />
 
         <!-- Optional parameter animation_duration: sets the duration of the expand animation -->
@@ -125,7 +132,8 @@
             android:textColor="@color/colorPrimary"
             android:textAllCaps="false"
             android:layout_gravity="right"
-            android:layout_marginRight="12dp" />
+            android:textSize="10sp"
+            android:layout_marginRight="0dp" />
 
     </LinearLayout>
 
