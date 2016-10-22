@@ -91,7 +91,7 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
         TextView deleteComment = holder.deleteComment;
         final LinearLayout linearLayout = holder.linearLayout;
         final Button buttonToggle = holder.toggleButton;
-        
+
 
         buttonToggle.setOnClickListener(new View.OnClickListener() {
             @Override

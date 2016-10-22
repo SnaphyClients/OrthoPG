@@ -6,8 +6,6 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -88,7 +86,9 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.fragment_case_detail_linearLayout1) LinearLayout saveLinearLayout;
     @Bind(R.id.fragment_case_detail_linearLayout2) LinearLayout likeLinearLayout;
     @Bind(R.id.fragment_case_progressBar) CircleProgressBar progressBar;
-    @Bind(R.id.collapsing_toolbar) CollapsingToolbarLayout toolbarLayout;
+/*    @Bind(R.id.collapsing_toolbar) CollapsingToolbarLayout toolbarLayout;
+    @Bind(R.id.fragment_case_detail_coordinate_layout) CoordinatorLayout mCoordinatorLayout;
+    @Bind(R.id.fragment_case_detail_appbar_layout) AppBarLayout mAppBarLayout;*/
     int count = 0;
     MainActivity mainActivity;
     Post post;
@@ -141,7 +141,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_case_detail, container, false);
+        final View view = inflater.inflate(R.layout.fragment_case_detail, container, false);
         ButterKnife.bind(this, view);
         mainActivity.stopProgressBar(progressBar);
         description.setMovementMethod(new ScrollingMovementMethod());
@@ -156,6 +156,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         loadPostData(position);
         loadComments();
         //Add load more..
+
 
         //Load data from server by clicking notification
         if(Presenter.getInstance().getModel(String.class, Constants.NOTIFICATION_ID) != null) {
@@ -489,16 +490,17 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         post.getComments().subscribe(this, new Listen<Comment>() {
             @Override
             public void onInit(DataList<Comment> dataList) {
-                AppBarLayout.LayoutParams appbarParams = (AppBarLayout.LayoutParams) toolbarLayout.getLayoutParams();
+                /*AppBarLayout.LayoutParams appbarParams = (AppBarLayout.LayoutParams) toolbarLayout.getLayoutParams();
 
                 if(dataList.size() == 0){
                     appbarParams.setScrollFlags(0);
                     toolbarLayout.setLayoutParams(appbarParams);
+                    description.setMovementMethod(new ScrollingMovementMethod());
                 } else {
                     appbarParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS);
                     toolbarLayout.setLayoutParams(appbarParams);
                 }
-
+*/
                 caseDetailFragmentCommentAdapter = new CaseDetailFragmentCommentAdapter(mainActivity, post, caseDetailPresenter, commentStateDataList);
                 commentsRecyclerView.setAdapter(caseDetailFragmentCommentAdapter);
                 recyclerViewLoadMoreEventData();
@@ -507,14 +509,15 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
 
             @Override
             public void onChange(DataList<Comment> dataList) {
-                AppBarLayout.LayoutParams appbarParams = (AppBarLayout.LayoutParams) toolbarLayout.getLayoutParams();
+                /*AppBarLayout.LayoutParams appbarParams = (AppBarLayout.LayoutParams) toolbarLayout.getLayoutParams();
                 if(dataList.size() == 0){
                     appbarParams.setScrollFlags(0);
                     toolbarLayout.setLayoutParams(appbarParams);
+                    description.setMovementMethod(new ScrollingMovementMethod());
                 } else {
                     appbarParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS);
                     toolbarLayout.setLayoutParams(appbarParams);
-                }
+                }*/
                 caseDetailFragmentCommentAdapter.notifyDataSetChanged();
             }
 
