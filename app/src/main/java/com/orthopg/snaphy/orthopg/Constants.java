@@ -19,7 +19,7 @@ public class Constants {
     private static String CLIENT_SECRET_KEY = "ORFoabt0p6XEOFLmKBsYQGZh";
 
 
-    public static String baseUrl = "http://192.168.1.105:3000";
+    public static String baseUrl = "http://192.168.1.101:3000";
     //public static String baseUrl = "http://ec2-54-209-33-191.compute-1.amazonaws.com:3000";
     public static String apiUrl = baseUrl+"/api";
     public static final String AMAZON_CLOUD_FRONT_URL = "http://d3j3ux0h7dntsg.cloudfront.net";

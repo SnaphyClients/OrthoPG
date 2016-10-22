@@ -282,6 +282,10 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
                 openPostAnswerFragment(fragmentTransaction);
                 break;
 
+            case R.layout.fragment_case_detail:
+                openCaseDetailFragmentAsParent(fragmentTransaction);
+                break;
+
         }
     }
 
@@ -298,6 +302,21 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         fragmentTransaction.replace(R.id.container, mainFragment, MainFragment.TAG);
         fragmentTransaction.commitAllowingStateLoss();
     }
+
+    private void openCaseDetailFragmentAsParent(FragmentTransaction fragmentTransaction) {
+        CaseDetailFragment caseDetailFragment = (CaseDetailFragment) getSupportFragmentManager().
+                findFragmentByTag(CaseDetailFragment.TAG);
+        if (caseDetailFragment == null) {
+            caseDetailFragment = CaseDetailFragment.newInstance();
+        }
+        Bundle bundle = new Bundle();
+        int pos = -1;
+        bundle.putInt("position", pos);
+        caseDetailFragment.setArguments(bundle);
+        fragmentTransaction.replace(R.id.container, caseDetailFragment, CaseDetailFragment.TAG);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
 
     private void openLoginFragment(FragmentTransaction fragmentTransaction) {
         LoginFragment loginFragment = (LoginFragment) getSupportFragmentManager().
@@ -640,7 +659,12 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             final String MCINumber = customer.getMciNumber() != null ? customer.getMciNumber() : "";
             if(customer.getStatus() != null){
                 if(customer.getStatus().equals(Constants.ALLOW)) {
-                    replaceFragment(R.layout.fragment_main, null);
+                    if(getIntent().getStringExtra("event") != null){
+                        //Show push message data..
+                        parsePushMessage();
+                    } else {
+                        replaceFragment(R.layout.fragment_main, null);
+                    }
                 } else {
                     checkMCI(MCINumber);
                 }

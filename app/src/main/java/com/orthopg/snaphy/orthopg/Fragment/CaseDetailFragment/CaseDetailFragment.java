@@ -202,7 +202,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         postDetail = post.getPostDetails();
         //Add progress bar..
         caseDetailPresenter = new CaseDetailPresenter(mainActivity.snaphyHelper.getLoopBackAdapter(), progressBar, mainActivity, post, position);
-
+        loadPost();
     }
 
 
