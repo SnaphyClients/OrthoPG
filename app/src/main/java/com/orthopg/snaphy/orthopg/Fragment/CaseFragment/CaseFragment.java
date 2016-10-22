@@ -109,15 +109,13 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         return view;
     }
 
-    public void noCasePresent(boolean isNoCasePresent) {
+    /*public void noCasePresent(boolean isNoCasePresent) {
         if(isNoCasePresent) {
-            recyclerView.setVisibility(View.GONE);
             noCasePresentText.setVisibility(View.VISIBLE);
         } else {
-            recyclerView.setVisibility(View.VISIBLE);
             noCasePresentText.setVisibility(View.GONE);
         }
-    }
+    }*/
 
 
 
@@ -252,7 +250,6 @@ public class CaseFragment extends android.support.v4.app.Fragment {
             TrackList trendingListData = new TrackList(Constants.TRENDING);
             trackList.put(Constants.TRENDING, trendingListData);
 
-
             trendingListData.getPostDetails().subscribe(this, new Listen<PostDetail>() {
                 @Override
                 public void onInit(DataList<PostDetail> dataList) {
@@ -263,11 +260,6 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                 public void onChange(DataList<PostDetail> dataList) {
                     super.onChange(dataList);
                     swipeRefreshLayout.setRefreshing(false);
-                    if(dataList.size() == 0) {
-                        noCasePresent(true);
-                    } else {
-                        noCasePresent(false);
-                    }
                     caseListAdapter.notifyDataSetChanged();
 
                 }
@@ -291,11 +283,6 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                 public void onChange(DataList<PostDetail> dataList) {
                     super.onChange(dataList);
                     swipeRefreshLayout.setRefreshing(false);
-                    if(dataList.size() == 0) {
-                        noCasePresent(true);
-                    } else {
-                        noCasePresent(false);
-                    }
                     caseListAdapter.notifyDataSetChanged();
 
                 }
@@ -320,11 +307,6 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                 public void onChange(DataList<PostDetail> dataList) {
                     super.onChange(dataList);
                     swipeRefreshLayout.setRefreshing(false);
-                    if(dataList.size() == 0) {
-                        noCasePresent(true);
-                    } else {
-                        noCasePresent(false);
-                    }
                     caseListAdapter.notifyDataSetChanged();
                 }
             });
@@ -348,11 +330,6 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                 public void onChange(DataList<Post> dataList) {
                     super.onChange(dataList);
                     swipeRefreshLayout.setRefreshing(false);
-                    if(dataList.size() == 0) {
-                        noCasePresent(true);
-                    } else {
-                        noCasePresent(false);
-                    }
                     caseListAdapter.notifyDataSetChanged();
 
                 }
@@ -377,11 +354,6 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                 public void onChange(DataList<Post> dataList) {
                     super.onChange(dataList);
                     //swipeRefreshLayout.setRefreshing(false);
-                    if(dataList.size() == 0) {
-                        noCasePresent(true);
-                    } else {
-                        noCasePresent(false);
-                    }
                     caseListAdapter.notifyDataSetChanged();
 
                 }
@@ -396,11 +368,6 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                 public void onRemove(final Post element, int index, final DataList<Post> dataList) {
                     super.onRemove(element, index, dataList);
                     caseListAdapter.notifyDataSetChanged();
-                    if(dataList.size() == 0) {
-                        noCasePresent(true);
-                    } else {
-                        noCasePresent(false);
-                    }
                     element.destroy(new VoidCallback() {
                         @Override
                         public void onSuccess() {

@@ -56,17 +56,14 @@ import com.strongloop.android.loopback.RestAdapter;
 import com.strongloop.android.remoting.JsonUtil;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 import org.json.JSONObject;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
-import java.util.TimeZone;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -395,60 +392,14 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
 
     public String parseDate(String postedDate) {
 
-        /*//Posted Case Parsing
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        format.setTimeZone(TimeZone.getTimeZone("GMT"));
-        java.util.Date date_ = null;
-        try {
-            date_ = format.parse(postedDate);
-            Log.v(Constants.TAG, "Posted Date = "+date_);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-*/
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
-        format.setTimeZone(TimeZone.getTimeZone("IST"));
-        java.util.Date date_ = null;
-        try {
-            date_ = format.parse(postedDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        //Now parsing time..
-        Log.v(Constants.TAG, "Posted Date = "+date_);
+        DateTime parsePostedDate = ISODateTimeFormat.dateTime().withZone(DateTimeZone.forID("Asia/Kolkata")).parseDateTime(postedDate);
+        Log.v(Constants.TAG, parsePostedDate.toString());
 
 
+        DateTime currentDate = new DateTime(DateTimeZone.forID("Asia/Kolkata"));
+        Log.v(Constants.TAG, currentDate.toString());
 
-        Calendar calender = Calendar.getInstance();
-        calender.setTimeZone(TimeZone.getTimeZone("Asia/Calcutta"));
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        String strDate = sdf.format(calender.getTime());
-        String currentDate = strDate;
-        Log.v(Constants.TAG, currentDate);
-
-        //Posted Case Parsing
-
-       /* //JAVA Current Date
-        Calendar c = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        String strDate = sdf.format(c.getTime());
-        String currentDate = strDate;
-
-        SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
-        format.setTimeZone(TimeZone.getTimeZone("IST"));
-        java.util.Date date_2 = null;
-        try {
-            date_2 = format2.parse(currentDate);
-            Log.v(Constants.TAG, "Current Date = "+date_2);
-            java.util.Date a  = date_2;
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-
-*/
-
-        String time = applyRegexOnDate(postedDate, currentDate);
+        String time = applyRegexOnDate(parsePostedDate.toString(), currentDate.toString());
         return time;
 
     }
