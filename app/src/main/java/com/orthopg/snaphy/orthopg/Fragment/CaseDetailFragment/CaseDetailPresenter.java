@@ -143,18 +143,24 @@ public class CaseDetailPresenter {
                             DataList<PostDetail> getPostDataList = trackListItem.getPostDetails();
                             if(getPostDataList != null){
                                 if(getPostDataList.size() != 0){
-                                    //Now replace the post with new post..
-                                    getPostDataList.remove(position);
-                                    getPostDataList.add(position, post.getPostDetails());
+                                    if(position != -1){
+                                        //Now replace the post with new post..
+                                        getPostDataList.remove(position);
+                                        getPostDataList.add(position, post.getPostDetails());
+                                    }
+
                                 }
 
                             }
                         }else{
                             if(trackListItem.getPostDataList() != null){
-                                if(trackListItem.getPostDataList().size() != 0){
-                                    //Now replace the post with new post..
-                                    trackListItem.getPostDataList().remove(position);
-                                    trackListItem.getPostDataList().add(position, post);
+                                if(trackListItem.getPostDataList().size() != 0) {
+                                    if (position != -1) {
+                                        //Now replace the post with new post..
+                                        trackListItem.getPostDataList().remove(position);
+                                        trackListItem.getPostDataList().add(position, post);
+
+                                    }
                                 }
                             }
                         }

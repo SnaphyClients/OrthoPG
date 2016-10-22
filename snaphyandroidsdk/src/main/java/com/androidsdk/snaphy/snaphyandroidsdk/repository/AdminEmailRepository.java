@@ -89,22 +89,6 @@ public class AdminEmailRepository extends ModelRepository<AdminEmail> {
             
 
                 
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/sendNotice", "POST"), "adminEmail.sendNotice");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/sendOrder", "POST"), "adminEmail.sendOrder");
-                
-
-            
-        
-            
-
-                
                     contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/getMailSchema", "POST"), "adminEmail.getMailSchema");
                 
 
@@ -280,116 +264,6 @@ public class AdminEmailRepository extends ModelRepository<AdminEmail> {
                 
 
             }//Method sendMail definition ends here..
-
-            
-
-        
-    
-        
-            //Method sendNotice definition
-            public void sendNotice(  DataList<String> to,  String subject,  Map<String,  ? extends Object> templateOptions, final ObjectCallback<JSONObject>  callback ){
-
-                /**
-                Call the onBefore event
-                */
-                callback.onBefore();
-                
-
-                //Definging hashMap for data conversion
-                Map<String, Object> hashMapObject = new HashMap<>();
-                //Now add the arguments...
-                
-                        hashMapObject.put("to", to);
-                
-                        hashMapObject.put("subject", subject);
-                
-                        hashMapObject.put("templateOptions", templateOptions);
-                
-
-                
-
-
-                
-                    
-                    invokeStaticMethod("sendNotice", hashMapObject, new Adapter.JsonObjectCallback() {
-                    
-                    
-                        @Override
-                        public void onError(Throwable t) {
-                            callback.onError(t);
-                            //Call the finally method..
-                            callback.onFinally();
-                        }
-
-                        @Override
-                        public void onSuccess(JSONObject response) {
-                            
-                                callback.onSuccess(response);
-                            
-                            //Call the finally method..
-                            callback.onFinally();
-                        }
-                    });
-                
-
-                
-
-            }//Method sendNotice definition ends here..
-
-            
-
-        
-    
-        
-            //Method sendOrder definition
-            public void sendOrder(  DataList<String> to,  String subject,  Map<String,  ? extends Object> templateOptions, final ObjectCallback<JSONObject>  callback ){
-
-                /**
-                Call the onBefore event
-                */
-                callback.onBefore();
-                
-
-                //Definging hashMap for data conversion
-                Map<String, Object> hashMapObject = new HashMap<>();
-                //Now add the arguments...
-                
-                        hashMapObject.put("to", to);
-                
-                        hashMapObject.put("subject", subject);
-                
-                        hashMapObject.put("templateOptions", templateOptions);
-                
-
-                
-
-
-                
-                    
-                    invokeStaticMethod("sendOrder", hashMapObject, new Adapter.JsonObjectCallback() {
-                    
-                    
-                        @Override
-                        public void onError(Throwable t) {
-                            callback.onError(t);
-                            //Call the finally method..
-                            callback.onFinally();
-                        }
-
-                        @Override
-                        public void onSuccess(JSONObject response) {
-                            
-                                callback.onSuccess(response);
-                            
-                            //Call the finally method..
-                            callback.onFinally();
-                        }
-                    });
-                
-
-                
-
-            }//Method sendOrder definition ends here..
 
             
 

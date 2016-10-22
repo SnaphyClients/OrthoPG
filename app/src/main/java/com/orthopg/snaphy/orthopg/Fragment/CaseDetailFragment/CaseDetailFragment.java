@@ -128,6 +128,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
         position = bundle.getInt("position");
+
         exceptIdNewAnswerList = new DataList<>();
         Presenter.getInstance().addModel(Constants.EXCEPTED_NEW_ANSWER_LIST, exceptIdNewAnswerList);
         //Remove the in edit data..
@@ -153,7 +154,12 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
 
         likeButtonClickListener();
         saveButtonClickListener();
-        loadPostData(position);
+        if(position == -1){
+            loadPushEventData();
+        }else{
+            loadPostData(position);
+        }
+
         loadComments();
         //Add load more..
 
@@ -182,6 +188,23 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         );
         return view;
     }
+
+
+    private void loadPushEventData(){
+        post = Presenter.getInstance().getModel(Post.class, Constants.POST_PUSH_EVENT_DATA);
+        if(post == null){
+            return;
+        }
+        if(post.getPostDetails() == null){
+            return;
+        }
+
+        postDetail = post.getPostDetails();
+        //Add progress bar..
+        caseDetailPresenter = new CaseDetailPresenter(mainActivity.snaphyHelper.getLoopBackAdapter(), progressBar, mainActivity, post, position);
+
+    }
+
 
     public void loadPostData(int position){
         //casePresenter = new CasePresenter(mainActivity.snaphyHelper.getLoopBackAdapter(), progressBar, mainActivity);

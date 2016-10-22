@@ -1,6 +1,8 @@
 package com.orthopg.snaphy.orthopg.Fragment.CaseFragment;
 
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.DataListCallback;
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
@@ -37,12 +39,14 @@ public class CasePresenter {
     public double limit = 5;
     CircleProgressBar circleProgressBar;
     MainActivity mainActivity;
+    TextView noCasePresentText;
 
 
-    public CasePresenter(RestAdapter restAdapter, CircleProgressBar progressBar, MainActivity mainActivity){
+    public CasePresenter(RestAdapter restAdapter, CircleProgressBar progressBar, MainActivity mainActivity, TextView noCasePresentText){
         this.restAdapter = restAdapter;
         circleProgressBar = progressBar;
         this.mainActivity = mainActivity;
+        this.noCasePresentText = noCasePresentText;
         //Only add if not initialized already..
         trackList = new HashMap<String, TrackList>();
         Presenter.getInstance().addModel(Constants.LIST_CASE_FRAGMENT, trackList);
@@ -233,6 +237,9 @@ public class CasePresenter {
                         if (mainActivity != null) {
                             //Start loading bar..
                             mainActivity.startProgressBar(circleProgressBar);
+                            if(noCasePresentText != null){
+                                noCasePresentText.setVisibility(View.GONE);
+                            }
                         }
                     }
 
@@ -264,6 +271,13 @@ public class CasePresenter {
                         if (mainActivity != null) {
                             //Stop loading bar..
                             mainActivity.stopProgressBar(circleProgressBar);
+                            if(list != null){
+                                if(list.getPostDataList().size() == 0){
+                                    if(noCasePresentText != null){
+                                        noCasePresentText.setVisibility(View.VISIBLE);
+                                    }
+                                }
+                            }
                         }
                     }
                 });
@@ -295,6 +309,9 @@ public class CasePresenter {
                         if (mainActivity != null) {
                             //Start loading bar..
                             mainActivity.startProgressBar(circleProgressBar);
+                            if(noCasePresentText != null){
+                                noCasePresentText.setVisibility(View.GONE);
+                            }
                         }
                     }
 
@@ -327,6 +344,14 @@ public class CasePresenter {
                         if (mainActivity != null) {
                             //Stop loading bar..
                             mainActivity.stopProgressBar(circleProgressBar);
+                        }
+
+                        if(list != null){
+                            if(list.getPostDataList().size() == 0){
+                                if(noCasePresentText != null){
+                                    noCasePresentText.setVisibility(View.VISIBLE);
+                                }
+                            }
                         }
                     }
                 });
@@ -359,6 +384,9 @@ public class CasePresenter {
                 public void onBefore() {
                     //Start loading bar..
                     mainActivity.startProgressBar(circleProgressBar);
+                    if(noCasePresentText != null){
+                        noCasePresentText.setVisibility(View.GONE);
+                    }
                 }
 
                 @Override
@@ -389,6 +417,13 @@ public class CasePresenter {
                 public void onFinally() {
                     //Stop loading bar..
                     mainActivity.stopProgressBar(circleProgressBar);
+                    if(list != null){
+                        if(list.getPostDetails().size() == 0){
+                            if(noCasePresentText != null){
+                                noCasePresentText.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    }
                 }
             });
         }else{

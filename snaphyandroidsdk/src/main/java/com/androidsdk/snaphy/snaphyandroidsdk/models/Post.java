@@ -155,6 +155,32 @@ public class Post extends Model {
         
             
 
+            
+                private String added;
+                /* Adding Getter and Setter methods */
+                public String getAdded(){
+                    return added;
+                }
+
+                /* Adding Getter and Setter methods */
+                public void setAdded(String added){
+                    this.added = added;
+                    //Update hashMap value..
+                    hashMap.put("added", added);
+                }
+
+            
+            
+            
+            
+
+            
+
+        
+    
+        
+            
+
                 private DataList<Map<String, Object>> postImages;
                 /* Adding Getter and Setter methods */
                 public DataList<Map<String, Object>> getPostImages(){
@@ -434,6 +460,7 @@ public class Post extends Model {
                             
                          
                             
+                        
                         
                         
                         
@@ -793,6 +820,7 @@ public class Post extends Model {
                             
                          
                             
+                        
                         
                         
                         
@@ -1354,6 +1382,7 @@ public class Post extends Model {
                             
                          
                             
+                        
                         
                         
                         
@@ -1949,6 +1978,7 @@ public class Post extends Model {
                         
                         
                         
+                        
                     
 
                 
@@ -2513,6 +2543,7 @@ public class Post extends Model {
                         
                         
                         
+                        
                     
 
                 
@@ -3046,6 +3077,7 @@ public class Post extends Model {
                                     } //method def ends here.
                                  
                             
+                        
                         
                         
                         

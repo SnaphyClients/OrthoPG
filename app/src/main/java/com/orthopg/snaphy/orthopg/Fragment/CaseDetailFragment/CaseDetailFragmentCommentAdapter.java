@@ -245,6 +245,18 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
                 if(!comment.getAnswer().isEmpty()){
                     answer.setVisibility(View.VISIBLE);
                     answer.setText(comment.getAnswer().trim());
+                    answer.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            int lineCnt = answer.getLineCount();
+                            // Perform any actions you want based on the line count here.
+                            if(lineCnt < 3) {
+                                buttonToggle.setVisibility(View.GONE);
+                            } else {
+                                buttonToggle.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    });
                 }else{
                     answer.setVisibility(View.GONE);
                 }

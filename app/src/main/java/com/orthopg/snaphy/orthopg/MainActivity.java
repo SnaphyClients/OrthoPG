@@ -12,11 +12,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.News;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Post;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.CustomerRepository;
+import com.androidsdk.snaphy.snaphyandroidsdk.repository.PostRepository;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.LoginEvent;
@@ -132,30 +135,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             } else {
                 //Check Login
                 stopProgressBar(progressBar);
-                String event = getIntent().getStringExtra("event");
-                String id = getIntent().getStringExtra("id");
-                if(event != null) {
-                    if (event.equals("newsRelease")) {
-                        Presenter.getInstance().addModel(Constants.VIEW_PAGER_ID, 2);
-                        replaceFragment(R.layout.fragment_main, null);
-                    } else if(event.equals("bookRelease")) {
-                        Presenter.getInstance().addModel(Constants.VIEW_PAGER_ID, 1);
-                        replaceFragment(R.layout.fragment_main, null);
-                    } else if(event.equals("comment")) {
-                        Presenter.getInstance().addModel(Constants.NOTIFICATION_ID, id);
-                        replaceFragment(R.layout.fragment_case_detail, null);
-                    } else if(event.equals("like")) {
-                        Presenter.getInstance().addModel(Constants.NOTIFICATION_ID, id);
-                        replaceFragment(R.layout.fragment_case_detail, null);
-                    } else if(event.equals("save")) {
-                        Presenter.getInstance().addModel(Constants.NOTIFICATION_ID, id);
-                        replaceFragment(R.layout.fragment_case_detail, null);
-                    } else {
+                checkLogin();
 
-                    }
-                } else {
-                    checkLogin();
-                }
 
             }
         } else {
@@ -166,9 +147,73 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         }
     }
 
+    public void parsePushMessage(){
+        String event = getIntent().getStringExtra("event");
+        String id = getIntent().getStringExtra("id");
+        if(event != null) {
+            if (event.equals("newsRelease")) {
+                Presenter.getInstance().addModel(Constants.VIEW_PAGER_ID, 2);
+                replaceFragment(R.layout.fragment_main, null);
+            } else if(event.equals("bookRelease")) {
+                Presenter.getInstance().addModel(Constants.VIEW_PAGER_ID, 1);
+                replaceFragment(R.layout.fragment_main, null);
+            } else if(event.equals("comment")) {
+                fetchCaseFromId(id);
+            } else if(event.equals("like")) {
+                fetchCaseFromId(id);
+            } else if(event.equals("save")) {
+                fetchCaseFromId(id);
+            } else {
+                //MOVE TO HOME..
+                showHomeFragment();
+            }
+        } else {
+            //MOVE TO HOME
+            showHomeFragment();
+        }
+    }
+
+
+
     public void fetchCaseFromId(String id) {
-        /*PostRepository postRepository = snaphyHelper.getLoopBackAdapter().createRepository(PostRepository.class);
-        postRepository.*/
+        PostRepository postRepository = snaphyHelper.getLoopBackAdapter().createRepository(PostRepository.class);
+        postRepository.fetchPostById(id, new ObjectCallback<Post>() {
+            @Override
+            public void onBefore() {
+                super.onBefore();
+                startProgressBar(progressBar);
+            }
+
+            @Override
+            public void onSuccess(Post object) {
+                super.onSuccess(object);
+                if(object != null) {
+                    if(object.getPostDetails() != null) {
+                        object.getPostDetails().addRelation(object);
+                    }
+
+                    Presenter.getInstance().addModel(Constants.POST_PUSH_EVENT_DATA, object);
+                    replaceFragment(R.layout.fragment_case_detail, null);
+                }else{
+                    //MOVE TO HOME..
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                super.onError(t);
+                Log.e(Constants.TAG, t.toString());
+                TastyToast.makeText(getApplicationContext(), Constants.NETWORK_ERROR, TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+            }
+
+            @Override
+            public void onFinally() {
+                super.onFinally();
+                stopProgressBar(progressBar);
+            }
+        });
+
     }
 
 
@@ -395,6 +440,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         }
     }
 
+
     public String parseDate(String postedDate) {
 
         DateTime parsePostedDate = ISODateTimeFormat.dateTime().withZone(DateTimeZone.forID("Asia/Kolkata")).parseDateTime(postedDate);
@@ -607,6 +653,12 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         }
     }
 
+
+    public void showHomeFragment(){
+        // Move to home
+        replaceFragment(R.layout.fragment_main, null);
+    }
+
     public void checkMCI(String MCINumber){
         if(MCINumber.isEmpty()) {
             // Open MCI Fragment
@@ -614,9 +666,16 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         } else {
             //Display message that verification is under process
             TastyToast.makeText(getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
-            // Move to home
-            replaceFragment(R.layout.fragment_main,null);
-            // Make cases, books and News unclickable
+
+            if(getIntent().getStringExtra("event") != null){
+                //Show push message data..
+                parsePushMessage();
+            }else{
+                // Move to home
+                replaceFragment(R.layout.fragment_main,null);
+            }
+
+            //TODO: Make cases, books and News unclickable
         }
     }
 

@@ -49,6 +49,7 @@ public class Constants {
     public static String ADD_NEW_CASE = "ADD_NEW_CASE";
     public static String EDIT_IN_PROCESS_COMMENT_POST_MODEL = "EDIT_IN_COMMENT_POST";
     public static String EDIT_IN_PROCESS_COMMENT_MODEL = "EDIT_IN_COMMENT_MODEL";
+    public static String POST_PUSH_EVENT_DATA = "PostPushEventData";
     /*---------------*/
 
     /*IDs*/
@@ -109,6 +110,7 @@ public class Constants {
     public static String ACCEPT_ANSWER_ERROR_COMMENT = "Cannot Accept Answer! Try again later";
     public static String BLANK_COMMENT_ERROR = "Comment cannot be blank";
     public static String VERIFICATION_IN_PROGRESS = "Verification is under process";
+    public static String NETWORK_ERROR = "Cannot Connect! Check your network";
 
     public static String NEWS_RELEASE_MESSAGE = "News has been posted by OrthoPG.";
     public static String BOOKS_RELEASE_MESSAGE = "New book has been released by OrthoPG.";
