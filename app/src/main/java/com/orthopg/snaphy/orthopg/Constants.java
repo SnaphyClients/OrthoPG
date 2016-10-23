@@ -114,9 +114,9 @@ public class Constants {
 
     public static String NEWS_RELEASE_MESSAGE = "News has been posted by OrthoPG.";
     public static String BOOKS_RELEASE_MESSAGE = "New book has been released by OrthoPG.";
-    public static String COMMENT_MESSAGE = "has commented on your post.";
-    public static String LIKE_MESSAGE = "has liked on your post.";
-    public static String SAVE_MESSAGE = "has saved on your post.";
+    public static String COMMENT_MESSAGE = "has commented on the post.";
+    public static String LIKE_MESSAGE = "has liked on the post.";
+    public static String SAVE_MESSAGE = "has saved on the post.";
 
 
     /*--------------------------------------------------------------------------------------------------------*/

@@ -1,6 +1,7 @@
 package com.orthopg.snaphy.orthopg;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -147,6 +148,18 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         }
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if(intent.getStringExtra("event") != null){
+            //Show push message data..
+            parsePushMessage(intent);
+        } else {
+            replaceFragment(R.layout.fragment_main, null);
+        }
+
+    }
+
     public void parsePushMessage(){
         String event = getIntent().getStringExtra("event");
         String id = getIntent().getStringExtra("id");
@@ -158,10 +171,13 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
                 Presenter.getInstance().addModel(Constants.VIEW_PAGER_ID, 1);
                 replaceFragment(R.layout.fragment_main, null);
             } else if(event.equals("comment")) {
+                replaceFragment(R.layout.fragment_main, null);
                 fetchCaseFromId(id);
             } else if(event.equals("like")) {
+                replaceFragment(R.layout.fragment_main, null);
                 fetchCaseFromId(id);
             } else if(event.equals("save")) {
+                replaceFragment(R.layout.fragment_main, null);
                 fetchCaseFromId(id);
             } else {
                 //MOVE TO HOME..
@@ -173,6 +189,34 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         }
     }
 
+    public void parsePushMessage(Intent intent){
+        String event = intent.getStringExtra("event");
+        String id = intent.getStringExtra("id");
+        if(event != null) {
+            if (event.equals("newsRelease")) {
+                Presenter.getInstance().addModel(Constants.VIEW_PAGER_ID, 2);
+                replaceFragment(R.layout.fragment_main, null);
+            } else if(event.equals("bookRelease")) {
+                Presenter.getInstance().addModel(Constants.VIEW_PAGER_ID, 1);
+                replaceFragment(R.layout.fragment_main, null);
+            } else if(event.equals("comment")) {
+                replaceFragment(R.layout.fragment_main, null);
+                fetchCaseFromId(id);
+            } else if(event.equals("like")) {
+                replaceFragment(R.layout.fragment_main, null);
+                fetchCaseFromId(id);
+            } else if(event.equals("save")) {
+                replaceFragment(R.layout.fragment_main, null);
+                fetchCaseFromId(id);
+            } else {
+                //MOVE TO HOME..
+                showHomeFragment();
+            }
+        } else {
+            //MOVE TO HOME
+            showHomeFragment();
+        }
+    }
 
 
     public void fetchCaseFromId(String id) {
@@ -313,7 +357,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         int pos = -1;
         bundle.putInt("position", pos);
         caseDetailFragment.setArguments(bundle);
-        fragmentTransaction.replace(R.id.container, caseDetailFragment, CaseDetailFragment.TAG);
+        fragmentTransaction.replace(R.id.main_container, caseDetailFragment, CaseDetailFragment.TAG).addToBackStack(null);
         fragmentTransaction.commitAllowingStateLoss();
     }
 
