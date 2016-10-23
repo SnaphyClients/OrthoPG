@@ -43,7 +43,8 @@
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    app:layout_collapseMode="pin">
 
                     <ImageButton
                         android:id="@+id/fragment_case_detail_image_button1"
@@ -220,13 +221,6 @@
 
                         </LinearLayout>
 
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:src="@mipmap/case_end_indicator"
-                            android:id="@+id/imageView" />
-
                     </LinearLayout>
 
                 </RelativeLayout>
@@ -245,12 +239,26 @@
             android:layout_marginBottom="40dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/layout_case_detail_recycler_view2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/case_end_indicator"
+                    android:id="@+id/imageView" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/layout_case_detail_recycler_view2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+
+            </LinearLayout>
 
         </android.support.v4.widget.NestedScrollView>
 
