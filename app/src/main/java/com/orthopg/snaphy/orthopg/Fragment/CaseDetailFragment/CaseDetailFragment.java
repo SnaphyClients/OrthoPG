@@ -79,6 +79,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.layout_case_details_textview4) TextView tag;
     @Bind(R.id.layout_case_details_textview5) TextView description;
     @Bind(R.id.layout_case_detail_imageview1) CircleImageView profilePic;
+    @Bind(R.id.imageView) ImageView indicator;
     @Bind(R.id.layout_case_details_textview6) TextView numberOfSave;
     @Bind(R.id.layout_case_details_textview7) TextView numberOfLike;
     @Bind(R.id.layout_case_details_textview8) TextView selectedAnswerUserName;
@@ -515,13 +516,18 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
                /* AppBarLayout.LayoutParams appbarParams = (AppBarLayout.LayoutParams) toolbarLayout.getLayoutParams();
 
                 if(dataList.size() == 0){
-                   *//* appbarParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP);
-                    toolbarLayout.setLayoutParams(appbarParams);*//*
-                    description.setMovementMethod(new ScrollingMovementMethod());
+                    appbarParams.setScrollFlags(0);
+                    toolbarLayout.setLayoutParams(appbarParams);
+                    *//*description.setMovementMethod(new ScrollingMovementMethod());*//*
                 } else {
                     appbarParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS);
                     toolbarLayout.setLayoutParams(appbarParams);
                 }*/
+                if(dataList.size() != 0) {
+                    indicator.setVisibility(View.GONE);
+                } else {
+                    indicator.setVisibility(View.VISIBLE);
+                }
                 caseDetailFragmentCommentAdapter = new CaseDetailFragmentCommentAdapter(mainActivity, post, caseDetailPresenter, commentStateDataList);
                 commentsRecyclerView.setAdapter(caseDetailFragmentCommentAdapter);
                 recyclerViewLoadMoreEventData();
@@ -532,14 +538,19 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
             public void onChange(DataList<Comment> dataList) {
                /* AppBarLayout.LayoutParams appbarParams = (AppBarLayout.LayoutParams) toolbarLayout.getLayoutParams();
                 if(dataList.size() == 0){
-                    *//*appbarParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP);
-                    toolbarLayout.setLayoutParams(appbarParams);*//*
-                    description.setMovementMethod(new ScrollingMovementMethod());
+                    appbarParams.setScrollFlags(0);
+                    toolbarLayout.setLayoutParams(appbarParams);
+                    *//*description.setMovementMethod(new ScrollingMovementMethod());*//*
 
                 } else {
                     appbarParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS);
                     toolbarLayout.setLayoutParams(appbarParams);
                 }*/
+                if(dataList.size() != 0) {
+                    indicator.setVisibility(View.GONE);
+                } else {
+                    indicator.setVisibility(View.VISIBLE);
+                }
                 caseDetailFragmentCommentAdapter.notifyDataSetChanged();
             }
 

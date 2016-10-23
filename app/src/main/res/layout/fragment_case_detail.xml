@@ -1,3 +1,4 @@
+<!--http://saulmm.github.io/mastering-coordinator-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -29,6 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
+            android:background="@color/white"
             app:elevation="0dp"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -39,12 +41,12 @@
                 android:fitsSystemWindows="true"
                 android:background="@color/white"
                 android:minHeight="?attr/actionBarSize"
-                app:layout_scrollFlags="scroll">
+                app:layout_scrollFlags="scroll|snap">
+
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_collapseMode="pin">
+                    android:layout_height="wrap_content">
 
                     <ImageButton
                         android:id="@+id/fragment_case_detail_image_button1"
@@ -178,72 +180,63 @@
                             android:textSize="12sp"
                             android:textColor="@color/buttonColor"/>
 
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:fitsSystemWindows="true"
-                            android:layout_marginTop="15dp">
-
-                            <!--Accepted Answer Block-->
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <ImageView
-                                    android:id="@+id/layout_case_details_imageview1"
-                                    android:layout_width="35dp"
-                                    android:layout_height="35dp"
-                                    android:src="@mipmap/selected"
-                                    android:layout_gravity="left"/>
-                                <!--Accepted Answer-->
-                                <TextView
-                                    android:id="@+id/layout_case_details_textview8"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/colorPrimaryDark"
-                                    android:textStyle="bold"
-                                    android:paddingTop="3dp"
-                                    android:gravity="center_vertical"
-                                    android:layout_gravity="center_vertical"/>
-
-                            </LinearLayout>
-                            <!--Comment Detail-->
-                            <TextView
-                                android:id="@+id/layout_case_details_textview9"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="12sp"
-                                android:textColor="#777777"
-                                />
-
-                        </LinearLayout>
-
                     </LinearLayout>
 
                 </RelativeLayout>
+
+
             </android.support.design.widget.CollapsingToolbarLayout>
-
-        </android.support.design.widget.AppBarLayout>
-
-        <android.support.v4.widget.NestedScrollView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true"
-            android:layout_gravity="fill_vertical"
-            android:layout_marginBottom="40dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                android:background="@color/white">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:fitsSystemWindows="true"
+                    android:layout_marginTop="15dp"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp">
+
+                    <!--Accepted Answer Block-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/layout_case_details_imageview1"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:src="@mipmap/selected"
+                            android:layout_gravity="left"/>
+                        <!--Accepted Answer-->
+                        <TextView
+                            android:id="@+id/layout_case_details_textview8"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textStyle="bold"
+                            android:paddingTop="3dp"
+                            android:gravity="center_vertical"
+                            android:layout_gravity="center_vertical"/>
+
+                    </LinearLayout>
+                    <!--Comment Detail-->
+                    <TextView
+                        android:id="@+id/layout_case_details_textview9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:textColor="#777777" />
+
+
+                </LinearLayout>
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -251,16 +244,45 @@
                     android:src="@mipmap/case_end_indicator"
                     android:id="@+id/imageView" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/layout_case_detail_recycler_view2"
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+                    android:layout_height="2dp"
+                    android:background="#EEEEEE"
+                    android:layout_marginTop="10dp" />
+
+            </LinearLayout>
+
+         </android.support.design.widget.AppBarLayout>
+
+      <!--  <android.support.v4.widget.NestedScrollView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:layout_gravity="fill_vertical"
+            android:layout_marginBottom="60dp"
+            android:id="@+id/nested_scroll"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
 
 
             </LinearLayout>
 
-        </android.support.v4.widget.NestedScrollView>
+        </android.support.v4.widget.NestedScrollView>-->
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/layout_case_detail_recycler_view2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     </android.support.design.widget.CoordinatorLayout>
 
@@ -428,6 +450,5 @@
         android:background="#DDDDDD"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="45dp"/>
-
 
 </RelativeLayout>
