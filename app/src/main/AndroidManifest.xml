@@ -51,17 +51,35 @@
             android:value="da5a71693369b2f6639d662ac5b0877a200db1cf" />
 
         <receiver
-            android:name=".PushNotification.GcmBroadcastReceiver"
+            android:name="com.google.android.gms.gcm.GcmReceiver"
             android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <!-- Receives the actual messages. -->
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-                <category android:name="com.google.android.gcm.demo.app" />
+                <category android:name="com.example.gcm" />
             </intent-filter>
         </receiver>
 
-        <service android:name=".PushNotification.GcmIntentService" />
+        <service android:name=".PushNotification.GcmIntentService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".PushNotification.MyInstanceIDListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="com.orthopg.snaphy.orthopg.PushNotification.RegistrationIntentService"
+            android:exported="false">
+        </service>
+
     </application>
 
 </manifest>

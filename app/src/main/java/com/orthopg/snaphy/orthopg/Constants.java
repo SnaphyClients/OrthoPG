@@ -28,8 +28,9 @@ public class Constants {
      * from the API Console, as described in "Getting Started."
      */
     //TODO CHANGE IT UNTIL THIS
-    public static String SENDER_ID = "673699478279";
-    public static String LOOPBACK_APP_ID = "mapstrack-snaphy-push-application";
+    //public static String SENDER_ID = "673699478279";
+    public static String SENDER_ID = "1045211377196";
+    public static String LOOPBACK_APP_ID = "ortho-snaphy-push-application";
 
 
     /*DATA LIST IDs*/

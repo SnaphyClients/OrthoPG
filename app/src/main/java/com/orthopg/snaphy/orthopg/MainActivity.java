@@ -52,6 +52,7 @@ import com.orthopg.snaphy.orthopg.Fragment.NewCase.CaseUploadImageFragment;
 import com.orthopg.snaphy.orthopg.Fragment.NewsFragment.NewsFragment;
 import com.orthopg.snaphy.orthopg.Fragment.ProfileFragment.ProfileFragment;
 import com.orthopg.snaphy.orthopg.Interface.OnFragmentChange;
+import com.orthopg.snaphy.orthopg.PushNotification.RegistrationIntentService;
 import com.sdsmdg.tastytoast.TastyToast;
 import com.strongloop.android.loopback.AccessToken;
 import com.strongloop.android.loopback.AccessTokenRepository;
@@ -105,6 +106,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
                 .build();
         Fabric.with(fabric);
         setContentView(R.layout.activity_main);
+        Intent intent = new Intent(this, RegistrationIntentService.class);
+        startService(intent);
         ButterKnife.bind(this);
         progressBar = (CircleProgressBar) findViewById(R.id.activity_main_progressBar);
         notConnectedText = (TextView) findViewById(R.id.activity_main_textview1);

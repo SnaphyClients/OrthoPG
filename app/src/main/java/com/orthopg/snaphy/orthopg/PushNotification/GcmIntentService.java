@@ -1,6 +1,5 @@
 package com.orthopg.snaphy.orthopg.PushNotification;
 
-import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -17,6 +16,7 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 
+import com.google.android.gms.gcm.GcmListenerService;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
@@ -30,7 +30,7 @@ import java.util.regex.Matcher;
 /**
  * Created by Ravi-Gupta on 3/9/2016.
  */
-public class GcmIntentService extends IntentService  {
+public class GcmIntentService extends GcmListenerService {
 
     public int NOTIFICATION_ID = 1;
     private NotificationManager mNotificationManager;
@@ -50,31 +50,32 @@ public class GcmIntentService extends IntentService  {
     int mNotificationId2 = 002;
 
 
+/*
     public GcmIntentService() {
         super("GcmIntentService");
     }
+*/
 
     @Override
-    protected void onHandleIntent(Intent intent) {
-        Bundle extras = intent.getExtras();
+    public void onMessageReceived(String from, Bundle data) {
         GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
         // The getMessageType() intent parameter must be the intent you received
         // in your BroadcastReceiver.
-        String messageType = gcm.getMessageType(intent);
+        String message = data.getString("message");
 
-        if (!extras.isEmpty()) {  // has effect of unparcelling Bundle
+       /* if (!extras.isEmpty()) {  */// has effect of unparcelling Bundle
             /*
              * Filter messages based on message type. Since it is likely that GCM will be
              * extended in the future with new message types, just ignore any message types you're
              * not interested in, or that you don't recognize.
              */
-            if (GoogleCloudMessaging.MESSAGE_TYPE_SEND_ERROR.equals(messageType)) {
+            /*if (GoogleCloudMessaging.MESSAGE_TYPE_SEND_ERROR.equals(messageType)) {
                 sendNotification("Send error: " + extras.toString());
             } else if (GoogleCloudMessaging.MESSAGE_TYPE_DELETED.equals(messageType)) {
                 sendNotification("Deleted messages on server: " + extras.toString());
                 // If it's a regular GCM message, do some work.
-            } else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
-                String message = (String)extras.getString("message");
+            } else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {*/
+                /*String message = (String)extras.getString("message");*/
                 Log.i(Constants.TAG, "Message is: " + message);
                 JSONObject msg;
                 String event = "" ;
@@ -143,14 +144,14 @@ public class GcmIntentService extends IntentService  {
                 }
 
                 catch (Exception e) {
-                    Log.v(Constants.TAG, "Error"+"");
+                    sendNotification(message , Constants.TAG, "", "");
                 }
 
 
-            }
-        }
+          /*  }
+        }*/
         // Release the wake lock provided by the WakefulBroadcastReceiver.
-        GcmBroadcastReceiver.completeWakefulIntent(intent);
+        /*GcmBroadcastReceiver.completeWakefulIntent(intent);*/
     }
 
     public CharSequence drawTextViewDesign(String constant, String data) {
