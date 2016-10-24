@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
@@ -46,6 +47,8 @@ public class PostAnswerFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.fragment_post_answer_progressBar)
     CircleProgressBar progressBar;
     MainActivity mainActivity;
+    @Bind(R.id.fragment_post_answer_button1)
+    Button postButton;
 
     Comment comment;
     Post post;
@@ -107,6 +110,14 @@ public class PostAnswerFragment extends android.support.v4.app.Fragment {
         }
     }
 
+    public void enablePostButton(boolean enable) {
+        if(enable) {
+            postButton.setEnabled(true);
+        } else {
+            postButton.setEnabled(false);
+        }
+    }
+
 
     private void saveComment(){
         String commentAnswer = answer.getText().toString();
@@ -142,6 +153,7 @@ public class PostAnswerFragment extends android.support.v4.app.Fragment {
                       public void onFinally() {
                           //STOP LOADING BAR
                           mainActivity.stopProgressBar(progressBar);
+                          postButton.setEnabled(true);
                       }
                   });
               }else{
@@ -191,13 +203,17 @@ public class PostAnswerFragment extends android.support.v4.app.Fragment {
                       public void onFinally() {
                           //STOP LOADING BAR
                           mainActivity.stopProgressBar(progressBar);
+                          postButton.setEnabled(true);
 
                       }
                   });
               }
           }else{
+              postButton.setEnabled(true);
               TastyToast.makeText(mainActivity.getApplicationContext(), Constants.BLANK_COMMENT_ERROR, TastyToast.LENGTH_SHORT, TastyToast.WARNING);
           }
+        } else {
+            postButton.setEnabled(true);
         }
     }
 
@@ -206,6 +222,7 @@ public class PostAnswerFragment extends android.support.v4.app.Fragment {
                 Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(answer.getWindowToken(), 0);
         saveComment();
+        postButton.setEnabled(false);
 
     }
 
@@ -216,7 +233,6 @@ public class PostAnswerFragment extends android.support.v4.app.Fragment {
         mainActivity.onBackPressed();
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -260,7 +276,6 @@ public class PostAnswerFragment extends android.support.v4.app.Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

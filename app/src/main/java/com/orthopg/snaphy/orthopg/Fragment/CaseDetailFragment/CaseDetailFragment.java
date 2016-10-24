@@ -84,6 +84,8 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.layout_case_details_textview7) TextView numberOfLike;
     @Bind(R.id.layout_case_details_textview8) TextView selectedAnswerUserName;
     @Bind(R.id.layout_case_details_textview9) TextView selectedAnswer;
+    @Bind(R.id.layout_case_details_textview10) TextView selectedLongAnswer;
+    @Bind(R.id.button_toggle_case_detail) Button toggleButton;
     @Bind(R.id.layout_case_details_imageview1) ImageView isAnswerSelected;
     @Bind(R.id.fragment_case_detail_linearLayout1) LinearLayout saveLinearLayout;
     @Bind(R.id.fragment_case_detail_linearLayout2) LinearLayout likeLinearLayout;
@@ -137,6 +139,19 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
             Presenter.getInstance().removeModelFromList(Constants.EDIT_IN_PROCESS_COMMENT_POST_MODEL);
         }
     }
+
+    @OnClick(R.id.button_toggle_case_detail) void toggleButtonClick() {
+        if(toggleButton.getText().equals("view more")) {
+            selectedLongAnswer.setVisibility(View.VISIBLE);
+            toggleButton.setText("view less");
+            selectedAnswer.setVisibility(View.GONE);
+        } else {
+            selectedLongAnswer.setVisibility(View.GONE);
+            toggleButton.setText("view more");
+            selectedAnswer.setVisibility(View.VISIBLE);
+        }
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -365,10 +380,24 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
                         name = Constants.Doctor + name.replace("^[Dd][Rr]", "");
                     }
                     selectedAnswerUserName.setText(name);
+
                 }
 
                 if(postDetail.getComment().getAnswer() != null){
                     selectedAnswer.setText(postDetail.getComment().getAnswer());
+                    selectedLongAnswer.setText(postDetail.getComment().getAnswer());
+                    selectedAnswer.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            int lineCnt = selectedAnswer.getLineCount();
+                            // Perform any actions you want based on the line count here.
+                            if(lineCnt < 3) {
+                                toggleButton.setVisibility(View.GONE);
+                            } else {
+                                toggleButton.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    });
                 }
                 //Adding login customer..
                 if(loginCustomer != null) {
@@ -690,7 +719,16 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
             //Prepare the data..
             Presenter.getInstance().addModel(Constants.EDIT_IN_PROCESS_COMMENT_POST_MODEL, post);
         }
-        mainActivity.replaceFragment(R.id.fragment_case_detail_button4, null);
+        Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+        if(customer != null) {
+            final String MCINumber = customer.getMciNumber() != null ? customer.getMciNumber() : "";
+            if(!MCINumber.isEmpty()) {
+                mainActivity.replaceFragment(R.id.fragment_case_detail_button4, null);
+            } else {
+                TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+
+            }
+        }
     }
 
 

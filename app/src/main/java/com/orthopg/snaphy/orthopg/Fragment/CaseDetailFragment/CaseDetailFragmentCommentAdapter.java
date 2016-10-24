@@ -96,14 +96,14 @@ public class CaseDetailFragmentCommentAdapter extends RecyclerView.Adapter<CaseD
         buttonToggle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(buttonToggle.getText().equals("more...")) {
+                if(buttonToggle.getText().equals("view more")) {
                     longAnswer.setVisibility(View.VISIBLE);
                     longAnswer.setText(comment.getAnswer().toString());
-                    buttonToggle.setText("less");
+                    buttonToggle.setText("view less");
                     answer.setVisibility(View.GONE);
                 } else {
                     longAnswer.setVisibility(View.GONE);
-                    buttonToggle.setText("more...");
+                    buttonToggle.setText("view more");
                     answer.setVisibility(View.VISIBLE);
                 }
             }

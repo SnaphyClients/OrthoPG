@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
     public static LocalInstallation installation;
     public SnaphyHelper snaphyHelper;
     SharedPreferences sharedPreferences;
-    CircleProgressBar progressBar;
+    public CircleProgressBar progressBar;
     TextView notConnectedText;
     Button retryButton;
 
@@ -132,7 +132,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             // Internet is connected
             boolean displayHelpScreen = sharedPreferences.getBoolean("showHelpScreen", false);
             if(!displayHelpScreen) {
-                stopProgressBar(progressBar);
                 editor.putBoolean("showHelpScreen", true);
                 editor.commit();
                 replaceFragment(R.layout.fragment_help, null);

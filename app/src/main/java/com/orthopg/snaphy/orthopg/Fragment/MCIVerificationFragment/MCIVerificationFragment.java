@@ -23,6 +23,7 @@ import com.androidsdk.snaphy.snaphyandroidsdk.repository.CustomerRepository;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
+import com.sdsmdg.tastytoast.TastyToast;
 
 import java.util.Map;
 
@@ -181,6 +182,8 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
                 Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(mciCode.getWindowToken(), 0);
         mainActivity.replaceFragment(R.layout.fragment_main, null);
+        TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

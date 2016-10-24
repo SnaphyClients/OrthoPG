@@ -10,6 +10,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.Listen;
@@ -39,6 +40,7 @@ public class NewsFragment extends android.support.v4.app.Fragment {
     private OnFragmentInteractionListener mListener;
     @Bind(R.id.fragment_news_recycler_view) RecyclerView recyclerView;
     @Bind(R.id.fragment_news_progressBar) CircleProgressBar progressBar;
+    @Bind(R.id.fragment_news_textview1) TextView noNewsPresent;
     StaggeredGridLayoutManager staggeredGridLayoutManager;
     NewsListAdapter newsListAdapter;
     MainActivity mainActivity;
@@ -116,10 +118,20 @@ public class NewsFragment extends android.support.v4.app.Fragment {
             public void onInit(DataList<News> dataList) {
                 newsListAdapter = new NewsListAdapter(mainActivity, dataList);
                 recyclerView.setAdapter(newsListAdapter);
+                if(dataList.size() == 0) {
+                    noNewsPresent.setVisibility(View.VISIBLE);
+                } else {
+                    noNewsPresent.setVisibility(View.GONE);
+                }
             }
 
             @Override
             public void onChange(DataList<News> dataList) {
+                if(dataList.size() == 0) {
+                    noNewsPresent.setVisibility(View.VISIBLE);
+                } else {
+                    noNewsPresent.setVisibility(View.GONE);
+                }
                 newsListAdapter.notifyDataSetChanged();
             }
 

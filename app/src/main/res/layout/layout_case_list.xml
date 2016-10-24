@@ -120,7 +120,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:textSize="12sp"
-        android:maxLength="256"
+        android:maxLines="3"
+        android:ellipsize="end"
         android:text=""/>
 
 
@@ -342,7 +343,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12sp"
+        android:maxLines="3"
         android:layout_marginTop="7dp"
+        android:ellipsize="end"
         android:text=""/>
 
     <View

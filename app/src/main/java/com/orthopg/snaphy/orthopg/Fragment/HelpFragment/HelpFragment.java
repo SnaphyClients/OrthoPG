@@ -54,6 +54,7 @@ public class HelpFragment extends android.support.v4.app.Fragment {
         ButterKnife.bind(this, view);
         viewPager.setAdapter(new HelpFragmentTabLayoutAdapter(mainActivity.getSupportFragmentManager()));
         indicator.setViewPager(viewPager);
+        mainActivity.stopProgressBar(mainActivity.progressBar);
         return view;
     }
 

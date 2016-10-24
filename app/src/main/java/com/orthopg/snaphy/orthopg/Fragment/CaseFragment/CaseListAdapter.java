@@ -124,7 +124,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
             final ImageView like = holder.like;
             final ImageView saveCase = holder.saveCase;
             RecyclerView caseImages = holder.caseImages;
-            TextView caseDescription = holder.caseDescription;
+            final TextView caseDescription = holder.caseDescription;
             TextView tag = holder.tag;
             TextView delete = holder.deleteButton;
             TextView edit = holder.editButton;
@@ -188,7 +188,19 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                 if (!data.post.getDescription().isEmpty()) {
                     caseDescription.setVisibility(View.VISIBLE);
                     caseDescription.setTypeface(font);
-                    caseDescription.setText(data.post.getDescription() + "...");
+                    caseDescription.setText(data.post.getDescription());
+                    caseDescription.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            int lineCnt = caseDescription.getLineCount();
+                            // Perform any actions you want based on the line count here.
+                            if(lineCnt < 3) {
+
+                            } else {
+                                caseDescription.setText(data.post.getDescription() + "...");
+                            }
+                        }
+                    });
                 } else {
                     caseDescription.setVisibility(View.GONE);
                 }

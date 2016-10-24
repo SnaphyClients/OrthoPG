@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.Listen;
@@ -35,6 +36,7 @@ public class BooksFragment extends android.support.v4.app.Fragment {
     private OnFragmentInteractionListener mListener;
     @Bind(R.id.fragment_books_recycler_view) RecyclerView recyclerView;
     @Bind(R.id.fragment_books_progressBar) CircleProgressBar progressBar;
+    @Bind(R.id.fragment_books_textview1) TextView noBooksPresent;
     LinearLayoutManager linearLayoutManager;
     BooksListAdapter booksListAdapter;
     MainActivity mainActivity;
@@ -85,6 +87,11 @@ public class BooksFragment extends android.support.v4.app.Fragment {
                     @Override
                     public void onInit(DataList<Book> dataList) {
                         super.onInit(dataList);
+                        if(dataList.size() == 0) {
+                            noBooksPresent.setVisibility(View.VISIBLE);
+                        } else {
+                            noBooksPresent.setVisibility(View.GONE);
+                        }
                         booksListAdapter = new BooksListAdapter(mainActivity, dataList);
                         recyclerView.setAdapter(booksListAdapter);
                     }
@@ -92,6 +99,11 @@ public class BooksFragment extends android.support.v4.app.Fragment {
                     @Override
                     public void onChange(DataList<Book> dataList) {
                         super.onChange(dataList);
+                        if(dataList.size() == 0) {
+                            noBooksPresent.setVisibility(View.VISIBLE);
+                        } else {
+                            noBooksPresent.setVisibility(View.GONE);
+                        }
                         booksListAdapter.notifyDataSetChanged();
                     }
 

@@ -12,6 +12,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No Books Present"
+        android:layout_centerInParent="true"
+        android:textSize="25sp"
+        android:textColor="#999999"
+        android:textStyle="bold"
+        android:visibility="gone"
+        android:id="@+id/fragment_books_textview1"/>
+
     <com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar
         android:layout_width="45dp"
         android:layout_height="45dp"
