@@ -398,6 +398,8 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
                             }
                         }
                     });
+                } else {
+                    toggleButton.setVisibility(View.GONE);
                 }
                 //Adding login customer..
                 if(loginCustomer != null) {
@@ -439,10 +441,12 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
             }else{
                 ///hide accepted answer..
                 hideSelectedAnswer(selectedAnswer, isAnswerSelected,selectedAnswerUserName, postDetail.getComment());
+                toggleButton.setVisibility(View.GONE);
             }
         }else{
             ///hide accepted answer..
             hideSelectedAnswer(selectedAnswer, isAnswerSelected,selectedAnswerUserName, postDetail.getComment());
+            toggleButton.setVisibility(View.GONE);
         }
 
         /** Adding Like and Save**/
