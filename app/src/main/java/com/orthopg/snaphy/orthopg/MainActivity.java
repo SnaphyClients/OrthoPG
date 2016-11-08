@@ -474,7 +474,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         int pos = (int) position;
         bundle.putInt("position", pos);
         caseDetailFragment.setArguments(bundle);
-        fragmentTransaction.replace(R.id.main_container, caseDetailFragment, CaseDetailFragment.TAG).addToBackStack(null);
+        fragmentTransaction.replace(R.id.main_container, caseDetailFragment, CaseDetailFragment.TAG).addToBackStack(CaseDetailFragment.TAG);
         fragmentTransaction.commitAllowingStateLoss();
     }
 
