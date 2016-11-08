@@ -93,6 +93,15 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    public void resetLoadingData() {
+        previousTotal = 0;
+        loading = true;
+        visibleThreshold = 3;
+        firstVisibleItem = 0;
+        visibleItemCount = 0;
+        totalItemCount = 0;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -144,12 +153,14 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         changeButtonColor(true, false, false, false, false);
         Constants.SELECTED_TAB = Constants.TRENDING;
         casePresenter.fetchPost(Constants.TRENDING, true);
+        resetLoadingData();
     }
 
     @OnClick(R.id.fragment_case_button2) void newButtonClick() {
         changeButtonColor(false, true, false, false, false);
         Constants.SELECTED_TAB = Constants.LATEST;
         casePresenter.fetchPost(Constants.LATEST, true);
+        resetLoadingData();
 
     }
 
@@ -157,18 +168,21 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         changeButtonColor(false, false, true, false, false);
         Constants.SELECTED_TAB = Constants.UNSOLVED;
         casePresenter.fetchPost(Constants.UNSOLVED, true);
+        resetLoadingData();
     }
 
     @OnClick(R.id.fragment_case_button6) void savedButtonClick() {
         changeButtonColor(false, false, false, true, false);
         Constants.SELECTED_TAB = Constants.SAVED;
         casePresenter.fetchSavedPost(Constants.SAVED, true);
+        resetLoadingData();
     }
 
     @OnClick(R.id.fragment_case_button5) void postedButtonClick() {
         changeButtonColor(false, false, false, false, true);
         Constants.SELECTED_TAB = Constants.POSTED;
         casePresenter.fetchPostedPost(Constants.POSTED, true);
+        resetLoadingData();
     }
 
     public void recyclerViewLoadMoreEventData() {
