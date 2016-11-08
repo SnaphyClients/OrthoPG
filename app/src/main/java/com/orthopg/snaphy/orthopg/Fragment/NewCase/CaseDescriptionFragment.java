@@ -128,14 +128,10 @@ public class CaseDescriptionFragment extends android.support.v4.app.Fragment {
         im.hideSoftInputFromWindow(description.getWindowToken(), 0);
 
 
-        InputMethodManager imm = (InputMethodManager)mainActivity.getSystemService(
-                Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(description.getWindowToken(), 0);
         if(description.getText() != null) {
             String desc = description.getText().toString();
             if (desc != null) {
                 desc = desc.trim();
-                if (!desc.isEmpty()) {
                     //Now load desc to post.
                     saveDescription(desc);
                     postCaseAsAnonymousDialog();
@@ -143,7 +139,6 @@ public class CaseDescriptionFragment extends android.support.v4.app.Fragment {
                     //TODO: DISPLAY THIS AFTER SUCCESSFULL SAVING ..
                     //mainActivity.replaceFragment(R.id.fragment_case_description_button1, null);
                 }
-            }
         }
 
         //ASK FOR ANONYMOUS POST AND SAVE THE CASE...

@@ -134,6 +134,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
             final TextView numberOfLike = holder.numberOfLikes;
             final TextView numberOfSave = holder.numberOfSave;
             LinearLayout linearLayout = holder.linearLayout;
+            LinearLayout linearLayout2 = holder.linearLayout2;
             LinearLayout likeLinearLayout = holder.likeLinearLayout;
             LinearLayout saveLinearLayout = holder.saveLinearLayout;
 
@@ -344,78 +345,88 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
             likeLinearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).get(data.post.getId()) == null) {
-                        final TrackLike trackLike = new TrackLike();
-                        //Add like
-                        casePresenter.addLike((String) loginCustomer.getId(), (String) data.post.getId(), new ObjectCallback<LikePost>() {
-                            @Override
-                            public void onBefore() {
-                                trackLike.state = true;
-                                showLike(data.post, like, trackLike, numberOfLike, data.postDetail);
-                            }
+                    Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+                    if(customer != null) {
+                        final String MCINumber = customer.getMciNumber() != null ? customer.getMciNumber() : "";
+                        if (!MCINumber.isEmpty()) {
 
-                            @Override
-                            public void onSuccess(LikePost object) {
-                                trackLike.likePost = object;
-                            }
+                            if (Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).get(data.post.getId()) == null) {
+                                final TrackLike trackLike = new TrackLike();
+                                //Add like
+                                casePresenter.addLike((String) loginCustomer.getId(), (String) data.post.getId(), new ObjectCallback<LikePost>() {
+                                    @Override
+                                    public void onBefore() {
+                                        trackLike.state = true;
+                                        showLike(data.post, like, trackLike, numberOfLike, data.postDetail);
+                                    }
 
-                            @Override
-                            public void onError(Throwable t) {
-                                trackLike.state = false;
-                                showLike(data.post, like, trackLike, numberOfLike, data.postDetail);
-                            }
-                        });
-                    } else {
-                        final TrackLike trackLike = (TrackLike) Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).get(data.post.getId());
-                        if (trackLike.state) {
-                            trackLike.state = false;
-                            //showLike(data.post, like, trackLike, numberOfLike, data.postDetail);
-                            //delete like
-                            casePresenter.removeLike(trackLike.likePost, new ObjectCallback<JSONObject>() {
-                                @Override
-                                public void onBefore() {
+                                    @Override
+                                    public void onSuccess(LikePost object) {
+                                        trackLike.likePost = object;
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable t) {
+                                        trackLike.state = false;
+                                        showLike(data.post, like, trackLike, numberOfLike, data.postDetail);
+                                    }
+                                });
+                            } else {
+                                final TrackLike trackLike = (TrackLike) Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).get(data.post.getId());
+                                if (trackLike.state) {
                                     trackLike.state = false;
-                                    showLike(data.post, like, trackLike, numberOfLike, data.postDetail);
-                                }
+                                    //showLike(data.post, like, trackLike, numberOfLike, data.postDetail);
+                                    //delete like
+                                    casePresenter.removeLike(trackLike.likePost, new ObjectCallback<JSONObject>() {
+                                        @Override
+                                        public void onBefore() {
+                                            trackLike.state = false;
+                                            showLike(data.post, like, trackLike, numberOfLike, data.postDetail);
+                                        }
 
-                                @Override
-                                public void onSuccess(JSONObject object) {
-                                    trackLike.state = false;
-                                    trackLike.likePost = null;
-                                }
+                                        @Override
+                                        public void onSuccess(JSONObject object) {
+                                            trackLike.state = false;
+                                            trackLike.likePost = null;
+                                        }
 
-                                @Override
-                                public void onError(Throwable t) {
-                                    trackLike.state = true;
-                                    showLike(data.post, like, trackLike, numberOfLike, data.postDetail);
-                                }
+                                        @Override
+                                        public void onError(Throwable t) {
+                                            trackLike.state = true;
+                                            showLike(data.post, like, trackLike, numberOfLike, data.postDetail);
+                                        }
 
-                                @Override
-                                public void onFinally() {
-                                    super.onFinally();
-                                }
-                            });
+                                        @Override
+                                        public void onFinally() {
+                                            super.onFinally();
+                                        }
+                                    });
 
+                                } else {
+                                    //add like..
+                                    casePresenter.addLike((String) loginCustomer.getId(), (String) data.post.getId(), new ObjectCallback<LikePost>() {
+                                        @Override
+                                        public void onBefore() {
+                                            trackLike.state = true;
+                                            showLike(data.post, like, trackLike, numberOfLike, data.postDetail);
+                                        }
+
+                                        @Override
+                                        public void onSuccess(LikePost object) {
+                                            trackLike.likePost = object;
+                                        }
+
+                                        @Override
+                                        public void onError(Throwable t) {
+                                            trackLike.state = false;
+                                            showLike(data.post, like, trackLike, numberOfLike, data.postDetail);
+                                        }
+                                    });
+                                }
+                            }
                         } else {
-                            //add like..
-                            casePresenter.addLike((String) loginCustomer.getId(), (String) data.post.getId(), new ObjectCallback<LikePost>() {
-                                @Override
-                                public void onBefore() {
-                                    trackLike.state = true;
-                                    showLike(data.post, like, trackLike, numberOfLike, data.postDetail);
-                                }
+                            TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
 
-                                @Override
-                                public void onSuccess(LikePost object) {
-                                    trackLike.likePost = object;
-                                }
-
-                                @Override
-                                public void onError(Throwable t) {
-                                    trackLike.state = false;
-                                    showLike(data.post, like, trackLike, numberOfLike, data.postDetail);
-                                }
-                            });
                         }
                     }
                 }
@@ -425,79 +436,88 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
             saveLinearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).get(data.post.getId()) == null) {
-                        final TrackSave trackSave = new TrackSave();
-                        //Add like
-                        casePresenter.addSave((String) loginCustomer.getId(), (String) data.post.getId(), new ObjectCallback<SavePost>() {
-                            @Override
-                            public void onBefore() {
-                                trackSave.state = true;
-                                showSave(data.post, saveCase, trackSave, numberOfSave, data.postDetail);
-                            }
+                    Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+                    if(customer != null) {
+                        final String MCINumber = customer.getMciNumber() != null ? customer.getMciNumber() : "";
+                        if (!MCINumber.isEmpty()) {
+                            if (Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).get(data.post.getId()) == null) {
+                                final TrackSave trackSave = new TrackSave();
+                                //Add like
+                                casePresenter.addSave((String) loginCustomer.getId(), (String) data.post.getId(), new ObjectCallback<SavePost>() {
+                                    @Override
+                                    public void onBefore() {
+                                        trackSave.state = true;
+                                        showSave(data.post, saveCase, trackSave, numberOfSave, data.postDetail);
+                                    }
 
-                            @Override
-                            public void onSuccess(SavePost object) {
-                                trackSave.savePost = object;
-                            }
+                                    @Override
+                                    public void onSuccess(SavePost object) {
+                                        trackSave.savePost = object;
+                                    }
 
-                            @Override
-                            public void onError(Throwable t) {
-                                Log.e(Constants.TAG, t.toString());
-                                trackSave.state = false;
-                                showSave(data.post, saveCase, trackSave, numberOfSave, data.postDetail);
-                            }
-                        });
-                    } else {
-                        final TrackSave trackSave = (TrackSave) Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).get(data.post.getId());
-                        if (trackSave.state) {
-                            //showSave(data.post, saveCase, trackSave, numberOfSave, data.postDetail);
-                            //delete like
-                            casePresenter.removeSave(trackSave.savePost, new ObjectCallback<JSONObject>() {
-                                @Override
-                                public void onBefore() {
-                                    trackSave.state = false;
-                                    showSave(data.post, saveCase, trackSave, numberOfSave, data.postDetail);
-                                }
-
-                                @Override
-                                public void onSuccess(JSONObject object) {
-                                    trackSave.state = false;
+                                    @Override
+                                    public void onError(Throwable t) {
+                                        Log.e(Constants.TAG, t.toString());
+                                        trackSave.state = false;
+                                        showSave(data.post, saveCase, trackSave, numberOfSave, data.postDetail);
+                                    }
+                                });
+                            } else {
+                                final TrackSave trackSave = (TrackSave) Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).get(data.post.getId());
+                                if (trackSave.state) {
                                     //showSave(data.post, saveCase, trackSave, numberOfSave, data.postDetail);
-                                }
+                                    //delete like
+                                    casePresenter.removeSave(trackSave.savePost, new ObjectCallback<JSONObject>() {
+                                        @Override
+                                        public void onBefore() {
+                                            trackSave.state = false;
+                                            showSave(data.post, saveCase, trackSave, numberOfSave, data.postDetail);
+                                        }
 
-                                @Override
-                                public void onError(Throwable t) {
-                                    Log.e(Constants.TAG, t.toString());
-                                    trackSave.state = true;
-                                    showSave(data.post, saveCase, trackSave, numberOfSave, data.postDetail);
-                                }
+                                        @Override
+                                        public void onSuccess(JSONObject object) {
+                                            trackSave.state = false;
+                                            //showSave(data.post, saveCase, trackSave, numberOfSave, data.postDetail);
+                                        }
 
-                                @Override
-                                public void onFinally() {
-                                    super.onFinally();
-                                }
-                            });
+                                        @Override
+                                        public void onError(Throwable t) {
+                                            Log.e(Constants.TAG, t.toString());
+                                            trackSave.state = true;
+                                            showSave(data.post, saveCase, trackSave, numberOfSave, data.postDetail);
+                                        }
 
+                                        @Override
+                                        public void onFinally() {
+                                            super.onFinally();
+                                        }
+                                    });
+
+                                } else {
+                                    //add like..
+                                    casePresenter.addSave((String) loginCustomer.getId(), (String) data.post.getId(), new ObjectCallback<SavePost>() {
+                                        @Override
+                                        public void onBefore() {
+                                            trackSave.state = true;
+                                            showSave(data.post, saveCase, trackSave, numberOfSave, data.postDetail);
+                                        }
+
+                                        @Override
+                                        public void onSuccess(SavePost object) {
+                                            trackSave.savePost = object;
+                                        }
+
+                                        @Override
+                                        public void onError(Throwable t) {
+                                            trackSave.state = false;
+                                            showSave(data.post, saveCase, trackSave, numberOfSave, data.postDetail);
+                                        }
+                                    });
+                                }
+                            }
                         } else {
-                            //add like..
-                            casePresenter.addSave((String) loginCustomer.getId(), (String) data.post.getId(), new ObjectCallback<SavePost>() {
-                                @Override
-                                public void onBefore() {
-                                    trackSave.state = true;
-                                    showSave(data.post, saveCase, trackSave, numberOfSave, data.postDetail);
-                                }
+                            TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
 
-                                @Override
-                                public void onSuccess(SavePost object) {
-                                    trackSave.savePost = object;
-                                }
-
-                                @Override
-                                public void onError(Throwable t) {
-                                    trackSave.state = false;
-                                    showSave(data.post, saveCase, trackSave, numberOfSave, data.postDetail);
-                                }
-                            });
                         }
                     }
                 }
@@ -667,6 +687,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         @Bind(R.id.layout_case_list_textview8) TextView numberOfLikes;
         @Bind(R.id.layout_case_list_textview9) TextView numberOfSave;
         @Bind(R.id.layout_case_list_linear_layout) LinearLayout linearLayout;
+        @Bind(R.id.layout_case_list_linear_layout2) LinearLayout linearLayout2;
         @Bind(R.id.layout_case_list_linear_layout_like) LinearLayout likeLinearLayout;
         @Bind(R.id.layout_case_list_linear_layout_save) LinearLayout saveLinearLayout;
 

@@ -82,7 +82,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Enter MCI Verification number"
+                android:text="Enter Registration Number"
                 android:layout_centerHorizontal="true"
                 android:textColor="#333"
                 android:textSize="20sp"
