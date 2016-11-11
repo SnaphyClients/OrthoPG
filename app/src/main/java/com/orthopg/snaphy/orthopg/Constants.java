@@ -15,6 +15,7 @@ public class Constants {
     public static String SELECTED_TAB = "Trending";
 
     private static String SHA_KEY = "D6:E7:88:AB:D1:8E:4F:88:A8:0D:34:ED:6E:57:FC:9F:EB:8C:7B:CC";
+    private static String SHA_KEY_RELEASE = "E9:CD:A7:95:01:F2:A8:84:0C:01:7D:B4:DB:4B:23:C6:7F:21:5F:42";
     public static String CLIENT_ID = "1045211377196-k556pl54qlqrmnin81fm7e7dseud686r.apps.googleusercontent.com";
     private static String CLIENT_SECRET_KEY = "ORFoabt0p6XEOFLmKBsYQGZh";
 

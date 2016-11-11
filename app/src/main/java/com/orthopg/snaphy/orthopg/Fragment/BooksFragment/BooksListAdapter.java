@@ -1,12 +1,16 @@
 package com.orthopg.snaphy.orthopg.Fragment.BooksFragment;
 
+import android.Manifest;
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +20,7 @@ import android.widget.TextView;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Book;
+import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 
@@ -29,7 +34,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Ravi-Gupta on 9/28/2016.
  */
-public class BooksListAdapter extends RecyclerView.Adapter<BooksListAdapter.ViewHolder> {
+public class BooksListAdapter extends RecyclerView.Adapter<BooksListAdapter.ViewHolder>{
 
     MainActivity mainActivity;
     DataList<Book> booksModelList;
@@ -115,8 +120,10 @@ public class BooksListAdapter extends RecyclerView.Adapter<BooksListAdapter.View
 
 
                             // get download service and enqueue file
-                            DownloadManager manager = (DownloadManager) mainActivity.getSystemService(Context.DOWNLOAD_SERVICE);
-                            manager.enqueue(request);
+                            if(isStoragePermissionGranted()) {
+                                DownloadManager manager = (DownloadManager) mainActivity.getSystemService(Context.DOWNLOAD_SERVICE);
+                                manager.enqueue(request);
+                            }
                         }
                     }
 
@@ -129,6 +136,28 @@ public class BooksListAdapter extends RecyclerView.Adapter<BooksListAdapter.View
 
 
     }
+
+    public  boolean isStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (mainActivity.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v(Constants.TAG,"Permission is granted");
+                return true;
+            } else {
+
+                Log.v(Constants.TAG,"Permission is revoked");
+                ActivityCompat.requestPermissions(mainActivity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                return false;
+            }
+        }
+        else { //permission is automatically granted on sdk<23 upon installation
+            Log.v(Constants.TAG,"Permission is granted");
+            return true;
+        }
+    }
+
+
+
 
 
     @Override

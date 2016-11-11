@@ -3,7 +3,16 @@
     android:orientation="vertical" android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingLeft="30dp" android:paddingRight="30dp">
+    android:layout_marginLeft="3dp" android:layout_marginRight="3dp"
+    android:layout_marginTop="2dp" android:background="@drawable/shadow">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -352,9 +361,11 @@
     <View
         android:layout_width="wrap_content"
         android:layout_height="1dp"
-        android:background="#EEEEEE"
-        android:layout_marginTop="25dp"
-        android:layout_marginBottom="10dp" />
+        android:background="#FFFFFF"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="2dp" />
+
+    </LinearLayout>
 
 
 
