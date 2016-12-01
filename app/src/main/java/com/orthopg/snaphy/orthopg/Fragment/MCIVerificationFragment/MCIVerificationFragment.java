@@ -159,6 +159,8 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
             @Override
             public void onSuccess(Customer object) {
                 mainActivity.replaceFragment(R.layout.fragment_main, null);
+                TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+
             }
 
             @Override

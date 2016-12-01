@@ -7,8 +7,8 @@ public class Constants {
     public static String TAG = "OrthoPG";
     public static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
-    public static final String APP_MAIL = "info@orthopg.com";
-    public static final String APP_PHONE = "tel:+91-9873046993";
+    public static final String APP_MAIL = "orthopg@mail.com";
+    public static final String APP_PHONE = "tel:+91-9643476096";
     public static String APP_PLAY_STORE = "com.orthopg.snaphy.orthopg";
     public static String APP_SHARE_TEXT = "Orthopedic Doctors Largest Network \n\n";
     public static String CONTAINER = "orthopg";

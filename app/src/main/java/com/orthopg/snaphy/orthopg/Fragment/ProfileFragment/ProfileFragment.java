@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -51,6 +52,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.layout_profile_image) ImageView profileImage;
     MainActivity mainActivity;
     Customer loginCustomer;
+    SharedPreferences sharedPreferences;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -80,7 +82,16 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
             }
         });
         displayData();
+        sharedPreferences = mainActivity.getApplicationContext().getSharedPreferences("DisableNotification", 0);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        boolean enableNotification = sharedPreferences.getBoolean("enableNotification", true);
+        enableNotificationCheckBoxClickListener(editor);
         return view;
+    }
+
+    public void enableNotificationCheckBoxClickListener(SharedPreferences.Editor editor) {
+        editor.putBoolean("enableNotification", true);
+        editor.commit();
     }
 
     @OnClick(R.id.fragment_profile_imagebutton1) void editMCINumber() {
@@ -169,7 +180,9 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
                 loginCustomer.save(new com.strongloop.android.loopback.callbacks.VoidCallback() {
                     @Override
                     public void onSuccess() {
-
+/*
+                        TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+*/
                     }
 
                     @Override
