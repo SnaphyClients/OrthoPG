@@ -459,13 +459,20 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
         if(customer != null) {
             final String MCINumber = customer.getMciNumber() != null ? customer.getMciNumber() : "";
-            if(!MCINumber.isEmpty()) {
-                casePresenter.InitNewCaseObject();
-                mainActivity.replaceFragment(R.id.fragment_case_button4, null);
-            } else {
-                TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
-
+            if(customer.getStatus() != null) {
+                if (customer.getStatus().equals(Constants.ALLOW)) {
+                    casePresenter.InitNewCaseObject();
+                    mainActivity.replaceFragment(R.id.fragment_case_button4, null);
+                } else {
+                    if(!MCINumber.isEmpty()) {
+                        mainActivity.replaceFragment(R.layout.fragment_mciverification, null);
+                    } else {
+                        TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+                    }
+                }
             }
+
+
         }
 
 
