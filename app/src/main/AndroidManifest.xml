@@ -11,6 +11,8 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.READ_SMS" />
 
     <!-- GCM PUSH NOTIFICATION -->
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
@@ -51,6 +53,13 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="da5a71693369b2f6639d662ac5b0877a200db1cf" />
+
+        <receiver android:name=".Fragment.MCIVerificationFragment.MCIVerificationFragment$IncomingSms" >
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+
 
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"

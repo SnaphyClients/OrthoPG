@@ -134,7 +134,7 @@ public class SnaphyHelper {
                     return "Cannot register with GCM:" + ex.getMessage();
                     // If there is an error, don't just keep trying to register.
                     // Require the user to click a button again, or perform
-                    // exponential back-off.
+                    // exponential back-off.in
                 }
             }
 

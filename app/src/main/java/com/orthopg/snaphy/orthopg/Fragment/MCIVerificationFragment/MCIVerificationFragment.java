@@ -1,24 +1,32 @@
 package com.orthopg.snaphy.orthopg.Fragment.MCIVerificationFragment;
 
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.telephony.SmsMessage;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
-import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.CustomerRepository;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
@@ -26,6 +34,8 @@ import com.orthopg.snaphy.orthopg.R;
 import com.sdsmdg.tastytoast.TastyToast;
 
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -43,11 +53,20 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
 
     private OnFragmentInteractionListener mListener;
     public static String TAG = "MCIVerificationFragment";
-    @Bind(R.id.fragment_mci_verification_edittext1) EditText mciCode;
+   /* @Bind(R.id.fragment_mci_verification_edittext1) EditText mciCode;
     MainActivity mainActivity;
-    @Bind(R.id.fragment_mci_verification_imageview1) ImageView unlockView;
+    @Bind(R.id.fragment_mci_verification_imageview1) ImageView unlockView;*/
+    MainActivity mainActivity;
+    static String OTP;
+    static EditText otpCode;
+    View rootview;
     @Bind(R.id.fragment_mci_verification_linearlayout1) LinearLayout linearLayout;
+    @Bind(R.id.fragment_verification_button1) Button goButton;
     @Bind(R.id.fragment_mci_verification_relative_layout1) RelativeLayout relativeLayout;
+    @Bind(R.id.fragment_verification_edittext1) EditText mciCode;
+    @Bind(R.id.fragment_verification_edittext2) EditText mobileNumber;
+    @Bind(R.id.fragment_verification_textview3) TextView countDown;
+    ProgressDialog progress;
 
     public MCIVerificationFragment() {
         // Required empty public constructor
@@ -71,6 +90,9 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_mciverification, container, false);
         ButterKnife.bind(this, view);
+        rootview = view;
+        otpCode = (EditText) view.findViewById(R.id.fragment_verification_edittext3);
+        addChangeListener();
         checkIfKeyboardIsOpen(view);
         return view;
     }
@@ -122,15 +144,15 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
     public void showKeyboard(boolean  showKeyBoard) {
         if(showKeyBoard) {
             linearLayout.setVisibility(View.GONE);
-            unlockView.setVisibility(View.GONE);
+            /*unlockView.setVisibility(View.GONE);*/
         } else {
             linearLayout.setVisibility(View.VISIBLE);
-            unlockView.setVisibility(View.VISIBLE);
+            /*unlockView.setVisibility(View.VISIBLE);*/
         }
     }
 
 
-    @OnClick(R.id.fragment_mci_verification_button1) void submitButton() {
+   /* @OnClick(R.id.fragment_mci_verification_button1) void submitButton() {
         InputMethodManager imm = (InputMethodManager)mainActivity.getSystemService(
                 Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(mciCode.getWindowToken(), 0);
@@ -143,7 +165,7 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
             }
         }
         //
-    }
+    }*/
 
     public void updateCustomer(Customer customer){
         Map<String, ? extends Object> data = customer.convertMap();
@@ -178,7 +200,7 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
     }
 
 
-
+/*
     @OnClick(R.id.fragment_mci_verification_button2) void skipButton() {
         InputMethodManager imm = (InputMethodManager)mainActivity.getSystemService(
                 Context.INPUT_METHOD_SERVICE);
@@ -186,7 +208,7 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
         mainActivity.replaceFragment(R.layout.fragment_main, null);
         TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
 
-    }
+    }*/
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -226,5 +248,162 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @OnClick(R.id.fragment_verification_button1) void requestOTP() {
+        if(isPhoneValidate(mobileNumber.getText().toString())) {
+            /*requestOtpServer(mobileNumber.getText().toString());*/
+            progress = new ProgressDialog(mainActivity);
+            setProgress(progress);
+            setCountDown();
+            enableGoButton(false);
+            View view1 = mainActivity.getCurrentFocus();
+            if (view1 != null) {
+                InputMethodManager imm = (InputMethodManager)mainActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view1.getWindowToken(), 0);
+            }
+
+        } else {
+            View view1 = mainActivity.getCurrentFocus();
+            if (view1 != null) {
+                InputMethodManager imm = (InputMethodManager)mainActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view1.getWindowToken(), 0);
+            }
+            if(rootview != null) {
+                Snackbar.make(rootview, "Enter Valid Mobile Number", Snackbar.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    public void setProgress(ProgressDialog progress) {
+        progress.setIndeterminate(true);
+        progress.setMessage("Loading...");
+        progress.show();
+    }
+
+    // BROAD CAST RECEIVER
+    public static class IncomingSms extends BroadcastReceiver {
+        // Get the object of SmsManager
+        public Matcher m;
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.v(Constants.TAG, "Broadcast is working");
+            // Retrieves a map of extended data from the intent.
+            final Bundle bundle = intent.getExtras();
+            try {
+                if (bundle != null) {
+                    final Object[] pdusObj = (Object[]) bundle.get("pdus");
+                    for (int i = 0; i < pdusObj.length; i++) {
+
+                        SmsMessage currentMessage = SmsMessage.createFromPdu((byte[]) pdusObj[i]);
+                        String phoneNumber = currentMessage.getDisplayOriginatingAddress();
+
+                        String senderNum = phoneNumber;
+                        String message = currentMessage.getDisplayMessageBody();
+
+                        //Log.v("SmsReceiver", "senderNum: " + senderNum + "; message: " + message);
+
+                        Pattern p = Pattern.compile("\\b\\d{4}\\b");
+                        m = p.matcher(message);
+                        while (m.find()) {
+                            OTP = m.group().toString();
+                            otpCode.setText(OTP);
+                            //mainActivity.replaceFragment(R.layout.fragment_place_order, null);
+                        }
+
+                    } // end for loop
+                } // bundle is null
+
+            } catch (Exception e) {
+                Log.e("SmsReceiver", "Exception smsReceiver" + e);
+
+            }
+        }
+
+    }
+
+    // COUNT DOWN
+    public void setCountDown() {
+        new CountDownTimer(45000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                countDown.setVisibility(View.VISIBLE);
+                countDown.setText("" + millisUntilFinished / 1000);
+                //here you can have your logic to set text to edittext
+            }
+
+            public void onFinish() {
+                if (progress != null) {
+                    progress.dismiss();
+                }
+                enableGoButton(true);
+                countDown.setText("Try Again");
+            }
+
+        }.start();
+    }
+
+    // CHANGE LISTENER
+    public void addChangeListener() {
+        otpCode.addTextChangedListener(getTextWatcher());
+    }
+
+    public TextWatcher getTextWatcher() {
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                int codeLength = start + count;
+
+                String code = otpCode.getText().toString().trim();
+                if (codeLength == 4) {
+                    mainActivity.replaceFragment(R.layout.fragment_main, null);
+                    //mainActivity.replaceFragment(R.layout.fragment_main, null);
+                }
+            }//onTextChanged
+
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        };
+        return textWatcher;
+    }
+
+    public boolean isPhoneValidate(String phone) {
+        boolean isPhoneValid;
+        Pattern phonePattern = Pattern.compile("\\d{10}");
+        Matcher phoneMatcher = phonePattern.matcher(phone);
+        if (!phoneMatcher.matches()) {
+            //Snackbar.make(getView(), "Enter Correct Phone Number", Snackbar.LENGTH_SHORT).show();
+            isPhoneValid = false;
+        } else {
+            isPhoneValid = true;
+        }
+        return  isPhoneValid;
+    }
+
+    public void enableGoButton(boolean enable) {
+        if(enable) {
+            goButton.setEnabled(true);
+            goButton.setBackgroundResource(R.drawable.round_corner_go_button);
+        } else {
+            goButton.setBackgroundResource(R.drawable.round_button_go_disabled);
+            goButton.setEnabled(false);
+        }
+    }
+
+    public void enableEditText(boolean enable) {
+        if(enable) {
+            mobileNumber.setFocusable(true);
+        } else {
+            mobileNumber.setFocusable(false);
+        }
     }
 }

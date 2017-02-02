@@ -5,6 +5,7 @@
     android:clickable="true"
     android:orientation="vertical"
     android:background="@color/loginBackground"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragment.MCIVerificationFragment.MCIVerificationFragment">
 
 
@@ -12,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="2"
+        android:weightSum="8"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
@@ -22,7 +23,7 @@
        android:layout_width="wrap_content"
        android:layout_height="0dp"
        android:orientation="horizontal"
-       android:layout_weight="1"
+       android:layout_weight="3"
        android:layout_gravity="center|top"
        android:gravity="top">
 
@@ -62,14 +63,10 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:id="@+id/fragment_mci_verification_relative_layout1"
-        android:background="@color/white"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="15dp">
+        android:layout_weight="5"
+        android:id="@+id/fragment_mci_verification_relative_layout1">
 
-        <LinearLayout
+      <!--  <LinearLayout
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -136,12 +133,145 @@
             </LinearLayout>
 
         </LinearLayout>
+-->
 
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="20dp"
+            android:id="@+id/fragment_verification_relative_layout1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Verification"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:id="@+id/fragment_verification_textview1"/>
+
+            <View
+                android:layout_width="60dp"
+                android:layout_height="1dp"
+                android:layout_below="@+id/fragment_verification_textview1"
+                android:layout_marginTop="3dp"
+                android:background="@color/white"
+                android:layout_centerHorizontal="true"/>
+
+        </RelativeLayout>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_below="@+id/fragment_verification_relative_layout1"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/round_corner_edittext"
+            android:hint="Enter MCI Number"
+            android:textSize="15sp"
+            android:textColorHint="#999"
+            android:paddingLeft="13dp"
+            android:inputType="text"
+            android:maxLines="1"
+            android:id="@+id/fragment_verification_edittext1"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/round_corner_edittext"
+            android:layout_below="@+id/fragment_verification_edittext1"
+            android:id="@+id/fragment_verification_relative_layout2">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+91"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:gravity="center_horizontal"
+                android:textAlignment="center"
+                android:paddingLeft="10dp"
+                android:id="@+id/fragment_verification_textview4"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/round_corner_edittext"
+                android:hint="Enter Mobile Number"
+                android:textSize="15sp"
+                android:textColorHint="#999"
+                android:paddingLeft="5dp"
+                android:layout_marginRight="60dp"
+                android:layout_marginLeft="40dp"
+                android:maxLength="10"
+                android:inputType="number"
+                android:maxLines="1"
+                android:id="@+id/fragment_verification_edittext2"/>
+
+            <Button
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/round_corner_go_button"
+                android:text="GO"
+                android:textColor="#FFF"
+                android:textStyle="bold"
+                android:textSize="17sp"
+                android:id="@+id/fragment_verification_button1"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="mandotary"
+            android:textColor="@color/white"
+            android:layout_marginRight="20dp"
+            android:gravity="right"
+            android:layout_below="@+id/fragment_verification_relative_layout2"
+            android:textSize="11sp"
+            android:layout_marginTop="2dp"
+            android:paddingRight="20dp"
+            android:id="@+id/fragment_verification_textview2"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/fragment_verification_textview2"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="30sp"
+            android:layout_marginTop="20dp"
+            android:id="@+id/fragment_verification_textview3"/>
+
+        <EditText
+            android:layout_width="150dp"
+            android:layout_height="42dp"
+            android:layout_below="@+id/fragment_verification_textview3"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/round_corner_edittext"
+            android:hint="Enter OTP"
+            android:textAlignment="center"
+            android:textSize="15sp"
+            android:maxLength="4"
+            android:inputType="number"
+            android:layout_centerHorizontal="true"
+            android:textColorHint="#999"
+            android:id="@+id/fragment_verification_edittext3"/>
     </RelativeLayout>
 
     </LinearLayout>
 
-    <ImageView
+   <!-- <ImageView
         android:id="@+id/fragment_mci_verification_imageview1"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -150,6 +280,14 @@
         android:padding="28dp"
         android:layout_marginTop="75dp"
         android:layout_centerInParent="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true" />-->
+
+    <com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:id="@+id/fragment_verification_progressBar"
+        android:layout_centerInParent="true"
+        app:mlpb_progress_stoke_width="3dp"
+        app:mlpb_progress_color="#566da9" />
 
 </RelativeLayout>

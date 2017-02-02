@@ -319,15 +319,17 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
                 break;
 
             case R.id.fragment_case_button4:
-                openCaseHeadingFragment(fragmentTransaction);
+                openImageUploadFragment(fragmentTransaction);
+                //openCaseHeadingFragment(fragmentTransaction);
                 break;
 
             case R.id.fragment_case_heading_button1:
-                openImageUploadFragment(fragmentTransaction);
+                openCaseDescriptionFragment(fragmentTransaction);
                 break;
 
             case R.id.fragment_case_upload_image_button1:
-                openCaseDescriptionFragment(fragmentTransaction);
+                openCaseHeadingFragment(fragmentTransaction);
+                //openCaseDescriptionFragment(fragmentTransaction);
                 break;
 
             case R.id.layout_case_list_textview4:
