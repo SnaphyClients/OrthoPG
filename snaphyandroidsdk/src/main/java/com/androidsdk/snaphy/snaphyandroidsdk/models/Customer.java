@@ -263,32 +263,6 @@ public class Customer extends User {
             
 
             
-                private String password;
-                /* Adding Getter and Setter methods */
-                public String getPassword(){
-                    return password;
-                }
-
-                /* Adding Getter and Setter methods */
-                public void setPassword(String password){
-                    this.password = password;
-                    //Update hashMap value..
-                    hashMap.put("password", password);
-                }
-
-            
-            
-            
-            
-
-            
-
-        
-    
-        
-            
-
-            
                 private String status;
                 /* Adding Getter and Setter methods */
                 public String getStatus(){
@@ -356,6 +330,18 @@ public class Customer extends User {
                     hashMap.put("profilePic", profilePic);
                 }
 
+            
+            
+
+            
+
+        
+    
+        
+            
+
+            
+            
             
             
 
@@ -827,6 +813,8 @@ public class Customer extends User {
                             
                          
                             
+                        
+                        
                         
                         
                         
@@ -1411,6 +1399,8 @@ public class Customer extends User {
                             
                          
                             
+                        
+                        
                         
                         
                         
@@ -2026,6 +2016,8 @@ public class Customer extends User {
                         
                         
                         
+                        
+                        
                     
 
                 
@@ -2585,6 +2577,8 @@ public class Customer extends User {
                             
                          
                             
+                        
+                        
                         
                         
                         
@@ -3200,6 +3194,8 @@ public class Customer extends User {
                         
                         
                         
+                        
+                        
                     
 
                 
@@ -3759,6 +3755,8 @@ public class Customer extends User {
                                     } //method def ends here.
                                  
                             
+                        
+                        
                         
                         
                         

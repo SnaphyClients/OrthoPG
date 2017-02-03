@@ -27,11 +27,14 @@ import android.widget.TextView;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
+import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.CustomerRepository;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 import com.sdsmdg.tastytoast.TastyToast;
+
+import org.json.JSONObject;
 
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -59,11 +62,12 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
     MainActivity mainActivity;
     static String OTP;
     static EditText otpCode;
+    String phoneNumber;
     View rootview;
     @Bind(R.id.fragment_mci_verification_linearlayout1) LinearLayout linearLayout;
     @Bind(R.id.fragment_verification_button1) Button goButton;
     @Bind(R.id.fragment_mci_verification_relative_layout1) RelativeLayout relativeLayout;
-    @Bind(R.id.fragment_verification_edittext1) EditText mciCode;
+    EditText mciCode;
     @Bind(R.id.fragment_verification_edittext2) EditText mobileNumber;
     @Bind(R.id.fragment_verification_textview3) TextView countDown;
     @Bind(R.id.fragment_verification_progressBar) ProgressBar progressBar;
@@ -94,6 +98,7 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
         stopProgressBar(progressBar);
         rootview = view;
         otpCode = (EditText) view.findViewById(R.id.fragment_verification_edittext3);
+        mciCode = (EditText) view.findViewById(R.id.fragment_verification_edittext1);
         addChangeListener();
         checkIfKeyboardIsOpen(view);
         return view;
@@ -169,37 +174,6 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
         //
     }*/
 
-    public void updateCustomer(Customer customer){
-        Map<String, ? extends Object> data = customer.convertMap();
-        //Remove the password field..
-        data.remove("password");
-        CustomerRepository customerRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
-        customerRepository.updateAttributes((String) customer.getId(), data, new ObjectCallback<Customer>() {
-            @Override
-            public void onBefore() {
-                //TODO SHOW PROGRESS BAR..
-            }
-
-            @Override
-            public void onSuccess(Customer object) {
-                mainActivity.replaceFragment(R.layout.fragment_main, null);
-                TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
-
-            }
-
-            @Override
-            public void onError(Throwable t) {
-                Log.e(Constants.TAG, t.toString());
-                Log.v(Constants.TAG, "Error in update Customer Method");
-                //TODO SHOW TRY AGAIN TOAST..
-            }
-
-            @Override
-            public void onFinally() {
-                //TODO STOP PROGRESS BAR...
-            }
-        });
-    }
 
 
 /*
@@ -254,8 +228,8 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
 
     @OnClick(R.id.fragment_verification_button1) void requestOTP() {
         if(isPhoneValidate(mobileNumber.getText().toString())) {
-            /*requestOtpServer(mobileNumber.getText().toString());*/
-            startProgressBar(progressBar);
+            phoneNumber = mobileNumber.getText().toString();
+            requestOTPFromServer(mobileNumber.getText().toString());
             setCountDown();
             enableGoButton(false);
             View view1 = mainActivity.getCurrentFocus();
@@ -263,6 +237,8 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
                 InputMethodManager imm = (InputMethodManager)mainActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(view1.getWindowToken(), 0);
             }
+
+
 
         } else {
             View view1 = mainActivity.getCurrentFocus();
@@ -275,6 +251,38 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
             }
         }
     }
+
+
+    private void requestOTPFromServer(String number){
+        CustomerRepository customerRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
+        customerRepository.requestOtp(number, new ObjectCallback<JSONObject>() {
+            @Override
+            public void onBefore() {
+                enableGoButton(false);
+                startProgressBar(progressBar);
+            }
+
+            @Override
+            public void onSuccess(JSONObject object) {
+                super.onSuccess(object);
+
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                Log.e(TAG, t.toString());
+                enableGoButton(true);
+            }
+
+            @Override
+            public void onFinally() {
+                stopProgressBar(progressBar);
+            }
+        });
+
+    }
+
+
 
     public void startProgressBar(ProgressBar progressBar) {
         progressBar.setVisibility(View.VISIBLE);
@@ -313,7 +321,6 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
                         while (m.find()) {
                             OTP = m.group().toString();
                             otpCode.setText(OTP);
-                            //mainActivity.replaceFragment(R.layout.fragment_place_order, null);
                         }
 
                     } // end for loop
@@ -364,8 +371,16 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
 
                 String code = otpCode.getText().toString().trim();
                 if (codeLength == 4) {
-                    mainActivity.replaceFragment(R.layout.fragment_main, null);
-                    //mainActivity.replaceFragment(R.layout.fragment_main, null);
+                    if(phoneNumber != null){
+                        String mciNumber = mciCode.getText().toString().trim();
+                        if(mciNumber != null){
+                            if(!mciNumber.isEmpty()){
+                                Presenter.getInstance().addModel(Constants.MCI_NUMBER, mciNumber);
+                            }
+                        }
+                        LoginToGoogle(code, phoneNumber);
+                    }
+
                 }
             }//onTextChanged
 
@@ -377,6 +392,44 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
         };
         return textWatcher;
     }
+
+
+    public void LoginToGoogle(String code, String number){
+        CustomerRepository customerRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
+        String accessToken = Presenter.getInstance().getModel(String.class, Constants.GOOGLE_ACCESS_TOKEN);
+        if(accessToken != null){
+            if(!accessToken.isEmpty()){
+                customerRepository.loginWithCode(accessToken, code, number, new ObjectCallback<JSONObject>() {
+                    @Override
+                    public void onBefore() {
+                        enableGoButton(false);
+                        startProgressBar(progressBar);
+                    }
+
+                    @Override
+                    public void onSuccess(JSONObject object) {
+                        super.onSuccess(object);
+                        mainActivity.addUser(object);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                        TastyToast.makeText(mainActivity.getApplicationContext(), Constants.ERROR_MESSAGE, TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+                        Log.e(TAG, t.toString());
+                    }
+
+                    @Override
+                    public void onFinally() {
+                        super.onFinally();
+                        stopProgressBar(progressBar);
+                    }
+                });
+            }
+        }
+
+    }
+
 
     public boolean isPhoneValidate(String phone) {
         boolean isPhoneValid;

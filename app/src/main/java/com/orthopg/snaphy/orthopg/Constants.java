@@ -53,6 +53,8 @@ public class Constants {
     public static String EDIT_IN_PROCESS_COMMENT_POST_MODEL = "EDIT_IN_COMMENT_POST";
     public static String EDIT_IN_PROCESS_COMMENT_MODEL = "EDIT_IN_COMMENT_MODEL";
     public static String POST_PUSH_EVENT_DATA = "PostPushEventData";
+    public static String GOOGLE_ACCESS_TOKEN = "GoogleAccessTokens";
+    public static String MCI_NUMBER = "MciNumber";
     /*---------------*/
 
     /*IDs*/
@@ -94,6 +96,7 @@ public class Constants {
     public static String HOURS = "hours";
     public static String MINUTES = "minutes";
     public static String SECONDS = "seconds";
+
 
 
 

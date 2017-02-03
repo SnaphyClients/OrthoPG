@@ -115,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         retryButton = (Button) findViewById(R.id.activity_main_button1);
         context = getApplicationContext();
         snaphyHelper = new SnaphyHelper(this);
+        resetVariables();
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -170,6 +171,12 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             Log.v(Constants.TAG,"Permission: "+permissions[0]+ "was "+grantResults[0]);
             //resume tasks needing this permission
         }
+    }
+
+
+    private void resetVariables(){
+        Presenter.getInstance().removeModelFromList(Constants.GOOGLE_ACCESS_TOKEN);
+        Presenter.getInstance().removeModelFromList(Constants.MCI_NUMBER);
     }
 
     public void parsePushMessage(){
@@ -659,6 +666,44 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
 
     }
 
+
+    public void updateCustomer(Customer customer){
+        Map<String, ? extends Object> data = customer.convertMap();
+        //Remove the password field..
+        data.remove("password");
+        CustomerRepository customerRepository = snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
+        customerRepository.updateAttributes((String) customer.getId(), data, new ObjectCallback<Customer>() {
+            @Override
+            public void onBefore() {
+                //TODO SHOW PROGRESS BAR..
+                startProgressBar(progressBar);
+            }
+
+            @Override
+            public void onSuccess(Customer object) {
+                replaceFragment(R.layout.fragment_main, null);
+                TastyToast.makeText(getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                Log.e(Constants.TAG, t.toString());
+                Log.v(Constants.TAG, "Error in update Customer Method");
+            }
+
+            @Override
+            public void onFinally() {
+                stopProgressBar(progressBar);
+            }
+        });
+    }
+
+
+
+
+
+
     /**
      * AddUser method for adding user once the user is successfully signed in
      * @param  response
@@ -684,10 +729,24 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             customerRepository.setCachedCurrentUser(user);
 
             Presenter.getInstance().addModel(Constants.LOGIN_CUSTOMER, user);
+            String mciNumber = Presenter.getInstance().getModel(String.class, Constants.MCI_NUMBER);
+            if(mciNumber != null){
+                if(!mciNumber.isEmpty()){
+                    user.setMciNumber(mciNumber);
+                    updateCustomer(user);
+                }else{
 
-            //move to home..
-            //Now move to home fragment finally..
-            moveToHome();
+                    //move to home..
+                    //Now move to home fragment finally..
+                    moveToHome();
+                }
+            }else{
+
+                //move to home..
+                //Now move to home fragment finally..
+                moveToHome();
+            }
+
 
             //Register for push service..
             //Register installation moved to home...

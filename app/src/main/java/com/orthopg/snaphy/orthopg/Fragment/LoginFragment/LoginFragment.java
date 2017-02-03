@@ -84,7 +84,7 @@ public class LoginFragment extends android.support.v4.app.Fragment {
         googleApiClient.connect();
     }
 
-    public void sendTokenToServer(String token) {
+   /* public void sendTokenToServer(String token) {
         CustomerRepository customerRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
         customerRepository.loginWithGoogle(token, new ObjectCallback<JSONObject>() {
             @Override
@@ -121,7 +121,7 @@ public class LoginFragment extends android.support.v4.app.Fragment {
             }
         });
     }
-
+*/
 
     @Override
     public void onActivityResult(int requestCode, int responseCode,
@@ -141,7 +141,9 @@ public class LoginFragment extends android.support.v4.app.Fragment {
                 Log.v(Constants.TAG, acct.getIdToken());
                 //BackgroundService.setAccessToken(acct.getIdToken());
                 //mainActivity.replaceFragment(R.layout.fragment_mciverification, null);
-                sendTokenToServer(acct.getIdToken());
+                Presenter.getInstance().addModel(Constants.GOOGLE_ACCESS_TOKEN, acct.getIdToken());
+                mainActivity.replaceFragment(R.layout.fragment_mciverification, null);
+                //sendTokenToServer(acct.getIdToken());
             }
 
         } else {
