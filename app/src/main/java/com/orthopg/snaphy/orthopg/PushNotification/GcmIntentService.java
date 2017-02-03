@@ -212,10 +212,10 @@ public class GcmIntentService extends GcmListenerService {
                 new NotificationCompat.Builder(this)
                         .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
                         .setSmallIcon(R.mipmap.ic_launcher)
-                        .setContentTitle(subject)
+                        .setContentTitle(msg)
                         .setStyle(new NotificationCompat.BigTextStyle()
-                                .bigText(msg))
-                        .setContentText(msg)
+                                .bigText(subject))
+                        .setContentText(subject)
                         .setColor(color);
 
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);

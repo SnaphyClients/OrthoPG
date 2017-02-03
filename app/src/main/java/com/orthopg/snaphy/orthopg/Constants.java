@@ -118,8 +118,8 @@ public class Constants {
     public static String VERIFICATION_IN_PROGRESS = "Verification is under process";
     public static String NETWORK_ERROR = "Cannot Connect! Check your network";
 
-    public static String NEWS_RELEASE_MESSAGE = "News has been posted by OrthoPG.";
-    public static String BOOKS_RELEASE_MESSAGE = "New book has been released by OrthoPG.";
+    public static String NEWS_RELEASE_MESSAGE = "News";
+    public static String BOOKS_RELEASE_MESSAGE = "Book Release";
     public static String COMMENT_MESSAGE = "has commented on the post.";
     public static String LIKE_MESSAGE = "has liked on the post.";
     public static String SAVE_MESSAGE = "has saved on the post.";
