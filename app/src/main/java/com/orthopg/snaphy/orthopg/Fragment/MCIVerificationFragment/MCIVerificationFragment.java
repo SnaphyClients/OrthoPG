@@ -1,6 +1,5 @@
 package com.orthopg.snaphy.orthopg.Fragment.MCIVerificationFragment;
 
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +21,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -66,7 +66,7 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.fragment_verification_edittext1) EditText mciCode;
     @Bind(R.id.fragment_verification_edittext2) EditText mobileNumber;
     @Bind(R.id.fragment_verification_textview3) TextView countDown;
-    ProgressDialog progress;
+    @Bind(R.id.fragment_verification_progressBar) ProgressBar progressBar;
 
     public MCIVerificationFragment() {
         // Required empty public constructor
@@ -84,12 +84,14 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_mciverification, container, false);
         ButterKnife.bind(this, view);
+        stopProgressBar(progressBar);
         rootview = view;
         otpCode = (EditText) view.findViewById(R.id.fragment_verification_edittext3);
         addChangeListener();
@@ -253,8 +255,7 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
     @OnClick(R.id.fragment_verification_button1) void requestOTP() {
         if(isPhoneValidate(mobileNumber.getText().toString())) {
             /*requestOtpServer(mobileNumber.getText().toString());*/
-            progress = new ProgressDialog(mainActivity);
-            setProgress(progress);
+            startProgressBar(progressBar);
             setCountDown();
             enableGoButton(false);
             View view1 = mainActivity.getCurrentFocus();
@@ -275,10 +276,13 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
         }
     }
 
-    public void setProgress(ProgressDialog progress) {
-        progress.setIndeterminate(true);
-        progress.setMessage("Loading...");
-        progress.show();
+    public void startProgressBar(ProgressBar progressBar) {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void stopProgressBar(ProgressBar progressBar) {
+        progressBar.setVisibility(View.GONE);
+
     }
 
     // BROAD CAST RECEIVER
@@ -334,9 +338,7 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
             }
 
             public void onFinish() {
-                if (progress != null) {
-                    progress.dismiss();
-                }
+               stopProgressBar(progressBar);
                 enableGoButton(true);
                 countDown.setText("Try Again");
             }

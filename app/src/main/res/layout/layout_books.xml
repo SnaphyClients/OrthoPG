@@ -16,8 +16,7 @@
             android:layout_weight="1"
             android:layout_marginRight="3dp"
             android:adjustViewBounds="true"
-            android:id="@+id/layout_book_imageview1"
-            android:src="@drawable/demo_news_image_1"/>
+            android:id="@+id/layout_book_imageview1" />
 
         <ImageView
             android:layout_width="0dp"
@@ -25,7 +24,6 @@
             android:layout_marginLeft="3dp"
             android:layout_weight="1"
             android:adjustViewBounds="true"
-            android:src="@drawable/demo_books_image_4"
             android:id="@+id/layout_book_imageview2"/>
 
     </LinearLayout>

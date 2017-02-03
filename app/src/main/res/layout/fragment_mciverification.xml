@@ -230,7 +230,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="mandotary"
+            android:text="mandatory"
             android:textColor="@color/white"
             android:layout_marginRight="20dp"
             android:gravity="right"
@@ -289,5 +289,16 @@
         android:layout_centerInParent="true"
         app:mlpb_progress_stoke_width="3dp"
         app:mlpb_progress_color="#566da9" />-->
+
+    <ProgressBar
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/LinearProgress"
+        android:layout_marginBottom="-8dp"
+        android:layout_marginTop="-6dp"
+        android:indeterminate="true"
+        android:id="@+id/fragment_verification_progressBar"
+        android:layout_alignParentTop="true"/>
 
 </RelativeLayout>
