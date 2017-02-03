@@ -144,6 +144,8 @@ public class LoginFragment extends android.support.v4.app.Fragment {
                 Presenter.getInstance().addModel(Constants.GOOGLE_ACCESS_TOKEN, acct.getIdToken());
                 mainActivity.replaceFragment(R.layout.fragment_mciverification, null);
                 //sendTokenToServer(acct.getIdToken());
+            }else{
+                TastyToast.makeText(mainActivity.getApplicationContext(), Constants.ERROR_MESSAGE, TastyToast.LENGTH_SHORT, TastyToast.ERROR);
             }
 
         } else {
