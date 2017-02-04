@@ -147,7 +147,6 @@ public class LoginFragment extends android.support.v4.app.Fragment {
             }else{
                 TastyToast.makeText(mainActivity.getApplicationContext(), Constants.ERROR_MESSAGE, TastyToast.LENGTH_SHORT, TastyToast.ERROR);
             }
-
         } else {
             TastyToast.makeText(mainActivity.getApplicationContext(), Constants.ERROR_MESSAGE, TastyToast.LENGTH_SHORT, TastyToast.ERROR);
         }

@@ -17,9 +17,16 @@ repositories {
 }
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'OrthoPG'
+            keyPassword 'orthopg_2016'
+            storeFile file('/home/snaphy/snaphy_clients/OrthoPG/android/orthopg_keystore.jks')
+            storePassword 'orthopg_2016'
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
-
     defaultConfig {
         applicationId "com.orthopg.snaphy.orthopg"
         minSdkVersion 15
