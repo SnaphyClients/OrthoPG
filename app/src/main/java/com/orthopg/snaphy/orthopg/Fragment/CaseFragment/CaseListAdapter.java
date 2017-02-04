@@ -426,12 +426,13 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                                     }
                                 }
                             } else {
-                                if (MCINumber.isEmpty()) {
+                                TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+                               /* if (MCINumber.isEmpty()) {
                                     mainActivity.replaceFragment(R.layout.fragment_mciverification, null);
                                 } else {
                                     TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
 
-                                }
+                                }*/
                             }
                         }
 
@@ -524,12 +525,12 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                                     }
                                 }
                             } else {
-                                if (MCINumber.isEmpty()) {
+                                TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+                                /*if (MCINumber.isEmpty()) {
                                     mainActivity.replaceFragment(R.layout.fragment_mciverification, null);
                                 } else {
                                     TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
-
-                                }
+                                }*/
                             }
                         }
                     }

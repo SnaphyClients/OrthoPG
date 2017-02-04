@@ -464,11 +464,12 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                     casePresenter.InitNewCaseObject();
                     mainActivity.replaceFragment(R.id.fragment_case_button4, null);
                 } else {
-                    if(MCINumber.isEmpty()) {
+                    TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+                    /*if(MCINumber.isEmpty()) {
                         mainActivity.replaceFragment(R.layout.fragment_mciverification, null);
                     } else {
                         TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
-                    }
+                    }*/
                 }
             }
 

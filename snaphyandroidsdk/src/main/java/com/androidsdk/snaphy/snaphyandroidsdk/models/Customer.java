@@ -263,6 +263,32 @@ public class Customer extends User {
             
 
             
+                private String phoneNumber;
+                /* Adding Getter and Setter methods */
+                public String getPhoneNumber(){
+                    return phoneNumber;
+                }
+
+                /* Adding Getter and Setter methods */
+                public void setPhoneNumber(String phoneNumber){
+                    this.phoneNumber = phoneNumber;
+                    //Update hashMap value..
+                    hashMap.put("phoneNumber", phoneNumber);
+                }
+
+            
+            
+            
+            
+
+            
+
+        
+    
+        
+            
+
+            
                 private String status;
                 /* Adding Getter and Setter methods */
                 public String getStatus(){

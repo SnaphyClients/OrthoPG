@@ -803,7 +803,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
     public void checkMCI(String MCINumber){
         if(MCINumber.isEmpty()) {
             // Open MCI Fragment
-            replaceFragment(R.layout.fragment_mciverification, null);
+            replaceFragment(R.layout.fragment_main, null);
         } else {
             //Display message that verification is under process
             TastyToast.makeText(getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
