@@ -26,7 +26,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
-import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.CustomerRepository;
 import com.orthopg.snaphy.orthopg.Constants;
@@ -36,7 +35,6 @@ import com.sdsmdg.tastytoast.TastyToast;
 
 import org.json.JSONObject;
 
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -66,6 +64,7 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
     View rootview;
     @Bind(R.id.fragment_mci_verification_linearlayout1) LinearLayout linearLayout;
     @Bind(R.id.fragment_verification_button1) Button goButton;
+    @Bind(R.id.fragment_verification_button2) Button okButton;
     @Bind(R.id.fragment_mci_verification_relative_layout1) RelativeLayout relativeLayout;
     EditText mciCode;
     @Bind(R.id.fragment_verification_edittext2) EditText mobileNumber;
@@ -231,6 +230,7 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
             phoneNumber = mobileNumber.getText().toString();
             requestOTPFromServer(mobileNumber.getText().toString());
             setCountDown();
+            enableOkButton(true);
             enableGoButton(false);
             View view1 = mainActivity.getCurrentFocus();
             if (view1 != null) {
@@ -249,6 +249,28 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
             if(rootview != null) {
                 Snackbar.make(rootview, "Enter Valid Mobile Number", Snackbar.LENGTH_SHORT).show();
             }
+        }
+    }
+
+
+    @OnClick(R.id.fragment_verification_button2) void goButton() {
+        if(otpCode.getText().toString() != null) {
+            if(!otpCode.getText().toString().isEmpty()) {
+                enableOkButton(false);
+                if (phoneNumber != null) {
+                    String mciNumber = mciCode.getText().toString().trim();
+                    if (mciNumber != null) {
+                        if (!mciNumber.isEmpty()) {
+                            Presenter.getInstance().addModel(Constants.MCI_NUMBER, mciNumber);
+                        }
+                    }
+                    LoginToGoogle(otpCode.getText().toString(), phoneNumber);
+                }
+            } else {
+                TastyToast.makeText(mainActivity.getApplicationContext(), Constants.OTP, TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+            }
+        } else {
+            TastyToast.makeText(mainActivity.getApplicationContext(), Constants.OTP, TastyToast.LENGTH_SHORT, TastyToast.ERROR);
         }
     }
 
@@ -451,6 +473,16 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
         } else {
             goButton.setBackgroundResource(R.drawable.round_button_go_disabled);
             goButton.setEnabled(false);
+        }
+    }
+
+    public void enableOkButton(boolean enable) {
+        if(enable) {
+            okButton.setEnabled(true);
+            okButton.setBackgroundResource(R.drawable.round_corner_go_button);
+        } else {
+            okButton.setEnabled(false);
+            okButton.setBackgroundResource(R.drawable.round_button_go_disabled);
         }
     }
 
