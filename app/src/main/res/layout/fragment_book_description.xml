@@ -1,0 +1,149 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:background="#EEEEEE"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.orthopg.snaphy.orthopg.Fragment.BooksFragment.BookDescriptionFragment">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:id="@+id/fragment_book_description_toolbar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/fragment_view_all_books_imageview1"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@+id/fragment_view_all_books_imageview1"
+                android:layout_marginLeft="30dp"
+                android:id="@+id/fragment_view_all_books_textview1"
+                android:text="Category name"/>
+
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/fragment_book_description_toolbar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/fragment_book_description_relativelayout1"
+            >
+
+
+            <ImageView
+                android:layout_width="130dp"
+                android:layout_marginLeft="10dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:layout_marginTop="10dp"
+                android:id="@+id/fragment_book_description_imageview1"
+                android:src="@drawable/sampleimage"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/fragment_book_description_imageview1"
+                android:text="Book name"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:id="@+id/fragment_book_description_textview1"
+                android:layout_marginLeft="20dp"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_book_description_textview1"
+                android:layout_toRightOf="@+id/fragment_book_description_imageview1"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:text="Price:"
+                android:id="@+id/fragment_book_description_textview2"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/fragment_book_description_textview3"
+                android:layout_toRightOf="@+id/fragment_book_description_textview2"
+                android:layout_below="@+id/fragment_book_description_textview1"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:text="25"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_book_description_textview2"
+                android:layout_toRightOf="@+id/fragment_book_description_imageview1"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:text="Price:"
+                android:id="@+id/fragment_book_description_textview4"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/fragment_book_description_textview5"
+                android:layout_toRightOf="@+id/fragment_book_description_textview2"
+                android:layout_below="@+id/fragment_book_description_textview3"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:text="25"/>
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Download Sample"
+                android:layout_below="@+id/fragment_book_description_imageview1"
+                android:textAllCaps="false"
+                android:id="@+id/fragment_book_description_button1"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Buy Now"
+                android:textAllCaps="false"
+                android:layout_below="@+id/fragment_book_description_button1"
+                android:id="@+id/fragment_book_description_button2"/>
+
+
+
+        </RelativeLayout>
+
+
+    </ScrollView>
+
+
+    </RelativeLayout>

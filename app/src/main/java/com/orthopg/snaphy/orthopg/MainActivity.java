@@ -31,7 +31,9 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
+import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.BookTestFragment;
 import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.BooksFragment;
+import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.ViewAllBooksFragment;
 import com.orthopg.snaphy.orthopg.Fragment.CaseDetailFragment.CaseDetailFragment;
 import com.orthopg.snaphy.orthopg.Fragment.CaseDetailFragment.PostAnswerFragment;
 import com.orthopg.snaphy.orthopg.Fragment.CaseFragment.CaseFragment;
@@ -78,7 +80,7 @@ import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity implements OnFragmentChange, LoginFragment.OnFragmentInteractionListener,
         MCIVerificationFragment.OnFragmentInteractionListener, MainFragment.OnFragmentInteractionListener,
-        BooksFragment.OnFragmentInteractionListener, CaseFragment.OnFragmentInteractionListener,
+        BookTestFragment.OnFragmentInteractionListener, CaseFragment.OnFragmentInteractionListener,
         NewsFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener,
         MenuFragment.OnFragmentInteractionListener, AboutUsFragment.OnFragmentInteractionListener,
         FAQsFragment.OnFragmentInteractionListener, TermsAndConditionsFragment.OnFragmentInteractionListener,
@@ -86,7 +88,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         CaseDescriptionFragment.OnFragmentInteractionListener, CaseUploadImageFragment.OnFragmentInteractionListener,
         CaseDetailFragment.OnFragmentInteractionListener, PostAnswerFragment.OnFragmentInteractionListener,
         HelpFragment.OnFragmentInteractionListener, CaseHelpFragment.OnFragmentInteractionListener,
-        BooksHelpFragment.OnFragmentInteractionListener, NewsHelpFragment.OnFragmentInteractionListener {
+        BooksHelpFragment.OnFragmentInteractionListener, NewsHelpFragment.OnFragmentInteractionListener,
+        ViewAllBooksFragment.OnFragmentInteractionListener {
 
     RestAdapter restAdapter;
     Context context;
@@ -351,6 +354,10 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
                 openCaseDetailFragmentAsParent(fragmentTransaction);
                 break;
 
+            case R.layout.fragment_view_all_books:
+                openViewAllBooksFragment(fragmentTransaction);
+                break;
+
         }
     }
 
@@ -504,6 +511,16 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             postAnswerFragment = PostAnswerFragment.newInstance();
         }
         fragmentTransaction.replace(R.id.main_container, postAnswerFragment, PostAnswerFragment.TAG).addToBackStack(null);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    private void openViewAllBooksFragment(FragmentTransaction fragmentTransaction){
+        ViewAllBooksFragment viewAllBooksFragment = (ViewAllBooksFragment) getSupportFragmentManager().
+                findFragmentByTag(ViewAllBooksFragment.TAG);
+        if(viewAllBooksFragment == null){
+            viewAllBooksFragment = ViewAllBooksFragment.newInstance();
+        }
+        fragmentTransaction.replace(R.id.main_container,viewAllBooksFragment, ViewAllBooksFragment.TAG).addToBackStack(ViewAllBooksFragment.TAG);
         fragmentTransaction.commitAllowingStateLoss();
     }
 

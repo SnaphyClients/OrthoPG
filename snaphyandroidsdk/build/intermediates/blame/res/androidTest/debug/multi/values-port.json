@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-port\\values-port.xml",
+        "outputFile": "/home/nikita/Snaphy Clients/OrthoPG/Backend/OrthoPG/snaphyandroidsdk/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-port/values-port.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,7 @@
                     "endOffset": 106
                 },
                 "from": {
-                    "file": "E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\values-port\\values-port.xml",
+                    "file": "/home/nikita/Snaphy Clients/OrthoPG/Backend/OrthoPG/snaphyandroidsdk/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-port/values-port.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -24,7 +24,7 @@
         ]
     },
     {
-        "outputFile": "E:\\Clients Android App\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-port\\values-port.xml",
+        "outputFile": "/home/nikita/Snaphy Clients/OrthoPG/Backend/OrthoPG/E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-port\\values-port.xml",
         "map": [
             {
                 "to": {
@@ -35,7 +35,79 @@
                     "endOffset": 106
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\values-port\\values-port.xml",
+                    "file": "/home/nikita/Snaphy Clients/OrthoPG/Backend/OrthoPG/E:\\home\\snaphy\\snaphy_clients\\OrthoPG\\android\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\values-port\\values-port.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 229,
+                        "endColumn": 55,
+                        "endOffset": 280
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "/home/nikita/Snaphy Clients/OrthoPG/Backend/OrthoPG/E:\\Clients Android App\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-port\\values-port.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 55,
+                    "endOffset": 106
+                },
+                "from": {
+                    "file": "/home/nikita/Snaphy Clients/OrthoPG/Backend/OrthoPG/E:\\Clients Android App\\OrthoPG\\snaphyandroidsdk\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\values-port\\values-port.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 229,
+                        "endColumn": 55,
+                        "endOffset": 280
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "/home/nikita/Snaphy Clients/OrthoPG/Android App/OrthoPG/snaphyandroidsdk/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-port/values-port.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 55,
+                    "endOffset": 106
+                },
+                "from": {
+                    "file": "/home/nikita/Snaphy Clients/OrthoPG/Android App/OrthoPG/snaphyandroidsdk/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-port/values-port.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 229,
+                        "endColumn": 55,
+                        "endOffset": 280
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/snaphyandroidsdk/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-port/values-port.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 55,
+                    "endOffset": 106
+                },
+                "from": {
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/snaphyandroidsdk/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-port/values-port.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
