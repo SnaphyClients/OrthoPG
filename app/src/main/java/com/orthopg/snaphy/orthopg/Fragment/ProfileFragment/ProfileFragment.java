@@ -46,7 +46,8 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
     private OnFragmentInteractionListener mListener;
     @Bind(R.id.fragment_profile_textview1) TextView logout;
     @Bind(R.id.fragment_profile_textview2) TextView email;
-    @Bind(R.id.fragment_profile_textview3) TextView mciNumber;
+    //@Bind(R.id.fragment_profile_textview3) TextView mciNumber;
+    @Bind(R.id.fragment_profile_button1) Button viewProfile;
     /*@Bind(R.id.fragment_profile_textview4) TextView speciality;*/
     @Bind(R.id.fragment_profile_textview5) TextView name;
     @Bind(R.id.layout_profile_image) ImageView profileImage;
@@ -94,12 +95,17 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
         editor.commit();
     }
 
-    @OnClick(R.id.fragment_profile_imagebutton1) void editMCINumber() {
+    /*@OnClick(R.id.fragment_profile_imagebutton1) void editMCINumber() {
         showMCIDialog();
     }
 
     @OnClick(R.id.fragment_profile_imagebutton2) void editName() {
         showNameDialog();
+    }
+*/
+    @OnClick(R.id.fragment_profile_button1) void onViewProfile(){
+
+        mainActivity.replaceFragment(R.layout.fragment_other_profile,null);
     }
 
     public void displayData(){
@@ -117,13 +123,13 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
 
             if(loginCustomer.getMciNumber() != null){
                 if(!loginCustomer.getMciNumber().isEmpty()){
-                    mciNumber.setVisibility(View.VISIBLE);
-                    mciNumber.setText(loginCustomer.getMciNumber());
+                   /* mciNumber.setVisibility(View.VISIBLE);
+                    mciNumber.setText(loginCustomer.getMciNumber());*/
                 }else{
-                    mciNumber.setVisibility(View.GONE);
+                    //mciNumber.setVisibility(View.GONE);
                 }
             }else{
-                mciNumber.setVisibility(View.GONE);
+                //mciNumber.setVisibility(View.GONE);
             }
 
             String userName = mainActivity.snaphyHelper.getName(loginCustomer.getFirstName(), loginCustomer.getLastName());
@@ -143,7 +149,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
 
         }else{
             email.setVisibility(View.GONE);
-            mciNumber.setVisibility(View.GONE);
+            //mciNumber.setVisibility(View.GONE);
             name.setVisibility(View.GONE);
         }
 
@@ -175,8 +181,8 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View v) {
                 loginCustomer.setMciNumber(editText.getText().toString().trim());
-                final String oldMCINUMBER = mciNumber.getText().toString();
-                mciNumber.setText(loginCustomer.getMciNumber());
+                //final String oldMCINUMBER = mciNumber.getText().toString();
+               // mciNumber.setText(loginCustomer.getMciNumber());
                 loginCustomer.save(new com.strongloop.android.loopback.callbacks.VoidCallback() {
                     @Override
                     public void onSuccess() {
@@ -187,7 +193,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
 
                     @Override
                     public void onError(Throwable t) {
-                        mciNumber.setText(oldMCINUMBER);
+                       // mciNumber.setText(oldMCINUMBER);
                         TastyToast.makeText(mainActivity.getApplicationContext(), Constants.ERROR_UPDATING_MCI, TastyToast.LENGTH_SHORT, TastyToast.ERROR);
                     }
                 });

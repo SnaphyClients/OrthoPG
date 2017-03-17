@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/OrthoPG.iml" filepath="$PROJECT_DIR$/OrthoPG.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/payUMoneysdk/payUMoneysdk.iml" filepath="$PROJECT_DIR$/payUMoneysdk/payUMoneysdk.iml" />
       <module fileurl="file://$PROJECT_DIR$/snaphyandroidsdk/snaphyandroidsdk.iml" filepath="$PROJECT_DIR$/snaphyandroidsdk/snaphyandroidsdk.iml" />
     </modules>
   </component>

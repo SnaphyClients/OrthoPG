@@ -31,6 +31,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
+import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.BookDescriptionFragment;
 import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.BookTestFragment;
 import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.BooksFragment;
 import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.ViewAllBooksFragment;
@@ -53,6 +54,7 @@ import com.orthopg.snaphy.orthopg.Fragment.NewCase.CaseDescriptionFragment;
 import com.orthopg.snaphy.orthopg.Fragment.NewCase.CaseHeadingFragment;
 import com.orthopg.snaphy.orthopg.Fragment.NewCase.CaseUploadImageFragment;
 import com.orthopg.snaphy.orthopg.Fragment.NewsFragment.NewsFragment;
+import com.orthopg.snaphy.orthopg.Fragment.ProfileFragment.OtherProfileFragment;
 import com.orthopg.snaphy.orthopg.Fragment.ProfileFragment.ProfileFragment;
 import com.orthopg.snaphy.orthopg.Interface.OnFragmentChange;
 import com.orthopg.snaphy.orthopg.PushNotification.RegistrationIntentService;
@@ -89,7 +91,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         CaseDetailFragment.OnFragmentInteractionListener, PostAnswerFragment.OnFragmentInteractionListener,
         HelpFragment.OnFragmentInteractionListener, CaseHelpFragment.OnFragmentInteractionListener,
         BooksHelpFragment.OnFragmentInteractionListener, NewsHelpFragment.OnFragmentInteractionListener,
-        ViewAllBooksFragment.OnFragmentInteractionListener {
+        ViewAllBooksFragment.OnFragmentInteractionListener, BookDescriptionFragment.OnFragmentInteractionListener,
+        OtherProfileFragment.OnFragmentInteractionListener {
 
     RestAdapter restAdapter;
     Context context;
@@ -358,6 +361,13 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
                 openViewAllBooksFragment(fragmentTransaction);
                 break;
 
+            case R.layout.fragment_book_description:
+                openFragmentBookDescription(fragmentTransaction);
+                break;
+
+            case R.layout.fragment_other_profile:
+                openOtherProfileFragment(fragmentTransaction);
+                break;
         }
     }
 
@@ -521,6 +531,25 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             viewAllBooksFragment = ViewAllBooksFragment.newInstance();
         }
         fragmentTransaction.replace(R.id.main_container,viewAllBooksFragment, ViewAllBooksFragment.TAG).addToBackStack(ViewAllBooksFragment.TAG);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    private void openFragmentBookDescription(FragmentTransaction fragmentTransaction){
+        BookDescriptionFragment bookDescriptionFragment = (BookDescriptionFragment) getSupportFragmentManager().
+                findFragmentByTag(BookDescriptionFragment.TAG);
+        if(bookDescriptionFragment == null){
+            bookDescriptionFragment = BookDescriptionFragment.newInstance();
+        }
+        fragmentTransaction.replace(R.id.main_container,bookDescriptionFragment,BookDescriptionFragment.TAG).addToBackStack(BookDescriptionFragment.TAG);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    private void openOtherProfileFragment(FragmentTransaction fragmentTransaction){
+        OtherProfileFragment otherProfileFragment = (OtherProfileFragment)getSupportFragmentManager().findFragmentByTag(OtherProfileFragment.TAG);
+        if(otherProfileFragment==null){
+            otherProfileFragment = OtherProfileFragment.newInstance();
+        }
+        fragmentTransaction.replace(R.id.main_container,otherProfileFragment, OtherProfileFragment.TAG).addToBackStack(OtherProfileFragment.TAG);
         fragmentTransaction.commitAllowingStateLoss();
     }
 

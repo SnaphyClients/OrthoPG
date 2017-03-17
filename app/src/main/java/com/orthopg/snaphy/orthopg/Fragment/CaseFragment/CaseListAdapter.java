@@ -36,6 +36,7 @@ import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Ravi-Gupta on 9/21/2016.
@@ -650,6 +651,14 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                 Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_SAVE).put(post.getId(), trackSave);
             }
         }
+    }
+
+    @OnClick(R.id.layout_case_list_image) void onProfile(){
+        mainActivity.replaceFragment(R.layout.fragment_other_profile, null);
+    }
+
+    @OnClick(R.id.layout_case_list_textview2) void onProfileClick(){
+        mainActivity.replaceFragment(R.layout.fragment_other_profile, null);
     }
 
 

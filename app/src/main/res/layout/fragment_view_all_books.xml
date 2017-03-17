@@ -17,18 +17,22 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
+            <ImageButton
+                android:id="@+id/fragment_view_all_books_imageview1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/fragment_view_all_books_imageview1"
-                android:layout_marginTop="10dp"/>
+                android:src="@mipmap/cross"
+                android:background="@android:color/transparent"
+                android:layout_alignParentLeft="true"
+                android:padding="0dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:layout_toRightOf="@+id/fragment_view_all_books_imageview1"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/black"
                 android:id="@+id/fragment_view_all_books_textview1"
                 android:text="Category name"/>
 
@@ -42,8 +46,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/fragment_view_all_books_toolbar"
-        android:id="@+id/fragment_view_all_books_recyclerview"
-        android:layout_marginTop="10dp">
+        android:id="@+id/fragment_view_all_books_recyclerview">
 
     </android.support.v7.widget.RecyclerView>
     </RelativeLayout>

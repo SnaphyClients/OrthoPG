@@ -1,1 +1,1 @@
-include ':app', ':snaphyandroidsdk'
+include ':app', ':snaphyandroidsdk', ':payUMoneysdk'

@@ -192,7 +192,18 @@
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="10dp"/>
 
-                <TextView
+                <Button
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/fragment_profile_button1"
+                    android:text="View Full Profile"
+                    android:textAllCaps="false"
+                    android:textSize="12sp"
+                    android:textColor="@color/info"
+                    android:background="@drawable/curved_rectangle_info"/>
+                <!--<TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Registration Number"
@@ -226,7 +237,7 @@
                         android:layout_alignParentRight="true"
                         android:src="@mipmap/edit"/>
 
-                </RelativeLayout>
+                </RelativeLayout>-->
 
                 <!--<RelativeLayout
                     android:layout_width="match_parent"
@@ -273,7 +284,7 @@
             android:layout_marginLeft="35dp"
             android:layout_marginTop="10dp"/>
 
-        <ImageButton
+       <!-- <ImageButton
             android:id="@+id/fragment_profile_imagebutton2"
             android:layout_width="wrap_content"
             android:layout_height="25dp"
@@ -282,7 +293,7 @@
             android:layout_gravity="right|center"
             android:layout_marginTop="8dp"
             android:layout_alignParentRight="true"
-            android:src="@mipmap/edit"/>
+            android:src="@mipmap/edit"/>-->
 
     </RelativeLayout>
 
