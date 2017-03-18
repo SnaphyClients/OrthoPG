@@ -32,6 +32,7 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.BookDescriptionFragment;
+import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.BookPDFRenderFragment;
 import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.BookTestFragment;
 import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.BooksFragment;
 import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.ViewAllBooksFragment;
@@ -92,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         HelpFragment.OnFragmentInteractionListener, CaseHelpFragment.OnFragmentInteractionListener,
         BooksHelpFragment.OnFragmentInteractionListener, NewsHelpFragment.OnFragmentInteractionListener,
         ViewAllBooksFragment.OnFragmentInteractionListener, BookDescriptionFragment.OnFragmentInteractionListener,
-        OtherProfileFragment.OnFragmentInteractionListener {
+        OtherProfileFragment.OnFragmentInteractionListener, BookPDFRenderFragment.OnFragmentInteractionListener {
 
     RestAdapter restAdapter;
     Context context;
@@ -368,6 +369,10 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             case R.layout.fragment_other_profile:
                 openOtherProfileFragment(fragmentTransaction);
                 break;
+
+            case R.layout.fragment_book_pdfrender:
+                openBookPDFRenderFragment(fragmentTransaction);
+                break;
         }
     }
 
@@ -550,6 +555,16 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             otherProfileFragment = OtherProfileFragment.newInstance();
         }
         fragmentTransaction.replace(R.id.main_container,otherProfileFragment, OtherProfileFragment.TAG).addToBackStack(OtherProfileFragment.TAG);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    private void openBookPDFRenderFragment(FragmentTransaction fragmentTransaction){
+
+        BookPDFRenderFragment bookPDFRenderFragment = (BookPDFRenderFragment)getSupportFragmentManager().findFragmentByTag(BookPDFRenderFragment.TAG);
+        if(bookPDFRenderFragment == null){
+            bookPDFRenderFragment = BookPDFRenderFragment.newInstance();
+        }
+        fragmentTransaction.replace(R.id.main_container,bookPDFRenderFragment,BookPDFRenderFragment.TAG).addToBackStack(BookPDFRenderFragment.TAG);
         fragmentTransaction.commitAllowingStateLoss();
     }
 
