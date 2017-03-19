@@ -36,6 +36,7 @@ import java.security.SecureRandom;
 
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
+import javax.crypto.CipherOutputStream;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
@@ -61,6 +62,8 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
     private static final int  MEGABYTE = 1024 * 1024;
     @Bind(R.id.fragment_book_description_button3) Button bookDownload;
     public final static String TAG = "BookDescriptionFragment";
+    int read;
+    File inputFile, outFile, decFile;
 
     public BookDescriptionFragment() {
         // Required empty public constructor
@@ -84,20 +87,32 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_book_description, container, false);
         ButterKnife.bind(this,view);
+        outFile = new File(Environment.getExternalStorageDirectory() + "/OrthoPg/" + "sample.pdf");
+        decFile = new File(Environment.getExternalStorageDirectory() + "/OrthoPg/" + "dsample.pdf");
         return view;
     }
 
     @OnClick(R.id.fragment_book_description_button3) void onHardCopyBuy(){
         if(bookDownload.getText().toString().equals("Download")) {
-            new DownloadFile().execute("http://download.support.xerox.com/pub/docs/FlowPort2/userdocs/any-os/en/fp_dc_setup_guide.pdf");
-            //new DownloadFile().execute("https://www.ets.org/Media/Tests/GRE/pdf/gre_research_validity_data.pdf");
-            //new DownloadFile().execute("http://www.damtp.cam.ac.uk/user/tong/string/string.pdf","sample.pdf");
+            new DownloadFile().execute("http://www.damtp.cam.ac.uk/user/tong/string/string.pdf","sample.pdf");
         }
         else if(bookDownload.getText().toString().equals("View")){
             try {
-                FileInputStream fis = new FileInputStream(Environment.getExternalStorageDirectory() + "/OrthoPG/" + "esample.jpg");
-                saveDecryptFile(decrypt(key, fis), "dsample.jpg");
-            } catch(IOException e){
+                FileInputStream enfis = new FileInputStream(outFile);
+                FileOutputStream defos = new FileOutputStream(decFile);
+                Cipher decipher = Cipher.getInstance("AES");
+                SecretKeySpec specKey = new SecretKeySpec(key, "AES");
+                decipher.init(Cipher.DECRYPT_MODE,specKey,new IvParameterSpec(iv));
+                CipherOutputStream cos = new CipherOutputStream(defos,decipher);
+                while((read = enfis.read())!=-1){
+                    cos.write(read);
+                    cos.flush();
+                }
+                cos.close();
+                Toast.makeText(mainActivity,"Decrtption completed",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mainActivity,PDFViewPagerActivity.class);
+                startActivity(intent);
+            }catch (Exception e){
                 e.printStackTrace();
             }
             // mainActivity.replaceFragment(R.layout.fragment_book_pdfrender, null);
@@ -129,176 +144,69 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
     }
 
 
-    public void downloadFile(String fileUrl){
+
+    private class DownloadFile extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            String fileUrl = strings[0];   // -> http://maven.apache.org/maven-1.x/maven.pdf
+            String fileName = strings[1];  // -> maven.pdf
+            String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
+            File folder = new File(extStorageDirectory, "OrthoPg");
+            folder.mkdir();
+
+            File pdfFile = new File(folder, fileName);
+
+            try {
+                pdfFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            downloadFile(fileUrl, pdfFile);
+            //downloadEncryptedFile(fileUrl, pdfFile);
+            return null;
+        }
+
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            Toast.makeText(mainActivity, "Download Completed..", Toast.LENGTH_SHORT).show();
+            bookDownload.setText("View");
+        }
+    }
+
+
+    public void downloadFile(String fileUrl, File outFile){
         try {
 
             URL url = new URL(fileUrl);
-            HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.connect();
 
             InputStream inputStream = urlConnection.getInputStream();
+            FileOutputStream fos = new FileOutputStream(outFile);
+            Cipher encipher = Cipher.getInstance("AES");
+            SecretKeySpec specKey = new SecretKeySpec(key, "AES");
+            encipher.init(Cipher.ENCRYPT_MODE,specKey,new IvParameterSpec(iv));
+            CipherInputStream cis = new CipherInputStream(inputStream,encipher);
+            while((read = cis.read())!=-1){
+                fos.write((char)read);
+                fos.flush();}
+            fos.close();
+            //Toast.makeText(mainActivity,"Encryption completed",Toast.LENGTH_SHORT).show();
 
-            byte[] buffer = new byte[MEGABYTE];
-            int bufferLength = 0;
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            File file = new File(Environment.getExternalStorageDirectory() + "/OrthoPg/" + "esample.pdf");
-            FileOutputStream fileOutputStream = new FileOutputStream(file);
-            while((bufferLength = inputStream.read(buffer))>0 ){
-                fileOutputStream.write(buffer, 0, bufferLength);
-            }
-            fileOutputStream.close();
-            FileInputStream fileInputStream = new FileInputStream(file);
-            //byte[] bytes =
-            int length = 0;
-
-
-            //saveFile(encrypt(key, baos.toByteArray()), "esample.jpg");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    private class DownloadFile extends AsyncTask<String, Void, Void> {
-
-        @Override
-        protected Void doInBackground(String... strings) {
-            String fileUrl = strings[0];
-          /*  String fileName = strings[1];
-            String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
-            File folder = new File(extStorageDirectory, "OrthoPG");
-            folder.mkdir();
-*/
-           /* File pdfFile = new File(folder, fileName);
-
-            try{
-                pdfFile.createNewFile();
-            }catch (IOException e){
-                e.printStackTrace();
-            }*/
-            downloadFile(fileUrl);
-            return null;
-        }
-
-
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            Toast.makeText(mainActivity,"Download Completed..",Toast.LENGTH_SHORT).show();
-            bookDownload.setText("View");
-        }
-    }
-
-    public void saveFile(byte[] data, String outFileName){
-
-        FileOutputStream fos=null;
-        try {
-            fos=new FileOutputStream(Environment.getExternalStorageDirectory()+ "/OrthoPG/" + outFileName);
-            fos.write(data);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
-        finally{
-            try {
-                fos.flush();
-                fos.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
-
-    private byte[] encrypt(byte[] skey, byte[] data){
-
-        SecretKeySpec skeySpec = new SecretKeySpec(skey, "AES");
-        Cipher cipher;
-        byte[] encrypted=null;
-        try {
-            // Get Cipher instance for AES algorithm
-            cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-
-            // Initialize cipher
-            cipher.init(Cipher.ENCRYPT_MODE, skeySpec, new IvParameterSpec(iv));
-
-
-            // Encrypt the fileData byte data
-            encrypted = cipher.doFinal(data);
-
-        }catch(Exception e) {
-            e.printStackTrace();
-        }
-
-        return encrypted;
-    }
-
-    public void saveDecryptFile(byte[] data, String outFileName){
-
-        FileOutputStream fos=null;
-        try {
-            fos=new FileOutputStream(Environment.getExternalStorageDirectory()+ "/OrthoPG/" + outFileName);
-            fos.write(data);
-            Toast.makeText(mainActivity,"Completed",Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        finally{
-            try {
-                fos.close();
-
-                /*Intent intent = new Intent(mainActivity, PDFViewPagerActivity.class);
-                startActivity(intent);*/
-            } catch (IOException e) {
-                e.printStackTrace();
-
-
-            }
-        }
-    }
-
-    private byte[] decrypt(byte[] skey, FileInputStream fis){
-
-        SecretKeySpec skeySpec = new SecretKeySpec(skey, "AES");
-        Cipher cipher;
-        byte[] decryptedData=null;
-        CipherInputStream cis=null;
-        try {
-
-            cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            cipher.init(Cipher.DECRYPT_MODE, skeySpec, new IvParameterSpec(iv));
-
-            // Create CipherInputStream to read and decrypt the image data
-            cis = new CipherInputStream(fis, cipher);
-
-            // Write encrypted image data to ByteArrayOutputStream
-            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-            byte[] data = new byte[2048];
-
-            while ((cis.read(data)) != -1) {
-                buffer.write(data);
-            }
-            buffer.flush();
-            decryptedData=buffer.toByteArray();
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        finally{
-            try {
-                fis.close();
-                cis.close();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return decryptedData;
-    }
 
 
     private static byte[]  getKey(){
