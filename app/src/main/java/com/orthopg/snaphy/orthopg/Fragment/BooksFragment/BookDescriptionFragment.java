@@ -2,6 +2,8 @@ package com.orthopg.snaphy.orthopg.Fragment.BooksFragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -87,13 +89,14 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
 
     @OnClick(R.id.fragment_book_description_button3) void onHardCopyBuy(){
         if(bookDownload.getText().toString().equals("Download")) {
-            new DownloadFile().execute("https://www.ets.org/Media/Tests/GRE/pdf/gre_research_validity_data.pdf", "are_you_afraid_of_the_dark.pdf");
+            new DownloadFile().execute("http://download.support.xerox.com/pub/docs/FlowPort2/userdocs/any-os/en/fp_dc_setup_guide.pdf");
+            //new DownloadFile().execute("https://www.ets.org/Media/Tests/GRE/pdf/gre_research_validity_data.pdf");
             //new DownloadFile().execute("http://www.damtp.cam.ac.uk/user/tong/string/string.pdf","sample.pdf");
         }
         else if(bookDownload.getText().toString().equals("View")){
             try {
-                FileInputStream fis = new FileInputStream(Environment.getExternalStorageDirectory() + "/OrthoPG/" + "esample.txt");
-                saveDecryptFile(decrypt(key, fis), "dsample.pdf");
+                FileInputStream fis = new FileInputStream(Environment.getExternalStorageDirectory() + "/OrthoPG/" + "esample.jpg");
+                saveDecryptFile(decrypt(key, fis), "dsample.jpg");
             } catch(IOException e){
                 e.printStackTrace();
             }
@@ -138,13 +141,18 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
             byte[] buffer = new byte[MEGABYTE];
             int bufferLength = 0;
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            File file = new File(Environment.getExternalStorageDirectory() + "/OrthoPg/" + "esample.pdf");
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
             while((bufferLength = inputStream.read(buffer))>0 ){
-
-
-                baos.write(buffer, 0, bufferLength);
-
+                fileOutputStream.write(buffer, 0, bufferLength);
             }
-            saveFile(encrypt(key, baos.toByteArray()), "esample.txt");
+            fileOutputStream.close();
+            FileInputStream fileInputStream = new FileInputStream(file);
+            //byte[] bytes =
+            int length = 0;
+
+
+            //saveFile(encrypt(key, baos.toByteArray()), "esample.jpg");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (MalformedURLException e) {
@@ -158,12 +166,12 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
 
         @Override
         protected Void doInBackground(String... strings) {
-            String fileUrl = strings[0];   // -> http://maven.apache.org/maven-1.x/maven.pdf
-            String fileName = strings[1];  // -> maven.pdf
+            String fileUrl = strings[0];
+          /*  String fileName = strings[1];
             String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
             File folder = new File(extStorageDirectory, "OrthoPG");
             folder.mkdir();
-
+*/
            /* File pdfFile = new File(folder, fileName);
 
             try{
@@ -234,16 +242,16 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
         try {
             fos=new FileOutputStream(Environment.getExternalStorageDirectory()+ "/OrthoPG/" + outFileName);
             fos.write(data);
-
+            Toast.makeText(mainActivity,"Completed",Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             e.printStackTrace();
         }
         finally{
             try {
                 fos.close();
-                Toast.makeText(mainActivity,"Completed",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(mainActivity, PDFViewPagerActivity.class);
-                startActivity(intent);
+
+                /*Intent intent = new Intent(mainActivity, PDFViewPagerActivity.class);
+                startActivity(intent);*/
             } catch (IOException e) {
                 e.printStackTrace();
 

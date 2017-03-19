@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
@@ -41,12 +42,13 @@ import butterknife.OnClick;
 /**
  * Created by Ravi-Gupta on 9/21/2016.
  */
-public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHolder> {
+public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHolder> implements View.OnClickListener {
 
     MainActivity mainActivity;
     HashMap<String, TrackList> trackList;
     String TAG;
     CasePresenter casePresenter;
+    int casePosition;
 
     public CaseListAdapter(MainActivity mainActivity, HashMap<String, TrackList> trackList, String TAG, CasePresenter casePresenter) {
         this.mainActivity = mainActivity;
@@ -66,6 +68,8 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         ViewHolder viewHolder = new ViewHolder(caseView);
         return viewHolder;
     }
+
+
 
     //Storing data
     private class Data{
@@ -138,9 +142,12 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
             LinearLayout linearLayout2 = holder.linearLayout2;
             LinearLayout likeLinearLayout = holder.likeLinearLayout;
             LinearLayout saveLinearLayout = holder.saveLinearLayout;
+            LinearLayout caseContainer = holder.caseContainer;
+            LinearLayout contentContainer = holder.contentContainer;
+            RelativeLayout acceptedContainer = holder.acceptContainer;
 
             caseImages.setLayoutManager(new LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false));
-
+            casePosition = position;
 
             if (!data.post.getHeading().isEmpty()) {
                 caseHeading.setTypeface(font_bold);
@@ -564,7 +571,14 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                 }
             });
 
-            linearLayout.setOnClickListener(new View.OnClickListener() {
+            imageView.setOnClickListener(this);
+            userName.setOnClickListener(this);
+            caseHeading.setOnClickListener(this);
+            caseContainer.setOnClickListener(this);
+            contentContainer.setOnClickListener(this);
+            acceptedContainer.setOnClickListener(this);
+
+          /*  linearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
@@ -585,12 +599,20 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
 
                     }
                 }
-            });
-
+            });*/
 
 
         }//if data != null
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v.getId()==R.id.layout_case_list_textview2 || v.getId()==R.id.layout_case_list_image){
+            mainActivity.replaceFragment(R.layout.fragment_other_profile,null);
+        } else if(v.getId()==R.id.layout_case_list_textview1 || v.getId()==R.id.layout_case_list_linear_layout3 || v.getId()==R.id.layout_case_list_linear_layout4 || v.getId()==R.id.layout_case_list_reltive_layout1){
+            mainActivity.replaceFragment(R.id.layout_case_list_textview4, casePosition);
+        }
     }
 
     public String parseLikeAndSave(int number) {
@@ -720,6 +742,9 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         @Bind(R.id.layout_case_list_linear_layout2) LinearLayout linearLayout2;
         @Bind(R.id.layout_case_list_linear_layout_like) LinearLayout likeLinearLayout;
         @Bind(R.id.layout_case_list_linear_layout_save) LinearLayout saveLinearLayout;
+        @Bind(R.id.layout_case_list_linear_layout3) LinearLayout caseContainer;
+        @Bind(R.id.layout_case_list_linear_layout4) LinearLayout contentContainer;
+        @Bind(R.id.layout_case_list_reltive_layout1) RelativeLayout acceptContainer;
 
 
         public ViewHolder(View itemView) {

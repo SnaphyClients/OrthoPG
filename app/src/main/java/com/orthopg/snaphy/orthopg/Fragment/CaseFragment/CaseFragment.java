@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
@@ -24,8 +26,11 @@ import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.CustomModel.TrackList;
+import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.BookTestAdapter;
+import com.orthopg.snaphy.orthopg.ItemClickSupport;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
+import com.orthopg.snaphy.orthopg.RecyclerItemClickListener;
 import com.sdsmdg.tastytoast.TastyToast;
 import com.strongloop.android.loopback.callbacks.VoidCallback;
 
@@ -103,7 +108,7 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_case, container, false);
@@ -111,6 +116,32 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         Typeface typeface = Typeface.createFromAsset(mainActivity.getAssets(), "fonts/OpenSans-Regular.ttf");
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
+       /* recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(mainActivity, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                int id = view.getId();
+                view = inflater.inflate(R.layout.layout_case_list,null);
+                CaseFragment.ViewHolder viewHolder = new CaseFragment.ViewHolder(view);
+                TextView textview = viewHolder.caseHeading;
+                textview.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mainActivity.replaceFragment(R.layout.fragment_case_detail,null);
+                    }
+                });
+
+            }
+        }));*/
+       /* ItemClickSupport.addTo(recyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                int id = v.getId();
+                int childrenCount = v.getC
+               if(v.getId()==R.id.layout_case_list_linear_layout){
+
+               }
+            }
+        });*/
         swipeRefreshLayoutListener();
         loadPresenter();
         recyclerViewLoadMoreEventData();
@@ -118,6 +149,40 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         return view;
     }
 
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        @Bind(R.id.layout_case_list_image)
+        ImageView userImage;
+        @Bind(R.id.layout_case_list_textview1) TextView caseHeading;
+        @Bind(R.id.layout_case_list_textview2) TextView userName;
+        @Bind(R.id.layout_case_list_textview3) TextView casePostedTime;
+        @Bind(R.id.layout_case_list_imagebutton2) ImageView like;
+        @Bind(R.id.layout_case_list_imagebutton1) ImageView saveCase;
+        @Bind(R.id.layout_case_list_recycler_view) RecyclerView caseImages;
+        @Bind(R.id.layout_case_list_textview4) TextView caseDescription;
+        @Bind(R.id.layout_case_list_textview5) TextView tag;
+        @Bind(R.id.layout_case_list_imageview1) ImageView isAnswerSelected;
+        @Bind(R.id.layout_case_list_textview6) TextView selectedAnswerUserName;
+        @Bind(R.id.layout_case_list_textview7) TextView selectedAnswer;
+        @Bind(R.id.layout_case_list_button2) TextView deleteButton;
+        @Bind(R.id.layout_case_list_button1) TextView editButton;
+        @Bind(R.id.layout_case_list_textview8) TextView numberOfLikes;
+        @Bind(R.id.layout_case_list_textview9) TextView numberOfSave;
+        @Bind(R.id.layout_case_list_linear_layout)
+        LinearLayout linearLayout;
+        @Bind(R.id.layout_case_list_linear_layout2) LinearLayout linearLayout2;
+        @Bind(R.id.layout_case_list_linear_layout_like) LinearLayout likeLinearLayout;
+        @Bind(R.id.layout_case_list_linear_layout_save) LinearLayout saveLinearLayout;
+        @Bind(R.id.layout_case_list_linear_layout3) LinearLayout caseContainer;
+        @Bind(R.id.layout_case_list_linear_layout4) LinearLayout contentContainer;
+
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+    }
 
     public void swipeRefreshLayoutListener() {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
