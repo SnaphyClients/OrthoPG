@@ -23,7 +23,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
-
+import java.lang.reflect.Method;
+import android.util.Log;
+import android.content.ContentValues;
+import android.content.pm.PackageManager;
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
 
 
 //Replaced by Custom  Repo methods
@@ -31,7 +36,6 @@ import java.util.HashMap;
 import com.strongloop.android.loopback.AccessTokenRepository;
 import com.strongloop.android.loopback.AccessToken;
 import android.content.SharedPreferences;
-import android.util.Log;
 import org.json.JSONException;
 import android.content.Context;
 
@@ -40,8 +44,11 @@ import android.content.Context;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+
 //Import its models too.
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Employee;
+import android.content.Context;
+import com.androidsdk.snaphy.snaphyandroidsdk.db.EmployeeDb;
 
 //Now import model of related models..
 
@@ -55,8 +62,18 @@ import com.androidsdk.snaphy.snaphyandroidsdk.models.Employee;
 public class EmployeeRepository extends UserRepository<Employee> {
 
 
+    private Context context;
+    private String METADATA_DATABASE_NAME_KEY = "snaphy.database.name";
+    private static String DATABASE_NAME;
+
     public EmployeeRepository(){
         super("Employee", null, Employee.class);
+
+    }
+
+
+    public Context getContext(){
+        return context;
     }
 
 
@@ -65,6 +82,7 @@ public class EmployeeRepository extends UserRepository<Employee> {
     		public Employee cachedCurrentUser;
             private Object currentUserId;
             private boolean isCurrentUserIdLoaded;
+
     		public Employee getCachedCurrentUser(){
     			return cachedCurrentUser;
     		}
@@ -87,7 +105,6 @@ public class EmployeeRepository extends UserRepository<Employee> {
                 }
 
                 HashMap<String, Object> hashMap = new HashMap<>();
-
                 this.findById((String)getCurrentUserId(), hashMap, new ObjectCallback<Employee>() {
                     @Override
                     public void onSuccess(Employee user){
@@ -104,12 +121,31 @@ public class EmployeeRepository extends UserRepository<Employee> {
                         callback.onFinally();
                     }
                 });
-
             }
 
             public Object getCurrentUserId(){
-                loadCurrentUserIdIfNotLoaded();
-                return currentUserId;
+                if(currentUserId != null){
+                  return currentUserId;
+                }
+                else{
+                  String json = getSharedPreferences().getString(PROPERTY_CURRENT_USER_ID, null);
+                  if(json == null){
+                      return null;
+                  }
+
+                  if(json.equals("[null]")){
+                      return null;
+                  }
+
+                  try{
+                      Object id = new JSONArray(json).get(0);
+                      return id;
+                  }catch(JSONException e){
+                      String msg = "Cannot parse user id '" + json + "'";
+                      Log.e("Snaphy", msg, e);
+                  }
+                }
+                return null;
             }
 
             public void setCurrentUserId(Object currentUserId){
@@ -126,29 +162,6 @@ public class EmployeeRepository extends UserRepository<Employee> {
             }
 
 
-            //Add loadCurrentUserIdIfNotLoaded method..
-            private void loadCurrentUserIdIfNotLoaded(){
-                if(isCurrentUserIdLoaded) return;
-
-                isCurrentUserIdLoaded = true;
-                String json = getSharedPreferences().getString(PROPERTY_CURRENT_USER_ID, null);
-                if(json == null){
-                    return;
-                }
-
-                if(json.equals("[null]")){
-                    return;
-                }
-
-                try{
-                    Object id = new JSONArray(json).get(0);
-                    setCurrentUserId(id);
-                }catch(JSONException e){
-                    String msg = "Cannot parse user id '" + json + "'";
-                    Log.e("Snaphy", msg, e);
-                }
-            }
-
             private SharedPreferences getSharedPreferences() {
                 return getApplicationContext().getSharedPreferences(
                     SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
@@ -163,206 +176,285 @@ public class EmployeeRepository extends UserRepository<Employee> {
 
 
 
-    public RestContract createContract() {
-        RestContract contract = super.createContract();
-        
-            
 
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:employeeId/accessTokens/:fk", "GET"), "Employee.prototype.__findById__accessTokens");
-                
 
-            
-        
-            
+    public EmployeeDb getDb() {
+      return employeeDb;
+    }
 
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:employeeId/accessTokens/:fk", "DELETE"), "Employee.prototype.__destroyById__accessTokens");
-                
+    public void setEmployeeDb(EmployeeDb employeeDb) {
+      this.employeeDb = employeeDb;
+    }
 
-            
-        
-            
+    private EmployeeDb employeeDb;
 
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:employeeId/accessTokens/:fk", "PUT"), "Employee.prototype.__updateById__accessTokens");
-                
 
-            
-        
-            
 
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:employeeId/accessTokens", "GET"), "Employee.prototype.__get__accessTokens");
-                
+    //Flag to check either to store data locally or not..
+    private boolean STORE_LOCALLY = true;
 
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:employeeId/accessTokens", "POST"), "Employee.prototype.__create__accessTokens");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:employeeId/accessTokens", "DELETE"), "Employee.prototype.__delete__accessTokens");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:employeeId/accessTokens/count", "GET"), "Employee.prototype.__count__accessTokens");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "POST"), "Employee.create");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "POST"), "Employee.create");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "PUT"), "Employee.upsert");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id/exists", "GET"), "Employee.exists");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id", "GET"), "Employee.findById");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "GET"), "Employee.find");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/findOne", "GET"), "Employee.findOne");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/update", "POST"), "Employee.updateAll");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id", "DELETE"), "Employee.deleteById");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/count", "GET"), "Employee.count");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:employeeId", "PUT"), "Employee.prototype.updateAttributes");
-                
-
-            
-        
-            
-        
-            
-        
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/confirm", "GET"), "Employee.confirm");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/reset", "POST"), "Employee.resetPassword");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/getSchema", "POST"), "Employee.getSchema");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/getAbsoluteSchema", "POST"), "Employee.getAbsoluteSchema");
-                
-
-            
-        
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/isAdmin", "POST"), "Employee.isAdmin");
-                
-
-            
-        
-        return contract;
+    public boolean isSTORE_LOCALLY() {
+      return STORE_LOCALLY;
     }
 
 
-    //override getNameForRestUrlMethod
+    public void  persistData(boolean persist){
+      STORE_LOCALLY = persist;
+    }
+
+
+
+    public void reset__db(){
+      if(isSTORE_LOCALLY()){
+          getDb().reset__db();
+      }
+    }
+
+
+
+    public void addStorage(Context context){
+         try{
+            ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            DATABASE_NAME = (String) ai.metaData.get(METADATA_DATABASE_NAME_KEY);
+         }
+         catch (Exception e){
+            Log.e("Snaphy", e.toString());
+         }
+         setEmployeeDb(new EmployeeDb(context, DATABASE_NAME, getRestAdapter()));
+         //allow data storage locally..
+         persistData(true);
+         this.context = context;
+    }
+
+
+    public RestContract createContract() {
+    RestContract contract = super.createContract();
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:employeeId/accessTokens/:fk", "GET"), "Employee.prototype.__findById__accessTokens");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:employeeId/accessTokens/:fk", "DELETE"), "Employee.prototype.__destroyById__accessTokens");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:employeeId/accessTokens/:fk", "PUT"), "Employee.prototype.__updateById__accessTokens");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:employeeId/accessTokens", "GET"), "Employee.prototype.__get__accessTokens");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:employeeId/accessTokens", "POST"), "Employee.prototype.__create__accessTokens");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:employeeId/accessTokens", "DELETE"), "Employee.prototype.__delete__accessTokens");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:employeeId/accessTokens/count", "GET"), "Employee.prototype.__count__accessTokens");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "POST"), "Employee.create");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "POST"), "Employee.create");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "PUT"), "Employee.upsert");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id/exists", "GET"), "Employee.exists");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id", "GET"), "Employee.findById");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "GET"), "Employee.find");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/findOne", "GET"), "Employee.findOne");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/update", "POST"), "Employee.updateAll");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id", "DELETE"), "Employee.deleteById");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/count", "GET"), "Employee.count");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:employeeId", "PUT"), "Employee.prototype.updateAttributes");
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/confirm", "GET"), "Employee.confirm");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/reset", "POST"), "Employee.resetPassword");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/getSchema", "POST"), "Employee.getSchema");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/getAbsoluteSchema", "POST"), "Employee.getAbsoluteSchema");
+    
+
+    
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/isAdmin", "POST"), "Employee.isAdmin");
+    
+
+    
+    
+    return contract;
+    }
+
+
+
+//override getNameForRestUrlMethod
     public String  getNameForRestUrl() {
         
             //call super method instead..
@@ -386,7 +478,7 @@ public class EmployeeRepository extends UserRepository<Employee> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -417,10 +509,34 @@ public class EmployeeRepository extends UserRepository<Employee> {
                             
                                 if(response != null){
                                     AccessTokenRepository accessTokenRepo = getRestAdapter().createRepository(AccessTokenRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = accessTokenRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(accessTokenRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //accessTokenRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     AccessToken accessToken = accessTokenRepo.createObject(result);
-                                    callback.onSuccess(accessToken);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = accessToken.getClass().getMethod("save__db");
+                                                    method.invoke(accessToken);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(accessToken);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -447,7 +563,7 @@ public class EmployeeRepository extends UserRepository<Employee> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -495,7 +611,7 @@ public class EmployeeRepository extends UserRepository<Employee> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -528,10 +644,34 @@ public class EmployeeRepository extends UserRepository<Employee> {
                             
                                 if(response != null){
                                     AccessTokenRepository accessTokenRepo = getRestAdapter().createRepository(AccessTokenRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = accessTokenRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(accessTokenRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //accessTokenRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     AccessToken accessToken = accessTokenRepo.createObject(result);
-                                    callback.onSuccess(accessToken);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = accessToken.getClass().getMethod("save__db");
+                                                    method.invoke(accessToken);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(accessToken);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -558,7 +698,7 @@ public class EmployeeRepository extends UserRepository<Employee> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -591,9 +731,31 @@ public class EmployeeRepository extends UserRepository<Employee> {
                                     DataList<Map<String, Object>> result = (DataList) Util.fromJson(response);
                                     DataList<AccessToken> accessTokenList = new DataList<AccessToken>();
                                     AccessTokenRepository accessTokenRepo = getRestAdapter().createRepository(AccessTokenRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = accessTokenRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(accessTokenRepo, context);
 
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+                                    }
                                     for (Map<String, Object> obj : result) {
+
                                         AccessToken accessToken = accessTokenRepo.createObject(obj);
+
+                                        //Add to database if persistent storage required..
+                                        if(isSTORE_LOCALLY()){
+                                            //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                            try {
+                                                      Method method = accessToken.getClass().getMethod("save__db");
+                                                      method.invoke(accessToken);
+
+                                            } catch (Exception e) {
+                                                Log.e("Database Error", e.toString());
+                                            }
+                                        }
+
                                         accessTokenList.add(accessToken);
                                     }
                                     callback.onSuccess(accessTokenList);
@@ -621,7 +783,7 @@ public class EmployeeRepository extends UserRepository<Employee> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -652,10 +814,34 @@ public class EmployeeRepository extends UserRepository<Employee> {
                             
                                 if(response != null){
                                     AccessTokenRepository accessTokenRepo = getRestAdapter().createRepository(AccessTokenRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = accessTokenRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(accessTokenRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //accessTokenRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     AccessToken accessToken = accessTokenRepo.createObject(result);
-                                    callback.onSuccess(accessToken);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = accessToken.getClass().getMethod("save__db");
+                                                    method.invoke(accessToken);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(accessToken);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -682,7 +868,7 @@ public class EmployeeRepository extends UserRepository<Employee> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -728,7 +914,7 @@ public class EmployeeRepository extends UserRepository<Employee> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -781,7 +967,7 @@ public class EmployeeRepository extends UserRepository<Employee> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -810,10 +996,34 @@ public class EmployeeRepository extends UserRepository<Employee> {
                             
                                 if(response != null){
                                     EmployeeRepository employeeRepo = getRestAdapter().createRepository(EmployeeRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = employeeRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(employeeRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //employeeRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     Employee employee = employeeRepo.createObject(result);
-                                    callback.onSuccess(employee);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = employee.getClass().getMethod("save__db");
+                                                    method.invoke(employee);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(employee);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -841,7 +1051,7 @@ public class EmployeeRepository extends UserRepository<Employee> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -870,10 +1080,34 @@ public class EmployeeRepository extends UserRepository<Employee> {
                             
                                 if(response != null){
                                     EmployeeRepository employeeRepo = getRestAdapter().createRepository(EmployeeRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = employeeRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(employeeRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //employeeRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     Employee employee = employeeRepo.createObject(result);
-                                    callback.onSuccess(employee);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = employee.getClass().getMethod("save__db");
+                                                    method.invoke(employee);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(employee);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -900,7 +1134,7 @@ public class EmployeeRepository extends UserRepository<Employee> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -951,7 +1185,7 @@ public class EmployeeRepository extends UserRepository<Employee> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -982,10 +1216,34 @@ public class EmployeeRepository extends UserRepository<Employee> {
                             
                                 if(response != null){
                                     EmployeeRepository employeeRepo = getRestAdapter().createRepository(EmployeeRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = employeeRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(employeeRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //employeeRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     Employee employee = employeeRepo.createObject(result);
-                                    callback.onSuccess(employee);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = employee.getClass().getMethod("save__db");
+                                                    method.invoke(employee);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(employee);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -1012,7 +1270,7 @@ public class EmployeeRepository extends UserRepository<Employee> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -1043,9 +1301,31 @@ public class EmployeeRepository extends UserRepository<Employee> {
                                     DataList<Map<String, Object>> result = (DataList) Util.fromJson(response);
                                     DataList<Employee> employeeList = new DataList<Employee>();
                                     EmployeeRepository employeeRepo = getRestAdapter().createRepository(EmployeeRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = employeeRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(employeeRepo, context);
 
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+                                    }
                                     for (Map<String, Object> obj : result) {
+
                                         Employee employee = employeeRepo.createObject(obj);
+
+                                        //Add to database if persistent storage required..
+                                        if(isSTORE_LOCALLY()){
+                                            //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                            try {
+                                                      Method method = employee.getClass().getMethod("save__db");
+                                                      method.invoke(employee);
+
+                                            } catch (Exception e) {
+                                                Log.e("Database Error", e.toString());
+                                            }
+                                        }
+
                                         employeeList.add(employee);
                                     }
                                     callback.onSuccess(employeeList);
@@ -1073,7 +1353,7 @@ public class EmployeeRepository extends UserRepository<Employee> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -1102,10 +1382,34 @@ public class EmployeeRepository extends UserRepository<Employee> {
                             
                                 if(response != null){
                                     EmployeeRepository employeeRepo = getRestAdapter().createRepository(EmployeeRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = employeeRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(employeeRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //employeeRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     Employee employee = employeeRepo.createObject(result);
-                                    callback.onSuccess(employee);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = employee.getClass().getMethod("save__db");
+                                                    method.invoke(employee);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(employee);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -1132,7 +1436,7 @@ public class EmployeeRepository extends UserRepository<Employee> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -1185,7 +1489,7 @@ public class EmployeeRepository extends UserRepository<Employee> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -1236,7 +1540,7 @@ public class EmployeeRepository extends UserRepository<Employee> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -1287,7 +1591,7 @@ public class EmployeeRepository extends UserRepository<Employee> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -1318,10 +1622,34 @@ public class EmployeeRepository extends UserRepository<Employee> {
                             
                                 if(response != null){
                                     EmployeeRepository employeeRepo = getRestAdapter().createRepository(EmployeeRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = employeeRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(employeeRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //employeeRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     Employee employee = employeeRepo.createObject(result);
-                                    callback.onSuccess(employee);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = employee.getClass().getMethod("save__db");
+                                                    method.invoke(employee);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(employee);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -1354,7 +1682,7 @@ public class EmployeeRepository extends UserRepository<Employee> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -1404,7 +1732,7 @@ public class EmployeeRepository extends UserRepository<Employee> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -1450,7 +1778,7 @@ public class EmployeeRepository extends UserRepository<Employee> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -1499,7 +1827,7 @@ public class EmployeeRepository extends UserRepository<Employee> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -1550,7 +1878,7 @@ public class EmployeeRepository extends UserRepository<Employee> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();

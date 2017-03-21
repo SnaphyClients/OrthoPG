@@ -23,7 +23,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
-
+import java.lang.reflect.Method;
+import android.util.Log;
+import android.content.ContentValues;
+import android.content.pm.PackageManager;
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
 
 
 //Replaced by Custom ModelRepository method
@@ -34,8 +39,11 @@ import java.util.HashMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+
 //Import its models too.
 import com.androidsdk.snaphy.snaphyandroidsdk.models.AmazonPdf;
+import android.content.Context;
+import com.androidsdk.snaphy.snaphyandroidsdk.db.AmazonPdfDb;
 
 //Now import model of related models..
 
@@ -46,8 +54,18 @@ import com.androidsdk.snaphy.snaphyandroidsdk.models.AmazonPdf;
 public class AmazonPdfRepository extends ModelRepository<AmazonPdf> {
 
 
+    private Context context;
+    private String METADATA_DATABASE_NAME_KEY = "snaphy.database.name";
+    private static String DATABASE_NAME;
+
     public AmazonPdfRepository(){
         super("AmazonPdf", null, AmazonPdf.class);
+
+    }
+
+
+    public Context getContext(){
+        return context;
     }
 
 
@@ -57,122 +75,189 @@ public class AmazonPdfRepository extends ModelRepository<AmazonPdf> {
 
 
 
-    public RestContract createContract() {
-        RestContract contract = super.createContract();
-        
-            
 
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "POST"), "AmazonPdf.create");
-                
 
-            
-        
-            
+    public AmazonPdfDb getDb() {
+      return amazonPdfDb;
+    }
 
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "POST"), "AmazonPdf.create");
-                
+    public void setAmazonPdfDb(AmazonPdfDb amazonPdfDb) {
+      this.amazonPdfDb = amazonPdfDb;
+    }
 
-            
-        
-            
+    private AmazonPdfDb amazonPdfDb;
 
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "PUT"), "AmazonPdf.upsert");
-                
 
-            
-        
-            
 
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id/exists", "GET"), "AmazonPdf.exists");
-                
+    //Flag to check either to store data locally or not..
+    private boolean STORE_LOCALLY = true;
 
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id", "GET"), "AmazonPdf.findById");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "GET"), "AmazonPdf.find");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/findOne", "GET"), "AmazonPdf.findOne");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/update", "POST"), "AmazonPdf.updateAll");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id", "DELETE"), "AmazonPdf.deleteById");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/count", "GET"), "AmazonPdf.count");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:amazonPdfId", "PUT"), "AmazonPdf.prototype.updateAttributes");
-                
-
-            
-        
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/getSchema", "POST"), "AmazonPdf.getSchema");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/getAbsoluteSchema", "POST"), "AmazonPdf.getAbsoluteSchema");
-                
-
-            
-        
-            
-        
-        return contract;
+    public boolean isSTORE_LOCALLY() {
+      return STORE_LOCALLY;
     }
 
 
-    //override getNameForRestUrlMethod
+    public void  persistData(boolean persist){
+      STORE_LOCALLY = persist;
+    }
+
+
+
+    public void reset__db(){
+      if(isSTORE_LOCALLY()){
+          getDb().reset__db();
+      }
+    }
+
+
+
+    public void addStorage(Context context){
+         try{
+            ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            DATABASE_NAME = (String) ai.metaData.get(METADATA_DATABASE_NAME_KEY);
+         }
+         catch (Exception e){
+            Log.e("Snaphy", e.toString());
+         }
+         setAmazonPdfDb(new AmazonPdfDb(context, DATABASE_NAME, getRestAdapter()));
+         //allow data storage locally..
+         persistData(true);
+         this.context = context;
+    }
+
+
+    public RestContract createContract() {
+    RestContract contract = super.createContract();
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "POST"), "AmazonPdf.create");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "POST"), "AmazonPdf.create");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "PUT"), "AmazonPdf.upsert");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id/exists", "GET"), "AmazonPdf.exists");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id", "GET"), "AmazonPdf.findById");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "GET"), "AmazonPdf.find");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/findOne", "GET"), "AmazonPdf.findOne");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/update", "POST"), "AmazonPdf.updateAll");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id", "DELETE"), "AmazonPdf.deleteById");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/count", "GET"), "AmazonPdf.count");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:amazonPdfId", "PUT"), "AmazonPdf.prototype.updateAttributes");
+    
+
+    
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/getSchema", "POST"), "AmazonPdf.getSchema");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/getAbsoluteSchema", "POST"), "AmazonPdf.getAbsoluteSchema");
+    
+
+    
+    
+
+    
+    
+    return contract;
+    }
+
+
+
+//override getNameForRestUrlMethod
     public String  getNameForRestUrl() {
         
             //call super method instead..
@@ -196,7 +281,7 @@ public class AmazonPdfRepository extends ModelRepository<AmazonPdf> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -225,10 +310,34 @@ public class AmazonPdfRepository extends ModelRepository<AmazonPdf> {
                             
                                 if(response != null){
                                     AmazonPdfRepository amazonPdfRepo = getRestAdapter().createRepository(AmazonPdfRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = amazonPdfRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(amazonPdfRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //amazonPdfRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     AmazonPdf amazonPdf = amazonPdfRepo.createObject(result);
-                                    callback.onSuccess(amazonPdf);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = amazonPdf.getClass().getMethod("save__db");
+                                                    method.invoke(amazonPdf);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(amazonPdf);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -256,7 +365,7 @@ public class AmazonPdfRepository extends ModelRepository<AmazonPdf> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -285,10 +394,34 @@ public class AmazonPdfRepository extends ModelRepository<AmazonPdf> {
                             
                                 if(response != null){
                                     AmazonPdfRepository amazonPdfRepo = getRestAdapter().createRepository(AmazonPdfRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = amazonPdfRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(amazonPdfRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //amazonPdfRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     AmazonPdf amazonPdf = amazonPdfRepo.createObject(result);
-                                    callback.onSuccess(amazonPdf);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = amazonPdf.getClass().getMethod("save__db");
+                                                    method.invoke(amazonPdf);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(amazonPdf);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -315,7 +448,7 @@ public class AmazonPdfRepository extends ModelRepository<AmazonPdf> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -366,7 +499,7 @@ public class AmazonPdfRepository extends ModelRepository<AmazonPdf> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -397,10 +530,34 @@ public class AmazonPdfRepository extends ModelRepository<AmazonPdf> {
                             
                                 if(response != null){
                                     AmazonPdfRepository amazonPdfRepo = getRestAdapter().createRepository(AmazonPdfRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = amazonPdfRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(amazonPdfRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //amazonPdfRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     AmazonPdf amazonPdf = amazonPdfRepo.createObject(result);
-                                    callback.onSuccess(amazonPdf);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = amazonPdf.getClass().getMethod("save__db");
+                                                    method.invoke(amazonPdf);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(amazonPdf);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -427,7 +584,7 @@ public class AmazonPdfRepository extends ModelRepository<AmazonPdf> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -458,9 +615,31 @@ public class AmazonPdfRepository extends ModelRepository<AmazonPdf> {
                                     DataList<Map<String, Object>> result = (DataList) Util.fromJson(response);
                                     DataList<AmazonPdf> amazonPdfList = new DataList<AmazonPdf>();
                                     AmazonPdfRepository amazonPdfRepo = getRestAdapter().createRepository(AmazonPdfRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = amazonPdfRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(amazonPdfRepo, context);
 
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+                                    }
                                     for (Map<String, Object> obj : result) {
+
                                         AmazonPdf amazonPdf = amazonPdfRepo.createObject(obj);
+
+                                        //Add to database if persistent storage required..
+                                        if(isSTORE_LOCALLY()){
+                                            //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                            try {
+                                                      Method method = amazonPdf.getClass().getMethod("save__db");
+                                                      method.invoke(amazonPdf);
+
+                                            } catch (Exception e) {
+                                                Log.e("Database Error", e.toString());
+                                            }
+                                        }
+
                                         amazonPdfList.add(amazonPdf);
                                     }
                                     callback.onSuccess(amazonPdfList);
@@ -488,7 +667,7 @@ public class AmazonPdfRepository extends ModelRepository<AmazonPdf> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -517,10 +696,34 @@ public class AmazonPdfRepository extends ModelRepository<AmazonPdf> {
                             
                                 if(response != null){
                                     AmazonPdfRepository amazonPdfRepo = getRestAdapter().createRepository(AmazonPdfRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = amazonPdfRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(amazonPdfRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //amazonPdfRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     AmazonPdf amazonPdf = amazonPdfRepo.createObject(result);
-                                    callback.onSuccess(amazonPdf);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = amazonPdf.getClass().getMethod("save__db");
+                                                    method.invoke(amazonPdf);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(amazonPdf);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -547,7 +750,7 @@ public class AmazonPdfRepository extends ModelRepository<AmazonPdf> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -600,7 +803,7 @@ public class AmazonPdfRepository extends ModelRepository<AmazonPdf> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -651,7 +854,7 @@ public class AmazonPdfRepository extends ModelRepository<AmazonPdf> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -702,7 +905,7 @@ public class AmazonPdfRepository extends ModelRepository<AmazonPdf> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -733,10 +936,34 @@ public class AmazonPdfRepository extends ModelRepository<AmazonPdf> {
                             
                                 if(response != null){
                                     AmazonPdfRepository amazonPdfRepo = getRestAdapter().createRepository(AmazonPdfRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = amazonPdfRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(amazonPdfRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //amazonPdfRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     AmazonPdf amazonPdf = amazonPdfRepo.createObject(result);
-                                    callback.onSuccess(amazonPdf);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = amazonPdf.getClass().getMethod("save__db");
+                                                    method.invoke(amazonPdf);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(amazonPdf);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -765,7 +992,7 @@ public class AmazonPdfRepository extends ModelRepository<AmazonPdf> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -814,7 +1041,7 @@ public class AmazonPdfRepository extends ModelRepository<AmazonPdf> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();

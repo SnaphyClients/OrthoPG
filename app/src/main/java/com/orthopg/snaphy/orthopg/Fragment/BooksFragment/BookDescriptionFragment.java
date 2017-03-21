@@ -1,7 +1,9 @@
 package com.orthopg.snaphy.orthopg.Fragment.BooksFragment;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -15,7 +17,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
+import com.orthopg.snaphy.orthopg.PDFReaderActivity;
 import com.orthopg.snaphy.orthopg.PDFViewPagerActivity;
 import com.orthopg.snaphy.orthopg.R;
 import com.payUMoney.sdk.PayUmoneySdkInitilizer;
@@ -58,6 +62,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
 
     private OnFragmentInteractionListener mListener;
     MainActivity mainActivity;
+    SharedPreferences sharedPreferences;
     public static byte[] key, iv;
     private static final int  MEGABYTE = 1024 * 1024;
     @Bind(R.id.fragment_book_description_button3) Button bookDownload;
@@ -77,6 +82,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedPreferences = mainActivity.getSharedPreferences(Constants.BOOK_SHARED_PREFERENCE,Context.MODE_PRIVATE);
         key = getKey();
         iv = getIV();
     }
@@ -87,9 +93,14 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_book_description, container, false);
         ButterKnife.bind(this,view);
+        //String key = mainActivity.getSharedPreferences.getString("sample.pdf","");
         outFile = new File(Environment.getExternalStorageDirectory() + "/OrthoPg/" + "sample.pdf");
         decFile = new File(Environment.getExternalStorageDirectory() + "/OrthoPg/" + "dsample.pdf");
         return view;
+    }
+
+    @OnClick(R.id.fragment_book_description_imageview1) void onBack(){
+        mainActivity.onBackPressed();
     }
 
     @OnClick(R.id.fragment_book_description_button3) void onHardCopyBuy(){
@@ -109,8 +120,8 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
                     cos.flush();
                 }
                 cos.close();
-                Toast.makeText(mainActivity,"Decrtption completed",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(mainActivity,PDFViewPagerActivity.class);
+                Toast.makeText(mainActivity,"Decritption completed",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mainActivity,PDFReaderActivity.class);
                 startActivity(intent);
             }catch (Exception e){
                 e.printStackTrace();
@@ -172,6 +183,9 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             Toast.makeText(mainActivity, "Download Completed..", Toast.LENGTH_SHORT).show();
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("sample.pdf",key.toString());
+            editor.commit();
             bookDownload.setText("View");
         }
     }
@@ -179,11 +193,16 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
 
     public void downloadFile(String fileUrl, File outFile){
         try {
-
+            Uri uri = Uri.parse(fileUrl);
             URL url = new URL(fileUrl);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.connect();
+            DownloadManager.Request request = new DownloadManager.Request(uri);
 
+            request.setDescription("OrthoPG");
+            request.setMimeType("application/pdf");
+            request.allowScanningByMediaScanner();
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
             InputStream inputStream = urlConnection.getInputStream();
             FileOutputStream fos = new FileOutputStream(outFile);
             Cipher encipher = Cipher.getInstance("AES");

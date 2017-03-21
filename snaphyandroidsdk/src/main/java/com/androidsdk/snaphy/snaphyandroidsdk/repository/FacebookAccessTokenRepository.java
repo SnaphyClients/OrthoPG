@@ -23,7 +23,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
-
+import java.lang.reflect.Method;
+import android.util.Log;
+import android.content.ContentValues;
+import android.content.pm.PackageManager;
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
 
 
 //Replaced by Custom ModelRepository method
@@ -34,8 +39,11 @@ import java.util.HashMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+
 //Import its models too.
 import com.androidsdk.snaphy.snaphyandroidsdk.models.FacebookAccessToken;
+import android.content.Context;
+import com.androidsdk.snaphy.snaphyandroidsdk.db.FacebookAccessTokenDb;
 
 //Now import model of related models..
 
@@ -53,8 +61,18 @@ import com.androidsdk.snaphy.snaphyandroidsdk.models.FacebookAccessToken;
 public class FacebookAccessTokenRepository extends ModelRepository<FacebookAccessToken> {
 
 
+    private Context context;
+    private String METADATA_DATABASE_NAME_KEY = "snaphy.database.name";
+    private static String DATABASE_NAME;
+
     public FacebookAccessTokenRepository(){
         super("FacebookAccessToken", null, FacebookAccessToken.class);
+
+    }
+
+
+    public Context getContext(){
+        return context;
     }
 
 
@@ -64,140 +82,213 @@ public class FacebookAccessTokenRepository extends ModelRepository<FacebookAcces
 
 
 
-    public RestContract createContract() {
-        RestContract contract = super.createContract();
-        
-            
 
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:facebookAccessTokenId/customer", "GET"), "FacebookAccessToken.prototype.__get__customer");
-                
 
-            
-        
-            
+    public FacebookAccessTokenDb getDb() {
+      return facebookAccessTokenDb;
+    }
 
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "POST"), "FacebookAccessToken.create");
-                
+    public void setFacebookAccessTokenDb(FacebookAccessTokenDb facebookAccessTokenDb) {
+      this.facebookAccessTokenDb = facebookAccessTokenDb;
+    }
 
-            
-        
-            
+    private FacebookAccessTokenDb facebookAccessTokenDb;
 
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "POST"), "FacebookAccessToken.create");
-                
 
-            
-        
-            
 
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "PUT"), "FacebookAccessToken.upsert");
-                
+    //Flag to check either to store data locally or not..
+    private boolean STORE_LOCALLY = true;
 
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id/exists", "GET"), "FacebookAccessToken.exists");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id", "GET"), "FacebookAccessToken.findById");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "GET"), "FacebookAccessToken.find");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/findOne", "GET"), "FacebookAccessToken.findOne");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/update", "POST"), "FacebookAccessToken.updateAll");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id", "DELETE"), "FacebookAccessToken.deleteById");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/count", "GET"), "FacebookAccessToken.count");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:facebookAccessTokenId", "PUT"), "FacebookAccessToken.prototype.updateAttributes");
-                
-
-            
-        
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/getSchema", "POST"), "FacebookAccessToken.getSchema");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/getAbsoluteSchema", "POST"), "FacebookAccessToken.getAbsoluteSchema");
-                
-
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-        return contract;
+    public boolean isSTORE_LOCALLY() {
+      return STORE_LOCALLY;
     }
 
 
-    //override getNameForRestUrlMethod
+    public void  persistData(boolean persist){
+      STORE_LOCALLY = persist;
+    }
+
+
+
+    public void reset__db(){
+      if(isSTORE_LOCALLY()){
+          getDb().reset__db();
+      }
+    }
+
+
+
+    public void addStorage(Context context){
+         try{
+            ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            DATABASE_NAME = (String) ai.metaData.get(METADATA_DATABASE_NAME_KEY);
+         }
+         catch (Exception e){
+            Log.e("Snaphy", e.toString());
+         }
+         setFacebookAccessTokenDb(new FacebookAccessTokenDb(context, DATABASE_NAME, getRestAdapter()));
+         //allow data storage locally..
+         persistData(true);
+         this.context = context;
+    }
+
+
+    public RestContract createContract() {
+    RestContract contract = super.createContract();
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:facebookAccessTokenId/customer", "GET"), "FacebookAccessToken.prototype.__get__customer");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "POST"), "FacebookAccessToken.create");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "POST"), "FacebookAccessToken.create");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "PUT"), "FacebookAccessToken.upsert");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id/exists", "GET"), "FacebookAccessToken.exists");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id", "GET"), "FacebookAccessToken.findById");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "GET"), "FacebookAccessToken.find");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/findOne", "GET"), "FacebookAccessToken.findOne");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/update", "POST"), "FacebookAccessToken.updateAll");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id", "DELETE"), "FacebookAccessToken.deleteById");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/count", "GET"), "FacebookAccessToken.count");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:facebookAccessTokenId", "PUT"), "FacebookAccessToken.prototype.updateAttributes");
+    
+
+    
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/getSchema", "POST"), "FacebookAccessToken.getSchema");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/getAbsoluteSchema", "POST"), "FacebookAccessToken.getAbsoluteSchema");
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    return contract;
+    }
+
+
+
+//override getNameForRestUrlMethod
     public String  getNameForRestUrl() {
         
             //call super method instead..
@@ -221,7 +312,7 @@ public class FacebookAccessTokenRepository extends ModelRepository<FacebookAcces
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -252,10 +343,34 @@ public class FacebookAccessTokenRepository extends ModelRepository<FacebookAcces
                             
                                 if(response != null){
                                     CustomerRepository customerRepo = getRestAdapter().createRepository(CustomerRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = customerRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(customerRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //customerRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     Customer customer = customerRepo.createObject(result);
-                                    callback.onSuccess(customer);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = customer.getClass().getMethod("save__db");
+                                                    method.invoke(customer);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(customer);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -282,7 +397,7 @@ public class FacebookAccessTokenRepository extends ModelRepository<FacebookAcces
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -311,10 +426,34 @@ public class FacebookAccessTokenRepository extends ModelRepository<FacebookAcces
                             
                                 if(response != null){
                                     FacebookAccessTokenRepository facebookAccessTokenRepo = getRestAdapter().createRepository(FacebookAccessTokenRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = facebookAccessTokenRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(facebookAccessTokenRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //facebookAccessTokenRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     FacebookAccessToken facebookAccessToken = facebookAccessTokenRepo.createObject(result);
-                                    callback.onSuccess(facebookAccessToken);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = facebookAccessToken.getClass().getMethod("save__db");
+                                                    method.invoke(facebookAccessToken);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(facebookAccessToken);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -342,7 +481,7 @@ public class FacebookAccessTokenRepository extends ModelRepository<FacebookAcces
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -371,10 +510,34 @@ public class FacebookAccessTokenRepository extends ModelRepository<FacebookAcces
                             
                                 if(response != null){
                                     FacebookAccessTokenRepository facebookAccessTokenRepo = getRestAdapter().createRepository(FacebookAccessTokenRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = facebookAccessTokenRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(facebookAccessTokenRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //facebookAccessTokenRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     FacebookAccessToken facebookAccessToken = facebookAccessTokenRepo.createObject(result);
-                                    callback.onSuccess(facebookAccessToken);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = facebookAccessToken.getClass().getMethod("save__db");
+                                                    method.invoke(facebookAccessToken);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(facebookAccessToken);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -401,7 +564,7 @@ public class FacebookAccessTokenRepository extends ModelRepository<FacebookAcces
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -452,7 +615,7 @@ public class FacebookAccessTokenRepository extends ModelRepository<FacebookAcces
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -483,10 +646,34 @@ public class FacebookAccessTokenRepository extends ModelRepository<FacebookAcces
                             
                                 if(response != null){
                                     FacebookAccessTokenRepository facebookAccessTokenRepo = getRestAdapter().createRepository(FacebookAccessTokenRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = facebookAccessTokenRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(facebookAccessTokenRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //facebookAccessTokenRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     FacebookAccessToken facebookAccessToken = facebookAccessTokenRepo.createObject(result);
-                                    callback.onSuccess(facebookAccessToken);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = facebookAccessToken.getClass().getMethod("save__db");
+                                                    method.invoke(facebookAccessToken);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(facebookAccessToken);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -513,7 +700,7 @@ public class FacebookAccessTokenRepository extends ModelRepository<FacebookAcces
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -544,9 +731,31 @@ public class FacebookAccessTokenRepository extends ModelRepository<FacebookAcces
                                     DataList<Map<String, Object>> result = (DataList) Util.fromJson(response);
                                     DataList<FacebookAccessToken> facebookAccessTokenList = new DataList<FacebookAccessToken>();
                                     FacebookAccessTokenRepository facebookAccessTokenRepo = getRestAdapter().createRepository(FacebookAccessTokenRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = facebookAccessTokenRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(facebookAccessTokenRepo, context);
 
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+                                    }
                                     for (Map<String, Object> obj : result) {
+
                                         FacebookAccessToken facebookAccessToken = facebookAccessTokenRepo.createObject(obj);
+
+                                        //Add to database if persistent storage required..
+                                        if(isSTORE_LOCALLY()){
+                                            //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                            try {
+                                                      Method method = facebookAccessToken.getClass().getMethod("save__db");
+                                                      method.invoke(facebookAccessToken);
+
+                                            } catch (Exception e) {
+                                                Log.e("Database Error", e.toString());
+                                            }
+                                        }
+
                                         facebookAccessTokenList.add(facebookAccessToken);
                                     }
                                     callback.onSuccess(facebookAccessTokenList);
@@ -574,7 +783,7 @@ public class FacebookAccessTokenRepository extends ModelRepository<FacebookAcces
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -603,10 +812,34 @@ public class FacebookAccessTokenRepository extends ModelRepository<FacebookAcces
                             
                                 if(response != null){
                                     FacebookAccessTokenRepository facebookAccessTokenRepo = getRestAdapter().createRepository(FacebookAccessTokenRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = facebookAccessTokenRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(facebookAccessTokenRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //facebookAccessTokenRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     FacebookAccessToken facebookAccessToken = facebookAccessTokenRepo.createObject(result);
-                                    callback.onSuccess(facebookAccessToken);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = facebookAccessToken.getClass().getMethod("save__db");
+                                                    method.invoke(facebookAccessToken);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(facebookAccessToken);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -633,7 +866,7 @@ public class FacebookAccessTokenRepository extends ModelRepository<FacebookAcces
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -686,7 +919,7 @@ public class FacebookAccessTokenRepository extends ModelRepository<FacebookAcces
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -737,7 +970,7 @@ public class FacebookAccessTokenRepository extends ModelRepository<FacebookAcces
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -788,7 +1021,7 @@ public class FacebookAccessTokenRepository extends ModelRepository<FacebookAcces
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -819,10 +1052,34 @@ public class FacebookAccessTokenRepository extends ModelRepository<FacebookAcces
                             
                                 if(response != null){
                                     FacebookAccessTokenRepository facebookAccessTokenRepo = getRestAdapter().createRepository(FacebookAccessTokenRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = facebookAccessTokenRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(facebookAccessTokenRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //facebookAccessTokenRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     FacebookAccessToken facebookAccessToken = facebookAccessTokenRepo.createObject(result);
-                                    callback.onSuccess(facebookAccessToken);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = facebookAccessToken.getClass().getMethod("save__db");
+                                                    method.invoke(facebookAccessToken);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(facebookAccessToken);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -851,7 +1108,7 @@ public class FacebookAccessTokenRepository extends ModelRepository<FacebookAcces
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -900,7 +1157,7 @@ public class FacebookAccessTokenRepository extends ModelRepository<FacebookAcces
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();

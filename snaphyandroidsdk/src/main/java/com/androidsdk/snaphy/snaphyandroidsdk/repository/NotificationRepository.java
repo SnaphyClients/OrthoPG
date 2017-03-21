@@ -23,7 +23,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
-
+import java.lang.reflect.Method;
+import android.util.Log;
+import android.content.ContentValues;
+import android.content.pm.PackageManager;
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
 
 
 //Replaced by Custom ModelRepository method
@@ -34,8 +39,11 @@ import java.util.HashMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+
 //Import its models too.
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Notification;
+import android.content.Context;
+import com.androidsdk.snaphy.snaphyandroidsdk.db.NotificationDb;
 
 //Now import model of related models..
 
@@ -46,8 +54,18 @@ import com.androidsdk.snaphy.snaphyandroidsdk.models.Notification;
 public class NotificationRepository extends ModelRepository<Notification> {
 
 
+    private Context context;
+    private String METADATA_DATABASE_NAME_KEY = "snaphy.database.name";
+    private static String DATABASE_NAME;
+
     public NotificationRepository(){
         super("Notification", null, Notification.class);
+
+    }
+
+
+    public Context getContext(){
+        return context;
     }
 
 
@@ -57,122 +75,189 @@ public class NotificationRepository extends ModelRepository<Notification> {
 
 
 
-    public RestContract createContract() {
-        RestContract contract = super.createContract();
-        
-            
 
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "POST"), "notification.create");
-                
 
-            
-        
-            
+    public NotificationDb getDb() {
+      return notificationDb;
+    }
 
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "POST"), "notification.create");
-                
+    public void setNotificationDb(NotificationDb notificationDb) {
+      this.notificationDb = notificationDb;
+    }
 
-            
-        
-            
+    private NotificationDb notificationDb;
 
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "PUT"), "notification.upsert");
-                
 
-            
-        
-            
 
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id/exists", "GET"), "notification.exists");
-                
+    //Flag to check either to store data locally or not..
+    private boolean STORE_LOCALLY = true;
 
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id", "GET"), "notification.findById");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "GET"), "notification.find");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/findOne", "GET"), "notification.findOne");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/update", "POST"), "notification.updateAll");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id", "DELETE"), "notification.deleteById");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/count", "GET"), "notification.count");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:notificationId", "PUT"), "notification.prototype.updateAttributes");
-                
-
-            
-        
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/getSchema", "POST"), "notification.getSchema");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/getAbsoluteSchema", "POST"), "notification.getAbsoluteSchema");
-                
-
-            
-        
-            
-        
-        return contract;
+    public boolean isSTORE_LOCALLY() {
+      return STORE_LOCALLY;
     }
 
 
-    //override getNameForRestUrlMethod
+    public void  persistData(boolean persist){
+      STORE_LOCALLY = persist;
+    }
+
+
+
+    public void reset__db(){
+      if(isSTORE_LOCALLY()){
+          getDb().reset__db();
+      }
+    }
+
+
+
+    public void addStorage(Context context){
+         try{
+            ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            DATABASE_NAME = (String) ai.metaData.get(METADATA_DATABASE_NAME_KEY);
+         }
+         catch (Exception e){
+            Log.e("Snaphy", e.toString());
+         }
+         setNotificationDb(new NotificationDb(context, DATABASE_NAME, getRestAdapter()));
+         //allow data storage locally..
+         persistData(true);
+         this.context = context;
+    }
+
+
+    public RestContract createContract() {
+    RestContract contract = super.createContract();
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "POST"), "notification.create");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "POST"), "notification.create");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "PUT"), "notification.upsert");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id/exists", "GET"), "notification.exists");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id", "GET"), "notification.findById");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "GET"), "notification.find");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/findOne", "GET"), "notification.findOne");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/update", "POST"), "notification.updateAll");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id", "DELETE"), "notification.deleteById");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/count", "GET"), "notification.count");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:notificationId", "PUT"), "notification.prototype.updateAttributes");
+    
+
+    
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/getSchema", "POST"), "notification.getSchema");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/getAbsoluteSchema", "POST"), "notification.getAbsoluteSchema");
+    
+
+    
+    
+
+    
+    
+    return contract;
+    }
+
+
+
+//override getNameForRestUrlMethod
     public String  getNameForRestUrl() {
         
             //call super method instead..
@@ -196,7 +281,7 @@ public class NotificationRepository extends ModelRepository<Notification> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -225,10 +310,34 @@ public class NotificationRepository extends ModelRepository<Notification> {
                             
                                 if(response != null){
                                     NotificationRepository notificationRepo = getRestAdapter().createRepository(NotificationRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = notificationRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(notificationRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //notificationRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     Notification notification = notificationRepo.createObject(result);
-                                    callback.onSuccess(notification);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = notification.getClass().getMethod("save__db");
+                                                    method.invoke(notification);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(notification);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -256,7 +365,7 @@ public class NotificationRepository extends ModelRepository<Notification> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -285,10 +394,34 @@ public class NotificationRepository extends ModelRepository<Notification> {
                             
                                 if(response != null){
                                     NotificationRepository notificationRepo = getRestAdapter().createRepository(NotificationRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = notificationRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(notificationRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //notificationRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     Notification notification = notificationRepo.createObject(result);
-                                    callback.onSuccess(notification);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = notification.getClass().getMethod("save__db");
+                                                    method.invoke(notification);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(notification);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -315,7 +448,7 @@ public class NotificationRepository extends ModelRepository<Notification> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -366,7 +499,7 @@ public class NotificationRepository extends ModelRepository<Notification> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -397,10 +530,34 @@ public class NotificationRepository extends ModelRepository<Notification> {
                             
                                 if(response != null){
                                     NotificationRepository notificationRepo = getRestAdapter().createRepository(NotificationRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = notificationRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(notificationRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //notificationRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     Notification notification = notificationRepo.createObject(result);
-                                    callback.onSuccess(notification);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = notification.getClass().getMethod("save__db");
+                                                    method.invoke(notification);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(notification);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -427,7 +584,7 @@ public class NotificationRepository extends ModelRepository<Notification> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -458,9 +615,31 @@ public class NotificationRepository extends ModelRepository<Notification> {
                                     DataList<Map<String, Object>> result = (DataList) Util.fromJson(response);
                                     DataList<Notification> notificationList = new DataList<Notification>();
                                     NotificationRepository notificationRepo = getRestAdapter().createRepository(NotificationRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = notificationRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(notificationRepo, context);
 
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+                                    }
                                     for (Map<String, Object> obj : result) {
+
                                         Notification notification = notificationRepo.createObject(obj);
+
+                                        //Add to database if persistent storage required..
+                                        if(isSTORE_LOCALLY()){
+                                            //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                            try {
+                                                      Method method = notification.getClass().getMethod("save__db");
+                                                      method.invoke(notification);
+
+                                            } catch (Exception e) {
+                                                Log.e("Database Error", e.toString());
+                                            }
+                                        }
+
                                         notificationList.add(notification);
                                     }
                                     callback.onSuccess(notificationList);
@@ -488,7 +667,7 @@ public class NotificationRepository extends ModelRepository<Notification> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -517,10 +696,34 @@ public class NotificationRepository extends ModelRepository<Notification> {
                             
                                 if(response != null){
                                     NotificationRepository notificationRepo = getRestAdapter().createRepository(NotificationRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = notificationRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(notificationRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //notificationRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     Notification notification = notificationRepo.createObject(result);
-                                    callback.onSuccess(notification);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = notification.getClass().getMethod("save__db");
+                                                    method.invoke(notification);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(notification);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -547,7 +750,7 @@ public class NotificationRepository extends ModelRepository<Notification> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -600,7 +803,7 @@ public class NotificationRepository extends ModelRepository<Notification> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -651,7 +854,7 @@ public class NotificationRepository extends ModelRepository<Notification> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -702,7 +905,7 @@ public class NotificationRepository extends ModelRepository<Notification> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -733,10 +936,34 @@ public class NotificationRepository extends ModelRepository<Notification> {
                             
                                 if(response != null){
                                     NotificationRepository notificationRepo = getRestAdapter().createRepository(NotificationRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = notificationRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(notificationRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //notificationRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     Notification notification = notificationRepo.createObject(result);
-                                    callback.onSuccess(notification);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = notification.getClass().getMethod("save__db");
+                                                    method.invoke(notification);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(notification);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -765,7 +992,7 @@ public class NotificationRepository extends ModelRepository<Notification> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -814,7 +1041,7 @@ public class NotificationRepository extends ModelRepository<Notification> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();

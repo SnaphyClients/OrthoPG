@@ -23,7 +23,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
-
+import java.lang.reflect.Method;
+import android.util.Log;
+import android.content.ContentValues;
+import android.content.pm.PackageManager;
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
 
 
 //Replaced by Custom ModelRepository method
@@ -34,8 +39,11 @@ import java.util.HashMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+
 //Import its models too.
 import com.androidsdk.snaphy.snaphyandroidsdk.models.CompanyInfo;
+import android.content.Context;
+import com.androidsdk.snaphy.snaphyandroidsdk.db.CompanyInfoDb;
 
 //Now import model of related models..
 
@@ -46,8 +54,18 @@ import com.androidsdk.snaphy.snaphyandroidsdk.models.CompanyInfo;
 public class CompanyInfoRepository extends ModelRepository<CompanyInfo> {
 
 
+    private Context context;
+    private String METADATA_DATABASE_NAME_KEY = "snaphy.database.name";
+    private static String DATABASE_NAME;
+
     public CompanyInfoRepository(){
         super("CompanyInfo", null, CompanyInfo.class);
+
+    }
+
+
+    public Context getContext(){
+        return context;
     }
 
 
@@ -57,122 +75,189 @@ public class CompanyInfoRepository extends ModelRepository<CompanyInfo> {
 
 
 
-    public RestContract createContract() {
-        RestContract contract = super.createContract();
-        
-            
 
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "POST"), "CompanyInfo.create");
-                
 
-            
-        
-            
+    public CompanyInfoDb getDb() {
+      return companyInfoDb;
+    }
 
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "POST"), "CompanyInfo.create");
-                
+    public void setCompanyInfoDb(CompanyInfoDb companyInfoDb) {
+      this.companyInfoDb = companyInfoDb;
+    }
 
-            
-        
-            
+    private CompanyInfoDb companyInfoDb;
 
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "PUT"), "CompanyInfo.upsert");
-                
 
-            
-        
-            
 
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id/exists", "GET"), "CompanyInfo.exists");
-                
+    //Flag to check either to store data locally or not..
+    private boolean STORE_LOCALLY = true;
 
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id", "GET"), "CompanyInfo.findById");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "GET"), "CompanyInfo.find");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/findOne", "GET"), "CompanyInfo.findOne");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/update", "POST"), "CompanyInfo.updateAll");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id", "DELETE"), "CompanyInfo.deleteById");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/count", "GET"), "CompanyInfo.count");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:companyInfoId", "PUT"), "CompanyInfo.prototype.updateAttributes");
-                
-
-            
-        
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/getSchema", "POST"), "CompanyInfo.getSchema");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/getAbsoluteSchema", "POST"), "CompanyInfo.getAbsoluteSchema");
-                
-
-            
-        
-            
-        
-        return contract;
+    public boolean isSTORE_LOCALLY() {
+      return STORE_LOCALLY;
     }
 
 
-    //override getNameForRestUrlMethod
+    public void  persistData(boolean persist){
+      STORE_LOCALLY = persist;
+    }
+
+
+
+    public void reset__db(){
+      if(isSTORE_LOCALLY()){
+          getDb().reset__db();
+      }
+    }
+
+
+
+    public void addStorage(Context context){
+         try{
+            ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            DATABASE_NAME = (String) ai.metaData.get(METADATA_DATABASE_NAME_KEY);
+         }
+         catch (Exception e){
+            Log.e("Snaphy", e.toString());
+         }
+         setCompanyInfoDb(new CompanyInfoDb(context, DATABASE_NAME, getRestAdapter()));
+         //allow data storage locally..
+         persistData(true);
+         this.context = context;
+    }
+
+
+    public RestContract createContract() {
+    RestContract contract = super.createContract();
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "POST"), "CompanyInfo.create");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "POST"), "CompanyInfo.create");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "PUT"), "CompanyInfo.upsert");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id/exists", "GET"), "CompanyInfo.exists");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id", "GET"), "CompanyInfo.findById");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "GET"), "CompanyInfo.find");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/findOne", "GET"), "CompanyInfo.findOne");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/update", "POST"), "CompanyInfo.updateAll");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id", "DELETE"), "CompanyInfo.deleteById");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/count", "GET"), "CompanyInfo.count");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:companyInfoId", "PUT"), "CompanyInfo.prototype.updateAttributes");
+    
+
+    
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/getSchema", "POST"), "CompanyInfo.getSchema");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/getAbsoluteSchema", "POST"), "CompanyInfo.getAbsoluteSchema");
+    
+
+    
+    
+
+    
+    
+    return contract;
+    }
+
+
+
+//override getNameForRestUrlMethod
     public String  getNameForRestUrl() {
         
                 return "CompanyInfos";
@@ -195,7 +280,7 @@ public class CompanyInfoRepository extends ModelRepository<CompanyInfo> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -224,10 +309,34 @@ public class CompanyInfoRepository extends ModelRepository<CompanyInfo> {
                             
                                 if(response != null){
                                     CompanyInfoRepository companyInfoRepo = getRestAdapter().createRepository(CompanyInfoRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = companyInfoRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(companyInfoRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //companyInfoRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     CompanyInfo companyInfo = companyInfoRepo.createObject(result);
-                                    callback.onSuccess(companyInfo);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = companyInfo.getClass().getMethod("save__db");
+                                                    method.invoke(companyInfo);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(companyInfo);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -255,7 +364,7 @@ public class CompanyInfoRepository extends ModelRepository<CompanyInfo> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -284,10 +393,34 @@ public class CompanyInfoRepository extends ModelRepository<CompanyInfo> {
                             
                                 if(response != null){
                                     CompanyInfoRepository companyInfoRepo = getRestAdapter().createRepository(CompanyInfoRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = companyInfoRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(companyInfoRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //companyInfoRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     CompanyInfo companyInfo = companyInfoRepo.createObject(result);
-                                    callback.onSuccess(companyInfo);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = companyInfo.getClass().getMethod("save__db");
+                                                    method.invoke(companyInfo);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(companyInfo);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -314,7 +447,7 @@ public class CompanyInfoRepository extends ModelRepository<CompanyInfo> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -365,7 +498,7 @@ public class CompanyInfoRepository extends ModelRepository<CompanyInfo> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -396,10 +529,34 @@ public class CompanyInfoRepository extends ModelRepository<CompanyInfo> {
                             
                                 if(response != null){
                                     CompanyInfoRepository companyInfoRepo = getRestAdapter().createRepository(CompanyInfoRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = companyInfoRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(companyInfoRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //companyInfoRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     CompanyInfo companyInfo = companyInfoRepo.createObject(result);
-                                    callback.onSuccess(companyInfo);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = companyInfo.getClass().getMethod("save__db");
+                                                    method.invoke(companyInfo);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(companyInfo);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -426,7 +583,7 @@ public class CompanyInfoRepository extends ModelRepository<CompanyInfo> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -457,9 +614,31 @@ public class CompanyInfoRepository extends ModelRepository<CompanyInfo> {
                                     DataList<Map<String, Object>> result = (DataList) Util.fromJson(response);
                                     DataList<CompanyInfo> companyInfoList = new DataList<CompanyInfo>();
                                     CompanyInfoRepository companyInfoRepo = getRestAdapter().createRepository(CompanyInfoRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = companyInfoRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(companyInfoRepo, context);
 
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+                                    }
                                     for (Map<String, Object> obj : result) {
+
                                         CompanyInfo companyInfo = companyInfoRepo.createObject(obj);
+
+                                        //Add to database if persistent storage required..
+                                        if(isSTORE_LOCALLY()){
+                                            //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                            try {
+                                                      Method method = companyInfo.getClass().getMethod("save__db");
+                                                      method.invoke(companyInfo);
+
+                                            } catch (Exception e) {
+                                                Log.e("Database Error", e.toString());
+                                            }
+                                        }
+
                                         companyInfoList.add(companyInfo);
                                     }
                                     callback.onSuccess(companyInfoList);
@@ -487,7 +666,7 @@ public class CompanyInfoRepository extends ModelRepository<CompanyInfo> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -516,10 +695,34 @@ public class CompanyInfoRepository extends ModelRepository<CompanyInfo> {
                             
                                 if(response != null){
                                     CompanyInfoRepository companyInfoRepo = getRestAdapter().createRepository(CompanyInfoRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = companyInfoRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(companyInfoRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //companyInfoRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     CompanyInfo companyInfo = companyInfoRepo.createObject(result);
-                                    callback.onSuccess(companyInfo);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = companyInfo.getClass().getMethod("save__db");
+                                                    method.invoke(companyInfo);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(companyInfo);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -546,7 +749,7 @@ public class CompanyInfoRepository extends ModelRepository<CompanyInfo> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -599,7 +802,7 @@ public class CompanyInfoRepository extends ModelRepository<CompanyInfo> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -650,7 +853,7 @@ public class CompanyInfoRepository extends ModelRepository<CompanyInfo> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -701,7 +904,7 @@ public class CompanyInfoRepository extends ModelRepository<CompanyInfo> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -732,10 +935,34 @@ public class CompanyInfoRepository extends ModelRepository<CompanyInfo> {
                             
                                 if(response != null){
                                     CompanyInfoRepository companyInfoRepo = getRestAdapter().createRepository(CompanyInfoRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = companyInfoRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(companyInfoRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //companyInfoRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     CompanyInfo companyInfo = companyInfoRepo.createObject(result);
-                                    callback.onSuccess(companyInfo);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = companyInfo.getClass().getMethod("save__db");
+                                                    method.invoke(companyInfo);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(companyInfo);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -764,7 +991,7 @@ public class CompanyInfoRepository extends ModelRepository<CompanyInfo> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -813,7 +1040,7 @@ public class CompanyInfoRepository extends ModelRepository<CompanyInfo> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();

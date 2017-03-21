@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import java.util.List;
 import com.strongloop.android.loopback.RestAdapter;
 import com.strongloop.android.remoting.adapters.Adapter;
+import android.content.Context;
 
 /*
 Replacing with custom Snaphy callback methods
@@ -77,11 +78,6 @@ public class CompanyInfo extends Model {
 
             
             
-            
-            
-
-            
-
         
     
         
@@ -103,11 +99,6 @@ public class CompanyInfo extends Model {
 
             
             
-            
-            
-
-            
-
         
     
         
@@ -129,11 +120,6 @@ public class CompanyInfo extends Model {
 
             
             
-            
-            
-
-            
-
         
     
         
@@ -141,16 +127,73 @@ public class CompanyInfo extends Model {
 
             
             
-            
-            
-
-            
-
         
     
 
 
+    //------------------------------------Database Method---------------------------------------------------
+
+
+    public void save(final com.strongloop.android.loopback.callbacks.VoidCallback callback){
+      //Save to database..
+      save__db();
+      //Also save to database..
+      super.save(callback);
+    }
+
+    public void destroy(final com.strongloop.android.loopback.callbacks.VoidCallback callback){
+      CompanyInfoRepository lowercaseFirstLetterRepository = (CompanyInfoRepository) getRepository();
+      if(lowercaseFirstLetterRepository.isSTORE_LOCALLY()){
+          //Delete from database..
+          String id = getId().toString();
+          if(id != null && lowercaseFirstLetterRepository.getDb() != null){
+             lowercaseFirstLetterRepository.getDb().delete__db(id);
+          }
+      }
+      //Also save to database..
+      super.destroy(callback);
+    }
+
+
+
+    public void save__db(String id){
+      CompanyInfoRepository lowercaseFirstLetterRepository = (CompanyInfoRepository) getRepository();
+
+      if(lowercaseFirstLetterRepository.isSTORE_LOCALLY()){
+        if(id != null && lowercaseFirstLetterRepository.getDb() != null){
+          lowercaseFirstLetterRepository.getDb().upsert__db(id, this);
+        }
+      }
+    }
+
+
+    public void delete__db(){
+      CompanyInfoRepository lowercaseFirstLetterRepository = (CompanyInfoRepository) getRepository();
+      if(lowercaseFirstLetterRepository.isSTORE_LOCALLY()){
+
+        if(getId() != null && lowercaseFirstLetterRepository.getDb() != null){
+            String id = getId().toString();
+          lowercaseFirstLetterRepository.getDb().delete__db(id);
+        }
+      }
+    }
+
+
+    public void save__db(){
+      if(getId() == null){
+        return;
+      }
+      String id = getId().toString();
+      save__db(id);
+    }
+
+
+
+//-----------------------------------END Database Methods------------------------------------------------
+
+
     
+
 
 
 

@@ -23,7 +23,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
-
+import java.lang.reflect.Method;
+import android.util.Log;
+import android.content.ContentValues;
+import android.content.pm.PackageManager;
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
 
 
 //Replaced by Custom ModelRepository method
@@ -34,8 +39,11 @@ import java.util.HashMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+
 //Import its models too.
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Comment;
+import android.content.Context;
+import com.androidsdk.snaphy.snaphyandroidsdk.db.CommentDb;
 
 //Now import model of related models..
 
@@ -81,8 +89,18 @@ import com.androidsdk.snaphy.snaphyandroidsdk.models.Comment;
 public class CommentRepository extends ModelRepository<Comment> {
 
 
+    private Context context;
+    private String METADATA_DATABASE_NAME_KEY = "snaphy.database.name";
+    private static String DATABASE_NAME;
+
     public CommentRepository(){
         super("Comment", null, Comment.class);
+
+    }
+
+
+    public Context getContext(){
+        return context;
     }
 
 
@@ -92,280 +110,381 @@ public class CommentRepository extends ModelRepository<Comment> {
 
 
 
-    public RestContract createContract() {
-        RestContract contract = super.createContract();
-        
-            
 
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:commentId/post", "GET"), "Comment.prototype.__get__post");
-                
 
-            
-        
-            
+    public CommentDb getDb() {
+      return commentDb;
+    }
 
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:commentId/customer", "GET"), "Comment.prototype.__get__customer");
-                
+    public void setCommentDb(CommentDb commentDb) {
+      this.commentDb = commentDb;
+    }
 
-            
-        
-            
+    private CommentDb commentDb;
 
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:commentId/postDetails", "GET"), "Comment.prototype.__get__postDetails");
-                
 
-            
-        
-            
 
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:commentId/postDetails", "POST"), "Comment.prototype.__create__postDetails");
-                
+    //Flag to check either to store data locally or not..
+    private boolean STORE_LOCALLY = true;
 
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:commentId/postDetails", "PUT"), "Comment.prototype.__update__postDetails");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:commentId/postDetails", "DELETE"), "Comment.prototype.__destroy__postDetails");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:commentId/commentDetails", "GET"), "Comment.prototype.__get__commentDetails");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:commentId/commentDetails", "POST"), "Comment.prototype.__create__commentDetails");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:commentId/commentDetails", "PUT"), "Comment.prototype.__update__commentDetails");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:commentId/commentDetails", "DELETE"), "Comment.prototype.__destroy__commentDetails");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:commentId/postSubscribers", "GET"), "Comment.prototype.__get__postSubscribers");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:commentId/postSubscribers", "POST"), "Comment.prototype.__create__postSubscribers");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:commentId/postSubscribers", "PUT"), "Comment.prototype.__update__postSubscribers");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:commentId/postSubscribers", "DELETE"), "Comment.prototype.__destroy__postSubscribers");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "POST"), "Comment.create");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "POST"), "Comment.create");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "PUT"), "Comment.upsert");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id/exists", "GET"), "Comment.exists");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id", "GET"), "Comment.findById");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "GET"), "Comment.find");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/findOne", "GET"), "Comment.findOne");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/update", "POST"), "Comment.updateAll");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id", "DELETE"), "Comment.deleteById");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/count", "GET"), "Comment.count");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:commentId", "PUT"), "Comment.prototype.updateAttributes");
-                
-
-            
-        
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/getSchema", "POST"), "Comment.getSchema");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/getAbsoluteSchema", "POST"), "Comment.getAbsoluteSchema");
-                
-
-            
-        
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/score", "POST"), "Comment.fetchPostCommments");
-                
-
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-        return contract;
+    public boolean isSTORE_LOCALLY() {
+      return STORE_LOCALLY;
     }
 
 
-    //override getNameForRestUrlMethod
+    public void  persistData(boolean persist){
+      STORE_LOCALLY = persist;
+    }
+
+
+
+    public void reset__db(){
+      if(isSTORE_LOCALLY()){
+          getDb().reset__db();
+      }
+    }
+
+
+
+    public void addStorage(Context context){
+         try{
+            ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            DATABASE_NAME = (String) ai.metaData.get(METADATA_DATABASE_NAME_KEY);
+         }
+         catch (Exception e){
+            Log.e("Snaphy", e.toString());
+         }
+         setCommentDb(new CommentDb(context, DATABASE_NAME, getRestAdapter()));
+         //allow data storage locally..
+         persistData(true);
+         this.context = context;
+    }
+
+
+    public RestContract createContract() {
+    RestContract contract = super.createContract();
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:commentId/post", "GET"), "Comment.prototype.__get__post");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:commentId/customer", "GET"), "Comment.prototype.__get__customer");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:commentId/postDetails", "GET"), "Comment.prototype.__get__postDetails");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:commentId/postDetails", "POST"), "Comment.prototype.__create__postDetails");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:commentId/postDetails", "PUT"), "Comment.prototype.__update__postDetails");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:commentId/postDetails", "DELETE"), "Comment.prototype.__destroy__postDetails");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:commentId/commentDetails", "GET"), "Comment.prototype.__get__commentDetails");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:commentId/commentDetails", "POST"), "Comment.prototype.__create__commentDetails");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:commentId/commentDetails", "PUT"), "Comment.prototype.__update__commentDetails");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:commentId/commentDetails", "DELETE"), "Comment.prototype.__destroy__commentDetails");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:commentId/postSubscribers", "GET"), "Comment.prototype.__get__postSubscribers");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:commentId/postSubscribers", "POST"), "Comment.prototype.__create__postSubscribers");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:commentId/postSubscribers", "PUT"), "Comment.prototype.__update__postSubscribers");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:commentId/postSubscribers", "DELETE"), "Comment.prototype.__destroy__postSubscribers");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "POST"), "Comment.create");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "POST"), "Comment.create");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "PUT"), "Comment.upsert");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id/exists", "GET"), "Comment.exists");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id", "GET"), "Comment.findById");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "GET"), "Comment.find");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/findOne", "GET"), "Comment.findOne");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/update", "POST"), "Comment.updateAll");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id", "DELETE"), "Comment.deleteById");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/count", "GET"), "Comment.count");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:commentId", "PUT"), "Comment.prototype.updateAttributes");
+    
+
+    
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/getSchema", "POST"), "Comment.getSchema");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/getAbsoluteSchema", "POST"), "Comment.getAbsoluteSchema");
+    
+
+    
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/score", "POST"), "Comment.fetchPostCommments");
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    return contract;
+    }
+
+
+
+//override getNameForRestUrlMethod
     public String  getNameForRestUrl() {
         
             //call super method instead..
@@ -389,7 +508,7 @@ public class CommentRepository extends ModelRepository<Comment> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -420,10 +539,34 @@ public class CommentRepository extends ModelRepository<Comment> {
                             
                                 if(response != null){
                                     PostRepository postRepo = getRestAdapter().createRepository(PostRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = postRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(postRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //postRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     Post post = postRepo.createObject(result);
-                                    callback.onSuccess(post);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = post.getClass().getMethod("save__db");
+                                                    method.invoke(post);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(post);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -450,7 +593,7 @@ public class CommentRepository extends ModelRepository<Comment> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -481,10 +624,34 @@ public class CommentRepository extends ModelRepository<Comment> {
                             
                                 if(response != null){
                                     CustomerRepository customerRepo = getRestAdapter().createRepository(CustomerRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = customerRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(customerRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //customerRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     Customer customer = customerRepo.createObject(result);
-                                    callback.onSuccess(customer);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = customer.getClass().getMethod("save__db");
+                                                    method.invoke(customer);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(customer);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -511,7 +678,7 @@ public class CommentRepository extends ModelRepository<Comment> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -542,10 +709,34 @@ public class CommentRepository extends ModelRepository<Comment> {
                             
                                 if(response != null){
                                     PostDetailRepository postDetailRepo = getRestAdapter().createRepository(PostDetailRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = postDetailRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(postDetailRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //postDetailRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     PostDetail postDetail = postDetailRepo.createObject(result);
-                                    callback.onSuccess(postDetail);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = postDetail.getClass().getMethod("save__db");
+                                                    method.invoke(postDetail);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(postDetail);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -572,7 +763,7 @@ public class CommentRepository extends ModelRepository<Comment> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -603,10 +794,34 @@ public class CommentRepository extends ModelRepository<Comment> {
                             
                                 if(response != null){
                                     PostDetailRepository postDetailRepo = getRestAdapter().createRepository(PostDetailRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = postDetailRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(postDetailRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //postDetailRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     PostDetail postDetail = postDetailRepo.createObject(result);
-                                    callback.onSuccess(postDetail);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = postDetail.getClass().getMethod("save__db");
+                                                    method.invoke(postDetail);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(postDetail);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -633,7 +848,7 @@ public class CommentRepository extends ModelRepository<Comment> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -664,10 +879,34 @@ public class CommentRepository extends ModelRepository<Comment> {
                             
                                 if(response != null){
                                     PostDetailRepository postDetailRepo = getRestAdapter().createRepository(PostDetailRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = postDetailRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(postDetailRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //postDetailRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     PostDetail postDetail = postDetailRepo.createObject(result);
-                                    callback.onSuccess(postDetail);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = postDetail.getClass().getMethod("save__db");
+                                                    method.invoke(postDetail);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(postDetail);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -694,7 +933,7 @@ public class CommentRepository extends ModelRepository<Comment> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -740,7 +979,7 @@ public class CommentRepository extends ModelRepository<Comment> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -771,10 +1010,34 @@ public class CommentRepository extends ModelRepository<Comment> {
                             
                                 if(response != null){
                                     CommentDetailRepository commentDetailRepo = getRestAdapter().createRepository(CommentDetailRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = commentDetailRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(commentDetailRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //commentDetailRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     CommentDetail commentDetail = commentDetailRepo.createObject(result);
-                                    callback.onSuccess(commentDetail);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = commentDetail.getClass().getMethod("save__db");
+                                                    method.invoke(commentDetail);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(commentDetail);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -801,7 +1064,7 @@ public class CommentRepository extends ModelRepository<Comment> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -832,10 +1095,34 @@ public class CommentRepository extends ModelRepository<Comment> {
                             
                                 if(response != null){
                                     CommentDetailRepository commentDetailRepo = getRestAdapter().createRepository(CommentDetailRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = commentDetailRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(commentDetailRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //commentDetailRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     CommentDetail commentDetail = commentDetailRepo.createObject(result);
-                                    callback.onSuccess(commentDetail);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = commentDetail.getClass().getMethod("save__db");
+                                                    method.invoke(commentDetail);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(commentDetail);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -862,7 +1149,7 @@ public class CommentRepository extends ModelRepository<Comment> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -893,10 +1180,34 @@ public class CommentRepository extends ModelRepository<Comment> {
                             
                                 if(response != null){
                                     CommentDetailRepository commentDetailRepo = getRestAdapter().createRepository(CommentDetailRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = commentDetailRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(commentDetailRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //commentDetailRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     CommentDetail commentDetail = commentDetailRepo.createObject(result);
-                                    callback.onSuccess(commentDetail);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = commentDetail.getClass().getMethod("save__db");
+                                                    method.invoke(commentDetail);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(commentDetail);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -923,7 +1234,7 @@ public class CommentRepository extends ModelRepository<Comment> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -969,7 +1280,7 @@ public class CommentRepository extends ModelRepository<Comment> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -1000,10 +1311,34 @@ public class CommentRepository extends ModelRepository<Comment> {
                             
                                 if(response != null){
                                     PostSubscriberRepository postSubscriberRepo = getRestAdapter().createRepository(PostSubscriberRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = postSubscriberRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(postSubscriberRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //postSubscriberRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     PostSubscriber postSubscriber = postSubscriberRepo.createObject(result);
-                                    callback.onSuccess(postSubscriber);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = postSubscriber.getClass().getMethod("save__db");
+                                                    method.invoke(postSubscriber);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(postSubscriber);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -1030,7 +1365,7 @@ public class CommentRepository extends ModelRepository<Comment> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -1061,10 +1396,34 @@ public class CommentRepository extends ModelRepository<Comment> {
                             
                                 if(response != null){
                                     PostSubscriberRepository postSubscriberRepo = getRestAdapter().createRepository(PostSubscriberRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = postSubscriberRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(postSubscriberRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //postSubscriberRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     PostSubscriber postSubscriber = postSubscriberRepo.createObject(result);
-                                    callback.onSuccess(postSubscriber);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = postSubscriber.getClass().getMethod("save__db");
+                                                    method.invoke(postSubscriber);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(postSubscriber);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -1091,7 +1450,7 @@ public class CommentRepository extends ModelRepository<Comment> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -1122,10 +1481,34 @@ public class CommentRepository extends ModelRepository<Comment> {
                             
                                 if(response != null){
                                     PostSubscriberRepository postSubscriberRepo = getRestAdapter().createRepository(PostSubscriberRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = postSubscriberRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(postSubscriberRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //postSubscriberRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     PostSubscriber postSubscriber = postSubscriberRepo.createObject(result);
-                                    callback.onSuccess(postSubscriber);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = postSubscriber.getClass().getMethod("save__db");
+                                                    method.invoke(postSubscriber);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(postSubscriber);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -1152,7 +1535,7 @@ public class CommentRepository extends ModelRepository<Comment> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -1198,7 +1581,7 @@ public class CommentRepository extends ModelRepository<Comment> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -1227,10 +1610,34 @@ public class CommentRepository extends ModelRepository<Comment> {
                             
                                 if(response != null){
                                     CommentRepository commentRepo = getRestAdapter().createRepository(CommentRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = commentRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(commentRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //commentRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     Comment comment = commentRepo.createObject(result);
-                                    callback.onSuccess(comment);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = comment.getClass().getMethod("save__db");
+                                                    method.invoke(comment);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(comment);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -1258,7 +1665,7 @@ public class CommentRepository extends ModelRepository<Comment> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -1287,10 +1694,34 @@ public class CommentRepository extends ModelRepository<Comment> {
                             
                                 if(response != null){
                                     CommentRepository commentRepo = getRestAdapter().createRepository(CommentRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = commentRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(commentRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //commentRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     Comment comment = commentRepo.createObject(result);
-                                    callback.onSuccess(comment);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = comment.getClass().getMethod("save__db");
+                                                    method.invoke(comment);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(comment);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -1317,7 +1748,7 @@ public class CommentRepository extends ModelRepository<Comment> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -1368,7 +1799,7 @@ public class CommentRepository extends ModelRepository<Comment> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -1399,10 +1830,34 @@ public class CommentRepository extends ModelRepository<Comment> {
                             
                                 if(response != null){
                                     CommentRepository commentRepo = getRestAdapter().createRepository(CommentRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = commentRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(commentRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //commentRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     Comment comment = commentRepo.createObject(result);
-                                    callback.onSuccess(comment);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = comment.getClass().getMethod("save__db");
+                                                    method.invoke(comment);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(comment);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -1429,7 +1884,7 @@ public class CommentRepository extends ModelRepository<Comment> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -1460,9 +1915,31 @@ public class CommentRepository extends ModelRepository<Comment> {
                                     DataList<Map<String, Object>> result = (DataList) Util.fromJson(response);
                                     DataList<Comment> commentList = new DataList<Comment>();
                                     CommentRepository commentRepo = getRestAdapter().createRepository(CommentRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = commentRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(commentRepo, context);
 
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+                                    }
                                     for (Map<String, Object> obj : result) {
+
                                         Comment comment = commentRepo.createObject(obj);
+
+                                        //Add to database if persistent storage required..
+                                        if(isSTORE_LOCALLY()){
+                                            //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                            try {
+                                                      Method method = comment.getClass().getMethod("save__db");
+                                                      method.invoke(comment);
+
+                                            } catch (Exception e) {
+                                                Log.e("Database Error", e.toString());
+                                            }
+                                        }
+
                                         commentList.add(comment);
                                     }
                                     callback.onSuccess(commentList);
@@ -1490,7 +1967,7 @@ public class CommentRepository extends ModelRepository<Comment> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -1519,10 +1996,34 @@ public class CommentRepository extends ModelRepository<Comment> {
                             
                                 if(response != null){
                                     CommentRepository commentRepo = getRestAdapter().createRepository(CommentRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = commentRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(commentRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //commentRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     Comment comment = commentRepo.createObject(result);
-                                    callback.onSuccess(comment);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = comment.getClass().getMethod("save__db");
+                                                    method.invoke(comment);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(comment);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -1549,7 +2050,7 @@ public class CommentRepository extends ModelRepository<Comment> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -1602,7 +2103,7 @@ public class CommentRepository extends ModelRepository<Comment> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -1653,7 +2154,7 @@ public class CommentRepository extends ModelRepository<Comment> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -1704,7 +2205,7 @@ public class CommentRepository extends ModelRepository<Comment> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -1735,10 +2236,34 @@ public class CommentRepository extends ModelRepository<Comment> {
                             
                                 if(response != null){
                                     CommentRepository commentRepo = getRestAdapter().createRepository(CommentRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = commentRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(commentRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //commentRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     Comment comment = commentRepo.createObject(result);
-                                    callback.onSuccess(comment);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = comment.getClass().getMethod("save__db");
+                                                    method.invoke(comment);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(comment);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -1767,7 +2292,7 @@ public class CommentRepository extends ModelRepository<Comment> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -1816,7 +2341,7 @@ public class CommentRepository extends ModelRepository<Comment> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -1867,7 +2392,7 @@ public class CommentRepository extends ModelRepository<Comment> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -1904,9 +2429,31 @@ public class CommentRepository extends ModelRepository<Comment> {
                                     DataList<Map<String, Object>> result = (DataList) Util.fromJson(response);
                                     DataList<Comment> commentList = new DataList<Comment>();
                                     CommentRepository commentRepo = getRestAdapter().createRepository(CommentRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = commentRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(commentRepo, context);
 
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+                                    }
                                     for (Map<String, Object> obj : result) {
+
                                         Comment comment = commentRepo.createObject(obj);
+
+                                        //Add to database if persistent storage required..
+                                        if(isSTORE_LOCALLY()){
+                                            //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                            try {
+                                                      Method method = comment.getClass().getMethod("save__db");
+                                                      method.invoke(comment);
+
+                                            } catch (Exception e) {
+                                                Log.e("Database Error", e.toString());
+                                            }
+                                        }
+
                                         commentList.add(comment);
                                     }
                                     callback.onSuccess(commentList);

@@ -49,6 +49,8 @@
             android:theme="@style/Base.Theme.AppCompat"/> <!-- optional (needed if default theme has no action bar) -->
 
         <activity android:name=".PDFViewPagerActivity"/>
+        <activity android:name=".PDFReaderActivity"
+            android:hardwareAccelerated="true"/>
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

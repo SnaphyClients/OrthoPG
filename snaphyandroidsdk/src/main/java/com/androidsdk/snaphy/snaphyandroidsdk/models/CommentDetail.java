@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import java.util.List;
 import com.strongloop.android.loopback.RestAdapter;
 import com.strongloop.android.remoting.adapters.Adapter;
+import android.content.Context;
 
 /*
 Replacing with custom Snaphy callback methods
@@ -69,7 +70,6 @@ public class CommentDetail extends Model {
             
 
             
-            
                 private double totalLike;
                 /* Adding Getter and Setter methods */
                 public double getTotalLike(){
@@ -85,10 +85,6 @@ public class CommentDetail extends Model {
 
             
             
-            
-
-            
-
         
     
         
@@ -110,11 +106,6 @@ public class CommentDetail extends Model {
 
             
             
-            
-            
-
-            
-
         
     
         
@@ -136,11 +127,6 @@ public class CommentDetail extends Model {
 
             
             
-            
-            
-
-            
-
         
     
         
@@ -162,11 +148,6 @@ public class CommentDetail extends Model {
 
             
             
-            
-            
-
-            
-
         
     
         
@@ -174,11 +155,6 @@ public class CommentDetail extends Model {
 
             
             
-            
-            
-
-            
-
         
     
         
@@ -186,27 +162,111 @@ public class CommentDetail extends Model {
 
             
             
-            
-            
-
-            
-
         
     
 
 
+    //------------------------------------Database Method---------------------------------------------------
+
+
+    public void save(final com.strongloop.android.loopback.callbacks.VoidCallback callback){
+      //Save to database..
+      save__db();
+      //Also save to database..
+      super.save(callback);
+    }
+
+    public void destroy(final com.strongloop.android.loopback.callbacks.VoidCallback callback){
+      CommentDetailRepository lowercaseFirstLetterRepository = (CommentDetailRepository) getRepository();
+      if(lowercaseFirstLetterRepository.isSTORE_LOCALLY()){
+          //Delete from database..
+          String id = getId().toString();
+          if(id != null && lowercaseFirstLetterRepository.getDb() != null){
+             lowercaseFirstLetterRepository.getDb().delete__db(id);
+          }
+      }
+      //Also save to database..
+      super.destroy(callback);
+    }
+
+
+
+    public void save__db(String id){
+      CommentDetailRepository lowercaseFirstLetterRepository = (CommentDetailRepository) getRepository();
+
+      if(lowercaseFirstLetterRepository.isSTORE_LOCALLY()){
+        if(id != null && lowercaseFirstLetterRepository.getDb() != null){
+          lowercaseFirstLetterRepository.getDb().upsert__db(id, this);
+        }
+      }
+    }
+
+
+    public void delete__db(){
+      CommentDetailRepository lowercaseFirstLetterRepository = (CommentDetailRepository) getRepository();
+      if(lowercaseFirstLetterRepository.isSTORE_LOCALLY()){
+
+        if(getId() != null && lowercaseFirstLetterRepository.getDb() != null){
+            String id = getId().toString();
+          lowercaseFirstLetterRepository.getDb().delete__db(id);
+        }
+      }
+    }
+
+
+    public void save__db(){
+      if(getId() == null){
+        return;
+      }
+      String id = getId().toString();
+      save__db(id);
+    }
+
+
+
+//-----------------------------------END Database Methods------------------------------------------------
+
+
     
+
 
 
 
     //Now adding relations between related models
     
         
+        
                 
                     //Define belongsTo relation method here..
                     private transient Comment  comment ;
+                    private String commentId;
+
+                    public String getCommentId(){
+                         return commentId;
+                    }
+
+                    public void setCommentId(Object commentId){
+                        if(commentId != null){
+                          this.commentId = commentId.toString();
+                        }
+                    }
 
                     public Comment getComment() {
+			try{
+				//Adding database method for fetching from relation if not present..
+		                if(comment == null){
+		                  CommentDetailRepository commentDetailRepository = (CommentDetailRepository) getRepository();
+
+		                  RestAdapter restAdapter = commentDetailRepository.getRestAdapter();
+		                  if(restAdapter != null){
+		                    //Fetch locally from db
+		                    comment = getComment__db(restAdapter);
+		                  }
+		                }
+			}catch(Exception e){
+				//Ignore
+			}
+
                         return comment;
                     }
 
@@ -236,8 +296,39 @@ public class CommentDetail extends Model {
                     }
 
 
+                    //Fetch related data from local database if present a commentId identifier as property for belongsTo
+                    public Comment getComment__db(RestAdapter restAdapter){
+                      if(commentId != null){
+                        CommentRepository commentRepository = restAdapter.createRepository(CommentRepository.class);
+			  try{
+				CommentDetailRepository lowercaseFirstLetterRepository = (CommentDetailRepository) getRepository();
+		                  if(lowercaseFirstLetterRepository.isSTORE_LOCALLY()){
+		                        Context context = lowercaseFirstLetterRepository.getContext();
+		                        if(commentRepository.getDb() == null ){
+		                            commentRepository.addStorage(context);
+		                        }
 
+		                        if(context != null && commentRepository.getDb() != null){
+		                            commentRepository.addStorage(context);
+		                            Comment comment = (Comment) commentRepository.getDb().get__db(commentId);
+		                            return comment;
+		                        }else{
+		                            return null;
+		                        }
+		                  }else{
+		                    return null;
+		                  }
+			  }catch(Exception e){
+				//Ignore exception..
+				return null;
+			  }
+
+                        }else{
+                          return null;
+                      }
+                    }
                 
+
                 
                 
 

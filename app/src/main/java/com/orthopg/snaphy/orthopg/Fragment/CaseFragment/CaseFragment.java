@@ -152,8 +152,7 @@ public class CaseFragment extends android.support.v4.app.Fragment {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.layout_case_list_image)
-        ImageView userImage;
+        @Bind(R.id.layout_case_list_image) ImageView userImage;
         @Bind(R.id.layout_case_list_textview1) TextView caseHeading;
         @Bind(R.id.layout_case_list_textview2) TextView userName;
         @Bind(R.id.layout_case_list_textview3) TextView casePostedTime;
@@ -169,8 +168,7 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         @Bind(R.id.layout_case_list_button1) TextView editButton;
         @Bind(R.id.layout_case_list_textview8) TextView numberOfLikes;
         @Bind(R.id.layout_case_list_textview9) TextView numberOfSave;
-        @Bind(R.id.layout_case_list_linear_layout)
-        LinearLayout linearLayout;
+        @Bind(R.id.layout_case_list_linear_layout) LinearLayout linearLayout;
         @Bind(R.id.layout_case_list_linear_layout2) LinearLayout linearLayout2;
         @Bind(R.id.layout_case_list_linear_layout_like) LinearLayout likeLinearLayout;
         @Bind(R.id.layout_case_list_linear_layout_save) LinearLayout saveLinearLayout;
@@ -178,7 +176,7 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         @Bind(R.id.layout_case_list_linear_layout4) LinearLayout contentContainer;
 
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView){
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

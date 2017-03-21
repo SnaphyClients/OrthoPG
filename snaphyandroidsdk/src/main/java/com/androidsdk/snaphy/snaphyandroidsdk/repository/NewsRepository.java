@@ -23,7 +23,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
-
+import java.lang.reflect.Method;
+import android.util.Log;
+import android.content.ContentValues;
+import android.content.pm.PackageManager;
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
 
 
 //Replaced by Custom ModelRepository method
@@ -34,8 +39,11 @@ import java.util.HashMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+
 //Import its models too.
 import com.androidsdk.snaphy.snaphyandroidsdk.models.News;
+import android.content.Context;
+import com.androidsdk.snaphy.snaphyandroidsdk.db.NewsDb;
 
 //Now import model of related models..
 
@@ -46,8 +54,18 @@ import com.androidsdk.snaphy.snaphyandroidsdk.models.News;
 public class NewsRepository extends ModelRepository<News> {
 
 
+    private Context context;
+    private String METADATA_DATABASE_NAME_KEY = "snaphy.database.name";
+    private static String DATABASE_NAME;
+
     public NewsRepository(){
         super("News", null, News.class);
+
+    }
+
+
+    public Context getContext(){
+        return context;
     }
 
 
@@ -57,135 +75,202 @@ public class NewsRepository extends ModelRepository<News> {
 
 
 
-    public RestContract createContract() {
-        RestContract contract = super.createContract();
-        
-            
 
-                
 
-                    contract.addItem(new RestContractItem("/" + "News"  + "/", "POST"), "News.create");
-                
+    public NewsDb getDb() {
+      return newsDb;
+    }
 
-            
-        
-            
+    public void setNewsDb(NewsDb newsDb) {
+      this.newsDb = newsDb;
+    }
 
-                
+    private NewsDb newsDb;
 
-                    contract.addItem(new RestContractItem("/" + "News"  + "/", "POST"), "News.create");
-                
 
-            
-        
-            
 
-                
+    //Flag to check either to store data locally or not..
+    private boolean STORE_LOCALLY = true;
 
-                    contract.addItem(new RestContractItem("/" + "News"  + "/", "PUT"), "News.upsert");
-                
-
-            
-        
-            
-
-                
-
-                    contract.addItem(new RestContractItem("/" + "News"  + "/:id/exists", "GET"), "News.exists");
-                
-
-            
-        
-            
-
-                
-
-                    contract.addItem(new RestContractItem("/" + "News"  + "/:id", "GET"), "News.findById");
-                
-
-            
-        
-            
-
-                
-
-                    contract.addItem(new RestContractItem("/" + "News"  + "/", "GET"), "News.find");
-                
-
-            
-        
-            
-
-                
-
-                    contract.addItem(new RestContractItem("/" + "News"  + "/findOne", "GET"), "News.findOne");
-                
-
-            
-        
-            
-
-                
-
-                    contract.addItem(new RestContractItem("/" + "News"  + "/update", "POST"), "News.updateAll");
-                
-
-            
-        
-            
-
-                
-
-                    contract.addItem(new RestContractItem("/" + "News"  + "/:id", "DELETE"), "News.deleteById");
-                
-
-            
-        
-            
-
-                
-
-                    contract.addItem(new RestContractItem("/" + "News"  + "/count", "GET"), "News.count");
-                
-
-            
-        
-            
-
-                
-
-                    contract.addItem(new RestContractItem("/" + "News"  + "/:newsId", "PUT"), "News.prototype.updateAttributes");
-                
-
-            
-        
-            
-        
-            
-
-                
-
-                    contract.addItem(new RestContractItem("/" + "News"  + "/getSchema", "POST"), "News.getSchema");
-                
-
-            
-        
-            
-
-                
-
-                    contract.addItem(new RestContractItem("/" + "News"  + "/getAbsoluteSchema", "POST"), "News.getAbsoluteSchema");
-                
-
-            
-        
-            
-        
-        return contract;
+    public boolean isSTORE_LOCALLY() {
+      return STORE_LOCALLY;
     }
 
 
-    //override getNameForRestUrlMethod
+    public void  persistData(boolean persist){
+      STORE_LOCALLY = persist;
+    }
+
+
+
+    public void reset__db(){
+      if(isSTORE_LOCALLY()){
+          getDb().reset__db();
+      }
+    }
+
+
+
+    public void addStorage(Context context){
+         try{
+            ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            DATABASE_NAME = (String) ai.metaData.get(METADATA_DATABASE_NAME_KEY);
+         }
+         catch (Exception e){
+            Log.e("Snaphy", e.toString());
+         }
+         setNewsDb(new NewsDb(context, DATABASE_NAME, getRestAdapter()));
+         //allow data storage locally..
+         persistData(true);
+         this.context = context;
+    }
+
+
+    public RestContract createContract() {
+    RestContract contract = super.createContract();
+    
+
+    
+
+    
+
+    contract.addItem(new RestContractItem("/" + "News"  + "/", "POST"), "News.create");
+    
+
+    
+    
+
+    
+
+    
+
+    contract.addItem(new RestContractItem("/" + "News"  + "/", "POST"), "News.create");
+    
+
+    
+    
+
+    
+
+    
+
+    contract.addItem(new RestContractItem("/" + "News"  + "/", "PUT"), "News.upsert");
+    
+
+    
+    
+
+    
+
+    
+
+    contract.addItem(new RestContractItem("/" + "News"  + "/:id/exists", "GET"), "News.exists");
+    
+
+    
+    
+
+    
+
+    
+
+    contract.addItem(new RestContractItem("/" + "News"  + "/:id", "GET"), "News.findById");
+    
+
+    
+    
+
+    
+
+    
+
+    contract.addItem(new RestContractItem("/" + "News"  + "/", "GET"), "News.find");
+    
+
+    
+    
+
+    
+
+    
+
+    contract.addItem(new RestContractItem("/" + "News"  + "/findOne", "GET"), "News.findOne");
+    
+
+    
+    
+
+    
+
+    
+
+    contract.addItem(new RestContractItem("/" + "News"  + "/update", "POST"), "News.updateAll");
+    
+
+    
+    
+
+    
+
+    
+
+    contract.addItem(new RestContractItem("/" + "News"  + "/:id", "DELETE"), "News.deleteById");
+    
+
+    
+    
+
+    
+
+    
+
+    contract.addItem(new RestContractItem("/" + "News"  + "/count", "GET"), "News.count");
+    
+
+    
+    
+
+    
+
+    
+
+    contract.addItem(new RestContractItem("/" + "News"  + "/:newsId", "PUT"), "News.prototype.updateAttributes");
+    
+
+    
+    
+
+    
+    
+
+    
+
+    
+
+    contract.addItem(new RestContractItem("/" + "News"  + "/getSchema", "POST"), "News.getSchema");
+    
+
+    
+    
+
+    
+
+    
+
+    contract.addItem(new RestContractItem("/" + "News"  + "/getAbsoluteSchema", "POST"), "News.getAbsoluteSchema");
+    
+
+    
+    
+
+    
+    
+    return contract;
+    }
+
+
+
+//override getNameForRestUrlMethod
     public String  getNameForRestUrl() {
         
             return "News";
@@ -208,7 +293,7 @@ public class NewsRepository extends ModelRepository<News> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -237,10 +322,34 @@ public class NewsRepository extends ModelRepository<News> {
                             
                                 if(response != null){
                                     NewsRepository newsRepo = getRestAdapter().createRepository(NewsRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = newsRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(newsRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //newsRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     News news = newsRepo.createObject(result);
-                                    callback.onSuccess(news);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = news.getClass().getMethod("save__db");
+                                                    method.invoke(news);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(news);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -268,7 +377,7 @@ public class NewsRepository extends ModelRepository<News> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -297,10 +406,34 @@ public class NewsRepository extends ModelRepository<News> {
                             
                                 if(response != null){
                                     NewsRepository newsRepo = getRestAdapter().createRepository(NewsRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = newsRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(newsRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //newsRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     News news = newsRepo.createObject(result);
-                                    callback.onSuccess(news);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = news.getClass().getMethod("save__db");
+                                                    method.invoke(news);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(news);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -327,7 +460,7 @@ public class NewsRepository extends ModelRepository<News> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -378,7 +511,7 @@ public class NewsRepository extends ModelRepository<News> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -409,10 +542,34 @@ public class NewsRepository extends ModelRepository<News> {
                             
                                 if(response != null){
                                     NewsRepository newsRepo = getRestAdapter().createRepository(NewsRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = newsRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(newsRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //newsRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     News news = newsRepo.createObject(result);
-                                    callback.onSuccess(news);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = news.getClass().getMethod("save__db");
+                                                    method.invoke(news);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(news);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -439,7 +596,7 @@ public class NewsRepository extends ModelRepository<News> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -470,9 +627,31 @@ public class NewsRepository extends ModelRepository<News> {
                                     DataList<Map<String, Object>> result = (DataList) Util.fromJson(response);
                                     DataList<News> newsList = new DataList<News>();
                                     NewsRepository newsRepo = getRestAdapter().createRepository(NewsRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = newsRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(newsRepo, context);
 
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+                                    }
                                     for (Map<String, Object> obj : result) {
+
                                         News news = newsRepo.createObject(obj);
+
+                                        //Add to database if persistent storage required..
+                                        if(isSTORE_LOCALLY()){
+                                            //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                            try {
+                                                      Method method = news.getClass().getMethod("save__db");
+                                                      method.invoke(news);
+
+                                            } catch (Exception e) {
+                                                Log.e("Database Error", e.toString());
+                                            }
+                                        }
+
                                         newsList.add(news);
                                     }
                                     callback.onSuccess(newsList);
@@ -500,7 +679,7 @@ public class NewsRepository extends ModelRepository<News> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -529,10 +708,34 @@ public class NewsRepository extends ModelRepository<News> {
                             
                                 if(response != null){
                                     NewsRepository newsRepo = getRestAdapter().createRepository(NewsRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = newsRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(newsRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //newsRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     News news = newsRepo.createObject(result);
-                                    callback.onSuccess(news);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = news.getClass().getMethod("save__db");
+                                                    method.invoke(news);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(news);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -559,7 +762,7 @@ public class NewsRepository extends ModelRepository<News> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -612,7 +815,7 @@ public class NewsRepository extends ModelRepository<News> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -663,7 +866,7 @@ public class NewsRepository extends ModelRepository<News> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -714,7 +917,7 @@ public class NewsRepository extends ModelRepository<News> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -745,10 +948,34 @@ public class NewsRepository extends ModelRepository<News> {
                             
                                 if(response != null){
                                     NewsRepository newsRepo = getRestAdapter().createRepository(NewsRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = newsRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(newsRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //newsRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     News news = newsRepo.createObject(result);
-                                    callback.onSuccess(news);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = news.getClass().getMethod("save__db");
+                                                    method.invoke(news);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(news);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -777,7 +1004,7 @@ public class NewsRepository extends ModelRepository<News> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -826,7 +1053,7 @@ public class NewsRepository extends ModelRepository<News> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();

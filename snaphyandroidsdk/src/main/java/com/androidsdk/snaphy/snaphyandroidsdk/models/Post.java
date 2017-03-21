@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import java.util.List;
 import com.strongloop.android.loopback.RestAdapter;
 import com.strongloop.android.remoting.adapters.Adapter;
+import android.content.Context;
 
 /*
 Replacing with custom Snaphy callback methods
@@ -119,11 +120,6 @@ public class Post extends Model {
 
             
             
-            
-            
-
-            
-
         
     
         
@@ -145,11 +141,6 @@ public class Post extends Model {
 
             
             
-            
-            
-
-            
-
         
     
         
@@ -171,11 +162,6 @@ public class Post extends Model {
 
             
             
-            
-            
-
-            
-
         
     
         
@@ -199,19 +185,9 @@ public class Post extends Model {
 
             
             
-            
-            
-
-            
-
         
     
         
-            
-
-            
-            
-            
             
 
             
@@ -229,7 +205,7 @@ public class Post extends Model {
                 }
 
             
-
+            
         
     
         
@@ -251,11 +227,6 @@ public class Post extends Model {
 
             
             
-            
-            
-
-            
-
         
     
         
@@ -263,11 +234,6 @@ public class Post extends Model {
 
             
             
-            
-            
-
-            
-
         
     
         
@@ -275,27 +241,111 @@ public class Post extends Model {
 
             
             
-            
-            
-
-            
-
         
     
 
 
+    //------------------------------------Database Method---------------------------------------------------
+
+
+    public void save(final com.strongloop.android.loopback.callbacks.VoidCallback callback){
+      //Save to database..
+      save__db();
+      //Also save to database..
+      super.save(callback);
+    }
+
+    public void destroy(final com.strongloop.android.loopback.callbacks.VoidCallback callback){
+      PostRepository lowercaseFirstLetterRepository = (PostRepository) getRepository();
+      if(lowercaseFirstLetterRepository.isSTORE_LOCALLY()){
+          //Delete from database..
+          String id = getId().toString();
+          if(id != null && lowercaseFirstLetterRepository.getDb() != null){
+             lowercaseFirstLetterRepository.getDb().delete__db(id);
+          }
+      }
+      //Also save to database..
+      super.destroy(callback);
+    }
+
+
+
+    public void save__db(String id){
+      PostRepository lowercaseFirstLetterRepository = (PostRepository) getRepository();
+
+      if(lowercaseFirstLetterRepository.isSTORE_LOCALLY()){
+        if(id != null && lowercaseFirstLetterRepository.getDb() != null){
+          lowercaseFirstLetterRepository.getDb().upsert__db(id, this);
+        }
+      }
+    }
+
+
+    public void delete__db(){
+      PostRepository lowercaseFirstLetterRepository = (PostRepository) getRepository();
+      if(lowercaseFirstLetterRepository.isSTORE_LOCALLY()){
+
+        if(getId() != null && lowercaseFirstLetterRepository.getDb() != null){
+            String id = getId().toString();
+          lowercaseFirstLetterRepository.getDb().delete__db(id);
+        }
+      }
+    }
+
+
+    public void save__db(){
+      if(getId() == null){
+        return;
+      }
+      String id = getId().toString();
+      save__db(id);
+    }
+
+
+
+//-----------------------------------END Database Methods------------------------------------------------
+
+
     
+
 
 
 
     //Now adding relations between related models
     
         
+        
                 
                     //Define belongsTo relation method here..
                     private transient Customer  customer ;
+                    private String customerId;
+
+                    public String getCustomerId(){
+                         return customerId;
+                    }
+
+                    public void setCustomerId(Object customerId){
+                        if(customerId != null){
+                          this.customerId = customerId.toString();
+                        }
+                    }
 
                     public Customer getCustomer() {
+			try{
+				//Adding database method for fetching from relation if not present..
+		                if(customer == null){
+		                  PostRepository postRepository = (PostRepository) getRepository();
+
+		                  RestAdapter restAdapter = postRepository.getRestAdapter();
+		                  if(restAdapter != null){
+		                    //Fetch locally from db
+		                    customer = getCustomer__db(restAdapter);
+		                  }
+		                }
+			}catch(Exception e){
+				//Ignore
+			}
+
                         return customer;
                     }
 
@@ -325,8 +375,39 @@ public class Post extends Model {
                     }
 
 
+                    //Fetch related data from local database if present a customerId identifier as property for belongsTo
+                    public Customer getCustomer__db(RestAdapter restAdapter){
+                      if(customerId != null){
+                        CustomerRepository customerRepository = restAdapter.createRepository(CustomerRepository.class);
+			  try{
+				PostRepository lowercaseFirstLetterRepository = (PostRepository) getRepository();
+		                  if(lowercaseFirstLetterRepository.isSTORE_LOCALLY()){
+		                        Context context = lowercaseFirstLetterRepository.getContext();
+		                        if(customerRepository.getDb() == null ){
+		                            customerRepository.addStorage(context);
+		                        }
 
+		                        if(context != null && customerRepository.getDb() != null){
+		                            customerRepository.addStorage(context);
+		                            Customer customer = (Customer) customerRepository.getDb().get__db(customerId);
+		                            return customer;
+		                        }else{
+		                            return null;
+		                        }
+		                  }else{
+		                    return null;
+		                  }
+			  }catch(Exception e){
+				//Ignore exception..
+				return null;
+			  }
+
+                        }else{
+                          return null;
+                      }
+                    }
                 
+
                 
                 
 
@@ -502,11 +583,38 @@ public class Post extends Model {
           
     
         
+        
                 
                     //Define belongsTo relation method here..
                     private transient PostDetail  postDetails ;
+                    private String postDetailId;
+
+                    public String getPostDetailId(){
+                         return postDetailId;
+                    }
+
+                    public void setPostDetailId(Object postDetailId){
+                        if(postDetailId != null){
+                          this.postDetailId = postDetailId.toString();
+                        }
+                    }
 
                     public PostDetail getPostDetails() {
+			try{
+				//Adding database method for fetching from relation if not present..
+		                if(postDetails == null){
+		                  PostRepository postRepository = (PostRepository) getRepository();
+
+		                  RestAdapter restAdapter = postRepository.getRestAdapter();
+		                  if(restAdapter != null){
+		                    //Fetch locally from db
+		                    postDetails = getPostDetails__db(restAdapter);
+		                  }
+		                }
+			}catch(Exception e){
+				//Ignore
+			}
+
                         return postDetails;
                     }
 
@@ -536,8 +644,39 @@ public class Post extends Model {
                     }
 
 
+                    //Fetch related data from local database if present a postDetailId identifier as property for belongsTo
+                    public PostDetail getPostDetails__db(RestAdapter restAdapter){
+                      if(postDetailId != null){
+                        PostDetailRepository postDetailsRepository = restAdapter.createRepository(PostDetailRepository.class);
+			  try{
+				PostRepository lowercaseFirstLetterRepository = (PostRepository) getRepository();
+		                  if(lowercaseFirstLetterRepository.isSTORE_LOCALLY()){
+		                        Context context = lowercaseFirstLetterRepository.getContext();
+		                        if(postDetailsRepository.getDb() == null ){
+		                            postDetailsRepository.addStorage(context);
+		                        }
 
+		                        if(context != null && postDetailsRepository.getDb() != null){
+		                            postDetailsRepository.addStorage(context);
+		                            PostDetail postDetails = (PostDetail) postDetailsRepository.getDb().get__db(postDetailId);
+		                            return postDetails;
+		                        }else{
+		                            return null;
+		                        }
+		                  }else{
+		                    return null;
+		                  }
+			  }catch(Exception e){
+				//Ignore exception..
+				return null;
+			  }
+
+                        }else{
+                          return null;
+                      }
+                    }
                 
+
                 
                 
 
@@ -862,14 +1001,33 @@ public class Post extends Model {
           
     
         
+        
                 
+
                 
                     
                     //Define hasMany relation method here..
                     private transient DataList<Comment>  comments ;
 
-                    public DataList<Comment> getComments() {
-                        return comments;
+                    public DataList< Comment > getComments() {
+                        //Check for pure case of hasMany
+                                                    //TODO: Modify foreign key name..
+                          try{
+                            CommentRepository commentRepository = (CommentRepository) getRepository();
+
+                            if(that.getId() != null && commentRepository.getDb() != null){
+
+                                 //Fetch locally from db
+                                 //comments = getComments__db(restAdapter);
+                                 // Getting single cont
+                                 comments = commentRepository.getDb().getAll__db("postId", that.getId().toString());
+
+                                 //lowercaseFirstLetter(modelName)
+                            }
+                          }catch(Exception e){
+                                //Ignore
+                          }
+                                                return comments;
                     }
 
                     public void setComments(DataList<Comment> comments) {
@@ -880,10 +1038,6 @@ public class Post extends Model {
                                 hashType = true;
                                 HashMap<String, Object> dataObj = (HashMap<String, Object>)o;
                                 hashMaps.add(dataObj);
-                            }else if(o.getClass().equals(HashMap.class)){
-                                hashType = true;
-                                HashMap<String, Object> dataObj = (HashMap<String, Object>)o;
-                                hashMaps.add(dataObj);
                             }
                         }
 
@@ -891,6 +1045,14 @@ public class Post extends Model {
                             setComments1(hashMaps);
                         }else{
                             this.comments = comments;
+                            //TODO: Warning move this to new thread
+                            for(Comment data: comments){
+                              try{
+                                data.save__db();
+                              } catch (NoSuchMethodError e) {
+                                // ignore
+                              }
+                            }
                         }
                     }
 
@@ -938,6 +1100,13 @@ public class Post extends Model {
                     //This will add a new data to the list relation object..
                     public void addRelation(Comment comments) {
                         try{
+                            try{
+
+                                  //Save to database..
+                                  comments.save__db();
+                            }catch (NoSuchMethodError e) {
+                              // ignore
+                            }
                             that.getComments().add(comments);
                         }catch(Exception e){
                             DataList< Comment> comments1 = new DataList();
@@ -948,9 +1117,13 @@ public class Post extends Model {
                         }
                     }
 
+
+
+
                     
+                        //Implement logic for pure hasMany methods here....
 
-
+                    
                 
                 
 
@@ -1427,14 +1600,33 @@ public class Post extends Model {
           
     
         
+        
                 
+
                 
                     
                     //Define hasMany relation method here..
                     private transient DataList<LikePost>  likePosts ;
 
-                    public DataList<LikePost> getLikePosts() {
-                        return likePosts;
+                    public DataList< LikePost > getLikePosts() {
+                        //Check for pure case of hasMany
+                                                    //TODO: Modify foreign key name..
+                          try{
+                            LikePostRepository likePostRepository = (LikePostRepository) getRepository();
+
+                            if(that.getId() != null && likePostRepository.getDb() != null){
+
+                                 //Fetch locally from db
+                                 //likePosts = getLikePosts__db(restAdapter);
+                                 // Getting single cont
+                                 likePosts = likePostRepository.getDb().getAll__db("postId", that.getId().toString());
+
+                                 //lowercaseFirstLetter(modelName)
+                            }
+                          }catch(Exception e){
+                                //Ignore
+                          }
+                                                return likePosts;
                     }
 
                     public void setLikePosts(DataList<LikePost> likePosts) {
@@ -1445,10 +1637,6 @@ public class Post extends Model {
                                 hashType = true;
                                 HashMap<String, Object> dataObj = (HashMap<String, Object>)o;
                                 hashMaps.add(dataObj);
-                            }else if(o.getClass().equals(HashMap.class)){
-                                hashType = true;
-                                HashMap<String, Object> dataObj = (HashMap<String, Object>)o;
-                                hashMaps.add(dataObj);
                             }
                         }
 
@@ -1456,6 +1644,14 @@ public class Post extends Model {
                             setLikePosts1(hashMaps);
                         }else{
                             this.likePosts = likePosts;
+                            //TODO: Warning move this to new thread
+                            for(LikePost data: likePosts){
+                              try{
+                                data.save__db();
+                              } catch (NoSuchMethodError e) {
+                                // ignore
+                              }
+                            }
                         }
                     }
 
@@ -1503,6 +1699,13 @@ public class Post extends Model {
                     //This will add a new data to the list relation object..
                     public void addRelation(LikePost likePosts) {
                         try{
+                            try{
+
+                                  //Save to database..
+                                  likePosts.save__db();
+                            }catch (NoSuchMethodError e) {
+                              // ignore
+                            }
                             that.getLikePosts().add(likePosts);
                         }catch(Exception e){
                             DataList< LikePost> likePosts1 = new DataList();
@@ -1513,9 +1716,13 @@ public class Post extends Model {
                         }
                     }
 
+
+
+
                     
+                        //Implement logic for pure hasMany methods here....
 
-
+                    
                 
                 
 
@@ -1992,14 +2199,33 @@ public class Post extends Model {
           
     
         
+        
                 
+
                 
                     
                     //Define hasMany relation method here..
                     private transient DataList<SavePost>  savePosts ;
 
-                    public DataList<SavePost> getSavePosts() {
-                        return savePosts;
+                    public DataList< SavePost > getSavePosts() {
+                        //Check for pure case of hasMany
+                                                    //TODO: Modify foreign key name..
+                          try{
+                            SavePostRepository savePostRepository = (SavePostRepository) getRepository();
+
+                            if(that.getId() != null && savePostRepository.getDb() != null){
+
+                                 //Fetch locally from db
+                                 //savePosts = getSavePosts__db(restAdapter);
+                                 // Getting single cont
+                                 savePosts = savePostRepository.getDb().getAll__db("postId", that.getId().toString());
+
+                                 //lowercaseFirstLetter(modelName)
+                            }
+                          }catch(Exception e){
+                                //Ignore
+                          }
+                                                return savePosts;
                     }
 
                     public void setSavePosts(DataList<SavePost> savePosts) {
@@ -2010,10 +2236,6 @@ public class Post extends Model {
                                 hashType = true;
                                 HashMap<String, Object> dataObj = (HashMap<String, Object>)o;
                                 hashMaps.add(dataObj);
-                            }else if(o.getClass().equals(HashMap.class)){
-                                hashType = true;
-                                HashMap<String, Object> dataObj = (HashMap<String, Object>)o;
-                                hashMaps.add(dataObj);
                             }
                         }
 
@@ -2021,6 +2243,14 @@ public class Post extends Model {
                             setSavePosts1(hashMaps);
                         }else{
                             this.savePosts = savePosts;
+                            //TODO: Warning move this to new thread
+                            for(SavePost data: savePosts){
+                              try{
+                                data.save__db();
+                              } catch (NoSuchMethodError e) {
+                                // ignore
+                              }
+                            }
                         }
                     }
 
@@ -2068,6 +2298,13 @@ public class Post extends Model {
                     //This will add a new data to the list relation object..
                     public void addRelation(SavePost savePosts) {
                         try{
+                            try{
+
+                                  //Save to database..
+                                  savePosts.save__db();
+                            }catch (NoSuchMethodError e) {
+                              // ignore
+                            }
                             that.getSavePosts().add(savePosts);
                         }catch(Exception e){
                             DataList< SavePost> savePosts1 = new DataList();
@@ -2078,9 +2315,13 @@ public class Post extends Model {
                         }
                     }
 
+
+
+
                     
+                        //Implement logic for pure hasMany methods here....
 
-
+                    
                 
                 
 
@@ -2557,14 +2798,33 @@ public class Post extends Model {
           
     
         
+        
                 
+
                 
                     
                     //Define hasMany relation method here..
                     private transient DataList<PostSubscriber>  postSubscribers ;
 
-                    public DataList<PostSubscriber> getPostSubscribers() {
-                        return postSubscribers;
+                    public DataList< PostSubscriber > getPostSubscribers() {
+                        //Check for pure case of hasMany
+                                                    //TODO: Modify foreign key name..
+                          try{
+                            PostSubscriberRepository postSubscriberRepository = (PostSubscriberRepository) getRepository();
+
+                            if(that.getId() != null && postSubscriberRepository.getDb() != null){
+
+                                 //Fetch locally from db
+                                 //postSubscribers = getPostSubscribers__db(restAdapter);
+                                 // Getting single cont
+                                 postSubscribers = postSubscriberRepository.getDb().getAll__db("postId", that.getId().toString());
+
+                                 //lowercaseFirstLetter(modelName)
+                            }
+                          }catch(Exception e){
+                                //Ignore
+                          }
+                                                return postSubscribers;
                     }
 
                     public void setPostSubscribers(DataList<PostSubscriber> postSubscribers) {
@@ -2575,10 +2835,6 @@ public class Post extends Model {
                                 hashType = true;
                                 HashMap<String, Object> dataObj = (HashMap<String, Object>)o;
                                 hashMaps.add(dataObj);
-                            }else if(o.getClass().equals(HashMap.class)){
-                                hashType = true;
-                                HashMap<String, Object> dataObj = (HashMap<String, Object>)o;
-                                hashMaps.add(dataObj);
                             }
                         }
 
@@ -2586,6 +2842,14 @@ public class Post extends Model {
                             setPostSubscribers1(hashMaps);
                         }else{
                             this.postSubscribers = postSubscribers;
+                            //TODO: Warning move this to new thread
+                            for(PostSubscriber data: postSubscribers){
+                              try{
+                                data.save__db();
+                              } catch (NoSuchMethodError e) {
+                                // ignore
+                              }
+                            }
                         }
                     }
 
@@ -2633,6 +2897,13 @@ public class Post extends Model {
                     //This will add a new data to the list relation object..
                     public void addRelation(PostSubscriber postSubscribers) {
                         try{
+                            try{
+
+                                  //Save to database..
+                                  postSubscribers.save__db();
+                            }catch (NoSuchMethodError e) {
+                              // ignore
+                            }
                             that.getPostSubscribers().add(postSubscribers);
                         }catch(Exception e){
                             DataList< PostSubscriber> postSubscribers1 = new DataList();
@@ -2643,9 +2914,13 @@ public class Post extends Model {
                         }
                     }
 
+
+
+
                     
+                        //Implement logic for pure hasMany methods here....
 
-
+                    
                 
                 
 

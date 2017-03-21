@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import java.util.List;
 import com.strongloop.android.loopback.RestAdapter;
 import com.strongloop.android.remoting.adapters.Adapter;
+import android.content.Context;
 
 /*
 Replacing with custom Snaphy callback methods
@@ -112,11 +113,6 @@ public class PostSubscriber extends Model {
 
             
             
-            
-            
-
-            
-
         
     
         
@@ -124,11 +120,6 @@ public class PostSubscriber extends Model {
 
             
             
-            
-            
-
-            
-
         
     
         
@@ -136,11 +127,6 @@ public class PostSubscriber extends Model {
 
             
             
-            
-            
-
-            
-
         
     
         
@@ -148,11 +134,6 @@ public class PostSubscriber extends Model {
 
             
             
-            
-            
-
-            
-
         
     
         
@@ -160,11 +141,6 @@ public class PostSubscriber extends Model {
 
             
             
-            
-            
-
-            
-
         
     
         
@@ -172,11 +148,6 @@ public class PostSubscriber extends Model {
 
             
             
-            
-            
-
-            
-
         
     
         
@@ -184,27 +155,111 @@ public class PostSubscriber extends Model {
 
             
             
-            
-            
-
-            
-
         
     
 
 
+    //------------------------------------Database Method---------------------------------------------------
+
+
+    public void save(final com.strongloop.android.loopback.callbacks.VoidCallback callback){
+      //Save to database..
+      save__db();
+      //Also save to database..
+      super.save(callback);
+    }
+
+    public void destroy(final com.strongloop.android.loopback.callbacks.VoidCallback callback){
+      PostSubscriberRepository lowercaseFirstLetterRepository = (PostSubscriberRepository) getRepository();
+      if(lowercaseFirstLetterRepository.isSTORE_LOCALLY()){
+          //Delete from database..
+          String id = getId().toString();
+          if(id != null && lowercaseFirstLetterRepository.getDb() != null){
+             lowercaseFirstLetterRepository.getDb().delete__db(id);
+          }
+      }
+      //Also save to database..
+      super.destroy(callback);
+    }
+
+
+
+    public void save__db(String id){
+      PostSubscriberRepository lowercaseFirstLetterRepository = (PostSubscriberRepository) getRepository();
+
+      if(lowercaseFirstLetterRepository.isSTORE_LOCALLY()){
+        if(id != null && lowercaseFirstLetterRepository.getDb() != null){
+          lowercaseFirstLetterRepository.getDb().upsert__db(id, this);
+        }
+      }
+    }
+
+
+    public void delete__db(){
+      PostSubscriberRepository lowercaseFirstLetterRepository = (PostSubscriberRepository) getRepository();
+      if(lowercaseFirstLetterRepository.isSTORE_LOCALLY()){
+
+        if(getId() != null && lowercaseFirstLetterRepository.getDb() != null){
+            String id = getId().toString();
+          lowercaseFirstLetterRepository.getDb().delete__db(id);
+        }
+      }
+    }
+
+
+    public void save__db(){
+      if(getId() == null){
+        return;
+      }
+      String id = getId().toString();
+      save__db(id);
+    }
+
+
+
+//-----------------------------------END Database Methods------------------------------------------------
+
+
     
+
 
 
 
     //Now adding relations between related models
     
         
+        
                 
                     //Define belongsTo relation method here..
                     private transient Post  post ;
+                    private String postId;
+
+                    public String getPostId(){
+                         return postId;
+                    }
+
+                    public void setPostId(Object postId){
+                        if(postId != null){
+                          this.postId = postId.toString();
+                        }
+                    }
 
                     public Post getPost() {
+			try{
+				//Adding database method for fetching from relation if not present..
+		                if(post == null){
+		                  PostSubscriberRepository postSubscriberRepository = (PostSubscriberRepository) getRepository();
+
+		                  RestAdapter restAdapter = postSubscriberRepository.getRestAdapter();
+		                  if(restAdapter != null){
+		                    //Fetch locally from db
+		                    post = getPost__db(restAdapter);
+		                  }
+		                }
+			}catch(Exception e){
+				//Ignore
+			}
+
                         return post;
                     }
 
@@ -234,8 +289,39 @@ public class PostSubscriber extends Model {
                     }
 
 
+                    //Fetch related data from local database if present a postId identifier as property for belongsTo
+                    public Post getPost__db(RestAdapter restAdapter){
+                      if(postId != null){
+                        PostRepository postRepository = restAdapter.createRepository(PostRepository.class);
+			  try{
+				PostSubscriberRepository lowercaseFirstLetterRepository = (PostSubscriberRepository) getRepository();
+		                  if(lowercaseFirstLetterRepository.isSTORE_LOCALLY()){
+		                        Context context = lowercaseFirstLetterRepository.getContext();
+		                        if(postRepository.getDb() == null ){
+		                            postRepository.addStorage(context);
+		                        }
 
+		                        if(context != null && postRepository.getDb() != null){
+		                            postRepository.addStorage(context);
+		                            Post post = (Post) postRepository.getDb().get__db(postId);
+		                            return post;
+		                        }else{
+		                            return null;
+		                        }
+		                  }else{
+		                    return null;
+		                  }
+			  }catch(Exception e){
+				//Ignore exception..
+				return null;
+			  }
+
+                        }else{
+                          return null;
+                      }
+                    }
                 
+
                 
                 
 
@@ -370,11 +456,38 @@ public class PostSubscriber extends Model {
           
     
         
+        
                 
                     //Define belongsTo relation method here..
                     private transient Customer  customer ;
+                    private String customerId;
+
+                    public String getCustomerId(){
+                         return customerId;
+                    }
+
+                    public void setCustomerId(Object customerId){
+                        if(customerId != null){
+                          this.customerId = customerId.toString();
+                        }
+                    }
 
                     public Customer getCustomer() {
+			try{
+				//Adding database method for fetching from relation if not present..
+		                if(customer == null){
+		                  PostSubscriberRepository postSubscriberRepository = (PostSubscriberRepository) getRepository();
+
+		                  RestAdapter restAdapter = postSubscriberRepository.getRestAdapter();
+		                  if(restAdapter != null){
+		                    //Fetch locally from db
+		                    customer = getCustomer__db(restAdapter);
+		                  }
+		                }
+			}catch(Exception e){
+				//Ignore
+			}
+
                         return customer;
                     }
 
@@ -404,8 +517,39 @@ public class PostSubscriber extends Model {
                     }
 
 
+                    //Fetch related data from local database if present a customerId identifier as property for belongsTo
+                    public Customer getCustomer__db(RestAdapter restAdapter){
+                      if(customerId != null){
+                        CustomerRepository customerRepository = restAdapter.createRepository(CustomerRepository.class);
+			  try{
+				PostSubscriberRepository lowercaseFirstLetterRepository = (PostSubscriberRepository) getRepository();
+		                  if(lowercaseFirstLetterRepository.isSTORE_LOCALLY()){
+		                        Context context = lowercaseFirstLetterRepository.getContext();
+		                        if(customerRepository.getDb() == null ){
+		                            customerRepository.addStorage(context);
+		                        }
 
+		                        if(context != null && customerRepository.getDb() != null){
+		                            customerRepository.addStorage(context);
+		                            Customer customer = (Customer) customerRepository.getDb().get__db(customerId);
+		                            return customer;
+		                        }else{
+		                            return null;
+		                        }
+		                  }else{
+		                    return null;
+		                  }
+			  }catch(Exception e){
+				//Ignore exception..
+				return null;
+			  }
+
+                        }else{
+                          return null;
+                      }
+                    }
                 
+
                 
                 
 
@@ -540,11 +684,38 @@ public class PostSubscriber extends Model {
           
     
         
+        
                 
                     //Define belongsTo relation method here..
                     private transient Comment  comment ;
+                    private String commentId;
+
+                    public String getCommentId(){
+                         return commentId;
+                    }
+
+                    public void setCommentId(Object commentId){
+                        if(commentId != null){
+                          this.commentId = commentId.toString();
+                        }
+                    }
 
                     public Comment getComment() {
+			try{
+				//Adding database method for fetching from relation if not present..
+		                if(comment == null){
+		                  PostSubscriberRepository postSubscriberRepository = (PostSubscriberRepository) getRepository();
+
+		                  RestAdapter restAdapter = postSubscriberRepository.getRestAdapter();
+		                  if(restAdapter != null){
+		                    //Fetch locally from db
+		                    comment = getComment__db(restAdapter);
+		                  }
+		                }
+			}catch(Exception e){
+				//Ignore
+			}
+
                         return comment;
                     }
 
@@ -574,8 +745,39 @@ public class PostSubscriber extends Model {
                     }
 
 
+                    //Fetch related data from local database if present a commentId identifier as property for belongsTo
+                    public Comment getComment__db(RestAdapter restAdapter){
+                      if(commentId != null){
+                        CommentRepository commentRepository = restAdapter.createRepository(CommentRepository.class);
+			  try{
+				PostSubscriberRepository lowercaseFirstLetterRepository = (PostSubscriberRepository) getRepository();
+		                  if(lowercaseFirstLetterRepository.isSTORE_LOCALLY()){
+		                        Context context = lowercaseFirstLetterRepository.getContext();
+		                        if(commentRepository.getDb() == null ){
+		                            commentRepository.addStorage(context);
+		                        }
 
+		                        if(context != null && commentRepository.getDb() != null){
+		                            commentRepository.addStorage(context);
+		                            Comment comment = (Comment) commentRepository.getDb().get__db(commentId);
+		                            return comment;
+		                        }else{
+		                            return null;
+		                        }
+		                  }else{
+		                    return null;
+		                  }
+			  }catch(Exception e){
+				//Ignore exception..
+				return null;
+			  }
+
+                        }else{
+                          return null;
+                      }
+                    }
                 
+
                 
                 
 
@@ -710,11 +912,38 @@ public class PostSubscriber extends Model {
           
     
         
+        
                 
                     //Define belongsTo relation method here..
                     private transient LikePost  likePost ;
+                    private String likePostId;
+
+                    public String getLikePostId(){
+                         return likePostId;
+                    }
+
+                    public void setLikePostId(Object likePostId){
+                        if(likePostId != null){
+                          this.likePostId = likePostId.toString();
+                        }
+                    }
 
                     public LikePost getLikePost() {
+			try{
+				//Adding database method for fetching from relation if not present..
+		                if(likePost == null){
+		                  PostSubscriberRepository postSubscriberRepository = (PostSubscriberRepository) getRepository();
+
+		                  RestAdapter restAdapter = postSubscriberRepository.getRestAdapter();
+		                  if(restAdapter != null){
+		                    //Fetch locally from db
+		                    likePost = getLikePost__db(restAdapter);
+		                  }
+		                }
+			}catch(Exception e){
+				//Ignore
+			}
+
                         return likePost;
                     }
 
@@ -744,8 +973,39 @@ public class PostSubscriber extends Model {
                     }
 
 
+                    //Fetch related data from local database if present a likePostId identifier as property for belongsTo
+                    public LikePost getLikePost__db(RestAdapter restAdapter){
+                      if(likePostId != null){
+                        LikePostRepository likePostRepository = restAdapter.createRepository(LikePostRepository.class);
+			  try{
+				PostSubscriberRepository lowercaseFirstLetterRepository = (PostSubscriberRepository) getRepository();
+		                  if(lowercaseFirstLetterRepository.isSTORE_LOCALLY()){
+		                        Context context = lowercaseFirstLetterRepository.getContext();
+		                        if(likePostRepository.getDb() == null ){
+		                            likePostRepository.addStorage(context);
+		                        }
 
+		                        if(context != null && likePostRepository.getDb() != null){
+		                            likePostRepository.addStorage(context);
+		                            LikePost likePost = (LikePost) likePostRepository.getDb().get__db(likePostId);
+		                            return likePost;
+		                        }else{
+		                            return null;
+		                        }
+		                  }else{
+		                    return null;
+		                  }
+			  }catch(Exception e){
+				//Ignore exception..
+				return null;
+			  }
+
+                        }else{
+                          return null;
+                      }
+                    }
                 
+
                 
                 
 
@@ -880,11 +1140,38 @@ public class PostSubscriber extends Model {
           
     
         
+        
                 
                     //Define belongsTo relation method here..
                     private transient SavePost  savePost ;
+                    private String savePostId;
+
+                    public String getSavePostId(){
+                         return savePostId;
+                    }
+
+                    public void setSavePostId(Object savePostId){
+                        if(savePostId != null){
+                          this.savePostId = savePostId.toString();
+                        }
+                    }
 
                     public SavePost getSavePost() {
+			try{
+				//Adding database method for fetching from relation if not present..
+		                if(savePost == null){
+		                  PostSubscriberRepository postSubscriberRepository = (PostSubscriberRepository) getRepository();
+
+		                  RestAdapter restAdapter = postSubscriberRepository.getRestAdapter();
+		                  if(restAdapter != null){
+		                    //Fetch locally from db
+		                    savePost = getSavePost__db(restAdapter);
+		                  }
+		                }
+			}catch(Exception e){
+				//Ignore
+			}
+
                         return savePost;
                     }
 
@@ -914,8 +1201,39 @@ public class PostSubscriber extends Model {
                     }
 
 
+                    //Fetch related data from local database if present a savePostId identifier as property for belongsTo
+                    public SavePost getSavePost__db(RestAdapter restAdapter){
+                      if(savePostId != null){
+                        SavePostRepository savePostRepository = restAdapter.createRepository(SavePostRepository.class);
+			  try{
+				PostSubscriberRepository lowercaseFirstLetterRepository = (PostSubscriberRepository) getRepository();
+		                  if(lowercaseFirstLetterRepository.isSTORE_LOCALLY()){
+		                        Context context = lowercaseFirstLetterRepository.getContext();
+		                        if(savePostRepository.getDb() == null ){
+		                            savePostRepository.addStorage(context);
+		                        }
 
+		                        if(context != null && savePostRepository.getDb() != null){
+		                            savePostRepository.addStorage(context);
+		                            SavePost savePost = (SavePost) savePostRepository.getDb().get__db(savePostId);
+		                            return savePost;
+		                        }else{
+		                            return null;
+		                        }
+		                  }else{
+		                    return null;
+		                  }
+			  }catch(Exception e){
+				//Ignore exception..
+				return null;
+			  }
+
+                        }else{
+                          return null;
+                      }
+                    }
                 
+
                 
                 
 

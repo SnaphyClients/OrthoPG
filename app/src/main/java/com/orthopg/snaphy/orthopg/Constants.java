@@ -21,8 +21,8 @@ public class Constants {
     private static String CLIENT_SECRET_KEY = "ORFoabt0p6XEOFLmKBsYQGZh";
 
 
-    //public static String baseUrl = "http://192.168.1.101:3000";
-    public static String baseUrl = "http://admin.orthopg.com";
+    public static String baseUrl = "http://192.168.0.7:3000";
+    //public static String baseUrl = "http://admin.orthopg.com";
     //public static String baseUrl = "http://ec2-54-209-33-191.compute-1.amazonaws.com:3000";
     public static String apiUrl = baseUrl+"/api";
     public static final String AMAZON_CLOUD_FRONT_URL = "http://d3j3ux0h7dntsg.cloudfront.net";
@@ -35,6 +35,8 @@ public class Constants {
     public static String SENDER_ID = "1045211377196";
     public static String LOOPBACK_APP_ID = "orthopg-snaphy-push-application";
 
+    //SharedPreference
+    public static String BOOK_SHARED_PREFERENCE = "bookSharedPreference";
 
     /*DATA LIST IDs*/
     public static String LIST_CASE_FRAGMENT = "ListCaseFragment";

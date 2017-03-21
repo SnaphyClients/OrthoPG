@@ -117,8 +117,6 @@ public class BooksListAdapter extends RecyclerView.Adapter<BooksListAdapter.View
                             if(booksModel.getTitle() != null) {
                                 request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, booksModel.getTitle()+ ".pdf");
                             }
-
-
                             // get download service and enqueue file
                             if(isStoragePermissionGranted()) {
                                 DownloadManager manager = (DownloadManager) mainActivity.getSystemService(Context.DOWNLOAD_SERVICE);

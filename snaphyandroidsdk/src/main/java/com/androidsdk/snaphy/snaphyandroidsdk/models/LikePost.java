@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import java.util.List;
 import com.strongloop.android.loopback.RestAdapter;
 import com.strongloop.android.remoting.adapters.Adapter;
+import android.content.Context;
 
 /*
 Replacing with custom Snaphy callback methods
@@ -98,11 +99,6 @@ public class LikePost extends Model {
 
             
             
-            
-            
-
-            
-
         
     
         
@@ -110,11 +106,6 @@ public class LikePost extends Model {
 
             
             
-            
-            
-
-            
-
         
     
         
@@ -122,11 +113,6 @@ public class LikePost extends Model {
 
             
             
-            
-            
-
-            
-
         
     
         
@@ -134,27 +120,111 @@ public class LikePost extends Model {
 
             
             
-            
-            
-
-            
-
         
     
 
 
+    //------------------------------------Database Method---------------------------------------------------
+
+
+    public void save(final com.strongloop.android.loopback.callbacks.VoidCallback callback){
+      //Save to database..
+      save__db();
+      //Also save to database..
+      super.save(callback);
+    }
+
+    public void destroy(final com.strongloop.android.loopback.callbacks.VoidCallback callback){
+      LikePostRepository lowercaseFirstLetterRepository = (LikePostRepository) getRepository();
+      if(lowercaseFirstLetterRepository.isSTORE_LOCALLY()){
+          //Delete from database..
+          String id = getId().toString();
+          if(id != null && lowercaseFirstLetterRepository.getDb() != null){
+             lowercaseFirstLetterRepository.getDb().delete__db(id);
+          }
+      }
+      //Also save to database..
+      super.destroy(callback);
+    }
+
+
+
+    public void save__db(String id){
+      LikePostRepository lowercaseFirstLetterRepository = (LikePostRepository) getRepository();
+
+      if(lowercaseFirstLetterRepository.isSTORE_LOCALLY()){
+        if(id != null && lowercaseFirstLetterRepository.getDb() != null){
+          lowercaseFirstLetterRepository.getDb().upsert__db(id, this);
+        }
+      }
+    }
+
+
+    public void delete__db(){
+      LikePostRepository lowercaseFirstLetterRepository = (LikePostRepository) getRepository();
+      if(lowercaseFirstLetterRepository.isSTORE_LOCALLY()){
+
+        if(getId() != null && lowercaseFirstLetterRepository.getDb() != null){
+            String id = getId().toString();
+          lowercaseFirstLetterRepository.getDb().delete__db(id);
+        }
+      }
+    }
+
+
+    public void save__db(){
+      if(getId() == null){
+        return;
+      }
+      String id = getId().toString();
+      save__db(id);
+    }
+
+
+
+//-----------------------------------END Database Methods------------------------------------------------
+
+
     
+
 
 
 
     //Now adding relations between related models
     
         
+        
                 
                     //Define belongsTo relation method here..
                     private transient Post  post ;
+                    private String postId;
+
+                    public String getPostId(){
+                         return postId;
+                    }
+
+                    public void setPostId(Object postId){
+                        if(postId != null){
+                          this.postId = postId.toString();
+                        }
+                    }
 
                     public Post getPost() {
+			try{
+				//Adding database method for fetching from relation if not present..
+		                if(post == null){
+		                  LikePostRepository likePostRepository = (LikePostRepository) getRepository();
+
+		                  RestAdapter restAdapter = likePostRepository.getRestAdapter();
+		                  if(restAdapter != null){
+		                    //Fetch locally from db
+		                    post = getPost__db(restAdapter);
+		                  }
+		                }
+			}catch(Exception e){
+				//Ignore
+			}
+
                         return post;
                     }
 
@@ -184,8 +254,39 @@ public class LikePost extends Model {
                     }
 
 
+                    //Fetch related data from local database if present a postId identifier as property for belongsTo
+                    public Post getPost__db(RestAdapter restAdapter){
+                      if(postId != null){
+                        PostRepository postRepository = restAdapter.createRepository(PostRepository.class);
+			  try{
+				LikePostRepository lowercaseFirstLetterRepository = (LikePostRepository) getRepository();
+		                  if(lowercaseFirstLetterRepository.isSTORE_LOCALLY()){
+		                        Context context = lowercaseFirstLetterRepository.getContext();
+		                        if(postRepository.getDb() == null ){
+		                            postRepository.addStorage(context);
+		                        }
 
+		                        if(context != null && postRepository.getDb() != null){
+		                            postRepository.addStorage(context);
+		                            Post post = (Post) postRepository.getDb().get__db(postId);
+		                            return post;
+		                        }else{
+		                            return null;
+		                        }
+		                  }else{
+		                    return null;
+		                  }
+			  }catch(Exception e){
+				//Ignore exception..
+				return null;
+			  }
+
+                        }else{
+                          return null;
+                      }
+                    }
                 
+
                 
                 
 
@@ -308,11 +409,38 @@ public class LikePost extends Model {
           
     
         
+        
                 
                     //Define belongsTo relation method here..
                     private transient Customer  customer ;
+                    private String customerId;
+
+                    public String getCustomerId(){
+                         return customerId;
+                    }
+
+                    public void setCustomerId(Object customerId){
+                        if(customerId != null){
+                          this.customerId = customerId.toString();
+                        }
+                    }
 
                     public Customer getCustomer() {
+			try{
+				//Adding database method for fetching from relation if not present..
+		                if(customer == null){
+		                  LikePostRepository likePostRepository = (LikePostRepository) getRepository();
+
+		                  RestAdapter restAdapter = likePostRepository.getRestAdapter();
+		                  if(restAdapter != null){
+		                    //Fetch locally from db
+		                    customer = getCustomer__db(restAdapter);
+		                  }
+		                }
+			}catch(Exception e){
+				//Ignore
+			}
+
                         return customer;
                     }
 
@@ -342,8 +470,39 @@ public class LikePost extends Model {
                     }
 
 
+                    //Fetch related data from local database if present a customerId identifier as property for belongsTo
+                    public Customer getCustomer__db(RestAdapter restAdapter){
+                      if(customerId != null){
+                        CustomerRepository customerRepository = restAdapter.createRepository(CustomerRepository.class);
+			  try{
+				LikePostRepository lowercaseFirstLetterRepository = (LikePostRepository) getRepository();
+		                  if(lowercaseFirstLetterRepository.isSTORE_LOCALLY()){
+		                        Context context = lowercaseFirstLetterRepository.getContext();
+		                        if(customerRepository.getDb() == null ){
+		                            customerRepository.addStorage(context);
+		                        }
 
+		                        if(context != null && customerRepository.getDb() != null){
+		                            customerRepository.addStorage(context);
+		                            Customer customer = (Customer) customerRepository.getDb().get__db(customerId);
+		                            return customer;
+		                        }else{
+		                            return null;
+		                        }
+		                  }else{
+		                    return null;
+		                  }
+			  }catch(Exception e){
+				//Ignore exception..
+				return null;
+			  }
+
+                        }else{
+                          return null;
+                      }
+                    }
                 
+
                 
                 
 
@@ -466,11 +625,38 @@ public class LikePost extends Model {
           
     
         
+        
                 
                     //Define belongsTo relation method here..
                     private transient PostSubscriber  postSubscribers ;
+                    private String postSubscriberId;
+
+                    public String getPostSubscriberId(){
+                         return postSubscriberId;
+                    }
+
+                    public void setPostSubscriberId(Object postSubscriberId){
+                        if(postSubscriberId != null){
+                          this.postSubscriberId = postSubscriberId.toString();
+                        }
+                    }
 
                     public PostSubscriber getPostSubscribers() {
+			try{
+				//Adding database method for fetching from relation if not present..
+		                if(postSubscribers == null){
+		                  LikePostRepository likePostRepository = (LikePostRepository) getRepository();
+
+		                  RestAdapter restAdapter = likePostRepository.getRestAdapter();
+		                  if(restAdapter != null){
+		                    //Fetch locally from db
+		                    postSubscribers = getPostSubscribers__db(restAdapter);
+		                  }
+		                }
+			}catch(Exception e){
+				//Ignore
+			}
+
                         return postSubscribers;
                     }
 
@@ -500,8 +686,39 @@ public class LikePost extends Model {
                     }
 
 
+                    //Fetch related data from local database if present a postSubscriberId identifier as property for belongsTo
+                    public PostSubscriber getPostSubscribers__db(RestAdapter restAdapter){
+                      if(postSubscriberId != null){
+                        PostSubscriberRepository postSubscribersRepository = restAdapter.createRepository(PostSubscriberRepository.class);
+			  try{
+				LikePostRepository lowercaseFirstLetterRepository = (LikePostRepository) getRepository();
+		                  if(lowercaseFirstLetterRepository.isSTORE_LOCALLY()){
+		                        Context context = lowercaseFirstLetterRepository.getContext();
+		                        if(postSubscribersRepository.getDb() == null ){
+		                            postSubscribersRepository.addStorage(context);
+		                        }
 
+		                        if(context != null && postSubscribersRepository.getDb() != null){
+		                            postSubscribersRepository.addStorage(context);
+		                            PostSubscriber postSubscribers = (PostSubscriber) postSubscribersRepository.getDb().get__db(postSubscriberId);
+		                            return postSubscribers;
+		                        }else{
+		                            return null;
+		                        }
+		                  }else{
+		                    return null;
+		                  }
+			  }catch(Exception e){
+				//Ignore exception..
+				return null;
+			  }
+
+                        }else{
+                          return null;
+                      }
+                    }
                 
+
                 
                 
 

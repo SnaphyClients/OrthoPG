@@ -23,7 +23,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
-
+import java.lang.reflect.Method;
+import android.util.Log;
+import android.content.ContentValues;
+import android.content.pm.PackageManager;
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
 
 
 //Replaced by Custom ModelRepository method
@@ -34,8 +39,11 @@ import java.util.HashMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+
 //Import its models too.
 import com.androidsdk.snaphy.snaphyandroidsdk.models.PostDetail;
+import android.content.Context;
+import com.androidsdk.snaphy.snaphyandroidsdk.db.PostDetailDb;
 
 //Now import model of related models..
 
@@ -60,8 +68,18 @@ import com.androidsdk.snaphy.snaphyandroidsdk.models.PostDetail;
 public class PostDetailRepository extends ModelRepository<PostDetail> {
 
 
+    private Context context;
+    private String METADATA_DATABASE_NAME_KEY = "snaphy.database.name";
+    private static String DATABASE_NAME;
+
     public PostDetailRepository(){
         super("PostDetail", null, PostDetail.class);
+
+    }
+
+
+    public Context getContext(){
+        return context;
     }
 
 
@@ -71,174 +89,255 @@ public class PostDetailRepository extends ModelRepository<PostDetail> {
 
 
 
-    public RestContract createContract() {
-        RestContract contract = super.createContract();
-        
-            
 
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:postDetailId/post", "GET"), "PostDetail.prototype.__get__post");
-                
 
-            
-        
-            
+    public PostDetailDb getDb() {
+      return postDetailDb;
+    }
 
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:postDetailId/comment", "GET"), "PostDetail.prototype.__get__comment");
-                
+    public void setPostDetailDb(PostDetailDb postDetailDb) {
+      this.postDetailDb = postDetailDb;
+    }
 
-            
-        
-            
+    private PostDetailDb postDetailDb;
 
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "POST"), "PostDetail.create");
-                
 
-            
-        
-            
 
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "POST"), "PostDetail.create");
-                
+    //Flag to check either to store data locally or not..
+    private boolean STORE_LOCALLY = true;
 
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "PUT"), "PostDetail.upsert");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id/exists", "GET"), "PostDetail.exists");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id", "GET"), "PostDetail.findById");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "GET"), "PostDetail.find");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/findOne", "GET"), "PostDetail.findOne");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/update", "POST"), "PostDetail.updateAll");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id", "DELETE"), "PostDetail.deleteById");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/count", "GET"), "PostDetail.count");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:postDetailId", "PUT"), "PostDetail.prototype.updateAttributes");
-                
-
-            
-        
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/getSchema", "POST"), "PostDetail.getSchema");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/getAbsoluteSchema", "POST"), "PostDetail.getAbsoluteSchema");
-                
-
-            
-        
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/getPostDetail", "POST"), "PostDetail.getPostDetail");
-                
-
-            
-        
-            
-
-                
-                    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/addRemoveAcceptedAnswer", "POST"), "PostDetail.addRemoveAcceptedAnswer");
-                
-
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-        return contract;
+    public boolean isSTORE_LOCALLY() {
+      return STORE_LOCALLY;
     }
 
 
-    //override getNameForRestUrlMethod
+    public void  persistData(boolean persist){
+      STORE_LOCALLY = persist;
+    }
+
+
+
+    public void reset__db(){
+      if(isSTORE_LOCALLY()){
+          getDb().reset__db();
+      }
+    }
+
+
+
+    public void addStorage(Context context){
+         try{
+            ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            DATABASE_NAME = (String) ai.metaData.get(METADATA_DATABASE_NAME_KEY);
+         }
+         catch (Exception e){
+            Log.e("Snaphy", e.toString());
+         }
+         setPostDetailDb(new PostDetailDb(context, DATABASE_NAME, getRestAdapter()));
+         //allow data storage locally..
+         persistData(true);
+         this.context = context;
+    }
+
+
+    public RestContract createContract() {
+    RestContract contract = super.createContract();
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:postDetailId/post", "GET"), "PostDetail.prototype.__get__post");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:postDetailId/comment", "GET"), "PostDetail.prototype.__get__comment");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "POST"), "PostDetail.create");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "POST"), "PostDetail.create");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "PUT"), "PostDetail.upsert");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id/exists", "GET"), "PostDetail.exists");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id", "GET"), "PostDetail.findById");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/", "GET"), "PostDetail.find");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/findOne", "GET"), "PostDetail.findOne");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/update", "POST"), "PostDetail.updateAll");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:id", "DELETE"), "PostDetail.deleteById");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/count", "GET"), "PostDetail.count");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:postDetailId", "PUT"), "PostDetail.prototype.updateAttributes");
+    
+
+    
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/getSchema", "POST"), "PostDetail.getSchema");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/getAbsoluteSchema", "POST"), "PostDetail.getAbsoluteSchema");
+    
+
+    
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/getPostDetail", "POST"), "PostDetail.getPostDetail");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/addRemoveAcceptedAnswer", "POST"), "PostDetail.addRemoveAcceptedAnswer");
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    return contract;
+    }
+
+
+
+//override getNameForRestUrlMethod
     public String  getNameForRestUrl() {
         
             //call super method instead..
@@ -262,7 +361,7 @@ public class PostDetailRepository extends ModelRepository<PostDetail> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -293,10 +392,34 @@ public class PostDetailRepository extends ModelRepository<PostDetail> {
                             
                                 if(response != null){
                                     PostRepository postRepo = getRestAdapter().createRepository(PostRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = postRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(postRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //postRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     Post post = postRepo.createObject(result);
-                                    callback.onSuccess(post);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = post.getClass().getMethod("save__db");
+                                                    method.invoke(post);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(post);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -323,7 +446,7 @@ public class PostDetailRepository extends ModelRepository<PostDetail> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -354,10 +477,34 @@ public class PostDetailRepository extends ModelRepository<PostDetail> {
                             
                                 if(response != null){
                                     CommentRepository commentRepo = getRestAdapter().createRepository(CommentRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = commentRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(commentRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //commentRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     Comment comment = commentRepo.createObject(result);
-                                    callback.onSuccess(comment);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = comment.getClass().getMethod("save__db");
+                                                    method.invoke(comment);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(comment);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -384,7 +531,7 @@ public class PostDetailRepository extends ModelRepository<PostDetail> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -413,10 +560,34 @@ public class PostDetailRepository extends ModelRepository<PostDetail> {
                             
                                 if(response != null){
                                     PostDetailRepository postDetailRepo = getRestAdapter().createRepository(PostDetailRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = postDetailRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(postDetailRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //postDetailRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     PostDetail postDetail = postDetailRepo.createObject(result);
-                                    callback.onSuccess(postDetail);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = postDetail.getClass().getMethod("save__db");
+                                                    method.invoke(postDetail);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(postDetail);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -444,7 +615,7 @@ public class PostDetailRepository extends ModelRepository<PostDetail> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -473,10 +644,34 @@ public class PostDetailRepository extends ModelRepository<PostDetail> {
                             
                                 if(response != null){
                                     PostDetailRepository postDetailRepo = getRestAdapter().createRepository(PostDetailRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = postDetailRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(postDetailRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //postDetailRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     PostDetail postDetail = postDetailRepo.createObject(result);
-                                    callback.onSuccess(postDetail);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = postDetail.getClass().getMethod("save__db");
+                                                    method.invoke(postDetail);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(postDetail);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -503,7 +698,7 @@ public class PostDetailRepository extends ModelRepository<PostDetail> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -554,7 +749,7 @@ public class PostDetailRepository extends ModelRepository<PostDetail> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -585,10 +780,34 @@ public class PostDetailRepository extends ModelRepository<PostDetail> {
                             
                                 if(response != null){
                                     PostDetailRepository postDetailRepo = getRestAdapter().createRepository(PostDetailRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = postDetailRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(postDetailRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //postDetailRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     PostDetail postDetail = postDetailRepo.createObject(result);
-                                    callback.onSuccess(postDetail);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = postDetail.getClass().getMethod("save__db");
+                                                    method.invoke(postDetail);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(postDetail);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -615,7 +834,7 @@ public class PostDetailRepository extends ModelRepository<PostDetail> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -646,9 +865,31 @@ public class PostDetailRepository extends ModelRepository<PostDetail> {
                                     DataList<Map<String, Object>> result = (DataList) Util.fromJson(response);
                                     DataList<PostDetail> postDetailList = new DataList<PostDetail>();
                                     PostDetailRepository postDetailRepo = getRestAdapter().createRepository(PostDetailRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = postDetailRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(postDetailRepo, context);
 
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+                                    }
                                     for (Map<String, Object> obj : result) {
+
                                         PostDetail postDetail = postDetailRepo.createObject(obj);
+
+                                        //Add to database if persistent storage required..
+                                        if(isSTORE_LOCALLY()){
+                                            //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                            try {
+                                                      Method method = postDetail.getClass().getMethod("save__db");
+                                                      method.invoke(postDetail);
+
+                                            } catch (Exception e) {
+                                                Log.e("Database Error", e.toString());
+                                            }
+                                        }
+
                                         postDetailList.add(postDetail);
                                     }
                                     callback.onSuccess(postDetailList);
@@ -676,7 +917,7 @@ public class PostDetailRepository extends ModelRepository<PostDetail> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -705,10 +946,34 @@ public class PostDetailRepository extends ModelRepository<PostDetail> {
                             
                                 if(response != null){
                                     PostDetailRepository postDetailRepo = getRestAdapter().createRepository(PostDetailRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = postDetailRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(postDetailRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //postDetailRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     PostDetail postDetail = postDetailRepo.createObject(result);
-                                    callback.onSuccess(postDetail);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = postDetail.getClass().getMethod("save__db");
+                                                    method.invoke(postDetail);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(postDetail);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -735,7 +1000,7 @@ public class PostDetailRepository extends ModelRepository<PostDetail> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -788,7 +1053,7 @@ public class PostDetailRepository extends ModelRepository<PostDetail> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -839,7 +1104,7 @@ public class PostDetailRepository extends ModelRepository<PostDetail> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -890,7 +1155,7 @@ public class PostDetailRepository extends ModelRepository<PostDetail> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -921,10 +1186,34 @@ public class PostDetailRepository extends ModelRepository<PostDetail> {
                             
                                 if(response != null){
                                     PostDetailRepository postDetailRepo = getRestAdapter().createRepository(PostDetailRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = postDetailRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(postDetailRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //postDetailRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     PostDetail postDetail = postDetailRepo.createObject(result);
-                                    callback.onSuccess(postDetail);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = postDetail.getClass().getMethod("save__db");
+                                                    method.invoke(postDetail);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(postDetail);
                                 }else{
                                     callback.onSuccess(null);
                                 }
@@ -953,7 +1242,7 @@ public class PostDetailRepository extends ModelRepository<PostDetail> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -1002,7 +1291,7 @@ public class PostDetailRepository extends ModelRepository<PostDetail> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -1053,7 +1342,7 @@ public class PostDetailRepository extends ModelRepository<PostDetail> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -1088,9 +1377,31 @@ public class PostDetailRepository extends ModelRepository<PostDetail> {
                                     DataList<Map<String, Object>> result = (DataList) Util.fromJson(response);
                                     DataList<PostDetail> postDetailList = new DataList<PostDetail>();
                                     PostDetailRepository postDetailRepo = getRestAdapter().createRepository(PostDetailRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = postDetailRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(postDetailRepo, context);
 
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+                                    }
                                     for (Map<String, Object> obj : result) {
+
                                         PostDetail postDetail = postDetailRepo.createObject(obj);
+
+                                        //Add to database if persistent storage required..
+                                        if(isSTORE_LOCALLY()){
+                                            //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                            try {
+                                                      Method method = postDetail.getClass().getMethod("save__db");
+                                                      method.invoke(postDetail);
+
+                                            } catch (Exception e) {
+                                                Log.e("Database Error", e.toString());
+                                            }
+                                        }
+
                                         postDetailList.add(postDetail);
                                     }
                                     callback.onSuccess(postDetailList);
@@ -1118,7 +1429,7 @@ public class PostDetailRepository extends ModelRepository<PostDetail> {
                 Call the onBefore event
                 */
                 callback.onBefore();
-                
+
 
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
@@ -1151,10 +1462,34 @@ public class PostDetailRepository extends ModelRepository<PostDetail> {
                             
                                 if(response != null){
                                     PostRepository postRepo = getRestAdapter().createRepository(PostRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = postRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(postRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //postRepo.addStorage(context);
+                                    }
                                     Map<String, Object> result = Util.fromJson(response);
                                     Post post = postRepo.createObject(result);
-                                    callback.onSuccess(post);
 
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = post.getClass().getMethod("save__db");
+                                                    method.invoke(post);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(post);
                                 }else{
                                     callback.onSuccess(null);
                                 }
