@@ -56,6 +56,8 @@ import com.orthopg.snaphy.orthopg.Fragment.NewCase.CaseUploadImageFragment;
 import com.orthopg.snaphy.orthopg.Fragment.NewsFragment.NewsFragment;
 import com.orthopg.snaphy.orthopg.Fragment.ProfileFragment.OtherProfileFragment;
 import com.orthopg.snaphy.orthopg.Fragment.ProfileFragment.ProfileFragment;
+import com.orthopg.snaphy.orthopg.Fragment.ProfileFragment.QualificationFragment;
+import com.orthopg.snaphy.orthopg.Fragment.ProfileFragment.SpecialityFragment;
 import com.orthopg.snaphy.orthopg.Interface.OnFragmentChange;
 import com.orthopg.snaphy.orthopg.PushNotification.RegistrationIntentService;
 import com.sdsmdg.tastytoast.TastyToast;
@@ -92,7 +94,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         HelpFragment.OnFragmentInteractionListener, CaseHelpFragment.OnFragmentInteractionListener,
         BooksHelpFragment.OnFragmentInteractionListener, NewsHelpFragment.OnFragmentInteractionListener,
         ViewAllBooksFragment.OnFragmentInteractionListener, BookDescriptionFragment.OnFragmentInteractionListener,
-        OtherProfileFragment.OnFragmentInteractionListener {
+        OtherProfileFragment.OnFragmentInteractionListener, SpecialityFragment.OnFragmentInteractionListener,
+        QualificationFragment.OnFragmentInteractionListener {
 
     RestAdapter restAdapter;
     Context context;
@@ -369,7 +372,13 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
                 openOtherProfileFragment(fragmentTransaction);
                 break;
 
+            case R.layout.fragment_speciality:
+                openSpecialityFragment(fragmentTransaction);
+                break;
 
+            case R.layout.fragment_qualification:
+                openQualificationFragment(fragmentTransaction);
+                break;
         }
     }
 
@@ -552,6 +561,24 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             otherProfileFragment = OtherProfileFragment.newInstance();
         }
         fragmentTransaction.replace(R.id.main_container,otherProfileFragment, OtherProfileFragment.TAG).addToBackStack(OtherProfileFragment.TAG);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    private void openSpecialityFragment(FragmentTransaction fragmentTransaction){
+        SpecialityFragment specialityFragment = (SpecialityFragment)getSupportFragmentManager().findFragmentByTag(SpecialityFragment.TAG);
+        if(specialityFragment==null){
+            specialityFragment = SpecialityFragment.newInstance();
+        }
+        fragmentTransaction.replace(R.id.main_container, specialityFragment, SpecialityFragment.TAG).addToBackStack(SpecialityFragment.TAG);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    private void openQualificationFragment(FragmentTransaction fragmentTransaction){
+        QualificationFragment qualificationFragment = (QualificationFragment)getSupportFragmentManager().findFragmentByTag(QualificationFragment.TAG);
+        if(qualificationFragment == null){
+            qualificationFragment = QualificationFragment.newInstance();
+        }
+        fragmentTransaction.replace(R.id.main_container, qualificationFragment, QualificationFragment.TAG).addToBackStack(QualificationFragment.TAG);
         fragmentTransaction.commitAllowingStateLoss();
     }
 

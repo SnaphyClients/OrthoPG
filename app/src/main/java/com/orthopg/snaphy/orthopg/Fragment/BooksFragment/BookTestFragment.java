@@ -12,6 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
+import com.androidsdk.snaphy.snaphyandroidsdk.list.Listen;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.BookCategory;
+import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
+import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 
@@ -34,6 +39,9 @@ public class BookTestFragment extends android.support.v4.app.Fragment {
 
     private OnFragmentInteractionListener mListener;
     MainActivity mainActivity;
+    BooksPresenter booksPresenter;
+    LinearLayoutManager linearLayoutManager;
+    DataList<BookCategory> bookCategoryDataList = new DataList<>();
     List<BookModel> bookModelList = new ArrayList<>();
     List<BookListModel> bookListModelList2 = new ArrayList<>();
     List<BookListModel> bookListModelList3 = new ArrayList<>();
@@ -59,12 +67,13 @@ public class BookTestFragment extends android.support.v4.app.Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initializeBookListData();
+        loadPresenter();
+        /*initializeBookListData();
         initializeBookListData1();
         initializeBookListData2();
         initializeBookListData3();
         initializeBookListData4();
-        initializeBookData();
+        initializeBookData();*/
     }
 
     public void initializeBookListData(){
@@ -130,15 +139,54 @@ public class BookTestFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_books1, container, false);
         ButterKnife.bind(this,view);
+        linearLayoutManager = new LinearLayoutManager(mainActivity);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        subscribe();
         /*Typeface font = Typeface.createFromAsset(mainActivity.getAssets(), "fonts/OpenSans-Bold.ttf");
         savedBooks.setTypeface(font);
         recyclerView_saved_books.setLayoutManager(new LinearLayoutManager(mainActivity,LinearLayoutManager.HORIZONTAL,false));*/
         //bookListTestAdapter = new BookListTestAdapter(mainActivity,bookListModelList);
         //recyclerView_saved_books.setAdapter(bookListTestAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity));
+       /* recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity));
         bookTestAdapter = new BookTestAdapter(mainActivity,bookModelList);
-        recyclerView.setAdapter(bookTestAdapter);
+        recyclerView.setAdapter(bookTestAdapter);*/
         return view;
+    }
+
+    public void loadPresenter(){
+
+        booksPresenter = new BooksPresenter(mainActivity.snaphyHelper.getLoopBackAdapter(), mainActivity.progressBar,mainActivity);
+        booksPresenter.fetchBooks(true);
+    }
+
+    public void subscribe(){
+
+        bookCategoryDataList = Presenter.getInstance().getList(BookCategory.class, Constants.BOOK_LIST_BOOKS_FRAGMENT);
+        bookCategoryDataList.subscribe(this, new Listen<BookCategory>() {
+            @Override
+            public void onInit(DataList<BookCategory> dataList) {
+                super.onInit(dataList);
+                bookTestAdapter = new BookTestAdapter(mainActivity, bookCategoryDataList);
+                recyclerView.setAdapter(bookListTestAdapter);
+            }
+
+            @Override
+            public void onChange(DataList<BookCategory> dataList) {
+                super.onChange(dataList);
+                bookListTestAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onClear() {
+                super.onClear();
+                bookListTestAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onRemove(BookCategory element, int index, DataList<BookCategory> dataList) {
+                super.onRemove(element, index, dataList);
+            }
+        });
     }
 
    /* @OnClick(R.id.fragment_books_textview2) void onViewAll(){

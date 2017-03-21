@@ -4,14 +4,21 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.DataListCallback;
+import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Book;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.BookCategory;
+import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
@@ -25,13 +32,20 @@ public class BookTestAdapter extends RecyclerView.Adapter<BookTestAdapter.ViewHo
 
     MainActivity mainActivity;
     List<BookModel> bookModelList;
+    DataList<BookCategory> bookCategoryDataList;
     BookListTestAdapter bookListTestAdapter;
 
-    public BookTestAdapter(MainActivity mainActivity, List<BookModel> bookModelList){
+    /*public BookTestAdapter(MainActivity mainActivity, List<BookModel> bookModelList){
 
         this.mainActivity = mainActivity;
         this.bookModelList = bookModelList;
 
+    }*/
+
+    public BookTestAdapter(MainActivity mainActivity, DataList<BookCategory> bookCategoryDataList){
+
+        this.mainActivity = mainActivity;
+        this.bookCategoryDataList = bookCategoryDataList;
     }
 
     @Override
@@ -46,16 +60,86 @@ public class BookTestAdapter extends RecyclerView.Adapter<BookTestAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-       BookModel bookModel = bookModelList.get(position);
-
+       //BookModel bookModel = bookModelList.get(position);
+         BookCategory bookCategory_ = bookCategoryDataList.get(position);
         TextView bookCategory = holder.bookCategory;
-        RecyclerView recyclerView = holder.recyclerView;
+        final RecyclerView recyclerView = holder.recyclerView;
         TextView viewAll = holder.viewAll;
 
         Typeface font = Typeface.createFromAsset(mainActivity.getAssets(), "fonts/OpenSans-Bold.ttf");
         bookCategory.setTypeface(font);
 
-        if(bookModel!=null){
+        if(bookCategory_!=null){
+            if(bookCategory_.getName()!=null){
+                if(!bookCategory_.getName().isEmpty()){
+                    bookCategory.setText(bookCategory_.getName().toString());
+                }
+            }
+
+            if(bookCategory_.getBooks()!=null){
+                if(bookCategory_.getBooks().size()==0){
+                    HashMap<String, Object> filter = new HashMap<>();
+                    bookCategory_.get__books(filter, mainActivity.snaphyHelper.getLoopBackAdapter(), new DataListCallback<Book>() {
+                        @Override
+                        public void onBefore() {
+                            super.onBefore();
+                        }
+
+                        @Override
+                        public void onSuccess(DataList<Book> objects) {
+                            super.onSuccess(objects);
+                            if(objects!=null){
+
+                                booksData(recyclerView, objects);
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable t) {
+                            super.onError(t);
+                            Log.e(Constants.TAG,t.toString());
+                        }
+
+                        @Override
+                        public void onFinally() {
+                            super.onFinally();
+                        }
+                    });
+                }
+                booksData(recyclerView, bookCategory_.getBooks());
+
+            } else{
+                HashMap<String, Object> filter = new HashMap<>();
+                bookCategory_.get__books(filter, mainActivity.snaphyHelper.getLoopBackAdapter(), new DataListCallback<Book>() {
+                    @Override
+                    public void onBefore() {
+                        super.onBefore();
+                    }
+
+                    @Override
+                    public void onSuccess(DataList<Book> objects) {
+                        super.onSuccess(objects);
+                        if(objects!=null){
+
+                            booksData(recyclerView, objects);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                        Log.e(Constants.TAG,t.toString());
+                    }
+
+                    @Override
+                    public void onFinally() {
+                        super.onFinally();
+                    }
+                });
+            }
+        }
+
+      /*  if(bookModel!=null){
 
             if(bookModel.getBookType().equals("Saved Books")){
 
@@ -88,13 +172,21 @@ public class BookTestAdapter extends RecyclerView.Adapter<BookTestAdapter.ViewHo
                 }
             }
         }
-
+*/
         viewAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mainActivity.replaceFragment(R.layout.fragment_view_all_books,null);
             }
         });
+    }
+
+
+    public void booksData(RecyclerView recyclerView, DataList<Book> objects){
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false));
+        bookListTestAdapter = new BookListTestAdapter(mainActivity, objects);
+        recyclerView.setAdapter(bookListTestAdapter);
     }
 
     @Override

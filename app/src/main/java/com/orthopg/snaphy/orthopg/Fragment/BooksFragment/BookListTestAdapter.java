@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Book;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 
@@ -26,11 +28,18 @@ public class BookListTestAdapter extends RecyclerView.Adapter<BookListTestAdapte
 
     MainActivity mainActivity;
     List<BookListModel> bookListModelList;
+    DataList<Book> bookDataList;
 
-    public BookListTestAdapter(MainActivity mainActivity, List<BookListModel> bookListModelList){
+  /*  public BookListTestAdapter(MainActivity mainActivity, List<BookListModel> bookListModelList){
 
         this.mainActivity = mainActivity;
         this.bookListModelList = bookListModelList;
+    }*/
+
+    public BookListTestAdapter(MainActivity mainActivity, DataList<Book> bookDataList){
+
+        this.mainActivity = mainActivity;
+        this.bookDataList = bookDataList;
     }
 
     @Override
@@ -46,14 +55,26 @@ public class BookListTestAdapter extends RecyclerView.Adapter<BookListTestAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        BookListModel bookListModel = bookListModelList.get(position);
+        //BookListModel bookListModel = bookListModelList.get(position);
+        Book book = bookDataList.get(position);
 
         TextView bookName = holder.bookName;
         ImageView bookCover = holder.bookCover;
         CardView cardView = holder.cardView;
 
+        if(book!=null){
+            if(book.getBackCover()!=null){
 
-        if (bookListModel != null) {
+            }
+
+            if(book.getTitle()!=null){
+                if(!book.getTitle().isEmpty()){
+                    bookName.setText(book.getTitle().toString());
+                }
+            }
+        }
+
+      /*  if (bookListModel != null) {
             if(bookListModel.getName()!=null){
                 if(!bookListModel.getName().isEmpty()){
                     bookName.setText(bookListModel.getName().toString());
@@ -63,7 +84,7 @@ public class BookListTestAdapter extends RecyclerView.Adapter<BookListTestAdapte
             if(bookListModel.getDrawable()!=null){
                 bookCover.setImageDrawable(bookListModel.getDrawable());
             }
-        }
+        }*/
 
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override

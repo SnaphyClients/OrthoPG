@@ -118,7 +118,7 @@
 
 
                     <TextView
-                        android:id="@+id/fragment_profile_textview3"
+                        android:id="@+id/fragment_other_profile_textview12"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
@@ -431,63 +431,7 @@
 
               </android.support.v7.widget.CardView>
 
-              <android.support.v7.widget.CardView
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_marginTop="10dp"
-                  android:layout_marginLeft="10dp"
-                  android:layout_marginRight="10dp"
-                  android:layout_marginBottom="10dp"
-                  android:id="@+id/fragment_other_profile_cardview5"
-                  android:layout_below="@+id/fragment_other_profile_cardview4">
 
-                 <RelativeLayout
-                     android:layout_width="match_parent"
-                     android:layout_height="wrap_content">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/fragment_other_profile_textview12"
-                        android:text="Address"
-                        android:textStyle="bold"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="5dp"
-                        android:textColor="@color/buttonColor"
-                        />
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="10dp"
-                        android:id="@+id/fragment_other_profile_relative_layout7"
-                        android:layout_below="@+id/fragment_other_profile_textview12">
-
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="35dp"
-                            android:id="@+id/fragment_other_profile_textview13"
-                            android:layout_marginTop="5dp"
-                            />
-
-
-                        <ImageButton
-                            android:id="@+id/fragment_profile_imagebutton6"
-                            android:layout_width="wrap_content"
-                            android:layout_height="25dp"
-                            android:background="@android:color/transparent"
-                            android:layout_gravity="right"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginBottom="5dp"
-                            android:src="@mipmap/edit"/>
-
-                    </RelativeLayout>
-
-                 </RelativeLayout>
-
-              </android.support.v7.widget.CardView>
             </RelativeLayout>
 
         </ScrollView>

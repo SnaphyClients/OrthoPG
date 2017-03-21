@@ -44,6 +44,8 @@ public class Constants {
     public static String BOOK_LIST_BOOKS_FRAGMENT = "BookListBooksFragment";
     public static String NEWS_LIST_NEWS_FRAGMENT = "NewsListNewsFragment";
     public static String EXCEPTED_NEW_ANSWER_LIST = "ExceptedAnswerNewAnswerList";
+    public static String SPECIALITY_LIST = "SpecialitiesListSpecialityFragment";
+    public static String QUALIFICATION_LIST = "QualificationsListQualificationFragment";
     /*END OF DATA LIST IDs*/
 
     /*MOdel IDs*/
