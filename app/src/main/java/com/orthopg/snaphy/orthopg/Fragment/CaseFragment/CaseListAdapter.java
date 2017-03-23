@@ -353,9 +353,9 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
             myAnswerContainer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(post != null){
+                    if(data.post != null){
                         //Prepare the data..
-                        Presenter.getInstance().addModel(Constants.EDIT_IN_PROCESS_COMMENT_POST_MODEL, post);
+                        Presenter.getInstance().addModel(Constants.EDIT_IN_PROCESS_COMMENT_POST_MODEL, data.post);
                     }
                     Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
                     if(customer != null) {
@@ -365,7 +365,8 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                                 mainActivity.replaceFragment(R.id.layout_case_list_linear_layout_my_answer, null);
                             } else {
                                 if(MCINumber.isEmpty()) {
-                                    mainActivity.replaceFragment(R.layout.fragment_mciverification, null);
+                                    /*mainActivity.replaceFragment(R.layout.fragment_mciverification, null);*/
+                                    TastyToast.makeText(mainActivity.getApplicationContext(), "Update your MCI Number first", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
                                 } else {
                                     TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
 

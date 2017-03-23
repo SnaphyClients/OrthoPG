@@ -68,7 +68,7 @@ public class BookTestAdapter extends RecyclerView.Adapter<BookTestAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
        //BookModel bookModel = bookModelList.get(position);
-        BookModel bookModel = bookModelDataList.get(position);
+        //BookModel bookModel = bookModelDataList.get(position);
          final BookCategory bookCategory_ = bookCategoryDataList.get(position);
         final TextView bookCategory = holder.bookCategory;
         final RecyclerView recyclerView = holder.recyclerView;
@@ -222,12 +222,13 @@ public class BookTestAdapter extends RecyclerView.Adapter<BookTestAdapter.ViewHo
                 });
             }
         }
-      /*  PaymentRepository paymentRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(PaymentRepository.class);
+        /*PaymentRepository paymentRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(PaymentRepository.class);
         paymentRepository.find(filter, new DataListCallback<Payment>() {
             @Override
             public void onSuccess(DataList<Payment> objects) {
                 super.onSuccess(objects);
                 Payment payment = objects.get(0);
+                payment.get
                 payment.get__customer(true, mainActivity.snaphyHelper.getLoopBackAdapter(), new ObjectCallback<Customer>() {
                     @Override
                     public void onSuccess(final Customer object) {

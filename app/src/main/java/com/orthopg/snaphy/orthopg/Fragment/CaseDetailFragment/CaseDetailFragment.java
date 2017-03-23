@@ -731,7 +731,8 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
                     mainActivity.replaceFragment(R.id.fragment_case_detail_button4, null);
                 } else {
                     if(MCINumber.isEmpty()) {
-                        mainActivity.replaceFragment(R.layout.fragment_mciverification, null);
+                        /*mainActivity.replaceFragment(R.layout.fragment_mciverification, null);*/
+                        TastyToast.makeText(mainActivity.getApplicationContext(), "Update your MCI Number first", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
                     } else {
                         TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
 

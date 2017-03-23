@@ -29,6 +29,9 @@ public class ViewAllBooksPresenter {
 
     public ViewAllBooksPresenter(RestAdapter restAdapter, MainActivity mainActivity){
 
+        this.restAdapter = restAdapter;
+        this.mainActivity = mainActivity;
+
         if(Presenter.getInstance().getList(Book.class, Constants.VIEW_ALL_BOOKS_LIST)==null){
             bookDataList = new DataList<>();
             Presenter.getInstance().addModel(Constants.VIEW_ALL_BOOKS_LIST, bookDataList);

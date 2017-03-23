@@ -191,6 +191,7 @@ public class PostAnswerFragment extends android.support.v4.app.Fragment {
                               post.getComments().add(0, object);
                           }
                           mainActivity.onBackPressed();
+                        /*  mainActivity.replaceFragment(R.layout.fragment_case_detail, null);*/
                       }
 
                       @Override
