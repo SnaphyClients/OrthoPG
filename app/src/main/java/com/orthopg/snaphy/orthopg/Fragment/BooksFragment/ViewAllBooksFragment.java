@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
+import com.androidsdk.snaphy.snaphyandroidsdk.list.Listen;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Book;
+import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
+import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 
@@ -41,6 +47,9 @@ public class ViewAllBooksFragment extends android.support.v4.app.Fragment {
     public final static String TAG = "ViewAllBooksFragment";
     List<BookListModel> bookListModelList = new ArrayList<>();
     ViewAllBooksAdapter viewAllBooksAdapter;
+    LinearLayoutManager linearLayoutManager;
+    ViewAllBooksPresenter viewAllBooksPresenter;
+    DataList<Book> bookDataList = new DataList<>();
     @Bind(R.id.fragment_view_all_books_recyclerview) RecyclerView recyclerView;
     @Bind(R.id.fragment_view_all_books_textview1) TextView categoryName;
 
@@ -56,6 +65,7 @@ public class ViewAllBooksFragment extends android.support.v4.app.Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loadPresenter();
         initializeBookList();
     }
 
@@ -83,10 +93,49 @@ public class ViewAllBooksFragment extends android.support.v4.app.Fragment {
         View view = inflater.inflate(R.layout.fragment_view_all_books, container, false);
         ButterKnife.bind(this,view);
         setTypeface();
-        recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity));
+        linearLayoutManager = new LinearLayoutManager(mainActivity);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        subscribe();
+        /*recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity));
         viewAllBooksAdapter = new ViewAllBooksAdapter(mainActivity,bookListModelList);
-        recyclerView.setAdapter(viewAllBooksAdapter);
+        recyclerView.setAdapter(viewAllBooksAdapter);*/
         return view;
+    }
+
+    public void loadPresenter(){
+
+        viewAllBooksPresenter = new ViewAllBooksPresenter(mainActivity.snaphyHelper.getLoopBackAdapter(), mainActivity);
+        viewAllBooksPresenter.fetchAllBooks(true);
+    }
+
+    public void subscribe(){
+
+        bookDataList = Presenter.getInstance().getList(Book.class, Constants.VIEW_ALL_BOOKS_LIST);
+        bookDataList.subscribe(this, new Listen<Book>() {
+            @Override
+            public void onInit(DataList<Book> dataList) {
+                super.onInit(dataList);
+                viewAllBooksAdapter = new ViewAllBooksAdapter(mainActivity, bookDataList);
+                recyclerView.setAdapter(viewAllBooksAdapter);
+            }
+
+            @Override
+            public void onChange(DataList<Book> dataList) {
+                super.onChange(dataList);
+                viewAllBooksAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onClear() {
+                super.onClear();
+                viewAllBooksAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onRemove(Book element, int index, DataList<Book> dataList) {
+                super.onRemove(element, index, dataList);
+            }
+        });
     }
 
 

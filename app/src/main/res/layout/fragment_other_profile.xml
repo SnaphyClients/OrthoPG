@@ -7,7 +7,7 @@
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:id="@+id/fragment_other_profile_container"
-    android:background="@color/white">
+    android:background="@color/background">
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
@@ -25,19 +25,8 @@
                 android:layout_height="wrap_content"
                 android:src="@mipmap/cross"
                 android:background="@android:color/transparent"
-                android:layout_alignParentLeft="true"
-                android:padding="0dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_toRightOf="@+id/fragment_other_profile_imageview1"
-                android:layout_marginLeft="20dp"
-                android:textColor="@color/black"
-                android:id="@+id/fragment_other_proile_textview1"
-                android:text="Profile"/>
-
+                android:layout_alignParentRight="true"
+                android:padding="15dp"/>
 
         </RelativeLayout>
 
@@ -51,7 +40,7 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
+        android:background="@color/white"
         android:id="@+id/fragment_other_profile_relative_layout1"
         android:layout_below="@+id/fragment_other_profile_toolbar"
         android:layout_alignParentLeft="true"
@@ -89,6 +78,7 @@
                     android:layout_height="wrap_content"
                     android:text="Email"
                     android:paddingLeft="10dp"
+                    android:textColor="@color/colorPrimaryDark"
                     android:layout_marginTop="0dp"
                     android:textSize="9dp"
                     android:textStyle="bold"/>
@@ -107,6 +97,7 @@
                     android:layout_height="wrap_content"
                     android:text="Registration Number"
                     android:paddingLeft="10dp"
+                    android:textColor="@color/colorPrimaryDark"
                     android:layout_marginTop="5dp"
                     android:textSize="9dp"
                     android:textStyle="bold"/>
@@ -183,8 +174,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="name"
+                android:textStyle="bold"
                 android:id="@+id/fragment_other_profile_textview5"
-                android:textColor="@color/buttonColor"
+                android:textColor="@color/colorPrimaryDark"
                 android:layout_marginLeft="35dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"/>
@@ -200,17 +192,19 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#EEE">
+                android:layout_height="match_parent"
+                android:background="@color/background"
+                android:layout_marginBottom="20dp"
+               >
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
                     android:id="@+id/fragment_other_profile_cardview1"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="15dp">
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="10dp">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -219,20 +213,19 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-
-
                             android:text="Speciality"
                             android:layout_marginLeft="15dp"
                             android:layout_marginTop="5dp"
                             android:textStyle="bold"
+                            android:textSize="12dp"
                             android:id="@+id/fragment_other_profile_textview3"
-                            android:textColor="@color/buttonColor"/>
+                            android:textColor="@color/colorPrimaryDark"/>
 
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="5dp"
                             android:id="@+id/fragment_other_profile_relative_layout3"
                             android:layout_below="@+id/fragment_other_profile_textview3">
 
@@ -241,8 +234,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/fragment_other_profile_textview4"
-                                android:layout_marginLeft="35dp"
-                                android:layout_marginTop="5dp"/>
+                                android:layout_marginLeft="15dp" />
 
                             <ImageButton
                                 android:id="@+id/fragment_profile_imagebutton2"
@@ -264,9 +256,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/fragment_other_profile_cardview2"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_below="@+id/fragment_other_profile_cardview1">
 
                     <RelativeLayout
@@ -280,16 +272,18 @@
 
                             android:text="Years Of Experience"
                             android:textStyle="bold"
+
                             android:layout_marginLeft="15dp"
                             android:layout_marginTop="5dp"
-                            android:textColor="@color/buttonColor"
+                            android:textSize="12dp"
+                            android:textColor="@color/colorPrimaryDark"
                             />
 
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="5dp"
                             android:id="@+id/fragment_other_profile_relative_layout4"
                             android:layout_below="@+id/fragment_other_profile_textview6">
 
@@ -297,9 +291,8 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="35dp"
+                                android:layout_marginLeft="15dp"
                                 android:id="@+id/fragment_other_profile_textview7"
-                                android:layout_marginTop="5dp"
                                 />
 
 
@@ -322,9 +315,9 @@
                   android:layout_height="wrap_content"
                   android:id="@+id/fragment_other_profile_cardview3"
                   android:layout_below="@+id/fragment_other_profile_cardview2"
-                  android:layout_marginLeft="10dp"
-                  android:layout_marginRight="10dp"
-                  android:layout_marginTop="10dp">
+                  android:layout_marginLeft="5dp"
+                  android:layout_marginRight="5dp"
+                  android:layout_marginTop="5dp">
 
                   <RelativeLayout
                       android:layout_width="match_parent"
@@ -337,14 +330,15 @@
                             android:textStyle="bold"
                             android:layout_marginLeft="15dp"
                             android:layout_marginTop="5dp"
-                            android:textColor="@color/buttonColor"
+                            android:textSize="12dp"
+                            android:textColor="@color/colorPrimaryDark"
                             />
 
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="5dp"
                             android:id="@+id/fragment_other_profile_relative_layout5"
                             android:layout_below="@+id/fragment_other_profile_textview8">
 
@@ -352,9 +346,8 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="35dp"
+                                android:layout_marginLeft="15dp"
                                 android:id="@+id/fragment_other_profile_textview9"
-                                android:layout_marginTop="5dp"
                                 />
 
 
@@ -376,9 +369,10 @@
               <android.support.v7.widget.CardView
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:layout_marginTop="10dp"
-                  android:layout_marginLeft="10dp"
-                  android:layout_marginRight="10dp"
+                  android:layout_marginTop="5dp"
+                  android:layout_marginLeft="5dp"
+                  android:layout_marginRight="5dp"
+                  android:layout_marginBottom="10dp"
                   android:id="@+id/fragment_other_profile_cardview4"
                   android:layout_below="@+id/fragment_other_profile_cardview3">
 
@@ -394,7 +388,8 @@
                         android:textStyle="bold"
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="5dp"
-                        android:textColor="@color/buttonColor"
+                        android:textSize="12dp"
+                        android:textColor="@color/colorPrimaryDark"
                         />
 
 
@@ -402,7 +397,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="5dp"
                         android:id="@+id/fragment_other_profile_relative_layout6"
                         android:layout_below="@+id/fragment_other_profile_textview10">
 
@@ -410,9 +405,8 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="35dp"
+                            android:layout_marginLeft="15dp"
                             android:id="@+id/fragment_other_profile_textview11"
-                            android:layout_marginTop="5dp"
                             />
 
 

@@ -1,4 +1,4 @@
-package com.orthopg.snaphy.orthopg.Fragment.ProfileFragment;
+package com.orthopg.snaphy.orthopg.QualificationFragment;
 
 import android.content.Context;
 import android.net.Uri;

@@ -1,4 +1,4 @@
-package com.orthopg.snaphy.orthopg.Fragment.ProfileFragment;
+package com.orthopg.snaphy.orthopg.SpecialityFragment;
 
 import android.util.Log;
 
@@ -46,6 +46,7 @@ public class SpecialityPresenter {
 
         HashMap<String, Object> filter = new HashMap<>();
         filter.put("limit", limit);
+        filter.put("skip", skip);
         SpecialityRepository specialityRepository = restAdapter.createRepository(SpecialityRepository.class);
         specialityRepository.find(filter, new DataListCallback<Speciality>() {
             @Override
@@ -58,7 +59,11 @@ public class SpecialityPresenter {
             public void onSuccess(DataList<Speciality> objects) {
                 super.onSuccess(objects);
                 if(objects!=null){
+                    if(reset){
+                        specialityDataList.clear();
+                    }
                     specialityDataList.addAll(objects);
+                    skip = skip + objects.size();
                 }
             }
 

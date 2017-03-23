@@ -228,11 +228,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:id="@+id/layout_case_list_linear_layout_save"
+
                     android:background="@drawable/like_save_curved_rectangle">
 
                     <ImageView
-                        android:id="@+id/layout_case_list_imagebutton1"
+
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_gravity="center"
@@ -296,11 +296,11 @@
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:orientation="horizontal"
-                   android:id="@+id/layout_case_list_linear_layout_like"
+
                    android:background="@drawable/like_save_curved_rectangle">
 
                     <ImageView
-                        android:id="@+id/layout_case_list_imagebutton2"
+
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:src="@mipmap/like_unselected"
@@ -405,6 +405,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:gravity="center"
+            android:id="@+id/layout_case_list_linear_layout_like"
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:background="@color/white">
@@ -412,7 +413,7 @@
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/like"
-                android:id="@+id/layout_case_list_imageview2"
+                android:id="@+id/layout_case_list_imagebutton2"
                 />
 
             <TextView
@@ -429,6 +430,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:id="@+id/layout_case_list_linear_layout_my_answer"
             android:layout_height="match_parent"
             android:layout_marginLeft="1dp"
             android:background="@color/white"
@@ -455,6 +457,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:gravity="center"
+            android:id="@+id/layout_case_list_linear_layout_save"
             android:layout_height="match_parent"
             android:layout_marginLeft="1dp"
             android:background="@color/white"
@@ -465,7 +468,7 @@
                 android:layout_height="match_parent"
                 android:src="@mipmap/save"
                 android:layout_gravity="center_vertical"
-                android:id="@+id/layout_case_list_imageview4"
+                android:id="@+id/layout_case_list_imagebutton1"
                 />
 
             <TextView

@@ -25,7 +25,7 @@ public class BooksPresenter {
     RestAdapter restAdapter;
     //DataList<Book> bookDataList;
     DataList<BookCategory> bookCategoryDataList;
-    public double limit = 5;
+    public double limit = 7;
     public double skip = 0;
     CircleProgressBar circleProgressBar;
     MainActivity mainActivity;
@@ -43,7 +43,7 @@ public class BooksPresenter {
         }
     }
 
-    public void fetchBooks(boolean reset){
+    public void fetchBooks(final boolean reset){
 
         if(reset){
             skip =0;
@@ -52,7 +52,6 @@ public class BooksPresenter {
         HashMap<String, Object> filter = new HashMap<>();
         filter.put("skip", skip);
         filter.put("limit", limit);
-        filter.put("order", "added DESC");
         final BookCategoryRepository bookCategoryRepository = restAdapter.createRepository(BookCategoryRepository.class);
         bookCategoryRepository.find(filter, new DataListCallback<BookCategory>() {
             @Override
@@ -65,7 +64,12 @@ public class BooksPresenter {
             public void onSuccess(DataList<BookCategory> objects) {
                 super.onSuccess(objects);
                 if(objects!=null){
+                    if(reset){
+                        bookCategoryDataList.clear();
+                    }
                     bookCategoryDataList.addAll(objects);
+
+                    skip = skip + objects.size();
                 }
             }
 

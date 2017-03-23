@@ -1,4 +1,4 @@
-package com.orthopg.snaphy.orthopg.Fragment.ProfileFragment;
+package com.orthopg.snaphy.orthopg.QualificationFragment;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -6,10 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Qualification;
+import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
+import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 
@@ -42,10 +45,10 @@ public class QualificationAdapter extends RecyclerView.Adapter<QualificationAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-          Qualification qualification = qualificationDataList.get(position);
+          final Qualification qualification = qualificationDataList.get(position);
 
           TextView textView = holder.textView;
-          CheckBox checkBox = holder.checkBox;
+          final CheckBox checkBox = holder.checkBox;
 
         if(qualification!=null){
             if(qualification.getName()!=null){
@@ -53,6 +56,37 @@ public class QualificationAdapter extends RecyclerView.Adapter<QualificationAdap
                     textView.setText(qualification.getName().toString());
                 }
             }
+
+            final DataList<Qualification> qualificationDataList = Presenter.getInstance().getList(Qualification.class, Constants.CUSTOMER_QUALIFICATION_LIST);
+            if(qualificationDataList!=null){
+                if(qualificationDataList.size()!=0){
+                    for(Qualification qualification1 : qualificationDataList){
+                        if(qualification1.getName().equals(qualification.getName().toString())){
+                            checkBox.setChecked(true);
+                        }
+                    }
+                }
+            }
+
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(buttonView.isChecked()){
+                        checkBox.setChecked(true);
+                        qualificationDataList.add(qualification);
+                        //specialityModel.setSpecialitySelected(true);
+
+
+                    } else{
+                        checkBox.setChecked(false);
+                        qualificationDataList.remove(qualification);
+                        //specialityModel.setSpecialitySelected(false);
+
+                    }
+                }
+            });
+
+
         }
     }
 

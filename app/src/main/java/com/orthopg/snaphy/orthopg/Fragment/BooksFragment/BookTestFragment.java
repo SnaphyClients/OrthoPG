@@ -42,12 +42,12 @@ public class BookTestFragment extends android.support.v4.app.Fragment {
     BooksPresenter booksPresenter;
     LinearLayoutManager linearLayoutManager;
     DataList<BookCategory> bookCategoryDataList = new DataList<>();
-    List<BookModel> bookModelList = new ArrayList<>();
+   /* List<BookModel> bookModelList = new ArrayList<>();
     List<BookListModel> bookListModelList2 = new ArrayList<>();
     List<BookListModel> bookListModelList3 = new ArrayList<>();
-    List<BookListModel> bookListModelList4 = new ArrayList<>();
+    List<BookListModel> bookListModelList4 = new ArrayList<>();*/
     BookTestAdapter bookTestAdapter;
-    BookListTestAdapter bookListTestAdapter;
+    //BookListTestAdapter bookListTestAdapter;
     //@Bind(R.id.fragment_books_textview2) TextView viewAll;
     //@Bind(R.id.fragment_books_textview1) TextView savedBooks;
     @Bind(R.id.fragment_books_recycler_view) RecyclerView recyclerView;
@@ -68,7 +68,7 @@ public class BookTestFragment extends android.support.v4.app.Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loadPresenter();
-        /*initializeBookListData();
+       /* initializeBookListData();
         initializeBookListData1();
         initializeBookListData2();
         initializeBookListData3();
@@ -76,7 +76,7 @@ public class BookTestFragment extends android.support.v4.app.Fragment {
         initializeBookData();*/
     }
 
-    public void initializeBookListData(){
+   /* public void initializeBookListData(){
 
         bookListModelList.add(new BookListModel("Theory Of Everything",getResources().getDrawable(R.drawable.bookcover1)));
         bookListModelList.add(new BookListModel("Alchemist",getResources().getDrawable(R.drawable.bookcover2)));
@@ -131,7 +131,7 @@ public class BookTestFragment extends android.support.v4.app.Fragment {
       bookModelList.add(new BookModel("Ortho",bookListModelList2,"New Books"));
       bookModelList.add(new BookModel("Dental",bookListModelList3, "New Books"));
       bookModelList.add(new BookModel("NeuroLogy",bookListModelList4, "New Books"));
-    }
+    }*/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -143,11 +143,11 @@ public class BookTestFragment extends android.support.v4.app.Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         subscribe();
         /*Typeface font = Typeface.createFromAsset(mainActivity.getAssets(), "fonts/OpenSans-Bold.ttf");
-        savedBooks.setTypeface(font);
-        recyclerView_saved_books.setLayoutManager(new LinearLayoutManager(mainActivity,LinearLayoutManager.HORIZONTAL,false));*/
+       *//* savedBooks.setTypeface(font);
+        recyclerView_saved_books.setLayoutManager(new LinearLayoutManager(mainActivity,LinearLayoutManager.HORIZONTAL,false));*//*
         //bookListTestAdapter = new BookListTestAdapter(mainActivity,bookListModelList);
         //recyclerView_saved_books.setAdapter(bookListTestAdapter);
-       /* recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity));
+        recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity));
         bookTestAdapter = new BookTestAdapter(mainActivity,bookModelList);
         recyclerView.setAdapter(bookTestAdapter);*/
         return view;
@@ -167,19 +167,19 @@ public class BookTestFragment extends android.support.v4.app.Fragment {
             public void onInit(DataList<BookCategory> dataList) {
                 super.onInit(dataList);
                 bookTestAdapter = new BookTestAdapter(mainActivity, bookCategoryDataList);
-                recyclerView.setAdapter(bookListTestAdapter);
+                recyclerView.setAdapter(bookTestAdapter);
             }
 
             @Override
             public void onChange(DataList<BookCategory> dataList) {
                 super.onChange(dataList);
-                bookListTestAdapter.notifyDataSetChanged();
+                bookTestAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onClear() {
                 super.onClear();
-                bookListTestAdapter.notifyDataSetChanged();
+                bookTestAdapter.notifyDataSetChanged();
             }
 
             @Override

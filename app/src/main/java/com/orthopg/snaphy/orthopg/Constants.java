@@ -21,9 +21,10 @@ public class Constants {
     private static String CLIENT_SECRET_KEY = "ORFoabt0p6XEOFLmKBsYQGZh";
 
 
-    public static String baseUrl = "http://192.168.0.7:3000";
+    //public static String baseUrl = "http://192.168.0.7:3000";
+    //public static String baseUrl = "http://192.168.0.9:3000";
     //public static String baseUrl = "http://admin.orthopg.com";
-    //public static String baseUrl = "http://ec2-54-209-33-191.compute-1.amazonaws.com:3000";
+    public static String baseUrl = "http://ec2-54-209-33-191.compute-1.amazonaws.com:3000";
     public static String apiUrl = baseUrl+"/api";
     public static final String AMAZON_CLOUD_FRONT_URL = "http://d3j3ux0h7dntsg.cloudfront.net";
     /**
@@ -42,10 +43,14 @@ public class Constants {
     public static String LIST_CASE_FRAGMENT = "ListCaseFragment";
     public static String SAVED_CASE_LIST = "SavedCaseList";
     public static String BOOK_LIST_BOOKS_FRAGMENT = "BookListBooksFragment";
+    public static String VIEW_ALL_BOOKS_LIST = "ViewAllBooksListFragment";
     public static String NEWS_LIST_NEWS_FRAGMENT = "NewsListNewsFragment";
     public static String EXCEPTED_NEW_ANSWER_LIST = "ExceptedAnswerNewAnswerList";
     public static String SPECIALITY_LIST = "SpecialitiesListSpecialityFragment";
     public static String QUALIFICATION_LIST = "QualificationsListQualificationFragment";
+    public static String CUSTOMER_SPECIALITY_LIST = "CustomerSpecialityList";
+    public static String UPDATED_CUSTOMER_SPECIALITY_LIST = "UpdatedCustomerSpecialityList";
+    public static String CUSTOMER_QUALIFICATION_LIST = "CustomerQualificationList";
     /*END OF DATA LIST IDs*/
 
     /*MOdel IDs*/
@@ -60,6 +65,8 @@ public class Constants {
     public static String POST_PUSH_EVENT_DATA = "PostPushEventData";
     public static String GOOGLE_ACCESS_TOKEN = "GoogleAccessTokens";
     public static String MCI_NUMBER = "MciNumber";
+    public static String BOOK_DESCRIPTION_ID = "BookDescriptionId";
+    public static String BOOK_CATEGORY_ID = "BookCategoryId";
     /*---------------*/
 
     /*IDs*/

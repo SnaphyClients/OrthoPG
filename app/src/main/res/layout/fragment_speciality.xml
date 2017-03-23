@@ -49,4 +49,16 @@
         android:id="@+id/fragment_speciality_recyclerview1">
 
     </android.support.v7.widget.RecyclerView>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimaryDark"
+        android:text="@string/updateSpeciality"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:id="@+id/fragment_speciality_button1"/>
 </RelativeLayout>

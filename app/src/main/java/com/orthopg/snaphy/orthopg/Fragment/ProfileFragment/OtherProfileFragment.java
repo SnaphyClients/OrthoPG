@@ -1,17 +1,26 @@
 package com.orthopg.snaphy.orthopg.Fragment.ProfileFragment;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.DataListCallback;
@@ -21,6 +30,7 @@ import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Qualification;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Speciality;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
+import com.androidsdk.snaphy.snaphyandroidsdk.repository.CustomerRepository;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.SpecialityRepository;
 import com.google.common.collect.ContiguousSet;
 import com.orthopg.snaphy.orthopg.Constants;
@@ -53,6 +63,8 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.fragment_other_profile_textview11) TextView qualificationTxt;
     @Bind(R.id.fragment_profile_imagebutton2) ImageButton specialityButton;
     @Bind(R.id.fragment_profile_imagebutton5) ImageButton qualificationButton;
+    @Bind(R.id.fragment_other_profile_textview5) TextView name;
+    @Bind(R.id.layout_profile_image) ImageView profileImage;
 
     public final static String TAG = "OtherProfileFragment";
 
@@ -106,11 +118,27 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
             } else {
                 mciNumberTxt.setVisibility(View.GONE);
             }
-            String workExperience = String.valueOf(customer.getWorkExperience());
+
+            String userName = mainActivity.snaphyHelper.getName(customer.getFirstName(), customer.getLastName());
+            userName = Constants.Doctor + userName.replace("^[Dd][Rr]", "");
+            if(!userName.isEmpty()){
+                name.setVisibility(View.VISIBLE);
+                name.setText(userName);
+            }else{
+                name.setVisibility(View.GONE);
+            }
+
+            if(customer.getProfilePic() != null){
+                mainActivity.snaphyHelper.loadUnSignedThumbnailImage(customer.getProfilePic(), profileImage, R.mipmap.anonymous);
+            }else{
+                profileImage.setImageResource(R.mipmap.anonymous);
+            }
+
+            String workExperience = String.valueOf((int)customer.getWorkExperience());
             if (workExperience != null) {
                 if (!workExperience.isEmpty()) {
                     workExperinceTxt.setVisibility(View.VISIBLE);
-                    workExperinceTxt.setText(String.valueOf(customer.getWorkExperience()));
+                    workExperinceTxt.setText(String.valueOf((int)customer.getWorkExperience()));
                 } else {
                     workExperinceTxt.setVisibility(View.GONE);
                 }
@@ -137,6 +165,7 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
                         @Override
                         public void onSuccess(DataList<Speciality> objects) {
                             super.onSuccess(objects);
+                            Presenter.getInstance().addList(Constants.CUSTOMER_SPECIALITY_LIST,objects);
                             setSpeciality();
                         }
 
@@ -155,6 +184,7 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
                     @Override
                     public void onSuccess(DataList<Speciality> objects) {
                         super.onSuccess(objects);
+                        Presenter.getInstance().addList(Constants.CUSTOMER_SPECIALITY_LIST,objects);
                         setSpeciality();
                     }
 
@@ -172,6 +202,7 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
                         @Override
                         public void onSuccess(DataList<Qualification> objects) {
                             super.onSuccess(objects);
+                            Presenter.getInstance().addList(Constants.CUSTOMER_QUALIFICATION_LIST,objects);
                             setQualification();
                         }
 
@@ -190,6 +221,7 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
                     @Override
                     public void onSuccess(DataList<Qualification> objects) {
                         super.onSuccess(objects);
+                        Presenter.getInstance().addList(Constants.CUSTOMER_QUALIFICATION_LIST,objects);
                         setQualification();
                     }
 
@@ -222,7 +254,11 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
 
             DataList<Speciality> speciality = customer.getSpecialities();
             for (Speciality s : speciality) {
-                specialities = specialities + s.getName() + "\n";
+                if(speciality.size()>1) {
+                    specialities = specialities + s.getName() + "\n";
+                } else{
+                    specialities = specialities + s.getName();
+                }
             }
             specialityTxt.setText(specialities);
         } else {
@@ -241,12 +277,110 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
 
             DataList<Qualification> qualification = customer.getQualifications();
             for(Qualification q : qualification){
-                qualifications = qualifications + q.getName() + "\n";
+                if(qualification.size()>1) {
+                    qualifications = qualifications + q.getName() + "\n";
+                } else{
+                    qualifications = qualifications + q.getName();
+                }
             }
             qualificationTxt.setText(qualifications);
         } else{
             qualificationTxt.setVisibility(View.GONE);
         }
+    }
+
+    public void showExperienceDialog() {
+
+        final Dialog dialog = new Dialog(mainActivity);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.layout_dialog);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        Button okButton = (Button) dialog.findViewById(R.id.dialog_add_text_button1);
+        TextInputLayout textInputLayout = (TextInputLayout)dialog.findViewById(R.id.fragment_layout_dialog_editInput1);
+        final EditText editText = (EditText) dialog.findViewById(R.id.dialog_add_text_edittext1);
+        editText.setInputType(InputType.TYPE_CLASS_TEXT);
+
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              updateWorkExperienceData(editText.getText().toString());
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+    }
+
+    public void showCurrentWorkingDialog(){
+
+        final Dialog dialog = new Dialog(mainActivity);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.layout_dialog);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        Button okButton = (Button) dialog.findViewById(R.id.dialog_add_text_button1);
+        TextInputLayout textInputLayout = (TextInputLayout)dialog.findViewById(R.id.fragment_layout_dialog_editInput1);
+        final EditText editText = (EditText) dialog.findViewById(R.id.dialog_add_text_edittext1);
+        editText.setInputType(InputType.TYPE_CLASS_TEXT);
+
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               updateCurrentWorkingData(editText.getText().toString());
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+
+    }
+
+
+    public void updateWorkExperienceData(final String workExperience){
+        Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+        customer.setWorkExperience(Double.parseDouble(workExperience));
+        CustomerRepository customerRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
+        customerRepository.upsert(customer.toMap(), new ObjectCallback<Customer>() {
+            @Override
+            public void onSuccess(Customer object) {
+                super.onSuccess(object);
+                workExperinceTxt.setText(workExperience);
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                super.onError(t);
+                Log.e(Constants.TAG, t.toString());
+            }
+        });
+    }
+
+    public void updateCurrentWorkingData(final String currentWorking){
+        Customer customer = Presenter.getInstance().getModel(Customer.class,Constants.LOGIN_CUSTOMER);
+        customer.setCurrentCity(currentWorking);
+        CustomerRepository customerRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
+        customerRepository.upsert(customer.toMap(), new ObjectCallback<Customer>() {
+            @Override
+            public void onSuccess(Customer object) {
+                super.onSuccess(object);
+                currentWorkingTxt.setText(currentWorking);
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                super.onError(t);
+                Log.e(Constants.TAG, t.toString());
+            }
+        });
     }
 
 
@@ -257,6 +391,14 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
 
     @OnClick(R.id.fragment_profile_imagebutton5) void onQualification(){
         mainActivity.replaceFragment(R.layout.fragment_qualification, null);
+    }
+
+    @OnClick(R.id.fragment_profile_imagebutton3) void onWorkExperience(){
+        showExperienceDialog();
+    }
+
+    @OnClick(R.id.fragment_profile_imagebutton4) void onCurrentWorking(){
+        showCurrentWorkingDialog();
     }
 
     @OnClick(R.id.fragment_other_profile_imageview1) void onBack(){

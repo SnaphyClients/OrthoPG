@@ -11,10 +11,16 @@ import android.widget.TextView;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Book;
+import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
+import com.androidsdk.snaphy.snaphyandroidsdk.repository.BookRepository;
+import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
+import com.orthopg.snaphy.orthopg.WordUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.MissingFormatArgumentException;
 
 import butterknife.Bind;
@@ -27,10 +33,13 @@ import butterknife.ButterKnife;
 public class BookListTestAdapter extends RecyclerView.Adapter<BookListTestAdapter.ViewHolder> {
 
     MainActivity mainActivity;
-    List<BookListModel> bookListModelList;
+   // List<BookListModel> bookListModelList;
     DataList<Book> bookDataList;
+    String bookNameTxt;
+    Map<String,Object> bookCoverMap;
+    String bookDescriptionTxt, bookHardCopyPriceText, bookEbookPrice;
 
-  /*  public BookListTestAdapter(MainActivity mainActivity, List<BookListModel> bookListModelList){
+   /* public BookListTestAdapter(MainActivity mainActivity, List<BookListModel> bookListModelList){
 
         this.mainActivity = mainActivity;
         this.bookListModelList = bookListModelList;
@@ -63,18 +72,36 @@ public class BookListTestAdapter extends RecyclerView.Adapter<BookListTestAdapte
         CardView cardView = holder.cardView;
 
         if(book!=null){
-            if(book.getBackCover()!=null){
-
+            if(book.getFrontCover()!=null){
+                bookCover.setVisibility(View.VISIBLE);
+                bookCoverMap = book.getFrontCover();
+                mainActivity.snaphyHelper.loadUnsignedUrl(book.getFrontCover(),bookCover);
+            } else{
+                bookCover.setVisibility(View.GONE);
             }
 
             if(book.getTitle()!=null){
                 if(!book.getTitle().isEmpty()){
-                    bookName.setText(book.getTitle().toString());
+                    bookName.setVisibility(View.VISIBLE);
+                    bookNameTxt = book.getTitle().toString();
+                    bookName.setText(WordUtils.capitalize(book.getTitle().toString()));
+                } else{
+                    bookName.setVisibility(View.GONE);
+                }
+            } else{
+                bookName.setVisibility(View.GONE);
+            }
+
+            if(book.getDescription()!=null){
+                if(!book.getDescription().isEmpty()){
+                    bookDescriptionTxt = book.getDescription().toString();
                 }
             }
+
+
         }
 
-      /*  if (bookListModel != null) {
+     /*   if (bookListModel != null) {
             if(bookListModel.getName()!=null){
                 if(!bookListModel.getName().isEmpty()){
                     bookName.setText(bookListModel.getName().toString());
@@ -89,15 +116,26 @@ public class BookListTestAdapter extends RecyclerView.Adapter<BookListTestAdapte
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setBookData();
                 mainActivity.replaceFragment(R.layout.fragment_book_description,null);
             }
         });
 
     }
 
+    public void setBookData(){
+        HashMap<String, Object> filter = new HashMap<>();
+        BookRepository bookRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(BookRepository.class);
+        Book book = bookRepository.createObject(filter);
+        book.setTitle(bookNameTxt);
+        book.setFrontCover(bookCoverMap);
+        book.setDescription(bookDescriptionTxt);
+        Presenter.getInstance().addModel(Constants.BOOK_DESCRIPTION_ID,book);
+    }
+
     @Override
     public int getItemCount() {
-        return bookListModelList.size();
+        return bookDataList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

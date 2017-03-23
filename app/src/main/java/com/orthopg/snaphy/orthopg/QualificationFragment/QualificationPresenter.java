@@ -1,6 +1,5 @@
-package com.orthopg.snaphy.orthopg.Fragment.ProfileFragment;
+package com.orthopg.snaphy.orthopg.QualificationFragment;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.DataListCallback;

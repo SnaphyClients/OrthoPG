@@ -49,6 +49,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
     String TAG;
     CasePresenter casePresenter;
     int casePosition;
+    Post post;
 
     public CaseListAdapter(MainActivity mainActivity, HashMap<String, TrackList> trackList, String TAG, CasePresenter casePresenter) {
         this.mainActivity = mainActivity;
@@ -144,11 +145,11 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
             LinearLayout saveLinearLayout = holder.saveLinearLayout;
             LinearLayout caseContainer = holder.caseContainer;
             LinearLayout contentContainer = holder.contentContainer;
+            LinearLayout myAnswerContainer = holder.myAnswerContainer;
             RelativeLayout acceptedContainer = holder.acceptContainer;
 
             caseImages.setLayoutManager(new LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false));
             casePosition = position;
-
             if (!data.post.getHeading().isEmpty()) {
                 caseHeading.setTypeface(font_bold);
                 caseHeading.setText(data.post.getHeading());
@@ -349,6 +350,32 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                 });
             }
 
+            myAnswerContainer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(post != null){
+                        //Prepare the data..
+                        Presenter.getInstance().addModel(Constants.EDIT_IN_PROCESS_COMMENT_POST_MODEL, post);
+                    }
+                    Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+                    if(customer != null) {
+                        final String MCINumber = customer.getMciNumber() != null ? customer.getMciNumber() : "";
+                        if(customer.getStatus() != null) {
+                            if (customer.getStatus().equals(Constants.ALLOW)) {
+                                mainActivity.replaceFragment(R.id.layout_case_list_linear_layout_my_answer, null);
+                            } else {
+                                if(MCINumber.isEmpty()) {
+                                    mainActivity.replaceFragment(R.layout.fragment_mciverification, null);
+                                } else {
+                                    TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+
+                                }
+                            }
+                        }
+
+                    }
+                }
+            });
 
             likeLinearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -447,6 +474,8 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                     }
                 }
             });
+
+
 
 
             saveLinearLayout.setOnClickListener(new View.OnClickListener() {
@@ -606,6 +635,8 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
 
     }
 
+
+
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.layout_case_list_textview2 || v.getId()==R.id.layout_case_list_image){
@@ -630,7 +661,6 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
     }
 
 
-
     public void showLike(Post post, ImageView like, TrackLike trackLike, TextView numberOfLike, PostDetail postDetail){
         if(trackLike != null){
             if(trackLike.state){
@@ -641,7 +671,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                 Presenter.getInstance().getModel(HashMap.class, Constants.TRACK_LIKE).put(post.getId(), trackLike);
             }else{
                 trackLike.likePost = null;
-                like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_unselected));
+               like.setImageDrawable(mainActivity.getResources().getDrawable(R.mipmap.like_unselected));
                 if(postDetail.getTotalLike() == 0){
                 } else {
                     postDetail.setTotalLike(postDetail.getTotalLike() - 1);
@@ -674,6 +704,8 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
             }
         }
     }
+
+
 
     @OnClick(R.id.layout_case_list_image) void onProfile(){
         mainActivity.replaceFragment(R.layout.fragment_other_profile, null);
@@ -728,6 +760,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         @Bind(R.id.layout_case_list_textview3) TextView casePostedTime;
         @Bind(R.id.layout_case_list_imagebutton2) ImageView like;
         @Bind(R.id.layout_case_list_imagebutton1) ImageView saveCase;
+
         @Bind(R.id.layout_case_list_recycler_view) RecyclerView caseImages;
         @Bind(R.id.layout_case_list_textview4) TextView caseDescription;
         @Bind(R.id.layout_case_list_textview5) TextView tag;
@@ -744,6 +777,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         @Bind(R.id.layout_case_list_linear_layout_save) LinearLayout saveLinearLayout;
         @Bind(R.id.layout_case_list_linear_layout3) LinearLayout caseContainer;
         @Bind(R.id.layout_case_list_linear_layout4) LinearLayout contentContainer;
+        @Bind(R.id.layout_case_list_linear_layout_my_answer) LinearLayout myAnswerContainer;
         @Bind(R.id.layout_case_list_reltive_layout1) RelativeLayout acceptContainer;
 
 

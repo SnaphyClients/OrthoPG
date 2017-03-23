@@ -56,10 +56,11 @@ import com.orthopg.snaphy.orthopg.Fragment.NewCase.CaseUploadImageFragment;
 import com.orthopg.snaphy.orthopg.Fragment.NewsFragment.NewsFragment;
 import com.orthopg.snaphy.orthopg.Fragment.ProfileFragment.OtherProfileFragment;
 import com.orthopg.snaphy.orthopg.Fragment.ProfileFragment.ProfileFragment;
-import com.orthopg.snaphy.orthopg.Fragment.ProfileFragment.QualificationFragment;
-import com.orthopg.snaphy.orthopg.Fragment.ProfileFragment.SpecialityFragment;
+
 import com.orthopg.snaphy.orthopg.Interface.OnFragmentChange;
 import com.orthopg.snaphy.orthopg.PushNotification.RegistrationIntentService;
+import com.orthopg.snaphy.orthopg.QualificationFragment.QualificationFragment;
+import com.orthopg.snaphy.orthopg.SpecialityFragment.SpecialityFragment;
 import com.sdsmdg.tastytoast.TastyToast;
 import com.strongloop.android.loopback.AccessToken;
 import com.strongloop.android.loopback.AccessTokenRepository;
@@ -353,6 +354,10 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
                 break;
 
             case R.id.fragment_case_detail_button4:
+                openPostAnswerFragment(fragmentTransaction);
+                break;
+
+            case R.id.layout_case_list_linear_layout_my_answer:
                 openPostAnswerFragment(fragmentTransaction);
                 break;
 

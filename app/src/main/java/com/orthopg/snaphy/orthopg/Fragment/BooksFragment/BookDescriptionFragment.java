@@ -1,6 +1,7 @@
 package com.orthopg.snaphy.orthopg.Fragment.BooksFragment;
 
 import android.app.DownloadManager;
+import android.app.Presentation;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,8 +16,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Book;
+import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.PDFReaderActivity;
@@ -66,6 +72,9 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
     public static byte[] key, iv;
     private static final int  MEGABYTE = 1024 * 1024;
     @Bind(R.id.fragment_book_description_button3) Button bookDownload;
+    @Bind(R.id.fragment_book_description_imageview2) ImageView bookCover;
+    @Bind(R.id.fragment_book_description_textview1) TextView bookTitle;
+    @Bind(R.id.fragment_book_description_textview7) TextView bookDescription;
     public final static String TAG = "BookDescriptionFragment";
     int read;
     File inputFile, outFile, decFile;
@@ -93,10 +102,46 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_book_description, container, false);
         ButterKnife.bind(this,view);
+        getBookData();
         //String key = mainActivity.getSharedPreferences.getString("sample.pdf","");
         outFile = new File(Environment.getExternalStorageDirectory() + "/OrthoPg/" + "sample.pdf");
         decFile = new File(Environment.getExternalStorageDirectory() + "/OrthoPg/" + "dsample.pdf");
         return view;
+    }
+
+    public void getBookData(){
+
+        Book book = Presenter.getInstance().getModel(Book.class,Constants.BOOK_DESCRIPTION_ID);
+        if(book!=null){
+            if(book.getTitle()!=null){
+                if(!book.getTitle().isEmpty()){
+                    bookTitle.setVisibility(View.VISIBLE);
+                    bookTitle.setText(book.getTitle().toString());
+                } else{
+                    bookTitle.setVisibility(View.GONE);
+                }
+            } else{
+                bookTitle.setVisibility(View.GONE);
+            }
+
+            if(book.getDescription()!=null){
+                if(!book.getDescription().isEmpty()){
+                    bookDescription.setVisibility(View.VISIBLE);
+                    bookDescription.setText(book.getDescription().toString());
+                } else{
+                    bookDescription.setVisibility(View.GONE);
+                }
+            } else{
+                bookDescription.setVisibility(View.GONE);
+            }
+
+            if(book.getFrontCover()!=null){
+                bookCover.setVisibility(View.VISIBLE);
+                mainActivity.snaphyHelper.loadUnsignedUrl(book.getFrontCover(),bookCover);
+            } else{
+                bookCover.setVisibility(View.GONE);
+            }
+        }
     }
 
     @OnClick(R.id.fragment_book_description_imageview1) void onBack(){
@@ -254,8 +299,10 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
     }
 
     @OnClick(R.id.fragment_book_description_button4) void onEbookBuy(){
-
-        PayUmoneySdkInitilizer.PaymentParam.Builder builder = new PayUmoneySdkInitilizer.PaymentParam.Builder()
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("bookTitle", true);
+        editor.commit();
+     /*   PayUmoneySdkInitilizer.PaymentParam.Builder builder = new PayUmoneySdkInitilizer.PaymentParam.Builder()
                 .setMerchantId("XXX")
                 .setKey("YYY")
                 .setIsDebug(true)
@@ -276,7 +323,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
         String hashSequence = "key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|salt";
         String serverCalulatedHash = hashCal("SHA-512", hashSequence);
         paymentParam.setMerchantHash(serverCalulatedHash);
-        PayUmoneySdkInitilizer.startPaymentActivityForResult(mainActivity, paymentParam);
+        PayUmoneySdkInitilizer.startPaymentActivityForResult(mainActivity, paymentParam);*/
     }
 
     public static String hashCal(String type, String str){

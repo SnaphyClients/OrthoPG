@@ -1,5 +1,9 @@
 package com.orthopg.snaphy.orthopg.Fragment.BooksFragment;
 
+import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Book;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.BookCategory;
+
 import java.util.List;
 
 /**
@@ -8,7 +12,31 @@ import java.util.List;
 
 public class BookModel {
 
-    private String bookCategory;
+   /* private String bookType;
+    private BookCategory bookCategory;
+
+    public BookModel(String bookType, BookCategory bookCategory){
+
+        this.bookType = bookType;
+        this.bookCategory = bookCategory;
+    }
+
+    public String getBookType() {
+        return bookType;
+    }
+
+    public void setBookType(String bookType) {
+        this.bookType = bookType;
+    }
+
+    public BookCategory getBookCategory() {
+        return bookCategory;
+    }
+
+    public void setBookCategory(BookCategory bookCategory) {
+        this.bookCategory = bookCategory;
+    }*/
+     private String bookCategory;
     private List<BookListModel> bookListModelList;
     private String bookType;
 
