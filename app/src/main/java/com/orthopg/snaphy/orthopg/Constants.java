@@ -22,6 +22,7 @@ public class Constants {
 
 
     public static String baseUrl = "http://192.168.0.7:3000";
+    //public static String baseUrl = "http://192.168.43.21:3000";
     //public static String baseUrl = "http://192.168.0.9:3000";
     //public static String baseUrl = "http://admin.orthopg.com";
     //public static String baseUrl = "http://ec2-54-209-33-191.compute-1.amazonaws.com:3000";
@@ -44,6 +45,7 @@ public class Constants {
     public static String SAVED_CASE_LIST = "SavedCaseList";
     public static String BOOK_LIST_BOOKS_FRAGMENT = "BookListBooksFragment";
     public static String VIEW_ALL_BOOKS_LIST = "ViewAllBooksListFragment";
+    public static String SAVED_BOOKS_LIST = "SavedBooksList";
     public static String NEWS_LIST_NEWS_FRAGMENT = "NewsListNewsFragment";
     public static String EXCEPTED_NEW_ANSWER_LIST = "ExceptedAnswerNewAnswerList";
     public static String SPECIALITY_LIST = "SpecialitiesListSpecialityFragment";
@@ -51,6 +53,8 @@ public class Constants {
     public static String CUSTOMER_SPECIALITY_LIST = "CustomerSpecialityList";
     public static String UPDATED_CUSTOMER_SPECIALITY_LIST = "UpdatedCustomerSpecialityList";
     public static String CUSTOMER_QUALIFICATION_LIST = "CustomerQualificationList";
+    public static String ORDER_HISTORY_LIST = "OrderHistoryList";
+    public static String HOME_ANSWER_LIST = "HomeAnswerList";
     /*END OF DATA LIST IDs*/
 
     /*MOdel IDs*/
@@ -67,6 +71,7 @@ public class Constants {
     public static String MCI_NUMBER = "MciNumber";
     public static String BOOK_DESCRIPTION_ID = "BookDescriptionId";
     public static String BOOK_CATEGORY_ID = "BookCategoryId";
+    public static String CASE_PROFILE_DATA = "CaseProfileData";
     /*---------------*/
 
     /*IDs*/

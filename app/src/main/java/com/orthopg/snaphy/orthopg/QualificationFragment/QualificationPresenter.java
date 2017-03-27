@@ -56,6 +56,9 @@ public class QualificationPresenter {
             public void onSuccess(DataList<Qualification> objects) {
                 super.onSuccess(objects);
                 if(objects!=null){
+                    if(reset){
+                        qualificationDataList.clear();
+                    }
                     qualificationDataList.addAll(objects);
                 }
             }

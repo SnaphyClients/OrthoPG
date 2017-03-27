@@ -286,6 +286,15 @@ public class OrderRepository extends ModelRepository<Order> {
     
 
     
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/fetchPastOrder", "POST"), "Order.fetchPastOrder");
+    
+
+    
+    
+
+    
     
 
     
@@ -1332,6 +1341,89 @@ public class OrderRepository extends ModelRepository<Order> {
 
         
     
+        
+    
+        
+            //Method fetchPastOrder definition
+            public void fetchPastOrder(  String customerId, final DataListCallback<Order> callback){
+
+                /**
+                Call the onBefore event
+                */
+                callback.onBefore();
+
+
+                //Definging hashMap for data conversion
+                Map<String, Object> hashMapObject = new HashMap<>();
+                //Now add the arguments...
+                
+                        hashMapObject.put("customerId", customerId);
+                
+
+                
+
+
+                
+
+                
+                    invokeStaticMethod("fetchPastOrder", hashMapObject, new Adapter.JsonArrayCallback() {
+                        @Override
+                        public void onError(Throwable t) {
+                            callback.onError(t);
+                            //Call the finally method..
+                            callback.onFinally();
+                        }
+
+                        @Override
+                        public void onSuccess(JSONArray response) {
+                            
+                                if(response != null){
+                                    //Now converting jsonObject to list
+                                    DataList<Map<String, Object>> result = (DataList) Util.fromJson(response);
+                                    DataList<Order> orderList = new DataList<Order>();
+                                    OrderRepository orderRepo = getRestAdapter().createRepository(OrderRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = orderRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(orderRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+                                    }
+                                    for (Map<String, Object> obj : result) {
+
+                                        Order order = orderRepo.createObject(obj);
+
+                                        //Add to database if persistent storage required..
+                                        if(isSTORE_LOCALLY()){
+                                            //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                            try {
+                                                      Method method = order.getClass().getMethod("save__db");
+                                                      method.invoke(order);
+
+                                            } catch (Exception e) {
+                                                Log.e("Database Error", e.toString());
+                                            }
+                                        }
+
+                                        orderList.add(order);
+                                    }
+                                    callback.onSuccess(orderList);
+                                }else{
+                                    callback.onSuccess(null);
+                                }
+                            
+                            //Call the finally method..
+                            callback.onFinally();
+                        }
+                    });
+                
+
+            }//Method fetchPastOrder definition ends here..
+
+            
+
         
     
         

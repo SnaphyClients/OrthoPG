@@ -62,7 +62,7 @@ public class BookListTestAdapter extends RecyclerView.Adapter<BookListTestAdapte
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
 
         //BookListModel bookListModel = bookListModelList.get(position);
         Book book = bookDataList.get(position);
@@ -116,20 +116,18 @@ public class BookListTestAdapter extends RecyclerView.Adapter<BookListTestAdapte
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setBookData();
+                setBookData(position);
                 mainActivity.replaceFragment(R.layout.fragment_book_description,null);
             }
         });
 
     }
 
-    public void setBookData(){
-        HashMap<String, Object> filter = new HashMap<>();
-        BookRepository bookRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(BookRepository.class);
-        Book book = bookRepository.createObject(filter);
-        book.setTitle(bookNameTxt);
-        book.setFrontCover(bookCoverMap);
-        book.setDescription(bookDescriptionTxt);
+    public void setBookData(int position){
+        Book book = bookDataList.get(position);
+        book.setTitle(book.getTitle());
+        book.setFrontCover(book.getFrontCover());
+        book.setDescription(book.getDescription());
         Presenter.getInstance().addModel(Constants.BOOK_DESCRIPTION_ID,book);
     }
 

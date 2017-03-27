@@ -1,6 +1,7 @@
 package com.orthopg.snaphy.orthopg.SpecialityFragment;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,9 +23,12 @@ import com.androidsdk.snaphy.snaphyandroidsdk.repository.CustomerRepository;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.SpecialityRepository;
 import com.orthopg.snaphy.orthopg.Constants;
 
+import com.orthopg.snaphy.orthopg.HorizontalDividerItemDecoration;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 import com.sdsmdg.tastytoast.TastyToast;
+
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -49,7 +53,6 @@ public class SpecialityFragment extends Fragment {
     SpecialityPresenter specialityPresenter;
     DataList<Speciality> specialityDataList = new DataList<>();
     DataList<Speciality> updatedSpeciality = new DataList<>();
-    DataList<SpecialityModel> specialityModelDataList = new DataList<>();
     LinearLayoutManager linearLayoutManager;
     SpecialityAdapter specialityAdapter;
 
@@ -77,6 +80,11 @@ public class SpecialityFragment extends Fragment {
         ButterKnife.bind(this,view);
         linearLayoutManager = new LinearLayoutManager(mainActivity);
         recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity()).
+                color(Color.parseColor("#EEEEEE"))
+                .sizeResId(R.dimen.divider)
+                .marginResId(R.dimen.left_margin1,R.dimen.right_margin1)
+                .build());
         subscribe();
         return view;
     }
@@ -117,62 +125,51 @@ public class SpecialityFragment extends Fragment {
 
     }
 
+    @OnClick(R.id.fragment_speciality_imageview1) void onBack(){
+        mainActivity.onBackPressed();
+    }
 
-    @OnClick(R.id.fragment_speciality_button1) void onUpdateSpeciality(){
+    @OnClick(R.id.fragment_speciality_button1) void onUpdateSpeciality() {
 
         updatedSpeciality = Presenter.getInstance().getList(Speciality.class, Constants.CUSTOMER_SPECIALITY_LIST);
+        DataList<String> updatedSpecialityList = new DataList<>();
+        for (Speciality s : updatedSpeciality) {
+            updatedSpecialityList.add(s.getName());
+        }
         Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
-        String customerId = (String)customer.getId();
-
-        CustomerRepository customerRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
-
-        for(Speciality speciality1 : updatedSpeciality){
-            HashMap<String, Object> filter = new HashMap<>();
-            filter.put("customerId", customerId);
+        String customerId = (String) customer.getId();
+        if (customerId != null) {
             SpecialityRepository specialityRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(SpecialityRepository.class);
-            speciality1 = specialityRepository.createObject(filter);
+            specialityRepository.updateSpeciality(customerId, updatedSpecialityList, new ObjectCallback<JSONObject>() {
 
-            //speciality.setId(speciality1.getId());
-            specialityRepository.upsert(speciality1.toMap(), new ObjectCallback<Speciality>() {
                 @Override
-                public void onSuccess(Speciality object) {
+                public void onBefore() {
+                    super.onBefore();
+                    mainActivity.startProgressBar(mainActivity.progressBar);
+                }
+
+                @Override
+                public void onSuccess(JSONObject object) {
                     super.onSuccess(object);
+                    mainActivity.onBackPressed();
+                    TastyToast.makeText(mainActivity, "Successfully updated Specilaity", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
                 }
 
                 @Override
                 public void onError(Throwable t) {
                     super.onError(t);
                     Log.e(Constants.TAG, t.toString());
+                    TastyToast.makeText(mainActivity, "error in updating speciality", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+                }
+
+                @Override
+                public void onFinally() {
+                    super.onFinally();
+                    mainActivity.stopProgressBar(mainActivity.progressBar);
                 }
             });
+
         }
-        /*specialityRepository.upsert(speciality.toMap(), new ObjectCallback<Speciality>() {
-            @Override
-            public void onSuccess(Speciality object) {
-                super.onSuccess(object);
-            }
-
-            @Override
-            public void onError(Throwable t) {
-                super.onError(t);
-            }
-        })*/
-       /* customer.setSpecialities(updatedSpeciality);
-        CustomerRepository customerRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
-        customerRepository.upsert(customer.toMap(), new ObjectCallback<Customer>() {
-            @Override
-            public void onSuccess(Customer object) {
-                super.onSuccess(object);
-                TastyToast.makeText(mainActivity,"Successfully updated speciality", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
-            }
-
-            @Override
-            public void onError(Throwable t) {
-                super.onError(t);
-                Log.e(Constants.TAG, t.toString());
-                TastyToast.makeText(mainActivity, "Error in updating speciality", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
-            }
-        });*/
     }
 
     // TODO: Rename method, update argument and hook method into UI event

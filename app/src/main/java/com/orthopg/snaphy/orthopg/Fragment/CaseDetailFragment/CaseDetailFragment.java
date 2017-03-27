@@ -728,7 +728,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
             final String MCINumber = customer.getMciNumber() != null ? customer.getMciNumber() : "";
             if(customer.getStatus() != null) {
                 if (customer.getStatus().equals(Constants.ALLOW)) {
-                    mainActivity.replaceFragment(R.id.fragment_case_detail_button4, null);
+                    mainActivity.replaceFragment(R.id.fragment_case_detail_button4, CaseDetailFragment.TAG);
                 } else {
                     if(MCINumber.isEmpty()) {
                         /*mainActivity.replaceFragment(R.layout.fragment_mciverification, null);*/

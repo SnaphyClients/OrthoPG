@@ -53,6 +53,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.layout_profile_image) ImageView profileImage;
     MainActivity mainActivity;
     Customer loginCustomer;
+    public final static String TAG = "ProfileFragment";
     SharedPreferences sharedPreferences;
 
     public ProfileFragment() {
@@ -105,7 +106,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
 */
     @OnClick(R.id.fragment_profile_button1) void onViewProfile(){
 
-        mainActivity.replaceFragment(R.layout.fragment_other_profile,null);
+        mainActivity.replaceFragment(R.layout.fragment_doctor_profile,ProfileFragment.TAG);
     }
 
     public void displayData(){

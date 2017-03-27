@@ -74,13 +74,11 @@ public class QualificationAdapter extends RecyclerView.Adapter<QualificationAdap
                     if(buttonView.isChecked()){
                         checkBox.setChecked(true);
                         qualificationDataList.add(qualification);
-                        //specialityModel.setSpecialitySelected(true);
 
 
                     } else{
                         checkBox.setChecked(false);
                         qualificationDataList.remove(qualification);
-                        //specialityModel.setSpecialitySelected(false);
 
                     }
                 }

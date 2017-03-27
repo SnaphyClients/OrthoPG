@@ -369,6 +369,15 @@ public class SpecialityRepository extends ModelRepository<Speciality> {
     
 
     
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/updateSpeciality", "POST"), "Speciality.updateSpeciality");
+    
+
+    
+    
+
+    
     
 
     
@@ -2008,6 +2017,59 @@ public class SpecialityRepository extends ModelRepository<Speciality> {
                 
 
             }//Method __disconnect__customers definition ends here..
+
+            
+
+        
+    
+        
+            //Method updateSpeciality definition
+            public void updateSpeciality(  String customerId,  DataList<String> specialityDataList, final ObjectCallback<JSONObject>  callback ){
+
+                /**
+                Call the onBefore event
+                */
+                callback.onBefore();
+
+
+                //Definging hashMap for data conversion
+                Map<String, Object> hashMapObject = new HashMap<>();
+                //Now add the arguments...
+                
+                        hashMapObject.put("customerId", customerId);
+                
+                        hashMapObject.put("specialityDataList", specialityDataList);
+                
+
+                
+
+
+                
+                    
+                    invokeStaticMethod("updateSpeciality", hashMapObject, new Adapter.JsonObjectCallback() {
+                    
+                    
+                        @Override
+                        public void onError(Throwable t) {
+                            callback.onError(t);
+                            //Call the finally method..
+                            callback.onFinally();
+                        }
+
+                        @Override
+                        public void onSuccess(JSONObject response) {
+                            
+                                callback.onSuccess(response);
+                            
+                            //Call the finally method..
+                            callback.onFinally();
+                        }
+                    });
+                
+
+                
+
+            }//Method updateSpeciality definition ends here..
 
             
 

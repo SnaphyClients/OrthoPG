@@ -49,6 +49,11 @@
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center"/>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/layout_case_list_linear_layout5">
+
 
                 <TextView
                     android:id="@+id/layout_case_list_textview1"
@@ -57,8 +62,10 @@
                     android:textColor="@color/black"
                     android:textSize="15sp"
                     android:paddingLeft="5dp"
+                   android:layout_gravity="center"
                     android:paddingTop="4dp"
-                    android:text=""/>
+                    android:text="name"/>
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -342,7 +349,7 @@
 
     </LinearLayout>
 
-    <LinearLayout
+   <!-- <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -379,7 +386,7 @@
         android:layout_marginTop="7dp"
         android:ellipsize="end"
         android:text=""/>
-
+-->
 
 
     </LinearLayout>
@@ -419,7 +426,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Like"
+                android:text="Helpful"
                />
 
 
@@ -440,7 +447,7 @@
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/edit"
+                android:src="@drawable/answer"
                 android:id="@+id/layout_case_list_imageview3"
                 />
 
@@ -485,6 +492,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="5dp"
+        android:id="@+id/layout_case_list_view2"
         android:background="@color/warning"
         />
 
@@ -504,23 +512,27 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="5dp"
                 android:text="Doctor's Name"
-                android:id="@+id/layout_case_list_textview10"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryDark"
+                android:id="@+id/layout_case_list_textview6"
                 />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="35dp"
+                android:layout_height="30dp"
                 android:src="@mipmap/selected"
-                android:id="@+id/layout_case_list_imageview11"
+                android:id="@+id/layout_case_list_imageview1"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="20dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/layout_case_list_imageview11"
-                android:id="@+id/layout_case_list_textview11"
+                android:layout_below="@+id/layout_case_list_textview6"
+                android:layout_marginTop="2dp"
+                android:id="@+id/layout_case_list_textview7"
                 android:layout_marginLeft="20dp"
+                android:textSize="12sp"
                 android:text = "This is accepted case"
                 android:layout_marginBottom="10dp"/>
         </RelativeLayout>

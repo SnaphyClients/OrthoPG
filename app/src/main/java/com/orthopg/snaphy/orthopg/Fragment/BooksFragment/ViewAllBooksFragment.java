@@ -66,7 +66,7 @@ public class ViewAllBooksFragment extends android.support.v4.app.Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loadPresenter();
-        initializeBookList();
+        //initializeBookList();
     }
 
     public void initializeBookList(){

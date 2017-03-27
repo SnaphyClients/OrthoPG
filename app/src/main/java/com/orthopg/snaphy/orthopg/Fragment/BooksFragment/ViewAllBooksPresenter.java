@@ -34,7 +34,7 @@ public class ViewAllBooksPresenter {
 
         if(Presenter.getInstance().getList(Book.class, Constants.VIEW_ALL_BOOKS_LIST)==null){
             bookDataList = new DataList<>();
-            Presenter.getInstance().addModel(Constants.VIEW_ALL_BOOKS_LIST, bookDataList);
+            Presenter.getInstance().addList(Constants.VIEW_ALL_BOOKS_LIST, bookDataList);
         } else{
             bookDataList = Presenter.getInstance().getList(Book.class, Constants.VIEW_ALL_BOOKS_LIST);
         }

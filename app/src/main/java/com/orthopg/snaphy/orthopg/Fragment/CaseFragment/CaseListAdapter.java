@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -25,10 +26,12 @@ import com.androidsdk.snaphy.snaphyandroidsdk.models.Post;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.PostDetail;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.SavePost;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
+import com.androidsdk.snaphy.snaphyandroidsdk.repository.CustomerRepository;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.CustomModel.TrackList;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
+import com.orthopg.snaphy.orthopg.RecyclerItemClickListener;
 import com.sdsmdg.tastytoast.TastyToast;
 
 import org.json.JSONObject;
@@ -42,7 +45,7 @@ import butterknife.OnClick;
 /**
  * Created by Ravi-Gupta on 9/21/2016.
  */
-public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHolder> implements View.OnClickListener {
+public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHolder> {
 
     MainActivity mainActivity;
     HashMap<String, TrackList> trackList;
@@ -146,7 +149,9 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
             LinearLayout caseContainer = holder.caseContainer;
             LinearLayout contentContainer = holder.contentContainer;
             LinearLayout myAnswerContainer = holder.myAnswerContainer;
+            LinearLayout caseNameContainer = holder.caseNameContainer;
             RelativeLayout acceptedContainer = holder.acceptContainer;
+            View view = holder.view;
 
             caseImages.setLayoutManager(new LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false));
             casePosition = position;
@@ -252,7 +257,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
             if (data.postDetail.getHasAcceptedAnswer()) {
                 //Show accepted answer..
                 if (data.postDetail.getComment() != null) {
-                    showSelectedAnswer(selectedAnswer, isAnswerSelected, selectedAnswerUserName);
+                    showSelectedAnswer(view, selectedAnswer, isAnswerSelected, selectedAnswerUserName);
                     Comment acceptedAnswer = data.postDetail.getComment();
                     if (acceptedAnswer.getCustomer() != null) {
                         String name = mainActivity.snaphyHelper.getName(acceptedAnswer.getCustomer().getFirstName(), acceptedAnswer.getCustomer().getLastName());
@@ -268,11 +273,11 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
 
                 } else {
                     ///hide accepted answer..
-                    hideSelectedAnswer(selectedAnswer, isAnswerSelected, selectedAnswerUserName);
+                    hideSelectedAnswer(view, selectedAnswer, isAnswerSelected, selectedAnswerUserName);
                 }
             } else {
                 ///hide accepted answer..
-                hideSelectedAnswer(selectedAnswer, isAnswerSelected, selectedAnswerUserName);
+                hideSelectedAnswer(view, selectedAnswer, isAnswerSelected, selectedAnswerUserName);
             }
 
 
@@ -362,7 +367,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                         final String MCINumber = customer.getMciNumber() != null ? customer.getMciNumber() : "";
                         if(customer.getStatus() != null) {
                             if (customer.getStatus().equals(Constants.ALLOW)) {
-                                mainActivity.replaceFragment(R.id.layout_case_list_linear_layout_my_answer, null);
+                                mainActivity.replaceFragment(R.id.layout_case_list_linear_layout_my_answer, position);
                             } else {
                                 if(MCINumber.isEmpty()) {
                                     /*mainActivity.replaceFragment(R.layout.fragment_mciverification, null);*/
@@ -601,12 +606,70 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                 }
             });
 
-            imageView.setOnClickListener(this);
+
+          /*  imageView.setOnClickListener(this);
             userName.setOnClickListener(this);
             caseHeading.setOnClickListener(this);
             caseContainer.setOnClickListener(this);
             contentContainer.setOnClickListener(this);
             acceptedContainer.setOnClickListener(this);
+            caseNameContainer.setOnClickListener(this);*/
+
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openProfileFragment(data);
+                }
+            });
+
+            userName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openProfileFragment(data);
+                }
+            });
+            caseHeading.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openCaseFragment(position);
+                }
+            });
+
+            caseContainer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openCaseFragment(position);
+                }
+            });
+
+            contentContainer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openCaseFragment(position);
+                }
+            });
+
+            caseImages.addOnItemTouchListener(new RecyclerItemClickListener(mainActivity, new RecyclerItemClickListener.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, int myposition) {
+                   openCaseFragment(position);
+                }
+            }));
+
+
+            acceptedContainer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openCaseFragment(position);
+                }
+            });
+
+            caseNameContainer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openCaseFragment(position);
+                }
+            });
 
           /*  linearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -636,16 +699,68 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
 
     }
 
+  public void openProfileFragment(Data data){
+      setCustomerData(data);
+  }
 
+  public void openCaseFragment(int position){
+      mainActivity.replaceFragment(R.id.layout_case_list_textview4, position);
+  }
 
-    @Override
+    public void setCustomerData(Data data){
+        if(data.post.getAnonymous()){
+
+        } else{
+            HashMap<String, Object> filter = new HashMap<>();
+            CustomerRepository customerRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
+            Customer customer = customerRepository.createObject(filter);
+            customer.setFirstName(data.post.getCustomer().getFirstName());
+            customer.setLastName(data.post.getCustomer().getLastName());
+            customer.setEmail(data.post.getCustomer().getEmail());
+            if(data.post.getCustomer().getCurrentCity()!=null){
+                if(data.post.getCustomer().getCurrentCity().isEmpty()){
+                    customer.setCurrentCity(data.post.getCustomer().getCurrentCity());
+                }
+            }
+
+            if(data.post.getCustomer().getMciNumber()!=null){
+                if(data.post.getCustomer().getMciNumber().isEmpty()){
+                    customer.setMciNumber(data.post.getCustomer().getMciNumber());
+                }
+            }
+
+            if(String.valueOf(data.post.getCustomer().getWorkExperience())!=null){
+                if(String.valueOf(data.post.getCustomer().getWorkExperience()).isEmpty()){
+                    customer.setWorkExperience(data.post.getCustomer().getWorkExperience());
+                }
+            }
+
+            if(data.post.getCustomer().getSpecialities()!=null){
+                if(data.post.getCustomer().getSpecialities().size()!=0){
+                    customer.setSpecialities(data.post.getCustomer().getSpecialities());
+                }
+            }
+
+            if(data.post.getCustomer().getQualifications()!=null){
+                if(data.post.getCustomer().getQualifications().size()!=0){
+                    customer.setQualifications(data.post.getCustomer().getQualifications());
+                }
+            }
+
+            Presenter.getInstance().addModel(Constants.CASE_PROFILE_DATA, customer);
+            mainActivity.replaceFragment(R.layout.fragment_doctor_profile,CaseFragment.TAG);
+        }
+    }
+
+    /*@Override
     public void onClick(View v) {
         if(v.getId()==R.id.layout_case_list_textview2 || v.getId()==R.id.layout_case_list_image){
             mainActivity.replaceFragment(R.layout.fragment_other_profile,null);
-        } else if(v.getId()==R.id.layout_case_list_textview1 || v.getId()==R.id.layout_case_list_linear_layout3 || v.getId()==R.id.layout_case_list_linear_layout4 || v.getId()==R.id.layout_case_list_reltive_layout1){
+        } else if(v.getId()==R.id.layout_case_list_textview1 || v.getId()==R.id.layout_case_list_linear_layout3 || v.getId()==R.id.layout_case_list_linear_layout4 || v.getId()==R.id.layout_case_list_reltive_layout1 || v.getId()==R.id.layout_case_list_linear_layout5 || v.getId()==R.id.layout_case_list_recycler_view){
             mainActivity.replaceFragment(R.id.layout_case_list_textview4, casePosition);
+            //mainActivity.replaceFragment(R.layout.fragment_case_detail, null);
         }
-    }
+    }*/
 
     public String parseLikeAndSave(int number) {
         if(number >= 1000) {
@@ -717,15 +832,17 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
     }
 
 
-    public void hideSelectedAnswer(TextView selectedAnswer, ImageView grenTick, TextView userName){
+    public void hideSelectedAnswer(View view, TextView selectedAnswer, ImageView grenTick, TextView userName){
         selectedAnswer.setVisibility(View.GONE);
         grenTick.setVisibility(View.GONE);
         userName.setVisibility(View.GONE);
+        view.setVisibility(View.GONE);
     }
-    public void showSelectedAnswer(TextView selectedAnswer, ImageView grenTick, TextView userName){
+    public void showSelectedAnswer(View view, TextView selectedAnswer, ImageView grenTick, TextView userName){
         selectedAnswer.setVisibility(View.VISIBLE);
         grenTick.setVisibility(View.VISIBLE);
         userName.setVisibility(View.VISIBLE);
+        view.setVisibility(View.VISIBLE);
     }
 
 
@@ -778,9 +895,10 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         @Bind(R.id.layout_case_list_linear_layout_save) LinearLayout saveLinearLayout;
         @Bind(R.id.layout_case_list_linear_layout3) LinearLayout caseContainer;
         @Bind(R.id.layout_case_list_linear_layout4) LinearLayout contentContainer;
+        @Bind(R.id.layout_case_list_linear_layout5) LinearLayout caseNameContainer;
         @Bind(R.id.layout_case_list_linear_layout_my_answer) LinearLayout myAnswerContainer;
         @Bind(R.id.layout_case_list_reltive_layout1) RelativeLayout acceptContainer;
-
+        @Bind(R.id.layout_case_list_view2) View view;
 
         public ViewHolder(View itemView) {
             super(itemView);

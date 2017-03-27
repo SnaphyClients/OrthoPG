@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.Listen;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.BookCategory;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Payment;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
@@ -68,6 +69,7 @@ public class BookTestFragment extends android.support.v4.app.Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loadPresenter();
+        Payment payment = new Payment();
        /* initializeBookListData();
         initializeBookListData1();
         initializeBookListData2();

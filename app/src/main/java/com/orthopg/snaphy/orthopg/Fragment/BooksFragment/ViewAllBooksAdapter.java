@@ -123,7 +123,7 @@ public class ViewAllBooksAdapter extends RecyclerView.Adapter<ViewAllBooksAdapte
 
     @Override
     public int getItemCount() {
-        return bookListModelList.size();
+        return bookDataList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

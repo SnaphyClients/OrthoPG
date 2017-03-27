@@ -112,7 +112,7 @@
                 android:background="@drawable/curved_rectangle_success_filled"
                 android:textColor="@color/white"
                 android:layout_marginTop="10dp"
-                android:text="Download"
+                android:text="Buy"
                 android:textSize="10sp"
                 android:textAllCaps="false"
                 />

@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +22,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.DataListCallback;
+import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Book;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Payment;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
+import com.androidsdk.snaphy.snaphyandroidsdk.repository.PaymentRepository;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.PDFReaderActivity;
@@ -43,6 +49,7 @@ import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.HashMap;
 
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
@@ -94,6 +101,8 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
         sharedPreferences = mainActivity.getSharedPreferences(Constants.BOOK_SHARED_PREFERENCE,Context.MODE_PRIVATE);
         key = getKey();
         iv = getIV();
+        Book book = Presenter.getInstance().getModel(Book.class, Constants.BOOK_DESCRIPTION_ID);
+        //checkPurchasedBook(book);
     }
 
     @Override
@@ -102,7 +111,9 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_book_description, container, false);
         ButterKnife.bind(this,view);
+        Book book = Presenter.getInstance().getModel(Book.class,Constants.BOOK_DESCRIPTION_ID);
         getBookData();
+
         //String key = mainActivity.getSharedPreferences.getString("sample.pdf","");
         outFile = new File(Environment.getExternalStorageDirectory() + "/OrthoPg/" + "sample.pdf");
         decFile = new File(Environment.getExternalStorageDirectory() + "/OrthoPg/" + "dsample.pdf");
@@ -110,7 +121,6 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
     }
 
     public void getBookData(){
-
         Book book = Presenter.getInstance().getModel(Book.class,Constants.BOOK_DESCRIPTION_ID);
         if(book!=null){
             if(book.getTitle()!=null){
@@ -143,6 +153,38 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
             }
         }
     }
+
+ /*   public boolean checkPurchasedBook(Book book){
+        HashMap<String, Object> filter = new HashMap<>();
+        HashMap<String, Object> where = new HashMap<>();
+        final boolean[] isBookPresent = {false};
+        Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+        String customerId = String.valueOf(customer.getId());
+        String bookId = String.valueOf(book.getId());
+        if(customerId!=null && bookId!=null){
+            where.put("customerId", customerId);
+            filter.put("where", where);
+            PaymentRepository paymentRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(PaymentRepository.class);
+            paymentRepository.find(filter, new DataListCallback<Payment>() {
+                @Override
+                public void onSuccess(DataList<Payment> objects) {
+                    super.onSuccess(objects);
+                    if(objects!=null){
+                        isBookPresent[0] = true;
+                    }
+                }
+
+                @Override
+                public void onError(Throwable t) {
+                    super.onError(t);
+                    Log.e(Constants.TAG, t.toString());
+                    isBookPresent[0] = false;
+                }
+            });
+            return isBookPresent[0];
+        }
+        return false;
+    }*/
 
     @OnClick(R.id.fragment_book_description_imageview1) void onBack(){
         mainActivity.onBackPressed();
@@ -368,9 +410,16 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Presenter.getInstance().removeModelFromList(Constants.BOOK_DESCRIPTION_ID);
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        Presenter.getInstance().removeModelFromList(Constants.BOOK_DESCRIPTION_ID);
     }
 
     /**

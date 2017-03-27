@@ -83,6 +83,7 @@ dependencies {
     compile 'es.voghdev.pdfviewpager:library:1.0.1'
     compile 'com.github.barteksc:android-pdf-viewer:2.4.0'
     compile 'com.android.support:multidex:1.0.1'
+    compile 'com.yqritc:recyclerview-flexibledivider:1.4.0'
     testCompile 'junit:junit:4.12'
 }
 

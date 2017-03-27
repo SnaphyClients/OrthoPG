@@ -324,6 +324,15 @@ public class BookCategoryRepository extends ModelRepository<BookCategory> {
     
 
     
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/fetchBookList", "POST"), "BookCategory.fetchBookList");
+    
+
+    
+    
+
+    
     
     return contract;
     }
@@ -1644,6 +1653,52 @@ public class BookCategoryRepository extends ModelRepository<BookCategory> {
 
         
     
+        
+    
+        
+            //Method fetchBookList definition
+            public void fetchBookList(  String customerId, final VoidCallback callback){
+
+                /**
+                Call the onBefore event
+                */
+                callback.onBefore();
+
+
+                //Definging hashMap for data conversion
+                Map<String, Object> hashMapObject = new HashMap<>();
+                //Now add the arguments...
+                
+                        hashMapObject.put("customerId", customerId);
+                
+
+                
+                    invokeStaticMethod("fetchBookList", hashMapObject, new Adapter.Callback() {
+                        @Override
+                        public void onError(Throwable t) {
+                                callback.onError(t);
+                                //Call the finally method..
+                                callback.onFinally();
+                        }
+
+                        @Override
+                        public void onSuccess(String response) {
+                            callback.onSuccess();
+                            //Call the finally method..
+                            callback.onFinally();
+                        }
+                    });
+                
+
+
+                
+
+                
+
+            }//Method fetchBookList definition ends here..
+
+            
+
         
     
         

@@ -10,7 +10,7 @@
         android:id="@+id/layout_books_type_textview1"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
-        android:text="Category"
+        android:text=""
         />
 
     <TextView
@@ -24,6 +24,7 @@
         android:id="@+id/layout_books_type_textview2"
         android:layout_alignParentRight="true"
         android:text="View All"
+        android:visibility="gone"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"/>
 

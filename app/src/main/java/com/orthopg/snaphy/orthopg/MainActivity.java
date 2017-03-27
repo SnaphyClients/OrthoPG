@@ -30,6 +30,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.BookDescriptionFragment;
 import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.BookTestFragment;
@@ -54,10 +55,12 @@ import com.orthopg.snaphy.orthopg.Fragment.NewCase.CaseDescriptionFragment;
 import com.orthopg.snaphy.orthopg.Fragment.NewCase.CaseHeadingFragment;
 import com.orthopg.snaphy.orthopg.Fragment.NewCase.CaseUploadImageFragment;
 import com.orthopg.snaphy.orthopg.Fragment.NewsFragment.NewsFragment;
+import com.orthopg.snaphy.orthopg.Fragment.ProfileFragment.EditProfileFragment;
 import com.orthopg.snaphy.orthopg.Fragment.ProfileFragment.OtherProfileFragment;
 import com.orthopg.snaphy.orthopg.Fragment.ProfileFragment.ProfileFragment;
 
 import com.orthopg.snaphy.orthopg.Interface.OnFragmentChange;
+import com.orthopg.snaphy.orthopg.OrderHistoryFragment.OrderHistoryFragment;
 import com.orthopg.snaphy.orthopg.PushNotification.RegistrationIntentService;
 import com.orthopg.snaphy.orthopg.QualificationFragment.QualificationFragment;
 import com.orthopg.snaphy.orthopg.SpecialityFragment.SpecialityFragment;
@@ -96,7 +99,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         BooksHelpFragment.OnFragmentInteractionListener, NewsHelpFragment.OnFragmentInteractionListener,
         ViewAllBooksFragment.OnFragmentInteractionListener, BookDescriptionFragment.OnFragmentInteractionListener,
         OtherProfileFragment.OnFragmentInteractionListener, SpecialityFragment.OnFragmentInteractionListener,
-        QualificationFragment.OnFragmentInteractionListener {
+        QualificationFragment.OnFragmentInteractionListener, EditProfileFragment.OnFragmentInteractionListener,
+        OrderHistoryFragment.OnFragmentInteractionListener {
 
     RestAdapter restAdapter;
     Context context;
@@ -353,12 +357,13 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
                 openCaseDetailFragment(fragmentTransaction, object);
                 break;
 
+
             case R.id.fragment_case_detail_button4:
-                openPostAnswerFragment(fragmentTransaction);
+                openPostAnswerFragment(fragmentTransaction, object);
                 break;
 
             case R.id.layout_case_list_linear_layout_my_answer:
-                openPostAnswerFragment(fragmentTransaction);
+                openPostAnswerFragmentForHome(fragmentTransaction, object);
                 break;
 
             case R.layout.fragment_case_detail:
@@ -373,8 +378,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
                 openFragmentBookDescription(fragmentTransaction);
                 break;
 
-            case R.layout.fragment_other_profile:
-                openOtherProfileFragment(fragmentTransaction);
+            case R.layout.fragment_doctor_profile:
+                openOtherProfileFragment(fragmentTransaction, object);
                 break;
 
             case R.layout.fragment_speciality:
@@ -383,6 +388,14 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
 
             case R.layout.fragment_qualification:
                 openQualificationFragment(fragmentTransaction);
+                break;
+
+            case R.layout.fragment_edit_profile:
+                openEditProfileFragment(fragmentTransaction, object);
+                break;
+
+            case R.layout.fragment_order_history:
+                openOrderHistory(fragmentTransaction);
                 break;
         }
     }
@@ -530,11 +543,28 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         fragmentTransaction.commitAllowingStateLoss();
     }
 
-    private void openPostAnswerFragment(FragmentTransaction fragmentTransaction) {
+    private void openPostAnswerFragmentForHome(FragmentTransaction fragmentTransaction, Object position){
+
         PostAnswerFragment postAnswerFragment = (PostAnswerFragment) getSupportFragmentManager().
                 findFragmentByTag(PostAnswerFragment.TAG);
+        String TAG = String.valueOf(position);
         if (postAnswerFragment == null) {
-            postAnswerFragment = PostAnswerFragment.newInstance();
+            postAnswerFragment = PostAnswerFragment.newInstance(TAG);
+        }
+        Bundle bundle = new Bundle();
+        int pos = (int) position;
+        bundle.putInt("position", pos);
+        postAnswerFragment.setArguments(bundle);
+        fragmentTransaction.replace(R.id.main_container, postAnswerFragment, PostAnswerFragment.TAG).addToBackStack(CaseDetailFragment.TAG);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    private void openPostAnswerFragment(FragmentTransaction fragmentTransaction, Object object) {
+        PostAnswerFragment postAnswerFragment = (PostAnswerFragment) getSupportFragmentManager().
+                findFragmentByTag(PostAnswerFragment.TAG);
+        String TAG = (String)object;
+        if (postAnswerFragment == null) {
+            postAnswerFragment = PostAnswerFragment.newInstance(TAG);
         }
         fragmentTransaction.replace(R.id.main_container, postAnswerFragment, PostAnswerFragment.TAG).addToBackStack(null);
         fragmentTransaction.commitAllowingStateLoss();
@@ -560,10 +590,11 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         fragmentTransaction.commitAllowingStateLoss();
     }
 
-    private void openOtherProfileFragment(FragmentTransaction fragmentTransaction){
+    private void openOtherProfileFragment(FragmentTransaction fragmentTransaction, Object object){
         OtherProfileFragment otherProfileFragment = (OtherProfileFragment)getSupportFragmentManager().findFragmentByTag(OtherProfileFragment.TAG);
+        String TAG = (String)object;
         if(otherProfileFragment==null){
-            otherProfileFragment = OtherProfileFragment.newInstance();
+            otherProfileFragment = OtherProfileFragment.newInstance(TAG);
         }
         fragmentTransaction.replace(R.id.main_container,otherProfileFragment, OtherProfileFragment.TAG).addToBackStack(OtherProfileFragment.TAG);
         fragmentTransaction.commitAllowingStateLoss();
@@ -584,6 +615,25 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             qualificationFragment = QualificationFragment.newInstance();
         }
         fragmentTransaction.replace(R.id.main_container, qualificationFragment, QualificationFragment.TAG).addToBackStack(QualificationFragment.TAG);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    private void openEditProfileFragment(FragmentTransaction fragmentTransaction, Object object){
+        EditProfileFragment editProfileFragment = (EditProfileFragment)getSupportFragmentManager().findFragmentByTag(EditProfileFragment.TAG);
+        String TAG = (String)object;
+        if(editProfileFragment == null){
+            editProfileFragment = EditProfileFragment.newInstance(TAG);
+        }
+        fragmentTransaction.replace(R.id.main_container, editProfileFragment, EditProfileFragment.TAG).addToBackStack(EditProfileFragment.TAG);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    private void openOrderHistory(FragmentTransaction fragmentTransaction){
+        OrderHistoryFragment orderHistoryFragment = (OrderHistoryFragment)getSupportFragmentManager().findFragmentByTag(OrderHistoryFragment.TAG);
+        if(orderHistoryFragment == null){
+            orderHistoryFragment = OrderHistoryFragment.newInstance();
+        }
+        fragmentTransaction.replace(R.id.main_container, orderHistoryFragment, OrderHistoryFragment.TAG).addToBackStack(OrderHistoryFragment.TAG);
         fragmentTransaction.commitAllowingStateLoss();
     }
 
@@ -928,9 +978,12 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
                 @Override
                 public void onError(Throwable t) {
                     //report faliure login
-                    Answers.getInstance().logLogin(new LoginEvent()
-                            .putSuccess(false).
-                    putCustomAttribute("Login Error", t.getMessage()));
+                    if(t.getMessage()!=null){
+                        Answers.getInstance().logLogin(new LoginEvent()
+                                .putSuccess(false).
+                                        putCustomAttribute("Login Error", t.getMessage()));
+                    }
+
                     //Retry Login
                     if (t.getMessage() != null) {
                         if (t.getMessage().equals("Unauthorized")) {

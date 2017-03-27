@@ -3,6 +3,7 @@
     <string name="expand">more...</string>
     <string name="collapse">less</string>
     <string name="updateSpeciality">Update Speciality</string>
+    <string name="updateQualification">Update Qualification</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

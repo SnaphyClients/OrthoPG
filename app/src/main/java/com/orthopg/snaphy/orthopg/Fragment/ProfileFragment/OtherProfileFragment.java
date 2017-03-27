@@ -2,6 +2,7 @@ package com.orthopg.snaphy.orthopg.Fragment.ProfileFragment;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -21,6 +22,8 @@ import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.DataListCallback;
@@ -34,8 +37,10 @@ import com.androidsdk.snaphy.snaphyandroidsdk.repository.CustomerRepository;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.SpecialityRepository;
 import com.google.common.collect.ContiguousSet;
 import com.orthopg.snaphy.orthopg.Constants;
+import com.orthopg.snaphy.orthopg.Fragment.CaseFragment.CaseFragment;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
+import com.orthopg.snaphy.orthopg.WordUtils;
 
 import java.util.HashMap;
 
@@ -55,7 +60,7 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
 
     private OnFragmentInteractionListener mListener;
     MainActivity mainActivity;
-    @Bind(R.id.fragment_other_profile_textview2) TextView emailTxt;
+  /*  @Bind(R.id.fragment_other_profile_textview2) TextView emailTxt;
     @Bind(R.id.fragment_other_profile_textview12) TextView mciNumberTxt;
     @Bind(R.id.fragment_other_profile_textview4) TextView specialityTxt;
     @Bind(R.id.fragment_other_profile_textview7) TextView workExperinceTxt;
@@ -64,16 +69,41 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.fragment_profile_imagebutton2) ImageButton specialityButton;
     @Bind(R.id.fragment_profile_imagebutton5) ImageButton qualificationButton;
     @Bind(R.id.fragment_other_profile_textview5) TextView name;
-    @Bind(R.id.layout_profile_image) ImageView profileImage;
+    @Bind(R.id.layout_profile_image) ImageView profileImage;*/
+
+    @Bind(R.id.fragment_profile_imageview1) ImageView profileImage;
+    @Bind(R.id.fragment_profile_imageview2) ImageView editImage;
+    @Bind(R.id.fragment_profile_textview1) TextView name;
+    @Bind(R.id.fragment_profile_textview2) TextView emailTxt;
+    @Bind(R.id.fragment_profile_textview3) TextView editProfileTxt;
+    @Bind(R.id.fragment_profile_textview4) TextView mciNumberTxt;
+    @Bind(R.id.fragment_profile_textview5) TextView workExperinceTxt;
+    @Bind(R.id.fragment_profile_textview6) TextView specialityTxt;
+    @Bind(R.id.fragment_profile_textview7) TextView qualificationTxt;
+    @Bind(R.id.fragment_profile_textview8) TextView currentWorkingTxt;
+
+    @Bind(R.id.fragment_profile_imageview3) ImageView mciEdit;
+    @Bind(R.id.fragment_profile_imageview4) ImageView workExperienceEdit;
+    @Bind(R.id.fragment_profile_imageview5) ImageView specialityEdit;
+    @Bind(R.id.fragment_profile_imageview6) ImageView qualificationEdit;
+    @Bind(R.id.fragment_profile_relative_layout1) RelativeLayout orderListContainer;
+    @Bind(R.id.fragment_profile_textview9) TextView orderHistoryTxt;
+
+    public final static String CITY_TAG = "EditCityTag";
+    public final static String MCINUMBER_TAG = "MCINumberTag";
+    public final static String WORKEXPERIENCETAG = "WorkExperienceTag";
 
     public final static String TAG = "OtherProfileFragment";
+    public static String FROM;
 
     public OtherProfileFragment() {
         // Required empty public constructor
+        FROM = "";
     }
 
-    public static OtherProfileFragment newInstance() {
+    public static OtherProfileFragment newInstance(String TAG) {
         OtherProfileFragment fragment = new OtherProfileFragment();
+        FROM = TAG;
         return fragment;
     }
 
@@ -86,99 +116,116 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_other_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_doctor_profile, container, false);
         ButterKnife.bind(this, view);
         setProfileData();
         return view;
     }
 
     public void setProfileData() {
-        Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
-        if (customer != null) {
-            //getSpecialityOfCustomer(customer);
+        if(OtherProfileFragment.FROM.equals(CaseFragment.TAG)){
+            checkVisiblity();
+            Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.CASE_PROFILE_DATA);
+            if(customer!=null){
+                setCustomerProfileData(customer);
+            } else{
+                emailTxt.setVisibility(View.GONE);
+                mciNumberTxt.setVisibility(View.GONE);
+                workExperinceTxt.setVisibility(View.GONE);
+                currentWorkingTxt.setVisibility(View.GONE);
+                qualificationTxt.setVisibility(View.GONE);
+                specialityTxt.setVisibility(View.GONE);
+            }
+        } else {
+            Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+            if (customer != null) {
+                setCustomerProfileData(customer);
+            } else {
+                emailTxt.setVisibility(View.GONE);
+                mciNumberTxt.setVisibility(View.GONE);
+                workExperinceTxt.setVisibility(View.GONE);
+                currentWorkingTxt.setVisibility(View.GONE);
+                qualificationTxt.setVisibility(View.GONE);
+                specialityTxt.setVisibility(View.GONE);
+            }
+        }
+    }
 
-            if (customer.getEmail() != null) {
-                if (!customer.getEmail().isEmpty()) {
-                    emailTxt.setVisibility(View.VISIBLE);
-                    emailTxt.setText(customer.getEmail());
-                } else {
-                    emailTxt.setVisibility(View.GONE);
-                }
+    public void checkVisiblity(){
+        editProfileTxt.setVisibility(View.GONE);
+        editImage.setVisibility(View.GONE);
+        mciEdit.setVisibility(View.GONE);
+        workExperienceEdit.setVisibility(View.GONE);
+        specialityEdit.setVisibility(View.GONE);
+        qualificationEdit.setVisibility(View.GONE);
+        orderListContainer.setVisibility(View.GONE);
+        orderHistoryTxt.setVisibility(View.GONE);
+    }
+
+    public void setCustomerProfileData(Customer customer){
+        if (customer.getEmail() != null) {
+            if (!customer.getEmail().isEmpty()) {
+                emailTxt.setVisibility(View.VISIBLE);
+                emailTxt.setText(customer.getEmail());
             } else {
                 emailTxt.setVisibility(View.GONE);
             }
+        } else {
+            emailTxt.setVisibility(View.GONE);
+        }
 
-            if (customer.getMciNumber() != null) {
-                if (!customer.getMciNumber().isEmpty()) {
-                    mciNumberTxt.setVisibility(View.VISIBLE);
-                    mciNumberTxt.setText(customer.getMciNumber());
-                } else {
-                    mciNumberTxt.setVisibility(View.GONE);
-                }
+        if (customer.getMciNumber() != null) {
+            if (!customer.getMciNumber().isEmpty()) {
+                mciNumberTxt.setVisibility(View.VISIBLE);
+                mciNumberTxt.setText(customer.getMciNumber());
             } else {
                 mciNumberTxt.setVisibility(View.GONE);
             }
+        } else {
+            mciNumberTxt.setVisibility(View.GONE);
+        }
 
-            String userName = mainActivity.snaphyHelper.getName(customer.getFirstName(), customer.getLastName());
-            userName = Constants.Doctor + userName.replace("^[Dd][Rr]", "");
-            if(!userName.isEmpty()){
-                name.setVisibility(View.VISIBLE);
-                name.setText(userName);
-            }else{
-                name.setVisibility(View.GONE);
-            }
+        String userName = mainActivity.snaphyHelper.getName(customer.getFirstName(), customer.getLastName());
+        userName = Constants.Doctor + userName.replace("^[Dd][Rr]", "");
+        if(!userName.isEmpty()){
+            name.setVisibility(View.VISIBLE);
+            name.setText(userName);
+        }else{
+            name.setVisibility(View.GONE);
+        }
 
-            if(customer.getProfilePic() != null){
-                mainActivity.snaphyHelper.loadUnSignedThumbnailImage(customer.getProfilePic(), profileImage, R.mipmap.anonymous);
-            }else{
-                profileImage.setImageResource(R.mipmap.anonymous);
-            }
+        if(customer.getProfilePic() != null){
+            mainActivity.snaphyHelper.loadUnSignedThumbnailImage(customer.getProfilePic(), profileImage, R.mipmap.anonymous);
+        }else{
+            profileImage.setImageResource(R.mipmap.anonymous);
+        }
 
-            String workExperience = String.valueOf((int)customer.getWorkExperience());
-            if (workExperience != null) {
-                if (!workExperience.isEmpty()) {
-                    workExperinceTxt.setVisibility(View.VISIBLE);
-                    workExperinceTxt.setText(String.valueOf((int)customer.getWorkExperience()));
-                } else {
-                    workExperinceTxt.setVisibility(View.GONE);
-                }
+        String workExperience = String.valueOf((int)customer.getWorkExperience());
+        if (workExperience != null) {
+            if (!workExperience.isEmpty()) {
+                workExperinceTxt.setVisibility(View.VISIBLE);
+                workExperinceTxt.setText(String.valueOf((int)customer.getWorkExperience()));
             } else {
                 workExperinceTxt.setVisibility(View.GONE);
             }
+        } else {
+            workExperinceTxt.setVisibility(View.GONE);
+        }
 
-            if (customer.getCurrentCity() != null) {
-                if (!customer.getCurrentCity().isEmpty()) {
-                    currentWorkingTxt.setVisibility(View.VISIBLE);
-                    currentWorkingTxt.setText(String.valueOf(customer.getCurrentCity()));
-                } else {
-                    currentWorkingTxt.setVisibility(View.GONE);
-                }
+        if (customer.getCurrentCity() != null) {
+            if (!customer.getCurrentCity().isEmpty()) {
+                currentWorkingTxt.setVisibility(View.VISIBLE);
+                currentWorkingTxt.setText(WordUtils.capitalize(String.valueOf(customer.getCurrentCity())));
             } else {
                 currentWorkingTxt.setVisibility(View.GONE);
             }
+        } else {
+            currentWorkingTxt.setVisibility(View.GONE);
+        }
 
 
-            if (customer.getSpecialities() != null) {
-                if (customer.getSpecialities().size() == 0) {
-                    HashMap<String, Object> filter = new HashMap<>();
-                    customer.get__specialities(filter, mainActivity.snaphyHelper.getLoopBackAdapter(), new DataListCallback<Speciality>() {
-                        @Override
-                        public void onSuccess(DataList<Speciality> objects) {
-                            super.onSuccess(objects);
-                            Presenter.getInstance().addList(Constants.CUSTOMER_SPECIALITY_LIST,objects);
-                            setSpeciality();
-                        }
-
-                        @Override
-                        public void onError(Throwable t) {
-                            super.onError(t);
-                            Log.e(Constants.TAG, t.toString());
-                        }
-                    });
-                }
-                setSpeciality();
-            } else {
-                specialityTxt.setVisibility(View.GONE);
+        if (customer.getSpecialities() != null) {
+            if (customer.getSpecialities().size() == 0) {
                 HashMap<String, Object> filter = new HashMap<>();
                 customer.get__specialities(filter, mainActivity.snaphyHelper.getLoopBackAdapter(), new DataListCallback<Speciality>() {
                     @Override
@@ -195,27 +242,27 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
                     }
                 });
             }
-            if (customer.getQualifications() != null) {
-                if (customer.getQualifications().size() == 0) {
-                    HashMap<String, Object> filter = new HashMap<>();
-                    customer.get__qualifications(filter, mainActivity.snaphyHelper.getLoopBackAdapter(), new DataListCallback<Qualification>() {
-                        @Override
-                        public void onSuccess(DataList<Qualification> objects) {
-                            super.onSuccess(objects);
-                            Presenter.getInstance().addList(Constants.CUSTOMER_QUALIFICATION_LIST,objects);
-                            setQualification();
-                        }
-
-                        @Override
-                        public void onError(Throwable t) {
-                            super.onError(t);
-                            Log.e(Constants.TAG, t.toString());
-                        }
-                    });
+            setSpeciality();
+        } else {
+            specialityTxt.setVisibility(View.GONE);
+            HashMap<String, Object> filter = new HashMap<>();
+            customer.get__specialities(filter, mainActivity.snaphyHelper.getLoopBackAdapter(), new DataListCallback<Speciality>() {
+                @Override
+                public void onSuccess(DataList<Speciality> objects) {
+                    super.onSuccess(objects);
+                    Presenter.getInstance().addList(Constants.CUSTOMER_SPECIALITY_LIST,objects);
+                    setSpeciality();
                 }
-                setQualification();
-            } else{
-                qualificationTxt.setVisibility(View.GONE);
+
+                @Override
+                public void onError(Throwable t) {
+                    super.onError(t);
+                    Log.e(Constants.TAG, t.toString());
+                }
+            });
+        }
+        if (customer.getQualifications() != null) {
+            if (customer.getQualifications().size() == 0) {
                 HashMap<String, Object> filter = new HashMap<>();
                 customer.get__qualifications(filter, mainActivity.snaphyHelper.getLoopBackAdapter(), new DataListCallback<Qualification>() {
                     @Override
@@ -232,30 +279,70 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
                     }
                 });
             }
-        } else {
-            emailTxt.setVisibility(View.GONE);
-            mciNumberTxt.setVisibility(View.GONE);
-            workExperinceTxt.setVisibility(View.GONE);
-            currentWorkingTxt.setVisibility(View.GONE);
+            setQualification();
+        } else{
             qualificationTxt.setVisibility(View.GONE);
-            specialityTxt.setVisibility(View.GONE);
+            HashMap<String, Object> filter = new HashMap<>();
+            customer.get__qualifications(filter, mainActivity.snaphyHelper.getLoopBackAdapter(), new DataListCallback<Qualification>() {
+                @Override
+                public void onSuccess(DataList<Qualification> objects) {
+                    super.onSuccess(objects);
+                    Presenter.getInstance().addList(Constants.CUSTOMER_QUALIFICATION_LIST,objects);
+                    setQualification();
+                }
+
+                @Override
+                public void onError(Throwable t) {
+                    super.onError(t);
+                    Log.e(Constants.TAG, t.toString());
+                }
+            });
         }
     }
 
+    @OnClick(R.id.fragment_profile_imageview2) void onEditCity(){
+        mainActivity.replaceFragment(R.layout.fragment_edit_profile, CITY_TAG);
+    }
+
+    @OnClick(R.id.fragment_profile_textview3) void onEditCityText(){
+        mainActivity.replaceFragment(R.layout.fragment_edit_profile, CITY_TAG);
+    }
+
+    @OnClick(R.id.fragment_profile_imageview3) void onMCIEdit(){
+        mainActivity.replaceFragment(R.layout.fragment_edit_profile, MCINUMBER_TAG);
+    }
+
+    @OnClick(R.id.fragment_profile_imageview4) void onWorkExperienceEdit(){
+        mainActivity.replaceFragment(R.layout.fragment_edit_profile, WORKEXPERIENCETAG);
+    }
+
+    @OnClick(R.id.fragment_profile_imageview5) void onSpecialityEdit(){
+        mainActivity.replaceFragment(R.layout.fragment_speciality, null);
+    }
+
+    @OnClick(R.id.fragment_profile_imageview6) void onQualificationEdit(){
+        mainActivity.replaceFragment(R.layout.fragment_qualification, null);
+    }
+
+    @OnClick(R.id.fragment_profile_relative_layout1) void onPastOrderList(){
+        mainActivity.replaceFragment(R.layout.fragment_order_history, null);
+    }
 
     public void setSpeciality() {
+
         Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
         if (customer.getSpecialities() == null) {
             return;
         }
         if (customer.getSpecialities().size() != 0) {
+
             specialityTxt.setVisibility(View.VISIBLE);
             String specialities = "";
-
+            int count = 0;
             DataList<Speciality> speciality = customer.getSpecialities();
             for (Speciality s : speciality) {
-                if(speciality.size()>1) {
-                    specialities = specialities + s.getName() + "\n";
+                if(count<speciality.size()-1) {
+                    specialities = specialities + s.getName() + ", ";
                 } else{
                     specialities = specialities + s.getName();
                 }
@@ -383,7 +470,7 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
         });
     }
 
-
+/*
     @OnClick(R.id.fragment_profile_imagebutton2) void onSpeciality(){
 
         mainActivity.replaceFragment(R.layout.fragment_speciality,null);
@@ -399,7 +486,7 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
 
     @OnClick(R.id.fragment_profile_imagebutton4) void onCurrentWorking(){
         showCurrentWorkingDialog();
-    }
+    }*/
 
     @OnClick(R.id.fragment_other_profile_imageview1) void onBack(){
         mainActivity.onBackPressed();

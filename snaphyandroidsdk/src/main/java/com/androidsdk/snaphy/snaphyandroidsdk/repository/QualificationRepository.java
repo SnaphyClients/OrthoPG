@@ -369,6 +369,15 @@ public class QualificationRepository extends ModelRepository<Qualification> {
     
 
     
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/updateQualification", "POST"), "Qualification.updateQualification");
+    
+
+    
+    
+
+    
     
 
     
@@ -2008,6 +2017,59 @@ public class QualificationRepository extends ModelRepository<Qualification> {
                 
 
             }//Method __disconnect__customers definition ends here..
+
+            
+
+        
+    
+        
+            //Method updateQualification definition
+            public void updateQualification(  String customerId,  DataList<String> qualificationIdList, final ObjectCallback<JSONObject>  callback ){
+
+                /**
+                Call the onBefore event
+                */
+                callback.onBefore();
+
+
+                //Definging hashMap for data conversion
+                Map<String, Object> hashMapObject = new HashMap<>();
+                //Now add the arguments...
+                
+                        hashMapObject.put("customerId", customerId);
+                
+                        hashMapObject.put("qualificationIdList", qualificationIdList);
+                
+
+                
+
+
+                
+                    
+                    invokeStaticMethod("updateQualification", hashMapObject, new Adapter.JsonObjectCallback() {
+                    
+                    
+                        @Override
+                        public void onError(Throwable t) {
+                            callback.onError(t);
+                            //Call the finally method..
+                            callback.onFinally();
+                        }
+
+                        @Override
+                        public void onSuccess(JSONObject response) {
+                            
+                                callback.onSuccess(response);
+                            
+                            //Call the finally method..
+                            callback.onFinally();
+                        }
+                    });
+                
+
+                
+
+            }//Method updateQualification definition ends here..
 
             
 

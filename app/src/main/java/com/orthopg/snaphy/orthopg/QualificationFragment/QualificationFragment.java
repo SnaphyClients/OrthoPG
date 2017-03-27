@@ -1,25 +1,35 @@
 package com.orthopg.snaphy.orthopg.QualificationFragment;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.Listen;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Qualification;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
+import com.androidsdk.snaphy.snaphyandroidsdk.repository.QualificationRepository;
 import com.orthopg.snaphy.orthopg.Constants;
+import com.orthopg.snaphy.orthopg.HorizontalDividerItemDecoration;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
+import com.sdsmdg.tastytoast.TastyToast;
+
+import org.json.JSONObject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,6 +48,7 @@ public class QualificationFragment extends Fragment {
     QualificationPresenter qualificationPresenter;
     QualificationAdapter qualificationAdapter;
     DataList<Qualification> qualificationDataList = new DataList<>();
+    DataList<Qualification> updatedQualification = new DataList<>();
 
     public QualificationFragment() {
         // Required empty public constructor
@@ -62,6 +73,11 @@ public class QualificationFragment extends Fragment {
         ButterKnife.bind(this,view);
         linearLayoutManager = new LinearLayoutManager(mainActivity);
         recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity()).
+                color(Color.parseColor("#EEEEEE"))
+                .sizeResId(R.dimen.divider)
+                .marginResId(R.dimen.left_margin1,R.dimen.right_margin1)
+                .build());
         subscribe();
         return view;
     }
@@ -100,6 +116,56 @@ public class QualificationFragment extends Fragment {
                 super.onRemove(element, index, dataList);
             }
         });
+    }
+
+    @OnClick(R.id.fragment_qualification_imageview1) void onBack(){
+        mainActivity.onBackPressed();
+    }
+
+
+    @OnClick(R.id.fragment_qualification_button1) void onUpdateQualification(){
+
+        updatedQualification = Presenter.getInstance().getList(Qualification.class, Constants.CUSTOMER_QUALIFICATION_LIST);
+        if(updatedQualification!=null){
+            if(updatedQualification.size()!=0){
+                DataList<String> updatedQualificationList = new DataList<>();
+                for(Qualification q : updatedQualification){
+                    updatedQualificationList.add(q.getName());
+                }
+                Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+                String customerId = (String)customer.getId();
+                if(customerId!=null){
+                    QualificationRepository qualificationRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(QualificationRepository.class);
+                    qualificationRepository.updateQualification(customerId, updatedQualificationList, new ObjectCallback<JSONObject>() {
+                        @Override
+                        public void onBefore() {
+                            super.onBefore();
+                            mainActivity.startProgressBar(mainActivity.progressBar);
+                        }
+
+                        @Override
+                        public void onSuccess(JSONObject object) {
+                            super.onSuccess(object);
+                            mainActivity.onBackPressed();
+                            TastyToast.makeText(mainActivity,"Successfully updated qualifications", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
+                        }
+
+                        @Override
+                        public void onError(Throwable t) {
+                            super.onError(t);
+                            Log.e(Constants.TAG, t.toString());
+                            TastyToast.makeText(mainActivity, "Error in updating qualification", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+                        }
+
+                        @Override
+                        public void onFinally() {
+                            super.onFinally();
+                            mainActivity.startProgressBar(mainActivity.progressBar);
+                        }
+                    });
+                }
+            }
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

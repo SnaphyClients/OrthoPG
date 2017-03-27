@@ -49,23 +49,30 @@ public class PostAnswerFragment extends android.support.v4.app.Fragment {
     MainActivity mainActivity;
     @Bind(R.id.fragment_post_answer_button1)
     Button postButton;
-
+   public static String FROM;
     Comment comment;
     Post post;
+    int position;
     @Bind(R.id.fragment_post_answer_edittext1) EditText answer;
 
     public PostAnswerFragment() {
         // Required empty public constructor
+        FROM = "";
     }
 
-    public static PostAnswerFragment newInstance() {
+    public static PostAnswerFragment newInstance(String TAG) {
         PostAnswerFragment fragment = new PostAnswerFragment();
+        FROM = TAG;
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(!PostAnswerFragment.FROM.equals(CaseDetailFragment.TAG)) {
+            Bundle bundle = this.getArguments();
+            position = bundle.getInt("position");
+        }
         InputMethodManager imm = (InputMethodManager) mainActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
     }
@@ -176,22 +183,40 @@ public class PostAnswerFragment extends android.support.v4.app.Fragment {
                       public void onSuccess(Comment object) {
                           object.addRelation(loginCustomer);
                           object.addRelation(post);
-                          DataList<String> exceptIdNewAnswerList = Presenter.getInstance().getModel(DataList.class, Constants.EXCEPTED_NEW_ANSWER_LIST);
-                          if(exceptIdNewAnswerList !=  null){
-                              if(object != null){
-                                  exceptIdNewAnswerList.add((String)object.getId());
+                          if(String.valueOf(PostAnswerFragment.FROM).equals(CaseDetailFragment.TAG)) {
+                              DataList<String> exceptIdNewAnswerList = Presenter.getInstance().getModel(DataList.class, Constants.EXCEPTED_NEW_ANSWER_LIST);
+                              if (exceptIdNewAnswerList != null) {
+                                  if (object != null) {
+                                      exceptIdNewAnswerList.add((String) object.getId());
+                                  }
                               }
-                          }
 
-                          //Now add comment to top of the list..
-                          if(post != null){
-                              if(post.getComments() == null){
-                                  post.setComments(new DataList<Comment>());
+
+                              //Now add comment to top of the list..
+                              if (post != null) {
+                                  if (post.getComments() == null) {
+                                      post.setComments(new DataList<Comment>());
+                                  }
+                                  post.getComments().add(0, object);
                               }
-                              post.getComments().add(0, object);
+                              mainActivity.onBackPressed();
+                          } else {
+                              DataList<String> homeAnswerList = new DataList<>();
+                              if (object != null) {
+                                  homeAnswerList.add((String) object.getId());
+                                  Presenter.getInstance().addList(Constants.HOME_ANSWER_LIST, homeAnswerList);
+
+                              }
+
+                              if (post != null) {
+                                  if (post.getComments() == null) {
+                                      post.setComments(new DataList<Comment>());
+                                  }
+                                  post.getComments().add(0, object);
+                              }
+                              mainActivity.onBackPressed();
+                              mainActivity.replaceFragment(R.id.layout_case_list_textview4, position);
                           }
-                          mainActivity.onBackPressed();
-                        /*  mainActivity.replaceFragment(R.layout.fragment_case_detail, null);*/
                       }
 
                       @Override
