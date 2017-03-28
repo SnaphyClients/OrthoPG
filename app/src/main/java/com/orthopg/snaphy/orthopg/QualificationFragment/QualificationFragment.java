@@ -130,7 +130,7 @@ public class QualificationFragment extends Fragment {
             if(updatedQualification.size()!=0){
                 DataList<String> updatedQualificationList = new DataList<>();
                 for(Qualification q : updatedQualification){
-                    updatedQualificationList.add(q.getName());
+                    updatedQualificationList.add(q.getId().toString());
                 }
                 Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
                 String customerId = (String)customer.getId();
@@ -160,7 +160,7 @@ public class QualificationFragment extends Fragment {
                         @Override
                         public void onFinally() {
                             super.onFinally();
-                            mainActivity.startProgressBar(mainActivity.progressBar);
+                            mainActivity.stopProgressBar(mainActivity.progressBar);
                         }
                     });
                 }

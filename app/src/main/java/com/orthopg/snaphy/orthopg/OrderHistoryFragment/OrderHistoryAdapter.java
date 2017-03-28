@@ -50,6 +50,8 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         TextView bookTransactionId = holder.bookTransactionId;
         TextView bookPrice = holder.bookPrice;
         TextView bookStatus = holder.bookStatus;
+        TextView bookOrderNo = holder.bookOrderNo;
+        TextView bookPaymentStatus= holder.bookPaymentStatus;
 
         if(order!=null){
             if(order.getBook()!=null){
@@ -73,14 +75,14 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             }
                 if(order.getOrderNumber()!=null){
                    if(!order.getOrderNumber().isEmpty()){
-                       bookTransactionId.setVisibility(View.VISIBLE);
-                       bookTransactionId.setText(order.getOrderNumber());
+                       bookOrderNo.setVisibility(View.VISIBLE);
+                       bookOrderNo.setText(order.getOrderNumber());
                    } else{
-                       bookTransactionId.setVisibility(View.GONE);
+                       bookOrderNo.setVisibility(View.GONE);
                    }
 
                 } else{
-                    bookTransactionId.setVisibility(View.GONE);
+                    bookOrderNo.setVisibility(View.GONE);
                 }
 
                 if(String.valueOf(order.getAmount())!=null){
@@ -105,6 +107,31 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                     bookStatus.setVisibility(View.GONE);
                 }
 
+                if(order.getTransactionId()!=null){
+                    if(order.getTransactionId().isEmpty()){
+                        bookTransactionId.setVisibility(View.VISIBLE);
+                        bookTransactionId.setText(order.getTransactionId().toString());
+                    } else{
+                        bookTransactionId.setVisibility(View.GONE);
+                    }
+                } else{
+                    bookTransactionId.setVisibility(View.GONE);
+                }
+
+            if (order.getPaymentStatus() != null) {
+                if(order.getPaymentStatus().isEmpty()){
+                    if(order.getPaymentStatus().equalsIgnoreCase("Failed")){
+                        bookPaymentStatus.setVisibility(View.VISIBLE);
+                    } else{
+                        bookPaymentStatus.setVisibility(View.VISIBLE);
+                    }
+                } else{
+                    bookPaymentStatus.setVisibility(View.VISIBLE);
+                }
+            } else{
+                bookPaymentStatus.setVisibility(View.VISIBLE);
+            }
+
         }
 
     }
@@ -121,6 +148,8 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         @Bind(R.id.layout_order_history_textview2) TextView bookTransactionId;
         @Bind(R.id.layout_order_history_textview4) TextView bookPrice;
         @Bind(R.id.layout_order_history_textview5) TextView bookStatus;
+        @Bind(R.id.layout_order_history_textview7) TextView bookOrderNo;
+        @Bind(R.id.layout_order_history_textview8) TextView bookPaymentStatus;
 
         public ViewHolder(View itemView) {
             super(itemView);

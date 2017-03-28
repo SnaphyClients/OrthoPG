@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
@@ -83,6 +84,8 @@ import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.branch.referral.Branch;
+import io.branch.referral.BranchError;
 import io.fabric.sdk.android.Fabric;
 
 
@@ -111,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
     public CircleProgressBar progressBar;
     TextView notConnectedText;
     Button retryButton;
+    MainActivity mainActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,12 +171,40 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        Branch branch = Branch.getInstance();
+        branch.initSession(new Branch.BranchReferralInitListener(){
+            @Override
+            public void onInitFinished(JSONObject referringParams, BranchError error) {
+                if (error == null) {
+                    // params are the deep linked params associated with the link that the user clicked -> was re-directed to this app
+                    // params will be empty if no data found
+                    // ... insert custom logic here ...
+                    String data = referringParams.toString();
+                    Toast.makeText(getApplicationContext(),data, Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.i("MyApp", error.getMessage());
+                }
+            }
+        }, this.getIntent().getData(), this);
+    }
+
+
+    @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+
         if(intent.getStringExtra("event") != null){
             //Show push message data..
             parsePushMessage(intent);
-        } else {
+        } else if(intent.getStringExtra("type")!=null){
+            if(intent.getStringExtra("type").equals("case")){
+                replaceFragment(R.layout.fragment_speciality, null);
+            }
+        }
+
+        else {
             replaceFragment(R.layout.fragment_main, null);
         }
 

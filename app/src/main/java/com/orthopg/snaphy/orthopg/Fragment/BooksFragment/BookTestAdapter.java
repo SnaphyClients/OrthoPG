@@ -23,6 +23,8 @@ import com.androidsdk.snaphy.snaphyandroidsdk.repository.PaymentRepository;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
+import com.orthopg.snaphy.orthopg.RecyclerItemClickListener;
+import com.orthopg.snaphy.orthopg.WordUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -50,7 +52,7 @@ public class BookTestAdapter extends RecyclerView.Adapter<BookTestAdapter.ViewHo
 
     }*/
 
-    public BookTestAdapter(MainActivity mainActivity, DataList<BookCategory> bookCategoryDataList){
+    public BookTestAdapter(MainActivity mainActivity, DataList<BookCategory> bookCategoryDataList) {
 
         this.mainActivity = mainActivity;
         this.bookCategoryDataList = bookCategoryDataList;
@@ -61,337 +63,61 @@ public class BookTestAdapter extends RecyclerView.Adapter<BookTestAdapter.ViewHo
 
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View bookView = inflater.inflate(R.layout.layout_books_type,parent,false);
+        View bookView = inflater.inflate(R.layout.layout_books_type, parent, false);
         BookTestAdapter.ViewHolder viewHolder = new BookTestAdapter.ViewHolder(bookView);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-       //BookModel bookModel = bookModelList.get(position);
+        //BookModel bookModel = bookModelList.get(position);
         //BookModel bookModel = bookModelDataList.get(position);
-         final BookCategory bookCategory_ = bookCategoryDataList.get(position);
+        final BookCategory bookCategory_ = bookCategoryDataList.get(position);
         final TextView bookCategory = holder.bookCategory;
         final RecyclerView recyclerView = holder.recyclerView;
         final TextView viewAll = holder.viewAll;
         Typeface font = Typeface.createFromAsset(mainActivity.getAssets(), "fonts/OpenSans-Bold.ttf");
         bookCategory.setTypeface(font);
-        DataList<Payment> paymentDataList1 = getSavedBookData();
-        final DataList<Book> bookDataList = new DataList<>();
-
-        //Check if downloaded books present and if present display at position 0 ...
-
-        if(position==0){
-            if(paymentDataList1!=null) {
-                if (paymentDataList1.size() != 0) {
-                    bookCategory.setText("Downloaded books");
-                    for (Payment payment : paymentDataList1) {
-                        if (payment.getBook() != null) {
-                            bookDataList.add(payment.getBook());
-                        } else {
-                            payment.get__book(true, mainActivity.snaphyHelper.getLoopBackAdapter(), new ObjectCallback<Book>() {
-                                @Override
-                                public void onSuccess(Book object) {
-                                    super.onSuccess(object);
-                                    bookDataList.add(object);
-                                }
-
-                                @Override
-                                public void onError(Throwable t) {
-                                    super.onError(t);
-                                    Log.e(Constants.TAG, t.toString());
-                                }
-                            });
-                        }
-                    }
-
-                    recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false));
-                    bookListTestAdapter = new BookListTestAdapter(mainActivity, bookDataList);
-                    recyclerView.setAdapter(bookListTestAdapter);
-
-                } else {
-
-                    if (bookCategory_ != null) {
-
-
-                        if (bookCategory_.getBooks() != null) {
-                            if (bookCategory_.getBooks().size() == 0) {
-                                HashMap<String, Object> filter = new HashMap<>();
-                                bookCategory_.get__books(filter, mainActivity.snaphyHelper.getLoopBackAdapter(), new DataListCallback<Book>() {
-                                    @Override
-                                    public void onBefore() {
-                                        super.onBefore();
-                                    }
-
-                                    @Override
-                                    public void onSuccess(DataList<Book> objects) {
-                                        super.onSuccess(objects);
-                                        if (objects != null) {
-                                            if (objects.size() != 0) {
-                                                if (bookCategory_.getName() != null) {
-                                                    if (!bookCategory_.getName().isEmpty()) {
-                                                        viewAll.setVisibility(View.VISIBLE);
-                                                        bookCategory.setText(bookCategory_.getName().toString());
-                                                    }else{
-                                                        bookCategory.setVisibility(View.GONE);
-                                                        viewAll.setVisibility(View.GONE);
-                                                    }
-                                                }
-                                                booksData(recyclerView, objects);
-                                            }
-                                        } else{
-                                            bookCategory.setVisibility(View.GONE);
-                                            viewAll.setVisibility(View.GONE);
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable t) {
-                                        super.onError(t);
-                                        Log.e(Constants.TAG, t.toString());
-                                    }
-
-                                    @Override
-                                    public void onFinally() {
-                                        super.onFinally();
-                                    }
-                                });
-                            }
-                            booksData(recyclerView, bookCategory_.getBooks());
+        if (bookCategory_ != null) {
+            if(bookCategory_.getBooks()!=null){
+                if(bookCategory_.getBooks().size()!=0){
+                    if (bookCategory_.getName() != null) {
+                        if (!bookCategory_.getName().isEmpty()) {
+                            viewAll.setVisibility(View.VISIBLE);
+                            bookCategory.setText(WordUtils.capitalize(bookCategory_.getName().toString()));
 
                         } else {
-                            HashMap<String, Object> filter = new HashMap<>();
-                            bookCategory_.get__books(filter, mainActivity.snaphyHelper.getLoopBackAdapter(), new DataListCallback<Book>() {
-                                @Override
-                                public void onBefore() {
-                                    super.onBefore();
-                                }
-
-                                @Override
-                                public void onSuccess(DataList<Book> objects) {
-                                    super.onSuccess(objects);
-                                    if (objects != null) {
-
-                                        if (objects.size() != 0) {
-                                            if (bookCategory_.getName() != null) {
-                                                if (!bookCategory_.getName().isEmpty()) {
-                                                    viewAll.setVisibility(View.VISIBLE);
-                                                    bookCategory.setText(bookCategory_.getName().toString());
-                                                }else{
-                                                    bookCategory.setVisibility(View.GONE);
-                                                    viewAll.setVisibility(View.GONE);
-                                                }
-                                            }
-                                            booksData(recyclerView, objects);
-                                        }
-                                    } else{
-                                        bookCategory.setVisibility(View.GONE);
-                                        viewAll.setVisibility(View.GONE);
-                                    }
-                                }
-
-                                @Override
-                                public void onError(Throwable t) {
-                                    super.onError(t);
-                                    Log.e(Constants.TAG, t.toString());
-                                }
-
-                                @Override
-                                public void onFinally() {
-                                    super.onFinally();
-                                }
-                            });
+                            bookCategory.setVisibility(View.GONE);
+                            viewAll.setVisibility(View.GONE);
                         }
+                    } else{
+                        bookCategory.setVisibility(View.GONE);
+                        viewAll.setVisibility(View.GONE);
                     }
+
+                    booksData(recyclerView, bookCategory_.getBooks());
+                } else{
+                    bookCategory.setVisibility(View.GONE);
+                    viewAll.setVisibility(View.GONE);
                 }
             } else{
-                if(bookCategory_!=null){
-
-
-                    if(bookCategory_.getBooks()!=null){
-                        if(bookCategory_.getBooks().size()==0){
-                            HashMap<String, Object> filter = new HashMap<>();
-                            bookCategory_.get__books(filter, mainActivity.snaphyHelper.getLoopBackAdapter(), new DataListCallback<Book>() {
-                                @Override
-                                public void onBefore() {
-                                    super.onBefore();
-                                }
-
-                                @Override
-                                public void onSuccess(DataList<Book> objects) {
-                                    super.onSuccess(objects);
-                                    if(objects!=null){
-                                        if(objects.size()!=0){
-                                            if(bookCategory_.getName()!=null){
-                                                if(!bookCategory_.getName().isEmpty()){
-                                                    viewAll.setVisibility(View.VISIBLE);
-                                                    bookCategory.setText(bookCategory_.getName().toString());
-                                                }else{
-                                                    bookCategory.setVisibility(View.GONE);
-                                                    viewAll.setVisibility(View.GONE);
-                                                }
-                                            }
-                                            booksData(recyclerView, objects);
-                                        }
-                                    } else{
-                                        bookCategory.setVisibility(View.GONE);
-                                        viewAll.setVisibility(View.GONE);
-                                    }
-                                }
-
-                                @Override
-                                public void onError(Throwable t) {
-                                    super.onError(t);
-                                    Log.e(Constants.TAG,t.toString());
-                                }
-
-                                @Override
-                                public void onFinally() {
-                                    super.onFinally();
-                                }
-                            });
-                        }
-                        booksData(recyclerView, bookCategory_.getBooks());
-
-                    } else{
-                        HashMap<String, Object> filter = new HashMap<>();
-                        bookCategory_.get__books(filter, mainActivity.snaphyHelper.getLoopBackAdapter(), new DataListCallback<Book>() {
-                            @Override
-                            public void onBefore() {
-                                super.onBefore();
-                            }
-
-                            @Override
-                            public void onSuccess(DataList<Book> objects) {
-                                super.onSuccess(objects);
-                                if(objects!=null){
-
-                                    if(objects.size()!=0){
-                                        if(bookCategory_.getName()!=null){
-                                            if(!bookCategory_.getName().isEmpty()){
-                                                viewAll.setVisibility(View.VISIBLE);
-                                                bookCategory.setText(bookCategory_.getName().toString());
-                                            }else{
-                                                bookCategory.setVisibility(View.GONE);
-                                                viewAll.setVisibility(View.GONE);
-                                            }
-                                        }
-                                        booksData(recyclerView, objects);
-                                    }
-                                } else{
-                                    bookCategory.setVisibility(View.GONE);
-                                    viewAll.setVisibility(View.GONE);
-                                }
-                            }
-
-                            @Override
-                            public void onError(Throwable t) {
-                                super.onError(t);
-                                Log.e(Constants.TAG,t.toString());
-                            }
-
-                            @Override
-                            public void onFinally() {
-                                super.onFinally();
-                            }
-                        });
-                    }
-                }
+                bookCategory.setVisibility(View.GONE);
+                viewAll.setVisibility(View.GONE);
             }
-        } else{
-            if(bookCategory_!=null){
 
-
-                if(bookCategory_.getBooks()!=null){
-                    if(bookCategory_.getBooks().size()==0){
-                        HashMap<String, Object> filter = new HashMap<>();
-                        bookCategory_.get__books(filter, mainActivity.snaphyHelper.getLoopBackAdapter(), new DataListCallback<Book>() {
-                            @Override
-                            public void onBefore() {
-                                super.onBefore();
-                            }
-
-                            @Override
-                            public void onSuccess(DataList<Book> objects) {
-                                super.onSuccess(objects);
-                                if(objects!=null){
-                                    if(objects.size()!=0){
-                                        if(bookCategory_.getName()!=null){
-                                            if(!bookCategory_.getName().isEmpty()){
-                                                viewAll.setVisibility(View.VISIBLE);
-                                                bookCategory.setText(bookCategory_.getName().toString());
-                                            }else{
-                                                bookCategory.setVisibility(View.GONE);
-                                                viewAll.setVisibility(View.GONE);
-                                            }
-                                        }
-                                        booksData(recyclerView, objects);
-                                    }
-                                } else{
-                                    bookCategory.setVisibility(View.GONE);
-                                    viewAll.setVisibility(View.GONE);
-                                }
-                            }
-
-                            @Override
-                            public void onError(Throwable t) {
-                                super.onError(t);
-                                Log.e(Constants.TAG,t.toString());
-                            }
-
-                            @Override
-                            public void onFinally() {
-                                super.onFinally();
-                            }
-                        });
-                    }
-                    booksData(recyclerView, bookCategory_.getBooks());
-
-                } else{
-                    HashMap<String, Object> filter = new HashMap<>();
-                    bookCategory_.get__books(filter, mainActivity.snaphyHelper.getLoopBackAdapter(), new DataListCallback<Book>() {
-                        @Override
-                        public void onBefore() {
-                            super.onBefore();
-                        }
-
-                        @Override
-                        public void onSuccess(DataList<Book> objects) {
-                            super.onSuccess(objects);
-                            if(objects!=null){
-
-                                if(objects.size()!=0){
-                                    if(bookCategory_.getName()!=null){
-                                        if(!bookCategory_.getName().isEmpty()){
-                                            viewAll.setVisibility(View.VISIBLE);
-                                            bookCategory.setText(bookCategory_.getName().toString());
-                                        } else{
-                                            bookCategory.setVisibility(View.GONE);
-                                            viewAll.setVisibility(View.GONE);
-                                        }
-                                    }
-                                    booksData(recyclerView, objects);
-                                }
-                            } else{
-                                bookCategory.setVisibility(View.GONE);
-                                viewAll.setVisibility(View.GONE);
-                            }
-                        }
-
-                        @Override
-                        public void onError(Throwable t) {
-                            super.onError(t);
-                            Log.e(Constants.TAG,t.toString());
-                        }
-
-                        @Override
-                        public void onFinally() {
-                            super.onFinally();
-                        }
-                    });
-                }
-            }
         }
+
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(mainActivity, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                if(bookCategory_.getName().toString().equalsIgnoreCase("Saved Books")){
+                    String name = "Saved Books";
+                    Presenter.getInstance().addModel(Constants.SAVED_BOOKS_DATA, name);
+                } else{
+                    Presenter.getInstance().removeModelFromList(Constants.SAVED_BOOKS_DATA);
+                }
+            }
+        }));
 
 
        /* if(bookModel!=null){
@@ -427,95 +153,20 @@ public class BookTestAdapter extends RecyclerView.Adapter<BookTestAdapter.ViewHo
                 }
             }
         }*/
-        viewAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Presenter.getInstance().addModel(Constants.BOOK_CATEGORY_ID,bookCategory_);
-                mainActivity.replaceFragment(R.layout.fragment_view_all_books,null);
-            }
-        });
+
+    viewAll.setOnClickListener(new View.OnClickListener()
+
+    {
+        @Override
+        public void onClick (View v){
+        Presenter.getInstance().addModel(Constants.BOOK_CATEGORY_ID, bookCategory_);
+        mainActivity.replaceFragment(R.layout.fragment_view_all_books, null);
     }
+    });
+}
 
-    public DataList<Payment> getSavedBookData() {
 
-        HashMap<String, Object> filter = new HashMap<>();
-        HashMap<String, Object> where = new HashMap<>();
-        Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
-        String customerId = (String)customer.getId();
-        if(customerId!=null){
-            where.put("customerId", customerId);
-            filter.put("where", where);
-            PaymentRepository paymentRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(PaymentRepository.class);
-            paymentRepository.find(filter, new DataListCallback<Payment>() {
-                @Override
-                public void onSuccess(DataList<Payment> objects) {
-                    super.onSuccess(objects);
-                    if(objects!=null) {
-                        paymentDataList = objects;
-                    }
-                }
 
-                @Override
-                public void onError(Throwable t) {
-                    super.onError(t);
-                    Log.e(Constants.TAG, t.toString());
-                }
-            });
-            return paymentDataList;
-        }
-        return null;
-
-        }
-        /*PaymentRepository paymentRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(PaymentRepository.class);
-        paymentRepository.find(filter, new DataListCallback<Payment>() {
-            @Override
-            public void onSuccess(DataList<Payment> objects) {
-                super.onSuccess(objects);
-                Payment payment = objects.get(0);
-                payment.get
-                payment.get__customer(true, mainActivity.snaphyHelper.getLoopBackAdapter(), new ObjectCallback<Customer>() {
-                    @Override
-                    public void onSuccess(final Customer object) {
-                        super.onSuccess(object);
-                        HashMap<String, Object> filter = new HashMap<>();
-                        object.get__orders(filter, mainActivity.snaphyHelper.getLoopBackAdapter(), new DataListCallback<Order>() {
-                            @Override
-                            public void onSuccess(DataList<Order> objects) {
-                                super.onSuccess(objects);
-                                Order order = objects.get(0);
-                                order.get__book(true, mainActivity.snaphyHelper.getLoopBackAdapter(), new ObjectCallback<Book>() {
-                                    @Override
-                                    public void onSuccess(Book object) {
-                                        super.onSuccess(object);
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable t) {
-                                        super.onError(t);
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void onError(Throwable t) {
-                                super.onError(t);
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onError(Throwable t) {
-                        super.onError(t);
-                    }
-                });
-
-            }
-
-            @Override
-            public void onError(Throwable t) {
-                super.onError(t);
-            }
-        });*/
 
 
     public void booksData(RecyclerView recyclerView, DataList<Book> objects){

@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.DataListCallback;
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Comment;
@@ -27,6 +28,7 @@ import com.androidsdk.snaphy.snaphyandroidsdk.models.PostDetail;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.SavePost;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.CustomerRepository;
+import com.androidsdk.snaphy.snaphyandroidsdk.repository.PostRepository;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.CustomModel.TrackList;
 import com.orthopg.snaphy.orthopg.MainActivity;
@@ -80,6 +82,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         public PostDetail postDetail;
         public Post post;
         public  TrackList trackListItem;
+        public Customer customer;
 
         //Constructor.
         public Data(TrackList trackListItem, int position ){
@@ -88,10 +91,10 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
             if(Constants.SELECTED_TAB.equals(Constants.TRENDING)
                     || Constants.SELECTED_TAB.equals(Constants.LATEST)
                     || Constants.SELECTED_TAB.equals(Constants.UNSOLVED)){
-
                     postDetail  = trackListItem.getPostDetails().get(position);
                     if(postDetail != null){
                         post = postDetail.getPost();
+                        customer = postDetail.getPost().getCustomer();
                     }
             }else{
                 if(trackListItem.getPostDataList() != null){
@@ -104,6 +107,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                 }
             }
         }
+
 
     }
 
@@ -714,53 +718,77 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
             HashMap<String, Object> filter = new HashMap<>();
             CustomerRepository customerRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
             Customer customer = customerRepository.createObject(filter);
+            customer.setEmail(data.customer.getEmail());
             customer.setFirstName(data.post.getCustomer().getFirstName());
             customer.setLastName(data.post.getCustomer().getLastName());
-            customer.setEmail(data.post.getCustomer().getEmail());
-            if(data.post.getCustomer().getCurrentCity()!=null){
-                if(data.post.getCustomer().getCurrentCity().isEmpty()){
-                    customer.setCurrentCity(data.post.getCustomer().getCurrentCity());
+            getOtherProfileData(data.post.getCustomer(), customer);
+
+        }
+    }
+
+    public void getOtherProfileData(final Customer customer, final Customer customer1){
+        String customerId = String.valueOf(customer.getId());
+        HashMap<String, Object> filter = new HashMap<>();
+        CustomerRepository customerRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
+        customerRepository.findById(customerId, filter, new ObjectCallback<Customer>() {
+            @Override
+            public void onSuccess(Customer object) {
+                super.onSuccess(object);
+                getAndSetCustomerData(customer1, object);
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                super.onError(t);
+                Log.e(Constants.TAG, t.toString());
+            }
+        });
+    }
+
+    public void getAndSetCustomerData(Customer customer, Customer customerData){
+        if(customerData!=null) {
+            if(customerData.getProfilePic()!=null){
+                customerData.setProfilePic(customerData.getProfilePic());
+            }
+            if (customerData.getEmail() != null) {
+                if (!customerData.getEmail().isEmpty()) {
+                    customer.setEmail(customerData.getEmail());
+                }
+            }
+            if (customerData.getCurrentCity() != null) {
+                if (!customerData.getCurrentCity().isEmpty()) {
+                    customer.setCurrentCity(customerData.getCurrentCity());
                 }
             }
 
-            if(data.post.getCustomer().getMciNumber()!=null){
-                if(data.post.getCustomer().getMciNumber().isEmpty()){
-                    customer.setMciNumber(data.post.getCustomer().getMciNumber());
+            if (customerData.getMciNumber() != null) {
+                if (!customerData.getMciNumber().isEmpty()) {
+                    customer.setMciNumber(customerData.getMciNumber());
                 }
             }
 
-            if(String.valueOf(data.post.getCustomer().getWorkExperience())!=null){
-                if(String.valueOf(data.post.getCustomer().getWorkExperience()).isEmpty()){
-                    customer.setWorkExperience(data.post.getCustomer().getWorkExperience());
+            if (String.valueOf(customerData.getWorkExperience()) != null) {
+                if (!String.valueOf(customerData.getWorkExperience()).isEmpty()) {
+                    customer.setWorkExperience(customerData.getWorkExperience());
                 }
             }
 
-            if(data.post.getCustomer().getSpecialities()!=null){
-                if(data.post.getCustomer().getSpecialities().size()!=0){
-                    customer.setSpecialities(data.post.getCustomer().getSpecialities());
+            if (customerData.getSpecialities() != null) {
+                if (customerData.getSpecialities().size() != 0) {
+                    customer.setSpecialities(customerData.getSpecialities());
                 }
             }
 
-            if(data.post.getCustomer().getQualifications()!=null){
-                if(data.post.getCustomer().getQualifications().size()!=0){
-                    customer.setQualifications(data.post.getCustomer().getQualifications());
+            if (customerData.getQualifications() != null) {
+                if (customerData.getQualifications().size() != 0) {
+                    customer.setQualifications(customerData.getQualifications());
                 }
             }
 
             Presenter.getInstance().addModel(Constants.CASE_PROFILE_DATA, customer);
-            mainActivity.replaceFragment(R.layout.fragment_doctor_profile,CaseFragment.TAG);
+            mainActivity.replaceFragment(R.layout.fragment_doctor_profile, CaseFragment.TAG);
         }
     }
-
-    /*@Override
-    public void onClick(View v) {
-        if(v.getId()==R.id.layout_case_list_textview2 || v.getId()==R.id.layout_case_list_image){
-            mainActivity.replaceFragment(R.layout.fragment_other_profile,null);
-        } else if(v.getId()==R.id.layout_case_list_textview1 || v.getId()==R.id.layout_case_list_linear_layout3 || v.getId()==R.id.layout_case_list_linear_layout4 || v.getId()==R.id.layout_case_list_reltive_layout1 || v.getId()==R.id.layout_case_list_linear_layout5 || v.getId()==R.id.layout_case_list_recycler_view){
-            mainActivity.replaceFragment(R.id.layout_case_list_textview4, casePosition);
-            //mainActivity.replaceFragment(R.layout.fragment_case_detail, null);
-        }
-    }*/
 
     public String parseLikeAndSave(int number) {
         if(number >= 1000) {

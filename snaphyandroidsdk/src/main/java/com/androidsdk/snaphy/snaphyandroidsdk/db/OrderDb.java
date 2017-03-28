@@ -77,11 +77,29 @@ public class OrderDb{
                         }
                                                 values.put("`orderNumber`", orderNumberData);
                                 
+                                                            String transactionIdData = "";
+                        if(modelData.getTransactionId() != null){
+                          transactionIdData = modelData.getTransactionId().toString();
+                        }
+                                                values.put("`transactionId`", transactionIdData);
+                                
                                                             String orderStatusData = "";
                         if(modelData.getOrderStatus() != null){
                           orderStatusData = modelData.getOrderStatus().toString();
                         }
                                                 values.put("`orderStatus`", orderStatusData);
+                                
+                                                            String paymentStatusData = "";
+                        if(modelData.getPaymentStatus() != null){
+                          paymentStatusData = modelData.getPaymentStatus().toString();
+                        }
+                                                values.put("`paymentStatus`", paymentStatusData);
+                                
+                                                            String errorMessageData = "";
+                        if(modelData.getErrorMessage() != null){
+                          errorMessageData = modelData.getErrorMessage().toString();
+                        }
+                                                values.put("`errorMessage`", errorMessageData);
                                 
                                                             double amountData;
                         amountData = (double)modelData.getAmount();
@@ -134,6 +152,20 @@ public class OrderDb{
                         }
 
                                                 values.put("`customerId`", customerIdData);
+                                
+                                                            //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                        String paymentIdData = "";
+                        try {
+                              Method method = modelData.getClass().getMethod("getPaymentId");
+                              if(method.invoke(modelData) != null){
+                                //paymentIdData = modelData.getPaymentId().toString();
+                                paymentIdData = (String) method.invoke(modelData);
+                              }
+                        } catch (Exception e) {
+                          Log.e("Database Error", e.toString());
+                        }
+
+                                                values.put("`paymentId`", paymentIdData);
                   
 
         //Add the updated data property value to be 1
@@ -225,9 +257,19 @@ public class OrderDb{
                         }
                                                 
                                 
-                                                            String orderStatusData = "";
+                                                            String transactionIdData = "";
                         if(cursor.getString(1) != null){
-                          orderStatusData = cursor.getString(1);
+                          transactionIdData = cursor.getString(1);
+                          if(transactionIdData != null){
+                            transactionIdData = (String)transactionIdData;
+                            hashMap.put("transactionId", transactionIdData);
+                          }
+                        }
+                                                
+                                
+                                                            String orderStatusData = "";
+                        if(cursor.getString(2) != null){
+                          orderStatusData = cursor.getString(2);
                           if(orderStatusData != null){
                             orderStatusData = (String)orderStatusData;
                             hashMap.put("orderStatus", orderStatusData);
@@ -235,8 +277,28 @@ public class OrderDb{
                         }
                                                 
                                 
+                                                            String paymentStatusData = "";
+                        if(cursor.getString(3) != null){
+                          paymentStatusData = cursor.getString(3);
+                          if(paymentStatusData != null){
+                            paymentStatusData = (String)paymentStatusData;
+                            hashMap.put("paymentStatus", paymentStatusData);
+                          }
+                        }
+                                                
+                                
+                                                            String errorMessageData = "";
+                        if(cursor.getString(4) != null){
+                          errorMessageData = cursor.getString(4);
+                          if(errorMessageData != null){
+                            errorMessageData = (String)errorMessageData;
+                            hashMap.put("errorMessage", errorMessageData);
+                          }
+                        }
+                                                
+                                
                                                             double amountData = (double)0;
-                          amountData = cursor.getInt(2);
+                          amountData = cursor.getInt(5);
                           amountData = (double)amountData;
                           hashMap.put("amount", amountData);
 
@@ -244,8 +306,8 @@ public class OrderDb{
                                                 
                                 
                                                             String typeData = "";
-                        if(cursor.getString(3) != null){
-                          typeData = cursor.getString(3);
+                        if(cursor.getString(6) != null){
+                          typeData = cursor.getString(6);
                           if(typeData != null){
                             typeData = (String)typeData;
                             hashMap.put("type", typeData);
@@ -254,8 +316,8 @@ public class OrderDb{
                                                 
                                 
                                                             String idData = "";
-                        if(cursor.getString(4) != null){
-                          idData = cursor.getString(4);
+                        if(cursor.getString(7) != null){
+                          idData = cursor.getString(7);
                           if(idData != null){
                             idData = idData.toString();
                             hashMap.put("id", idData);
@@ -264,8 +326,8 @@ public class OrderDb{
                                                 
                                 
                                                             String bookIdData = "";
-                        if(cursor.getString(5) != null){
-                          bookIdData = cursor.getString(5);
+                        if(cursor.getString(8) != null){
+                          bookIdData = cursor.getString(8);
                           if(bookIdData != null){
                             bookIdData = bookIdData.toString();
                             hashMap.put("bookId", bookIdData);
@@ -274,11 +336,21 @@ public class OrderDb{
                                                 
                                 
                                                             String customerIdData = "";
-                        if(cursor.getString(6) != null){
-                          customerIdData = cursor.getString(6);
+                        if(cursor.getString(9) != null){
+                          customerIdData = cursor.getString(9);
                           if(customerIdData != null){
                             customerIdData = customerIdData.toString();
                             hashMap.put("customerId", customerIdData);
+                          }
+                        }
+                                                
+                                
+                                                            String paymentIdData = "";
+                        if(cursor.getString(10) != null){
+                          paymentIdData = cursor.getString(10);
+                          if(paymentIdData != null){
+                            paymentIdData = paymentIdData.toString();
+                            hashMap.put("paymentId", paymentIdData);
                           }
                         }
                                                 

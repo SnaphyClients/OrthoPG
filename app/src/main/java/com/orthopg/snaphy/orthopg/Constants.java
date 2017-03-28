@@ -72,6 +72,8 @@ public class Constants {
     public static String BOOK_DESCRIPTION_ID = "BookDescriptionId";
     public static String BOOK_CATEGORY_ID = "BookCategoryId";
     public static String CASE_PROFILE_DATA = "CaseProfileData";
+    public static String SAVED_BOOKS_DATA = "SavedBooksData";
+    public static String BRANCH_CASE_ID = "BranchCaseId";
     /*---------------*/
 
     /*IDs*/

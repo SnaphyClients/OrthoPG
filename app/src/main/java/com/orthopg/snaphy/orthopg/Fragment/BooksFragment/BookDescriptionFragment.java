@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +35,7 @@ import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.PDFReaderActivity;
 import com.orthopg.snaphy.orthopg.PDFViewPagerActivity;
 import com.orthopg.snaphy.orthopg.R;
+import com.orthopg.snaphy.orthopg.WordUtils;
 import com.payUMoney.sdk.PayUmoneySdkInitilizer;
 
 import java.io.ByteArrayOutputStream;
@@ -43,9 +45,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -79,12 +84,16 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
     public static byte[] key, iv;
     private static final int  MEGABYTE = 1024 * 1024;
     @Bind(R.id.fragment_book_description_button3) Button bookDownload;
+    @Bind(R.id.fragment_book_description_button4) Button bookDownload2;
+    @Bind(R.id.fragment_view_all_books_textview1) TextView bookHeading;
     @Bind(R.id.fragment_book_description_imageview2) ImageView bookCover;
     @Bind(R.id.fragment_book_description_textview1) TextView bookTitle;
     @Bind(R.id.fragment_book_description_textview7) TextView bookDescription;
+    String bookId = "";
     public final static String TAG = "BookDescriptionFragment";
     int read;
     File inputFile, outFile, decFile;
+    String bookKey, bookIv;
 
     public BookDescriptionFragment() {
         // Required empty public constructor
@@ -101,7 +110,6 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
         sharedPreferences = mainActivity.getSharedPreferences(Constants.BOOK_SHARED_PREFERENCE,Context.MODE_PRIVATE);
         key = getKey();
         iv = getIV();
-        Book book = Presenter.getInstance().getModel(Book.class, Constants.BOOK_DESCRIPTION_ID);
         //checkPurchasedBook(book);
     }
 
@@ -111,7 +119,6 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_book_description, container, false);
         ButterKnife.bind(this,view);
-        Book book = Presenter.getInstance().getModel(Book.class,Constants.BOOK_DESCRIPTION_ID);
         getBookData();
 
         //String key = mainActivity.getSharedPreferences.getString("sample.pdf","");
@@ -123,15 +130,19 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
     public void getBookData(){
         Book book = Presenter.getInstance().getModel(Book.class,Constants.BOOK_DESCRIPTION_ID);
         if(book!=null){
+            bookId = String.valueOf(book.getId());
             if(book.getTitle()!=null){
                 if(!book.getTitle().isEmpty()){
                     bookTitle.setVisibility(View.VISIBLE);
-                    bookTitle.setText(book.getTitle().toString());
+                    bookTitle.setText(WordUtils.capitalize(book.getTitle().toString()));
+                    bookHeading.setText(WordUtils.capitalize(book.getTitle().toString()));
                 } else{
                     bookTitle.setVisibility(View.GONE);
+                    bookHeading.setVisibility(View.GONE);
                 }
             } else{
                 bookTitle.setVisibility(View.GONE);
+                bookHeading.setVisibility(View.GONE);
             }
 
             if(book.getDescription()!=null){
@@ -150,6 +161,19 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
                 mainActivity.snaphyHelper.loadUnsignedUrl(book.getFrontCover(),bookCover);
             } else{
                 bookCover.setVisibility(View.GONE);
+            }
+            String bookCategory = Presenter.getInstance().getModel(String.class,Constants.SAVED_BOOKS_DATA);
+            bookKey = sharedPreferences.getString(bookId,"");
+            bookIv = sharedPreferences.getString(bookId + "iv", "");
+            if(bookCategory!=null){
+
+                if(bookKey.isEmpty() || bookIv.isEmpty()) {
+                    bookDownload2.setText("Download");
+                } else{
+                    bookDownload2.setText("View");
+                }
+            } else if(!bookKey.isEmpty() && !bookIv.isEmpty()&& outFile.exists()){
+                bookDownload2.setText("View");
             }
         }
     }
@@ -190,24 +214,28 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
         mainActivity.onBackPressed();
     }
 
-    @OnClick(R.id.fragment_book_description_button3) void onHardCopyBuy(){
-        if(bookDownload.getText().toString().equals("Download")) {
+    @OnClick(R.id.fragment_book_description_button4) void onHardCopyBuy(){
+        if(bookDownload2.getText().toString().equals("Download")) {
             new DownloadFile().execute("http://www.damtp.cam.ac.uk/user/tong/string/string.pdf","sample.pdf");
         }
-        else if(bookDownload.getText().toString().equals("View")){
+        else if(bookDownload2.getText().toString().equals("View")){
             try {
                 FileInputStream enfis = new FileInputStream(outFile);
                 FileOutputStream defos = new FileOutputStream(decFile);
                 Cipher decipher = Cipher.getInstance("AES");
-                SecretKeySpec specKey = new SecretKeySpec(key, "AES");
-                decipher.init(Cipher.DECRYPT_MODE,specKey,new IvParameterSpec(iv));
+                String bookKey = sharedPreferences.getString(bookId,"");
+                byte[] keyArray = Base64.decode(bookKey,Base64.DEFAULT);
+                String bookIv = sharedPreferences.getString(bookId + "iv","");
+                byte[] ivArray = Base64.decode(bookIv,Base64.DEFAULT);
+                SecretKeySpec specKey = new SecretKeySpec(keyArray, "AES");
+                decipher.init(Cipher.DECRYPT_MODE,specKey,new IvParameterSpec(ivArray));
                 CipherOutputStream cos = new CipherOutputStream(defos,decipher);
                 while((read = enfis.read())!=-1){
                     cos.write(read);
                     cos.flush();
                 }
                 cos.close();
-                Toast.makeText(mainActivity,"Decritption completed",Toast.LENGTH_SHORT).show();
+                Toast.makeText(mainActivity,"Decrytption completed",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(mainActivity,PDFReaderActivity.class);
                 startActivity(intent);
             }catch (Exception e){
@@ -271,9 +299,13 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
             super.onPostExecute(aVoid);
             Toast.makeText(mainActivity, "Download Completed..", Toast.LENGTH_SHORT).show();
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("sample.pdf",key.toString());
+            String byteKey = Base64.encodeToString(key, Base64.DEFAULT);
+            String byteIv = Base64.encodeToString(iv, Base64.DEFAULT);
+            editor.putString(bookId,byteKey);
+            editor.putString(bookId + "iv", byteIv);
             editor.commit();
-            bookDownload.setText("View");
+
+            bookDownload2.setText("View");
         }
     }
 
@@ -293,6 +325,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
             InputStream inputStream = urlConnection.getInputStream();
             FileOutputStream fos = new FileOutputStream(outFile);
             Cipher encipher = Cipher.getInstance("AES");
+            Log.v("originalKeyLength", String.valueOf(key.length));
             SecretKeySpec specKey = new SecretKeySpec(key, "AES");
             encipher.init(Cipher.ENCRYPT_MODE,specKey,new IvParameterSpec(iv));
             CipherInputStream cis = new CipherInputStream(inputStream,encipher);

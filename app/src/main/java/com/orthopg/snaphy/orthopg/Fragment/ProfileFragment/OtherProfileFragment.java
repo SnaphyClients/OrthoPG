@@ -82,6 +82,11 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.fragment_profile_textview7) TextView qualificationTxt;
     @Bind(R.id.fragment_profile_textview8) TextView currentWorkingTxt;
 
+    @Bind(R.id.fragment_profile_textview10) TextView mciNumberHeading;
+    @Bind(R.id.fragment_profile_textview11) TextView workExperienceHeading;
+    @Bind(R.id.fragment_profile_textview12) TextView specialityHeading;
+    @Bind(R.id.fragment_profile_textview13) TextView qualificationHeading;
+
     @Bind(R.id.fragment_profile_imageview3) ImageView mciEdit;
     @Bind(R.id.fragment_profile_imageview4) ImageView workExperienceEdit;
     @Bind(R.id.fragment_profile_imageview5) ImageView specialityEdit;
@@ -126,8 +131,7 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
         if(OtherProfileFragment.FROM.equals(CaseFragment.TAG)){
             checkVisiblity();
             Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.CASE_PROFILE_DATA);
-            if(customer!=null){
-                setCustomerProfileData(customer);
+            if(customer!=null){setCustomerProfileData(customer);
             } else{
                 emailTxt.setVisibility(View.GONE);
                 mciNumberTxt.setVisibility(View.GONE);
@@ -179,9 +183,15 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
                 mciNumberTxt.setVisibility(View.VISIBLE);
                 mciNumberTxt.setText(customer.getMciNumber());
             } else {
+                if(OtherProfileFragment.FROM.equals(CaseFragment.TAG)){
+                    mciNumberHeading.setVisibility(View.GONE);
+                }
                 mciNumberTxt.setVisibility(View.GONE);
             }
         } else {
+            if(OtherProfileFragment.FROM.equals(CaseFragment.TAG)){
+                mciNumberHeading.setVisibility(View.GONE);
+            }
             mciNumberTxt.setVisibility(View.GONE);
         }
 
@@ -206,9 +216,15 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
                 workExperinceTxt.setVisibility(View.VISIBLE);
                 workExperinceTxt.setText(String.valueOf((int)customer.getWorkExperience()));
             } else {
+                if(OtherProfileFragment.FROM.equals(CaseFragment.TAG)){
+                    workExperienceHeading.setVisibility(View.GONE);
+                }
                 workExperinceTxt.setVisibility(View.GONE);
             }
         } else {
+            if(OtherProfileFragment.FROM.equals(CaseFragment.TAG)){
+                workExperienceHeading.setVisibility(View.GONE);
+            }
             workExperinceTxt.setVisibility(View.GONE);
         }
 
@@ -332,6 +348,9 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
 
         Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
         if (customer.getSpecialities() == null) {
+            if(OtherProfileFragment.FROM.equals(CaseFragment.TAG)){
+                specialityHeading.setVisibility(View.GONE);
+            }
             return;
         }
         if (customer.getSpecialities().size() != 0) {
@@ -342,13 +361,16 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
             DataList<Speciality> speciality = customer.getSpecialities();
             for (Speciality s : speciality) {
                 if(count<speciality.size()-1) {
-                    specialities = specialities + s.getName() + ", ";
+                    specialities = specialities + s.getName() + "\n";
                 } else{
                     specialities = specialities + s.getName();
                 }
             }
             specialityTxt.setText(specialities);
         } else {
+            if(OtherProfileFragment.FROM.equals(CaseFragment.TAG)){
+               specialityHeading.setVisibility(View.GONE);
+            }
             specialityTxt.setVisibility(View.GONE);
         }
     }
@@ -356,6 +378,9 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
     public void setQualification(){
         Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
         if(customer.getQualifications()==null) {
+            if(OtherProfileFragment.FROM.equals(CaseFragment.TAG)){
+                qualificationHeading.setVisibility(View.GONE);
+            }
             return;
         }
         if(customer.getQualifications().size()!=0){
@@ -372,6 +397,9 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
             }
             qualificationTxt.setText(qualifications);
         } else{
+            if(OtherProfileFragment.FROM.equals(CaseFragment.TAG)){
+                qualificationHeading.setVisibility(View.GONE);
+            }
             qualificationTxt.setVisibility(View.GONE);
         }
     }

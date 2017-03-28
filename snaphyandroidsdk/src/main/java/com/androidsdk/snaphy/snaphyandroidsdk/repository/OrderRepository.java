@@ -61,6 +61,13 @@ import com.androidsdk.snaphy.snaphyandroidsdk.db.OrderDb;
         
     
 
+    
+            import com.androidsdk.snaphy.snaphyandroidsdk.models.Payment;
+            import com.androidsdk.snaphy.snaphyandroidsdk.repository.PaymentRepository;
+            
+        
+    
+
 
 
 
@@ -157,6 +164,15 @@ public class OrderRepository extends ModelRepository<Order> {
 
     
     contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:orderId/customer", "GET"), "Order.prototype.__get__customer");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:orderId/payment", "GET"), "Order.prototype.__get__payment");
     
 
     
@@ -289,6 +305,9 @@ public class OrderRepository extends ModelRepository<Order> {
 
     
     contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/fetchPastOrder", "POST"), "Order.fetchPastOrder");
+    
+
+    
     
 
     
@@ -527,6 +546,91 @@ public class OrderRepository extends ModelRepository<Order> {
                 
 
             }//Method get__customer definition ends here..
+
+            
+
+        
+    
+        
+            //Method get__payment definition
+            public void get__payment(  String orderId,  Boolean refresh, final ObjectCallback<Payment> callback){
+
+                /**
+                Call the onBefore event
+                */
+                callback.onBefore();
+
+
+                //Definging hashMap for data conversion
+                Map<String, Object> hashMapObject = new HashMap<>();
+                //Now add the arguments...
+                
+                        hashMapObject.put("orderId", orderId);
+                
+                        hashMapObject.put("refresh", refresh);
+                
+
+                
+
+
+                
+                    
+                    
+                    invokeStaticMethod("prototype.__get__payment", hashMapObject, new Adapter.JsonObjectCallback() {
+                    
+                        @Override
+                        public void onError(Throwable t) {
+                            callback.onError(t);
+                            //Call the finally method..
+                            callback.onFinally();
+                        }
+
+                        @Override
+                        public void onSuccess(JSONObject response) {
+                            
+                                if(response != null){
+                                    PaymentRepository paymentRepo = getRestAdapter().createRepository(PaymentRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = paymentRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(paymentRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //paymentRepo.addStorage(context);
+                                    }
+                                    Map<String, Object> result = Util.fromJson(response);
+                                    Payment payment = paymentRepo.createObject(result);
+
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = payment.getClass().getMethod("save__db");
+                                                    method.invoke(payment);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(payment);
+                                }else{
+                                    callback.onSuccess(null);
+                                }
+                            
+                            //Call the finally method..
+                            callback.onFinally();
+                        }
+                    });
+                
+
+                
+
+            }//Method get__payment definition ends here..
 
             
 
@@ -1424,6 +1528,8 @@ public class OrderRepository extends ModelRepository<Order> {
 
             
 
+        
+    
         
     
         

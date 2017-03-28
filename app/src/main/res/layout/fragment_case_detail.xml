@@ -92,6 +92,15 @@
                                 android:paddingLeft="5dp"
                                 android:paddingTop="4dp"
                                 android:text=""/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="share "
+                                android:textColor="@color/black"
+                                android:layout_marginLeft="10dp"
+                                android:visibility="visible"
+                                android:id="@+id/layout_case_details_textview11"/>
+
 
                         </LinearLayout>
 

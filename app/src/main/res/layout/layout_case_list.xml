@@ -2,9 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginLeft="5dp" android:layout_marginRight="5dp"
-    android:layout_marginTop="5dp" android:background="@drawable/curved_card">
+    android:background="@drawable/curved_card"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 <!--
     <View
         android:layout_width="match_parent"
@@ -12,9 +11,24 @@
         android:background="#DDD"/>-->
 
     <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardElevation="3dp"
+        app:cardUseCompatPadding="true"
+        android:layout_marginTop="-10dp"
+        app:cardCornerRadius="15dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="3dp">
+        app:cardCornerRadius="5dp"
+        android:background="@drawable/shadow"
+      >
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -243,7 +257,7 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_gravity="center"
-                        android:src="@mipmap/save_unselected"
+                        android:src="@mipmap/save_selected"
                         android:background="@android:color/transparent"/>
 
 
@@ -310,7 +324,7 @@
 
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:src="@mipmap/like_unselected"
+                        android:src="@mipmap/like_selected"
                         android:layout_gravity="center"
                         android:layout_alignLeft="@+id/view3"
                         android:background="@android:color/transparent"/>
@@ -493,13 +507,16 @@
         android:layout_width="match_parent"
         android:layout_height="5dp"
         android:id="@+id/layout_case_list_view2"
+
         android:background="@color/warning"
         />
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="3dp">
+        app:cardCornerRadius="5dp"
+        app:cardMaxElevation="0dp"
+       >
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -537,6 +554,6 @@
                 android:layout_marginBottom="10dp"/>
         </RelativeLayout>
     </android.support.v7.widget.CardView>
-
-
+        </LinearLayout>
+</android.support.v7.widget.CardView>
 </LinearLayout>

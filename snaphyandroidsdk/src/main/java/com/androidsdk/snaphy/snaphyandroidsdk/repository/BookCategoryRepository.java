@@ -1657,7 +1657,7 @@ public class BookCategoryRepository extends ModelRepository<BookCategory> {
     
         
             //Method fetchBookList definition
-            public void fetchBookList(  String customerId, final VoidCallback callback){
+            public void fetchBookList(  String customerId, final DataListCallback<BookCategory> callback){
 
                 /**
                 Call the onBefore event
@@ -1673,26 +1673,63 @@ public class BookCategoryRepository extends ModelRepository<BookCategory> {
                 
 
                 
-                    invokeStaticMethod("fetchBookList", hashMapObject, new Adapter.Callback() {
+
+
+                
+
+                
+                    invokeStaticMethod("fetchBookList", hashMapObject, new Adapter.JsonArrayCallback() {
                         @Override
                         public void onError(Throwable t) {
-                                callback.onError(t);
-                                //Call the finally method..
-                                callback.onFinally();
+                            callback.onError(t);
+                            //Call the finally method..
+                            callback.onFinally();
                         }
 
                         @Override
-                        public void onSuccess(String response) {
-                            callback.onSuccess();
+                        public void onSuccess(JSONArray response) {
+                            
+                                if(response != null){
+                                    //Now converting jsonObject to list
+                                    DataList<Map<String, Object>> result = (DataList) Util.fromJson(response);
+                                    DataList<BookCategory> bookCategoryList = new DataList<BookCategory>();
+                                    BookCategoryRepository bookCategoryRepo = getRestAdapter().createRepository(BookCategoryRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = bookCategoryRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(bookCategoryRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+                                    }
+                                    for (Map<String, Object> obj : result) {
+
+                                        BookCategory bookCategory = bookCategoryRepo.createObject(obj);
+
+                                        //Add to database if persistent storage required..
+                                        if(isSTORE_LOCALLY()){
+                                            //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                            try {
+                                                      Method method = bookCategory.getClass().getMethod("save__db");
+                                                      method.invoke(bookCategory);
+
+                                            } catch (Exception e) {
+                                                Log.e("Database Error", e.toString());
+                                            }
+                                        }
+
+                                        bookCategoryList.add(bookCategory);
+                                    }
+                                    callback.onSuccess(bookCategoryList);
+                                }else{
+                                    callback.onSuccess(null);
+                                }
+                            
                             //Call the finally method..
                             callback.onFinally();
                         }
                     });
-                
-
-
-                
-
                 
 
             }//Method fetchBookList definition ends here..

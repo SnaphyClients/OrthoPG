@@ -33,7 +33,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:largeHeap="true"
+        android:name="com.orthopg.snaphy.orthopg.OrthoPGApplication"
         tools:replace="android:icon">
+
         <activity android:name=".MainActivity"
             android:windowSoftInputMode="adjustResize"
             android:configChanges="orientation|screenSize|uiMode"
@@ -43,6 +45,12 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <data android:scheme="orthopg" android:host="open" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
@@ -58,6 +66,9 @@
             android:name="io.fabric.ApiKey"
             android:value="da5a71693369b2f6639d662ac5b0877a200db1cf" />
 
+        <meta-data android:name="io.branch.sdk.BranchKey"
+            android:value="key_test_kfCzi5kXyQ71267hKOcYzgdmsunQgngu" />
+
         <receiver android:name=".Fragment.MCIVerificationFragment.MCIVerificationFragment$IncomingSms" >
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
@@ -72,6 +83,12 @@
                 <!-- Receives the actual messages. -->
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <category android:name="com.example.gcm" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name="io.branch.referral.InstallListener" android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
         </receiver>
 

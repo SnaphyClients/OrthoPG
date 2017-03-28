@@ -84,6 +84,7 @@ dependencies {
     compile 'com.github.barteksc:android-pdf-viewer:2.4.0'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.yqritc:recyclerview-flexibledivider:1.4.0'
+    compile 'io.branch.sdk.android:library:2.+'
     testCompile 'junit:junit:4.12'
 }
 

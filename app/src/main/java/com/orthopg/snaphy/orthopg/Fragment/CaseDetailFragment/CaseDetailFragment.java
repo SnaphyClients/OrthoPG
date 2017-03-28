@@ -2,6 +2,7 @@ package com.orthopg.snaphy.orthopg.Fragment.CaseDetailFragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -55,6 +56,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.branch.indexing.BranchUniversalObject;
+import io.branch.referral.Branch;
+import io.branch.referral.BranchError;
+import io.branch.referral.util.LinkProperties;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -85,6 +90,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.layout_case_details_textview8) TextView selectedAnswerUserName;
     @Bind(R.id.layout_case_details_textview9) TextView selectedAnswer;
     @Bind(R.id.layout_case_details_textview10) TextView selectedLongAnswer;
+    @Bind(R.id.layout_case_details_textview11) TextView share;
     @Bind(R.id.button_toggle_case_detail) Button toggleButton;
     @Bind(R.id.layout_case_details_imageview1) ImageView isAnswerSelected;
     @Bind(R.id.fragment_case_detail_linearLayout1) LinearLayout saveLinearLayout;
@@ -159,6 +165,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_case_detail, container, false);
         ButterKnife.bind(this, view);
+        share.setVisibility(View.VISIBLE);
         mainActivity.stopProgressBar(progressBar);
         description.setMovementMethod(new ScrollingMovementMethod());
         linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -1012,6 +1019,35 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
                             }
                         });
                     }
+                }
+            }
+        });
+    }
+
+    @OnClick(R.id.layout_case_details_textview11) void onShare(){
+        BranchUniversalObject branchUniversalObject = new BranchUniversalObject()
+                .setCanonicalIdentifier("item/12345")
+                .setTitle("My Content Title")
+                .setContentDescription("My Content Description")
+                .setContentImageUrl("https://example.com/mycontent-12345.png")
+                .setContentIndexingMode(BranchUniversalObject.CONTENT_INDEX_MODE.PUBLIC)
+                .addContentMetadata("type", "case")
+                .addContentMetadata("id", String.valueOf(post.getId()));
+
+        LinkProperties linkProperties = new LinkProperties()
+                .setFeature("sharing");
+        branchUniversalObject.generateShortUrl(mainActivity, linkProperties, new Branch.BranchLinkCreateListener() {
+            @Override
+            public void onLinkCreate(String url, BranchError error) {
+                if (error == null) {
+                    Log.i("MyApp", "got my Branch link to share: " + url);
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.setType("text/plain");
+                    intent.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL");
+                    intent.putExtra(Intent.EXTRA_TEXT, url);
+                    startActivity(Intent.createChooser(intent, "Share URL"));
+                } else {
+                    Log.e(Constants.TAG,error.toString());
                 }
             }
         });

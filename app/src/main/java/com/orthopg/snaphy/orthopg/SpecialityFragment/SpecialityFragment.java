@@ -134,7 +134,7 @@ public class SpecialityFragment extends Fragment {
         updatedSpeciality = Presenter.getInstance().getList(Speciality.class, Constants.CUSTOMER_SPECIALITY_LIST);
         DataList<String> updatedSpecialityList = new DataList<>();
         for (Speciality s : updatedSpeciality) {
-            updatedSpecialityList.add(s.getName());
+            updatedSpecialityList.add(s.getId().toString());
         }
         Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
         String customerId = (String) customer.getId();

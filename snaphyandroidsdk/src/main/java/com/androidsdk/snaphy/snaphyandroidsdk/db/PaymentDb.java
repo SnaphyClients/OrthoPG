@@ -140,6 +140,20 @@ public class PaymentDb{
                         }
 
                                                 values.put("`customerId`", customerIdData);
+                                
+                                                            //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                        String orderIdData = "";
+                        try {
+                              Method method = modelData.getClass().getMethod("getOrderId");
+                              if(method.invoke(modelData) != null){
+                                //orderIdData = modelData.getOrderId().toString();
+                                orderIdData = (String) method.invoke(modelData);
+                              }
+                        } catch (Exception e) {
+                          Log.e("Database Error", e.toString());
+                        }
+
+                                                values.put("`orderId`", orderIdData);
                   
 
         //Add the updated data property value to be 1
@@ -295,6 +309,16 @@ public class PaymentDb{
                           if(customerIdData != null){
                             customerIdData = customerIdData.toString();
                             hashMap.put("customerId", customerIdData);
+                          }
+                        }
+                                                
+                                
+                                                            String orderIdData = "";
+                        if(cursor.getString(8) != null){
+                          orderIdData = cursor.getString(8);
+                          if(orderIdData != null){
+                            orderIdData = orderIdData.toString();
+                            hashMap.put("orderId", orderIdData);
                           }
                         }
                                                 

@@ -44,6 +44,13 @@ import com.androidsdk.snaphy.snaphyandroidsdk.repository.OrderRepository;
         
     
 
+    
+            import com.androidsdk.snaphy.snaphyandroidsdk.repository.PaymentRepository;
+            
+
+        
+    
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -98,6 +105,27 @@ public class Order extends Model {
             
 
             
+                private String transactionId;
+                /* Adding Getter and Setter methods */
+                public String getTransactionId(){
+                    return transactionId;
+                }
+
+                /* Adding Getter and Setter methods */
+                public void setTransactionId(String transactionId){
+                    this.transactionId = transactionId;
+                    //Update hashMap value..
+                    hashMap.put("transactionId", transactionId);
+                }
+
+            
+            
+        
+    
+        
+            
+
+            
                 private String orderStatus;
                 /* Adding Getter and Setter methods */
                 public String getOrderStatus(){
@@ -109,6 +137,48 @@ public class Order extends Model {
                     this.orderStatus = orderStatus;
                     //Update hashMap value..
                     hashMap.put("orderStatus", orderStatus);
+                }
+
+            
+            
+        
+    
+        
+            
+
+            
+                private String paymentStatus;
+                /* Adding Getter and Setter methods */
+                public String getPaymentStatus(){
+                    return paymentStatus;
+                }
+
+                /* Adding Getter and Setter methods */
+                public void setPaymentStatus(String paymentStatus){
+                    this.paymentStatus = paymentStatus;
+                    //Update hashMap value..
+                    hashMap.put("paymentStatus", paymentStatus);
+                }
+
+            
+            
+        
+    
+        
+            
+
+            
+                private String errorMessage;
+                /* Adding Getter and Setter methods */
+                public String getErrorMessage(){
+                    return errorMessage;
+                }
+
+                /* Adding Getter and Setter methods */
+                public void setErrorMessage(String errorMessage){
+                    this.errorMessage = errorMessage;
+                    //Update hashMap value..
+                    hashMap.put("errorMessage", errorMessage);
                 }
 
             
@@ -152,6 +222,13 @@ public class Order extends Model {
                     //Update hashMap value..
                     hashMap.put("type", type);
                 }
+
+            
+            
+        
+    
+        
+            
 
             
             
@@ -414,6 +491,9 @@ public class Order extends Model {
                             
                          
                             
+                         
+                            
+                        
                         
                         
                         
@@ -622,6 +702,220 @@ public class Order extends Model {
                                     } //method def ends here.
                                  
                             
+                         
+                            
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    
+
+                
+
+                 
+                 
+             
+          
+    
+        
+        
+                
+                    //Define belongsTo relation method here..
+                    private transient Payment  payment ;
+                    private String paymentId;
+
+                    public String getPaymentId(){
+                         return paymentId;
+                    }
+
+                    public void setPaymentId(Object paymentId){
+                        if(paymentId != null){
+                          this.paymentId = paymentId.toString();
+                        }
+                    }
+
+                    public Payment getPayment() {
+			try{
+				//Adding database method for fetching from relation if not present..
+		                if(payment == null){
+		                  OrderRepository orderRepository = (OrderRepository) getRepository();
+
+		                  RestAdapter restAdapter = orderRepository.getRestAdapter();
+		                  if(restAdapter != null){
+		                    //Fetch locally from db
+		                    payment = getPayment__db(restAdapter);
+		                  }
+		                }
+			}catch(Exception e){
+				//Ignore
+			}
+
+                        return payment;
+                    }
+
+                    public void setPayment(Payment payment) {
+                        this.payment = payment;
+                    }
+
+                    //Adding related model automatically in case of include statement from server..
+                    public void setPayment(Map<String, Object> payment) {
+                        //First create a dummy Repo class object for customer.
+                        PaymentRepository paymentRepository = new PaymentRepository();
+                        Payment payment1 = paymentRepository.createObject(payment);
+                        setPayment(payment1);
+                    }
+
+                    //Adding related model automatically in case of include statement from server..
+                    public void setPayment(HashMap<String, Object> payment) {
+                        //First create a dummy Repo class object for customer.
+                        PaymentRepository paymentRepository = new PaymentRepository();
+                        Payment payment1 = paymentRepository.createObject(payment);
+                        setPayment(payment1);
+                    }
+
+                    //Adding relation method..
+                    public void addRelation(Payment payment) {
+                        that.setPayment(payment);
+                    }
+
+
+                    //Fetch related data from local database if present a paymentId identifier as property for belongsTo
+                    public Payment getPayment__db(RestAdapter restAdapter){
+                      if(paymentId != null){
+                        PaymentRepository paymentRepository = restAdapter.createRepository(PaymentRepository.class);
+			  try{
+				OrderRepository lowercaseFirstLetterRepository = (OrderRepository) getRepository();
+		                  if(lowercaseFirstLetterRepository.isSTORE_LOCALLY()){
+		                        Context context = lowercaseFirstLetterRepository.getContext();
+		                        if(paymentRepository.getDb() == null ){
+		                            paymentRepository.addStorage(context);
+		                        }
+
+		                        if(context != null && paymentRepository.getDb() != null){
+		                            paymentRepository.addStorage(context);
+		                            Payment payment = (Payment) paymentRepository.getDb().get__db(paymentId);
+		                            return payment;
+		                        }else{
+		                            return null;
+		                        }
+		                  }else{
+		                    return null;
+		                  }
+			  }catch(Exception e){
+				//Ignore exception..
+				return null;
+			  }
+
+                        }else{
+                          return null;
+                      }
+                    }
+                
+
+                
+                
+
+
+
+
+
+
+
+                    //Now add instance methods to fetch the related belongsTo Model..
+                    
+
+                     
+                            
+                         
+                            
+                        
+
+                                    //Write the method here..
+                                    public void get__payment( Boolean refresh,  RestAdapter restAdapter, final ObjectCallback<Payment> callback) {
+                                        //Call the onBefore callback method..
+                                        callback.onBefore();
+
+                                        //Define methods here..
+                                        final OrderRepository  orderRepo = restAdapter.createRepository(OrderRepository.class);
+                                        
+                                        
+                                        
+                                        
+                                        
+
+
+
+                                        orderRepo.get__payment( (String)that.getId(), refresh,  new ObjectCallback<Payment> (){
+                                            
+
+                                            
+                                                @Override
+                                                
+                                                    public void onSuccess(Payment object) {
+                                                        if(object != null){
+                                                            //now add relation to this recipe.
+                                                            addRelation(object);
+                                                            //Also add relation to child type for two way communication..Removing two way communication for cyclic error
+                                                            //object.addRelation(that);
+                                                            callback.onSuccess(object);
+                                                            //Calling the finally..callback
+                                                            callback.onFinally();
+                                                        }else{
+                                                            callback.onSuccess(null);
+                                                            //Calling the finally..callback
+                                                            callback.onFinally();
+                                                        }
+
+                                                    }
+                                                
+                                            
+
+
+                                            
+
+                                            @Override
+                                            public void onError(Throwable t) {
+                                                //Now calling the callback
+                                                callback.onError(t);
+                                                //Calling the finally..callback
+                                                callback.onFinally();
+                                            }
+
+                                        });
+                                    } //method def ends here.
+                                 
+                            
+                        
                         
                         
                         

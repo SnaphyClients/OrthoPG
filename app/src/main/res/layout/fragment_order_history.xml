@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:clickable="true"
     android:orientation="vertical"
-    android:background="@color/white"
+    android:background="#EEEEEE"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fragment_notice_container"
     tools:context="com.orthopg.snaphy.orthopg.MainActivity">
@@ -40,6 +40,7 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:id="@+id/fragment_order_history_recyclerview"
         android:layout_below="@+id/fragment_order_history_toolbar"></android.support.v7.widget.RecyclerView>
 

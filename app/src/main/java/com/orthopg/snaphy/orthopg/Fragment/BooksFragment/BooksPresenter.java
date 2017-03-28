@@ -3,9 +3,11 @@ package com.orthopg.snaphy.orthopg.Fragment.BooksFragment;
 import android.util.Log;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.DataListCallback;
+import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.VoidCallback;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Book;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.BookCategory;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.BookCategoryRepository;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.BookRepository;
@@ -49,42 +51,43 @@ public class BooksPresenter {
             skip =0;
         }
 
-        HashMap<String, Object> filter = new HashMap<>();
-        filter.put("skip", skip);
-        filter.put("limit", limit);
-        final BookCategoryRepository bookCategoryRepository = restAdapter.createRepository(BookCategoryRepository.class);
-        bookCategoryRepository.find(filter, new DataListCallback<BookCategory>() {
-            @Override
-            public void onBefore() {
-                super.onBefore();
-                mainActivity.startProgressBar(mainActivity.progressBar);
-            }
-
-            @Override
-            public void onSuccess(DataList<BookCategory> objects) {
-                super.onSuccess(objects);
-                if(objects!=null){
-                    if(reset){
-                        bookCategoryDataList.clear();
-                    }
-                    bookCategoryDataList.addAll(objects);
-
-                    skip = skip + objects.size();
+        Customer customer  = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+        String customerId = String.valueOf(customer.getId());
+        if(customerId!=null){
+            final BookCategoryRepository bookCategoryRepository = restAdapter.createRepository(BookCategoryRepository.class);
+            bookCategoryRepository.fetchBookList(customerId, new DataListCallback<BookCategory>() {
+                @Override
+                public void onBefore() {
+                    super.onBefore();
+                    mainActivity.startProgressBar(mainActivity.progressBar);
                 }
-            }
 
-            @Override
-            public void onError(Throwable t) {
-                super.onError(t);
-                Log.e(Constants.TAG, t.toString());
-            }
+                @Override
+                public void onSuccess(DataList<BookCategory> objects) {
+                    super.onSuccess(objects);
+                    if(objects!=null){
+                        if(reset){
+                            bookCategoryDataList.clear();
+                        }
+                        bookCategoryDataList.addAll(objects);
+                    }
+                }
 
-            @Override
-            public void onFinally() {
-                super.onFinally();
-                mainActivity.stopProgressBar(mainActivity.progressBar);
-            }
-        });
+                @Override
+                public void onError(Throwable t) {
+                    super.onError(t);
+                    Log.e(Constants.TAG, t.toString());
+                }
+
+                @Override
+                public void onFinally() {
+                    super.onFinally();
+                    mainActivity.stopProgressBar(mainActivity.progressBar);
+                }
+            });
+        }
+
+
     }
 
    /* public void fetchBooks(boolean reset){
