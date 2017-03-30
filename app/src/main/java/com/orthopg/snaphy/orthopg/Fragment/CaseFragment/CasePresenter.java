@@ -283,6 +283,7 @@ public class CasePresenter {
 
                 final PostRepository postRepository = restAdapter.createRepository(PostRepository.class);
                 postRepository.addStorage(mainActivity);
+
                 postRepository.getPostedCases(list.getSkip(), list.getLimit(), (String) customer.getId(), new DataListCallback<Post>() {
                     @Override
                     public void onBefore() {
@@ -404,7 +405,7 @@ public class CasePresenter {
         //Now remove tags from old data....
         HashMap<String, Object> localFlagQuery = new HashMap<String, Object>();
         localFlagQuery.put(listType, listType);
-        //localFlagQuery.put(Constants.OLD_DB_FIELD_FLAG, 0);
+        localFlagQuery.put(Constants.OLD_DB_FIELD_FLAG, 0);
 
         HashMap<String, Object> postMap = new HashMap<String, Object>();
         Post post = postRepository.createObject(postMap);
@@ -534,7 +535,7 @@ public class CasePresenter {
                         //Now increment skip..
                         list.incrementSkip(objects.size());
                         //Now remove old data..
-                       // removeTagFromOldData(listType);
+                       removeTagFromOldData(listType);
                     }
                 }
 
@@ -575,10 +576,10 @@ public class CasePresenter {
                     HashMap<String, Object> localFlagQuery = new HashMap<String, Object>();
                     localFlagQuery.put(listType, listType);
                     //Display offline data ..here..
-                    //if (postRepository.getDb().count__db(localFlagQuery, localOrderBy, 50) > 0) {
-                    if (postRepository.getDb().count__db() > 0) {
-                        //DataList<Post> posts = postRepository.getDb().getAll__db(localFlagQuery, localOrderBy, 50);
-                        DataList<Post> posts = postRepository.getDb().getAll__db();
+                    if (postRepository.getDb().count__db(localFlagQuery, localOrderBy, 50) > 0) {
+                    //if (postRepository.getDb().count__db() > 0) {
+                        DataList<Post> posts = postRepository.getDb().getAll__db(localFlagQuery, localOrderBy, 50);
+                        //DataList<Post> posts = postRepository.getDb().getAll__db();
                         for(Post post: posts){
                             if(post != null){
                                 if(post.getPostDetails() != null){
