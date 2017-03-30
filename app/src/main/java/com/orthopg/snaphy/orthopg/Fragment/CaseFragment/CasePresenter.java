@@ -7,12 +7,15 @@ import android.widget.TextView;
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.DataListCallback;
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Comment;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.LikePost;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Post;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.PostDetail;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.SavePost;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
+import com.androidsdk.snaphy.snaphyandroidsdk.repository.CommentRepository;
+import com.androidsdk.snaphy.snaphyandroidsdk.repository.CustomerRepository;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.LikePostRepository;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.PostDetailRepository;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.PostRepository;
@@ -40,6 +43,7 @@ public class CasePresenter {
     CircleProgressBar circleProgressBar;
     MainActivity mainActivity;
     TextView noCasePresentText;
+    String localOrderBy = "datetime(added) DESC";
 
 
     public CasePresenter(RestAdapter restAdapter, CircleProgressBar progressBar, MainActivity mainActivity, TextView noCasePresentText){
@@ -61,6 +65,7 @@ public class CasePresenter {
 
     public void fetchTotalLike(String customerId, String postId, final ObjectCallback<LikePost> callback){
         LikePostRepository likePostRepository = restAdapter.createRepository(LikePostRepository.class);
+        likePostRepository.addStorage(mainActivity);
         HashMap<String, Object> filter = new HashMap<>();
         HashMap<String, Object> where = new HashMap<>();
         where.put("customerId", customerId);
@@ -93,6 +98,7 @@ public class CasePresenter {
 
     public void fetchTotalSave(String customerId, String postId, final ObjectCallback<SavePost> callback){
         SavePostRepository savePostRepository = restAdapter.createRepository(SavePostRepository.class);
+        savePostRepository.addStorage(mainActivity);
         HashMap<String, Object> filter = new HashMap<>();
         HashMap<String, Object> where = new HashMap<>();
         where.put("customerId", customerId);
@@ -137,6 +143,7 @@ public class CasePresenter {
         data.put("customerId", customerId);
         data.put("postId", postId);
         LikePostRepository likePostRepository = restAdapter.createRepository(LikePostRepository.class);
+        likePostRepository.addStorage(mainActivity);
         likePostRepository.create(data, callback);
     }
 
@@ -144,6 +151,7 @@ public class CasePresenter {
         if(likePost != null){
             if(likePost.getId() != null){
                 LikePostRepository likePostRepository = restAdapter.createRepository(LikePostRepository.class);
+                likePostRepository.addStorage(mainActivity);
                 likePostRepository.deleteById((String) likePost.getId(), callback);
             }else{
                 callback.onBefore();
@@ -172,6 +180,7 @@ public class CasePresenter {
         data.put("customerId", customerId);
         data.put("postId", postId);
         SavePostRepository savePostRepository = restAdapter.createRepository(SavePostRepository.class);
+        savePostRepository.addStorage(mainActivity);
         savePostRepository.create(data, callback);
     }
 
@@ -179,6 +188,7 @@ public class CasePresenter {
         if(savePost != null){
             if(savePost.getId() != null){
                 SavePostRepository savePostRepository = restAdapter.createRepository(SavePostRepository.class);
+                savePostRepository.addStorage(mainActivity);
                 savePostRepository.deleteById((String) savePost.getId(), callback);
             }else{
                 callback.onBefore();
@@ -201,6 +211,7 @@ public class CasePresenter {
      */
     public void InitNewCaseObject(){
         PostRepository postRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(PostRepository.class);
+        postRepository.addStorage(mainActivity);
         HashMap<String, Object> hashMap = new HashMap<>();
         Post post = postRepository.createObject(hashMap);
         InitNewCaseObject(post);
@@ -213,7 +224,47 @@ public class CasePresenter {
         Presenter.getInstance().addModel(Constants.ADD_NEW_CASE, newCase);
     }
 
+    public void setOldFlag(String listType){
+        PostRepository postRepository = restAdapter.createRepository(PostRepository.class);
+        postRepository.addStorage(mainActivity);
+        HashMap<String, Object> localFlagQuery = new HashMap<String, Object>();
+        localFlagQuery.put(listType, listType);
+        postRepository.getDb().checkOldData__db(localFlagQuery);
+    }
 
+
+    //Save post data. modify flag..
+    public void savePostData(Post post, String listType){
+        //post.save__db();
+        CommentRepository commentRepository = restAdapter.createRepository(CommentRepository.class);
+        commentRepository.addStorage(mainActivity);
+        if (post.getPostDetails() != null) {
+            post.getPostDetails().addRelation(post);
+            if(post.getPostDetails().getComment() != null){
+                //Save accepted answer..
+                commentRepository.getDb().upsert__db(post.getPostDetails().getComment().getId().toString(), post.getPostDetails().getComment());
+            }
+
+            if(post.getCustomer() != null){
+                CustomerRepository customerRepository = restAdapter.createRepository(CustomerRepository.class);
+                customerRepository.addStorage(mainActivity);
+                customerRepository.getDb().upsert__db(post.getCustomer().getId().toString(), post.getCustomer());
+            }
+             if(post.getComments()!=null){
+                 if(post.getComments().size()!=0) {
+
+                     for(Comment comment : post.getComments()){
+                         commentRepository.getDb().upsert__db(comment.getId().toString(), comment);
+                     }
+                 }
+             }
+
+        }
+        setFlag(listType, post, listType);
+        PostRepository postRepository = restAdapter.createRepository(PostRepository.class);
+        postRepository.addStorage(mainActivity);
+        postRepository.getDb().upsert__db(post.getId().toString(), post);
+    }
 
 
     /**
@@ -230,7 +281,8 @@ public class CasePresenter {
                     list.reset();
                 }
 
-                PostRepository postRepository = restAdapter.createRepository(PostRepository.class);
+                final PostRepository postRepository = restAdapter.createRepository(PostRepository.class);
+                postRepository.addStorage(mainActivity);
                 postRepository.getPostedCases(list.getSkip(), list.getLimit(), (String) customer.getId(), new DataListCallback<Post>() {
                     @Override
                     public void onBefore() {
@@ -241,6 +293,8 @@ public class CasePresenter {
                                 noCasePresentText.setVisibility(View.GONE);
                             }
                         }
+                        //Set old flag..
+                        //setOldFlag(listType);
                     }
 
                     @Override
@@ -248,22 +302,31 @@ public class CasePresenter {
                         if(objects != null){
                             for (Post post : objects) {
                                 if (post != null) {
-                                    if (post.getPostDetails() != null) {
-                                        post.getPostDetails().addRelation(post);
-                                    }
+                                    savePostData(post, listType);
                                 }
                             }
                             list.getPostDataList().addAll(objects);
-                            //Now increment skip..
+                            //Now increment skip....
                             list.incrementSkip(objects.size());
+                            //Now remove old data..
+                          //  removeTagFromOldData(listType);
                         }
                     }
-
 
                     @Override
                     public void onError(Throwable t) {
                         //SHOW ERROR MESSAGE..
                         Log.e(Constants.TAG, t.toString() + "---CasePresenter.java");
+                        //TODO: Check no internet..
+                        if(list.getPostDataList().size() != 0){
+                            HashMap<String, Object> localFlagQuery = new HashMap<String, Object>();
+                            localFlagQuery.put(listType, listType);
+                            //Display offline data ..here..
+                            if(postRepository.getDb().count__db(localFlagQuery, localOrderBy, 50) > 0){
+                                list.getPostDataList().addAll(postRepository.getDb().getAll__db(localFlagQuery, localOrderBy, 50));
+                            }
+                        }
+
                     }
 
                     @Override
@@ -271,11 +334,9 @@ public class CasePresenter {
                         if (mainActivity != null) {
                             //Stop loading bar..
                             mainActivity.stopProgressBar(circleProgressBar);
-                            if(list != null){
-                                if(list.getPostDataList().size() == 0){
-                                    if(noCasePresentText != null){
-                                        noCasePresentText.setVisibility(View.VISIBLE);
-                                    }
+                            if(list.getPostDataList().size() == 0){
+                                if(noCasePresentText != null){
+                                    noCasePresentText.setVisibility(View.VISIBLE);
                                 }
                             }
                         }
@@ -285,6 +346,70 @@ public class CasePresenter {
         }else{
             Log.e(Constants.TAG, "User not logged! Cannot display SavedCases List");
         }
+    }
+
+    //Set value of a flag..
+    private void setFlag(String listType, Post post, String flag){
+        if(listType.equals(Constants.TRENDING)){
+            if(flag != null){
+                post.setTrending(flag);
+            }else{
+                post.setTrending("");
+            }
+        }
+
+        if(listType.equals(Constants.UNSOLVED)){
+            if(flag != null){
+                post.setUnsolved(flag);
+            }else{
+                post.setUnsolved("");
+            }
+
+        }
+        if(listType.equals(Constants.POSTED)){
+            if(flag != null){
+                post.setPosted(flag);
+            }else{
+                post.setPosted("");
+            }
+        }
+        if(listType.equals(Constants.LATEST)){
+            if(flag != null){
+                post.setLatest(flag);
+            }else{
+                post.setLatest("");
+            }
+
+        }
+
+        if(listType.equals(Constants.SAVED)){
+            if(flag != null){
+                post.setSaved(flag);
+            }else {
+                post.setSaved("");
+            }
+        }
+    }
+
+
+
+    /**
+     * Remove old data flag from post model.
+     * @param listType
+     */
+    private void removeTagFromOldData(String listType){
+        PostRepository postRepository = restAdapter.createRepository(PostRepository.class);
+        postRepository.addStorage(mainActivity);
+
+        //Now remove tags from old data....
+        HashMap<String, Object> localFlagQuery = new HashMap<String, Object>();
+        localFlagQuery.put(listType, listType);
+        //localFlagQuery.put(Constants.OLD_DB_FIELD_FLAG, 0);
+
+        HashMap<String, Object> postMap = new HashMap<String, Object>();
+        Post post = postRepository.createObject(postMap);
+        setFlag(listType, post, "");
+        postRepository.getDb().updateAll__db(localFlagQuery, post);
     }
 
 
@@ -302,7 +427,8 @@ public class CasePresenter {
                     list.reset();
                 }
 
-                PostRepository postRepository = restAdapter.createRepository(PostRepository.class);
+                final PostRepository postRepository = restAdapter.createRepository(PostRepository.class);
+                postRepository.addStorage(mainActivity);
                 postRepository.fetchSavedCases(list.getSkip(), list.getLimit(), (String) customer.getId(), new DataListCallback<Post>() {
                     @Override
                     public void onBefore() {
@@ -313,6 +439,9 @@ public class CasePresenter {
                                 noCasePresentText.setVisibility(View.GONE);
                             }
                         }
+
+                        //Set old flag..
+                        setOldFlag(listType);
                     }
 
                     @Override
@@ -320,14 +449,14 @@ public class CasePresenter {
                         if(objects != null){
                             for (Post post : objects) {
                                 if (post != null) {
-                                    if (post.getPostDetails() != null) {
-                                        post.getPostDetails().addRelation(post);
-                                    }
+                                    savePostData(post, listType);
                                 }
                             }
                             list.getPostDataList().addAll(objects);
                             //Now increment skip..
                             list.incrementSkip(objects.size());
+                            //Now remove old data..
+                           // removeTagFromOldData(listType);
                         }
 
                     }
@@ -337,6 +466,7 @@ public class CasePresenter {
                     public void onError(Throwable t) {
                         //SHOW ERROR MESSAGE..
                         Log.e(Constants.TAG, t.toString() + "---CasePresenter.java");
+                        loadDataOffline(listType);
                     }
 
                     @Override
@@ -345,12 +475,9 @@ public class CasePresenter {
                             //Stop loading bar..
                             mainActivity.stopProgressBar(circleProgressBar);
                         }
-
-                        if(list != null){
-                            if(list.getPostDataList().size() == 0){
-                                if(noCasePresentText != null){
-                                    noCasePresentText.setVisibility(View.VISIBLE);
-                                }
+                        if(list.getPostDataList().size() == 0){
+                            if(noCasePresentText != null){
+                                noCasePresentText.setVisibility(View.VISIBLE);
                             }
                         }
                     }
@@ -376,9 +503,8 @@ public class CasePresenter {
             if(reset){
                list.reset();
             }
-
-
             PostDetailRepository postDetailRepository =  restAdapter.createRepository(PostDetailRepository.class);
+            postDetailRepository.addStorage(mainActivity);
             postDetailRepository.getPostDetail(list.getSkip(), list.getLimit(), list.getListType(), new DataListCallback<PostDetail>() {
                 @Override
                 public void onBefore() {
@@ -387,6 +513,7 @@ public class CasePresenter {
                     if(noCasePresentText != null){
                         noCasePresentText.setVisibility(View.GONE);
                     }
+                    setOldFlag(listType);
                 }
 
                 @Override
@@ -397,13 +524,17 @@ public class CasePresenter {
                             if(postDetail != null){
                                 if(postDetail.getPost() != null){
                                     postDetail.getPost().addRelation(postDetail);
+                                    savePostData(postDetail.getPost(), listType);
                                 }
                             }
+
                         }
 
                         list.getPostDetails().addAll(objects);
                         //Now increment skip..
                         list.incrementSkip(objects.size());
+                        //Now remove old data..
+                       // removeTagFromOldData(listType);
                     }
                 }
 
@@ -411,17 +542,16 @@ public class CasePresenter {
                 public void onError(Throwable t) {
                     //SHOW ERROR MESSAGE..
                     Log.e(Constants.TAG, t.toString() + "---CasePresenter.java");
+                    loadDataOffline(listType);
                 }
 
                 @Override
                 public void onFinally() {
                     //Stop loading bar..
                     mainActivity.stopProgressBar(circleProgressBar);
-                    if(list != null){
-                        if(list.getPostDetails().size() == 0){
-                            if(noCasePresentText != null){
-                                noCasePresentText.setVisibility(View.VISIBLE);
-                            }
+                    if(list.getPostDetails().size() == 0){
+                        if(noCasePresentText != null){
+                            noCasePresentText.setVisibility(View.VISIBLE);
                         }
                     }
                 }
@@ -431,4 +561,44 @@ public class CasePresenter {
         }
 
     }
+
+    public void loadDataOffline(String listType){
+        //Get the list ...
+        final TrackList list = trackList.get(listType);
+        if(list != null) {
+            PostRepository postRepository = restAdapter.createRepository(PostRepository.class);
+            postRepository.addStorage(mainActivity);
+            if(listType.equals(Constants.TRENDING)
+                    || listType.equals(Constants.LATEST)
+                    || listType.equals(Constants.UNSOLVED)){
+                if (list.getPostDetails().size() == 0) {
+                    HashMap<String, Object> localFlagQuery = new HashMap<String, Object>();
+                    localFlagQuery.put(listType, listType);
+                    //Display offline data ..here..
+                    //if (postRepository.getDb().count__db(localFlagQuery, localOrderBy, 50) > 0) {
+                    if (postRepository.getDb().count__db() > 0) {
+                        //DataList<Post> posts = postRepository.getDb().getAll__db(localFlagQuery, localOrderBy, 50);
+                        DataList<Post> posts = postRepository.getDb().getAll__db();
+                        for(Post post: posts){
+                            if(post != null){
+                                if(post.getPostDetails() != null){
+                                    list.getPostDetails().add(post.getPostDetails());
+                                }
+                            }
+                        }
+                    }
+                }
+            }else{
+                if (list.getPostDataList().size() == 0) {
+                    HashMap<String, Object> localFlagQuery = new HashMap<String, Object>();
+                    localFlagQuery.put(listType, listType);
+                    //Display offline data ..here..
+                    if (postRepository.getDb().count__db(localFlagQuery, localOrderBy, 50) > 0) {
+                        list.getPostDataList().addAll(postRepository.getDb().getAll__db(localFlagQuery, localOrderBy, 50));
+                    }
+                }
+            }
+        }
+    }
+
 }

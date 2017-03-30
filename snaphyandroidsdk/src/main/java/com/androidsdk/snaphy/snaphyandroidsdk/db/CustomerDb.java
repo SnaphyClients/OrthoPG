@@ -74,72 +74,84 @@ public class CustomerDb{
                                                             String dateData = "";
                         if(modelData.getDate() != null){
                           dateData = modelData.getDate().toString();
+                          values.put("`date`", dateData);
                         }
-                                                values.put("`date`", dateData);
+                                  
                                 
                                                             String lastModifiedData = "";
                         if(modelData.getLastModified() != null){
                           lastModifiedData = modelData.getLastModified().toString();
+                          values.put("`lastModified`", lastModifiedData);
                         }
-                                                values.put("`lastModified`", lastModifiedData);
+                                  
                                 
                                                             String emailData = "";
                         if(modelData.getEmail() != null){
                           emailData = modelData.getEmail().toString();
+                          values.put("`email`", emailData);
                         }
-                                                values.put("`email`", emailData);
+                                  
                                 
                                                             String firstNameData = "";
                         if(modelData.getFirstName() != null){
                           firstNameData = modelData.getFirstName().toString();
+                          values.put("`firstName`", firstNameData);
                         }
-                                                values.put("`firstName`", firstNameData);
+                                  
                                 
                                                             String lastNameData = "";
                         if(modelData.getLastName() != null){
                           lastNameData = modelData.getLastName().toString();
+                          values.put("`lastName`", lastNameData);
                         }
-                                                values.put("`lastName`", lastNameData);
+                                  
                                 
                                                             String mciNumberData = "";
                         if(modelData.getMciNumber() != null){
                           mciNumberData = modelData.getMciNumber().toString();
+                          values.put("`mciNumber`", mciNumberData);
                         }
-                                                values.put("`mciNumber`", mciNumberData);
+                                  
                                 
                                                             String phoneNumberData = "";
                         if(modelData.getPhoneNumber() != null){
                           phoneNumberData = modelData.getPhoneNumber().toString();
+                          values.put("`phoneNumber`", phoneNumberData);
                         }
-                                                values.put("`phoneNumber`", phoneNumberData);
+                                  
                                 
                                                             String statusData = "";
                         if(modelData.getStatus() != null){
                           statusData = modelData.getStatus().toString();
+                          values.put("`status`", statusData);
                         }
-                                                values.put("`status`", statusData);
+                                  
                                 
                                                             String registrationIdData = "";
                         if(modelData.getRegistrationId() != null){
                           registrationIdData = modelData.getRegistrationId().toString();
+                          values.put("`registrationId`", registrationIdData);
                         }
-                                                values.put("`registrationId`", registrationIdData);
+                                  
                                 
                                                             String profilePicData = "";
                         if(modelData.getProfilePic() != null){
                           profilePicData = new Gson().toJson(modelData.getProfilePic(), HashMap.class);
+                          values.put("`profilePic`", profilePicData);
                         }
-                                                values.put("`profilePic`", profilePicData);
+                                  
                                 
                                                             String currentCityData = "";
                         if(modelData.getCurrentCity() != null){
                           currentCityData = modelData.getCurrentCity().toString();
+                          values.put("`currentCity`", currentCityData);
                         }
-                                                values.put("`currentCity`", currentCityData);
+                                  
                                 
                                                             double workExperienceData;
                         workExperienceData = (double)modelData.getWorkExperience();
-                                                values.put("`workExperience`", workExperienceData);
+                        values.put("`workExperience`", workExperienceData);
+                                  
                                 
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
                         String realmData = "";
@@ -148,12 +160,13 @@ public class CustomerDb{
                               if(method.invoke(modelData) != null){
                                 //realmData = modelData.getRealm().toString();
                                 realmData = (String) method.invoke(modelData);
+                                values.put("`realm`", realmData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
                         }
 
-                                                values.put("`realm`", realmData);
+                                  
                                 
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
                         String usernameData = "";
@@ -162,12 +175,13 @@ public class CustomerDb{
                               if(method.invoke(modelData) != null){
                                 //usernameData = modelData.getUsername().toString();
                                 usernameData = (String) method.invoke(modelData);
+                                values.put("`username`", usernameData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
                         }
 
-                                                values.put("`username`", usernameData);
+                                  
                                 
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
                         String passwordData = "";
@@ -176,12 +190,13 @@ public class CustomerDb{
                               if(method.invoke(modelData) != null){
                                 //passwordData = modelData.getPassword().toString();
                                 passwordData = (String) method.invoke(modelData);
+                                values.put("`password`", passwordData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
                         }
 
-                                                values.put("`password`", passwordData);
+                                  
                                 
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
                         String credentialsData = "";
@@ -190,12 +205,13 @@ public class CustomerDb{
                               if(method.invoke(modelData) != null){
                                 //credentialsData = modelData.getCredentials().toString();
                                 credentialsData = (String) method.invoke(modelData);
+                                values.put("`credentials`", credentialsData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
                         }
 
-                                                values.put("`credentials`", credentialsData);
+                                  
                                 
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
                         String challengesData = "";
@@ -204,12 +220,13 @@ public class CustomerDb{
                               if(method.invoke(modelData) != null){
                                 //challengesData = modelData.getChallenges().toString();
                                 challengesData = (String) method.invoke(modelData);
+                                values.put("`challenges`", challengesData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
                         }
 
-                                                values.put("`challenges`", challengesData);
+                                  
                                 
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
                         String emailVerifiedData = "";
@@ -218,12 +235,13 @@ public class CustomerDb{
                               if(method.invoke(modelData) != null){
                                 //emailVerifiedData = modelData.getEmailVerified().toString();
                                 emailVerifiedData = (String) method.invoke(modelData);
+                                values.put("`emailVerified`", emailVerifiedData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
                         }
 
-                                                values.put("`emailVerified`", emailVerifiedData);
+                                  
                                 
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
                         String verificationTokenData = "";
@@ -232,12 +250,13 @@ public class CustomerDb{
                               if(method.invoke(modelData) != null){
                                 //verificationTokenData = modelData.getVerificationToken().toString();
                                 verificationTokenData = (String) method.invoke(modelData);
+                                values.put("`verificationToken`", verificationTokenData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
                         }
 
-                                                values.put("`verificationToken`", verificationTokenData);
+                                  
                                 
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
                         String createdData = "";
@@ -246,12 +265,13 @@ public class CustomerDb{
                               if(method.invoke(modelData) != null){
                                 //createdData = modelData.getCreated().toString();
                                 createdData = (String) method.invoke(modelData);
+                                values.put("`created`", createdData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
                         }
 
-                                                values.put("`created`", createdData);
+                                  
                                 
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
                         String lastUpdatedData = "";
@@ -260,12 +280,13 @@ public class CustomerDb{
                               if(method.invoke(modelData) != null){
                                 //lastUpdatedData = modelData.getLastUpdated().toString();
                                 lastUpdatedData = (String) method.invoke(modelData);
+                                values.put("`lastUpdated`", lastUpdatedData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
                         }
 
-                                                values.put("`lastUpdated`", lastUpdatedData);
+                                  
                                 
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
                         String idData = "";
@@ -274,14 +295,28 @@ public class CustomerDb{
                               if(method.invoke(modelData) != null){
                                 //idData = modelData.getId().toString();
                                 idData = (String) method.invoke(modelData);
+                                values.put("`id`", idData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
                         }
 
-                                                values.put("`id`", idData);
+                                  
                   
-
+        
+          
+                    String facebookAccessTokenIdData = "";
+                    try {
+                        Method method = modelData.getClass().getMethod("getFacebookAccessTokenId");
+                        if(method.invoke(modelData) != null){
+                          //facebookAccessTokenIdData = modelData.getFacebookAccessTokenId().toString();
+                          facebookAccessTokenIdData = (String) method.invoke(modelData);
+                          values.put("`facebookAccessTokenId`", facebookAccessTokenIdData);
+                        }
+                    } catch (Exception e) {
+                      Log.e("Database Error", e.toString());
+                    }
+          
         //Add the updated data property value to be 1
         values.put("`_DATA_UPDATED`", 1);
         return values;
@@ -578,7 +613,25 @@ public class CustomerDb{
                           }
                         }
                                                 
-                  
+                  //End for loop
+         
+          
+                    String facebookAccessTokenIdData = "";
+                    int facebookAccessTokenIdindex = cursor.getColumnIndex("facebookAccessTokenId");
+                    if(facebookAccessTokenIdindex >= 0){
+
+                        if(cursor.getString(facebookAccessTokenIdindex) != null){
+                          facebookAccessTokenIdData = cursor.getString(facebookAccessTokenIdindex);
+                          if(facebookAccessTokenIdData != null){
+                            facebookAccessTokenIdData = facebookAccessTokenIdData.toString();
+                            hashMap.put("facebookAccessTokenId", facebookAccessTokenIdData);
+                          }
+                        }
+
+                    }
+
+          
+
         return hashMap;
     }//parseCursor
 
@@ -874,6 +927,27 @@ public class CustomerDb{
 
 
 
+    // Deleting by whereKeyValue filter data present..
+    public void delete__db(final HashMap<String, Object> whereKeyValue) {
+      new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
+                db.beginTransaction();
+                String where = getWhere(whereKeyValue);
+                db.delete("Customer", where , null);
+                db.setTransactionSuccessful();
+                db.endTransaction();
+            }
+        }).start();
+    }
+
+
+
+
+
+
+
     // Getting All Data where
     public DataList<Customer>  getAll__db(String whereKey, String whereKeyValue) {
         DataList<Customer> modelList = new DataList<Customer>();
@@ -961,6 +1035,44 @@ public class CustomerDb{
         }).start();
 
     }
+
+
+    //Update multiple data at once..
+    public void updateAll__db(final HashMap<String, Object> whereKeyValue, final Customer modelData ){
+      new Thread(new Runnable(){
+        @Override
+        public void run(){
+          SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
+          db.beginTransaction();
+          ContentValues values = getContentValues(modelData);
+          String where = getWhere(whereKeyValue);
+          db.update("Customer", values, where, null);
+          db.setTransactionSuccessful();
+          db.endTransaction();
+          //db.close();
+        }
+
+      }).start();
+    }
+
+
+
+
+    // Deleting by whereKey and whereKeyValue
+    public void delete__db(final String whereKey, final String whereKeyValue) {
+      new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
+                db.beginTransaction();
+                db.delete(TABLE, whereKey + " = ?", new String[]{whereKeyValue});
+                db.setTransactionSuccessful();
+                db.endTransaction();
+                //db.close();
+            }
+        }).start();
+    }
+
 
 
     // Updating single contact

@@ -74,50 +74,58 @@ public class NewsDb{
                                                             String titleData = "";
                         if(modelData.getTitle() != null){
                           titleData = modelData.getTitle().toString();
+                          values.put("`title`", titleData);
                         }
-                                                values.put("`title`", titleData);
+                                  
                                 
                                                             String descriptionData = "";
                         if(modelData.getDescription() != null){
                           descriptionData = modelData.getDescription().toString();
+                          values.put("`description`", descriptionData);
                         }
-                                                values.put("`description`", descriptionData);
+                                  
                                 
                                                             String urlData = "";
                         if(modelData.getUrl() != null){
                           urlData = modelData.getUrl().toString();
+                          values.put("`url`", urlData);
                         }
-                                                values.put("`url`", urlData);
+                                  
                                 
                                                             String statusData = "";
                         if(modelData.getStatus() != null){
                           statusData = modelData.getStatus().toString();
+                          values.put("`status`", statusData);
                         }
-                                                values.put("`status`", statusData);
+                                  
                                 
                                                             String typeData = "";
                         if(modelData.getType() != null){
                           typeData = modelData.getType().toString();
+                          values.put("`type`", typeData);
                         }
-                                                values.put("`type`", typeData);
+                                  
                                 
                                                             String imageData = "";
                         if(modelData.getImage() != null){
                           imageData = new Gson().toJson(modelData.getImage(), HashMap.class);
+                          values.put("`image`", imageData);
                         }
-                                                values.put("`image`", imageData);
+                                  
                                 
                                                             String addedData = "";
                         if(modelData.getAdded() != null){
                           addedData = modelData.getAdded().toString();
+                          values.put("`added`", addedData);
                         }
-                                                values.put("`added`", addedData);
+                                  
                                 
                                                             String updatedData = "";
                         if(modelData.getUpdated() != null){
                           updatedData = modelData.getUpdated().toString();
+                          values.put("`updated`", updatedData);
                         }
-                                                values.put("`updated`", updatedData);
+                                  
                                 
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
                         String idData = "";
@@ -126,14 +134,16 @@ public class NewsDb{
                               if(method.invoke(modelData) != null){
                                 //idData = modelData.getId().toString();
                                 idData = (String) method.invoke(modelData);
+                                values.put("`id`", idData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
                         }
 
-                                                values.put("`id`", idData);
+                                  
                   
-
+        
+          
         //Add the updated data property value to be 1
         values.put("`_DATA_UPDATED`", 1);
         return values;
@@ -302,7 +312,10 @@ public class NewsDb{
                           }
                         }
                                                 
-                  
+                  //End for loop
+         
+          
+
         return hashMap;
     }//parseCursor
 
@@ -598,6 +611,27 @@ public class NewsDb{
 
 
 
+    // Deleting by whereKeyValue filter data present..
+    public void delete__db(final HashMap<String, Object> whereKeyValue) {
+      new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
+                db.beginTransaction();
+                String where = getWhere(whereKeyValue);
+                db.delete("News", where , null);
+                db.setTransactionSuccessful();
+                db.endTransaction();
+            }
+        }).start();
+    }
+
+
+
+
+
+
+
     // Getting All Data where
     public DataList<News>  getAll__db(String whereKey, String whereKeyValue) {
         DataList<News> modelList = new DataList<News>();
@@ -685,6 +719,44 @@ public class NewsDb{
         }).start();
 
     }
+
+
+    //Update multiple data at once..
+    public void updateAll__db(final HashMap<String, Object> whereKeyValue, final News modelData ){
+      new Thread(new Runnable(){
+        @Override
+        public void run(){
+          SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
+          db.beginTransaction();
+          ContentValues values = getContentValues(modelData);
+          String where = getWhere(whereKeyValue);
+          db.update("News", values, where, null);
+          db.setTransactionSuccessful();
+          db.endTransaction();
+          //db.close();
+        }
+
+      }).start();
+    }
+
+
+
+
+    // Deleting by whereKey and whereKeyValue
+    public void delete__db(final String whereKey, final String whereKeyValue) {
+      new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
+                db.beginTransaction();
+                db.delete(TABLE, whereKey + " = ?", new String[]{whereKeyValue});
+                db.setTransactionSuccessful();
+                db.endTransaction();
+                //db.close();
+            }
+        }).start();
+    }
+
 
 
     // Updating single contact

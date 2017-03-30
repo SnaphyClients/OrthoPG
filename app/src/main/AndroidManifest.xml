@@ -69,6 +69,9 @@
         <meta-data android:name="io.branch.sdk.BranchKey"
             android:value="key_test_kfCzi5kXyQ71267hKOcYzgdmsunQgngu" />
 
+        <meta-data android:name="snaphy.database.name"
+            android:value="orthopg.db"/>
+
         <receiver android:name=".Fragment.MCIVerificationFragment.MCIVerificationFragment$IncomingSms" >
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />

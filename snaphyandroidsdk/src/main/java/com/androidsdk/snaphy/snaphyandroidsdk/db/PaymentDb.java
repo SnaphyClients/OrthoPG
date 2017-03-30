@@ -74,30 +74,35 @@ public class PaymentDb{
                                                             String bookDetailData = "";
                         if(modelData.getBookDetail() != null){
                           bookDetailData = new Gson().toJson(modelData.getBookDetail(), HashMap.class);
+                          values.put("`bookDetail`", bookDetailData);
                         }
-                                                values.put("`bookDetail`", bookDetailData);
+                                  
                                 
                                                             String addressData = "";
                         if(modelData.getAddress() != null){
                           addressData = modelData.getAddress().toString();
+                          values.put("`address`", addressData);
                         }
-                                                values.put("`address`", addressData);
+                                  
                                 
                                                             String phoneNumberData = "";
                         if(modelData.getPhoneNumber() != null){
                           phoneNumberData = modelData.getPhoneNumber().toString();
+                          values.put("`phoneNumber`", phoneNumberData);
                         }
-                                                values.put("`phoneNumber`", phoneNumberData);
+                                  
                                 
                                                             String emailData = "";
                         if(modelData.getEmail() != null){
                           emailData = modelData.getEmail().toString();
+                          values.put("`email`", emailData);
                         }
-                                                values.put("`email`", emailData);
+                                  
                                 
                                                             double amountData;
                         amountData = (double)modelData.getAmount();
-                                                values.put("`amount`", amountData);
+                        values.put("`amount`", amountData);
+                                  
                                 
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
                         String idData = "";
@@ -106,12 +111,13 @@ public class PaymentDb{
                               if(method.invoke(modelData) != null){
                                 //idData = modelData.getId().toString();
                                 idData = (String) method.invoke(modelData);
+                                values.put("`id`", idData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
                         }
 
-                                                values.put("`id`", idData);
+                                  
                                 
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
                         String bookIdData = "";
@@ -120,12 +126,13 @@ public class PaymentDb{
                               if(method.invoke(modelData) != null){
                                 //bookIdData = modelData.getBookId().toString();
                                 bookIdData = (String) method.invoke(modelData);
+                                values.put("`bookId`", bookIdData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
                         }
 
-                                                values.put("`bookId`", bookIdData);
+                                  
                                 
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
                         String customerIdData = "";
@@ -134,12 +141,13 @@ public class PaymentDb{
                               if(method.invoke(modelData) != null){
                                 //customerIdData = modelData.getCustomerId().toString();
                                 customerIdData = (String) method.invoke(modelData);
+                                values.put("`customerId`", customerIdData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
                         }
 
-                                                values.put("`customerId`", customerIdData);
+                                  
                                 
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
                         String orderIdData = "";
@@ -148,14 +156,16 @@ public class PaymentDb{
                               if(method.invoke(modelData) != null){
                                 //orderIdData = modelData.getOrderId().toString();
                                 orderIdData = (String) method.invoke(modelData);
+                                values.put("`orderId`", orderIdData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
                         }
 
-                                                values.put("`orderId`", orderIdData);
+                                  
                   
-
+        
+          
         //Add the updated data property value to be 1
         values.put("`_DATA_UPDATED`", 1);
         return values;
@@ -322,7 +332,10 @@ public class PaymentDb{
                           }
                         }
                                                 
-                  
+                  //End for loop
+         
+          
+
         return hashMap;
     }//parseCursor
 
@@ -618,6 +631,27 @@ public class PaymentDb{
 
 
 
+    // Deleting by whereKeyValue filter data present..
+    public void delete__db(final HashMap<String, Object> whereKeyValue) {
+      new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
+                db.beginTransaction();
+                String where = getWhere(whereKeyValue);
+                db.delete("Payment", where , null);
+                db.setTransactionSuccessful();
+                db.endTransaction();
+            }
+        }).start();
+    }
+
+
+
+
+
+
+
     // Getting All Data where
     public DataList<Payment>  getAll__db(String whereKey, String whereKeyValue) {
         DataList<Payment> modelList = new DataList<Payment>();
@@ -705,6 +739,44 @@ public class PaymentDb{
         }).start();
 
     }
+
+
+    //Update multiple data at once..
+    public void updateAll__db(final HashMap<String, Object> whereKeyValue, final Payment modelData ){
+      new Thread(new Runnable(){
+        @Override
+        public void run(){
+          SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
+          db.beginTransaction();
+          ContentValues values = getContentValues(modelData);
+          String where = getWhere(whereKeyValue);
+          db.update("Payment", values, where, null);
+          db.setTransactionSuccessful();
+          db.endTransaction();
+          //db.close();
+        }
+
+      }).start();
+    }
+
+
+
+
+    // Deleting by whereKey and whereKeyValue
+    public void delete__db(final String whereKey, final String whereKeyValue) {
+      new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
+                db.beginTransaction();
+                db.delete(TABLE, whereKey + " = ?", new String[]{whereKeyValue});
+                db.setTransactionSuccessful();
+                db.endTransaction();
+                //db.close();
+            }
+        }).start();
+    }
+
 
 
     // Updating single contact

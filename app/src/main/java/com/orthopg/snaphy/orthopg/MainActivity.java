@@ -36,6 +36,7 @@ import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.BookDescriptionFragment;
 import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.BookTestFragment;
 import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.BooksFragment;
+import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.CheckoutFragment;
 import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.ViewAllBooksFragment;
 import com.orthopg.snaphy.orthopg.Fragment.CaseDetailFragment.CaseDetailFragment;
 import com.orthopg.snaphy.orthopg.Fragment.CaseDetailFragment.PostAnswerFragment;
@@ -103,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         ViewAllBooksFragment.OnFragmentInteractionListener, BookDescriptionFragment.OnFragmentInteractionListener,
         OtherProfileFragment.OnFragmentInteractionListener, SpecialityFragment.OnFragmentInteractionListener,
         QualificationFragment.OnFragmentInteractionListener, EditProfileFragment.OnFragmentInteractionListener,
-        OrderHistoryFragment.OnFragmentInteractionListener {
+        OrderHistoryFragment.OnFragmentInteractionListener, CheckoutFragment.OnFragmentInteractionListener {
 
     RestAdapter restAdapter;
     Context context;
@@ -429,6 +430,10 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             case R.layout.fragment_order_history:
                 openOrderHistory(fragmentTransaction);
                 break;
+
+            case R.layout.fragment_checkout:
+                openCheckoutFragment(fragmentTransaction);
+                break;
         }
     }
 
@@ -666,6 +671,15 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             orderHistoryFragment = OrderHistoryFragment.newInstance();
         }
         fragmentTransaction.replace(R.id.main_container, orderHistoryFragment, OrderHistoryFragment.TAG).addToBackStack(OrderHistoryFragment.TAG);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    public void openCheckoutFragment(FragmentTransaction fragmentTransaction){
+        CheckoutFragment checkoutFragment = (CheckoutFragment)getSupportFragmentManager().findFragmentByTag(CheckoutFragment.TAG);
+        if(checkoutFragment == null){
+            checkoutFragment = checkoutFragment.newInstance();
+        }
+        fragmentTransaction.replace(R.id.main_container, checkoutFragment, CheckoutFragment.TAG).addToBackStack(CheckoutFragment.TAG);
         fragmentTransaction.commitAllowingStateLoss();
     }
 

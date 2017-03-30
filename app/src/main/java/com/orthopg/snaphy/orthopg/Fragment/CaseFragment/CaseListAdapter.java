@@ -111,6 +111,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
 
     }
 
+    //TODO: Remove final and handle flickering..
     @SuppressLint("NewApi")
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {

@@ -74,50 +74,58 @@ public class BookDb{
                                                             String titleData = "";
                         if(modelData.getTitle() != null){
                           titleData = modelData.getTitle().toString();
+                          values.put("`title`", titleData);
                         }
-                                                values.put("`title`", titleData);
+                                  
                                 
                                                             String descriptionData = "";
                         if(modelData.getDescription() != null){
                           descriptionData = modelData.getDescription().toString();
+                          values.put("`description`", descriptionData);
                         }
-                                                values.put("`description`", descriptionData);
+                                  
                                 
                                                             String statusData = "";
                         if(modelData.getStatus() != null){
                           statusData = modelData.getStatus().toString();
+                          values.put("`status`", statusData);
                         }
-                                                values.put("`status`", statusData);
+                                  
                                 
                                                             String frontCoverData = "";
                         if(modelData.getFrontCover() != null){
                           frontCoverData = new Gson().toJson(modelData.getFrontCover(), HashMap.class);
+                          values.put("`frontCover`", frontCoverData);
                         }
-                                                values.put("`frontCover`", frontCoverData);
+                                  
                                 
                                                             String backCoverData = "";
                         if(modelData.getBackCover() != null){
                           backCoverData = new Gson().toJson(modelData.getBackCover(), HashMap.class);
+                          values.put("`backCover`", backCoverData);
                         }
-                                                values.put("`backCover`", backCoverData);
+                                  
                                 
                                                             String uploadBookData = "";
                         if(modelData.getUploadBook() != null){
                           uploadBookData = new Gson().toJson(modelData.getUploadBook(), HashMap.class);
+                          values.put("`uploadBook`", uploadBookData);
                         }
-                                                values.put("`uploadBook`", uploadBookData);
+                                  
                                 
                                                             String addedData = "";
                         if(modelData.getAdded() != null){
                           addedData = modelData.getAdded().toString();
+                          values.put("`added`", addedData);
                         }
-                                                values.put("`added`", addedData);
+                                  
                                 
                                                             String updatedData = "";
                         if(modelData.getUpdated() != null){
                           updatedData = modelData.getUpdated().toString();
+                          values.put("`updated`", updatedData);
                         }
-                                                values.put("`updated`", updatedData);
+                                  
                                 
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
                         String idData = "";
@@ -126,12 +134,13 @@ public class BookDb{
                               if(method.invoke(modelData) != null){
                                 //idData = modelData.getId().toString();
                                 idData = (String) method.invoke(modelData);
+                                values.put("`id`", idData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
                         }
 
-                                                values.put("`id`", idData);
+                                  
                                 
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
                         String bookCategoryIdData = "";
@@ -140,14 +149,16 @@ public class BookDb{
                               if(method.invoke(modelData) != null){
                                 //bookCategoryIdData = modelData.getBookCategoryId().toString();
                                 bookCategoryIdData = (String) method.invoke(modelData);
+                                values.put("`bookCategoryId`", bookCategoryIdData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
                         }
 
-                                                values.put("`bookCategoryId`", bookCategoryIdData);
+                                  
                   
-
+        
+          
         //Add the updated data property value to be 1
         values.put("`_DATA_UPDATED`", 1);
         return values;
@@ -326,7 +337,10 @@ public class BookDb{
                           }
                         }
                                                 
-                  
+                  //End for loop
+         
+          
+
         return hashMap;
     }//parseCursor
 
@@ -622,6 +636,27 @@ public class BookDb{
 
 
 
+    // Deleting by whereKeyValue filter data present..
+    public void delete__db(final HashMap<String, Object> whereKeyValue) {
+      new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
+                db.beginTransaction();
+                String where = getWhere(whereKeyValue);
+                db.delete("Book", where , null);
+                db.setTransactionSuccessful();
+                db.endTransaction();
+            }
+        }).start();
+    }
+
+
+
+
+
+
+
     // Getting All Data where
     public DataList<Book>  getAll__db(String whereKey, String whereKeyValue) {
         DataList<Book> modelList = new DataList<Book>();
@@ -709,6 +744,44 @@ public class BookDb{
         }).start();
 
     }
+
+
+    //Update multiple data at once..
+    public void updateAll__db(final HashMap<String, Object> whereKeyValue, final Book modelData ){
+      new Thread(new Runnable(){
+        @Override
+        public void run(){
+          SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
+          db.beginTransaction();
+          ContentValues values = getContentValues(modelData);
+          String where = getWhere(whereKeyValue);
+          db.update("Book", values, where, null);
+          db.setTransactionSuccessful();
+          db.endTransaction();
+          //db.close();
+        }
+
+      }).start();
+    }
+
+
+
+
+    // Deleting by whereKey and whereKeyValue
+    public void delete__db(final String whereKey, final String whereKeyValue) {
+      new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
+                db.beginTransaction();
+                db.delete(TABLE, whereKey + " = ?", new String[]{whereKeyValue});
+                db.setTransactionSuccessful();
+                db.endTransaction();
+                //db.close();
+            }
+        }).start();
+    }
+
 
 
     // Updating single contact

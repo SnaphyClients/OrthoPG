@@ -74,14 +74,16 @@ public class CommentDb{
                                                             String answerData = "";
                         if(modelData.getAnswer() != null){
                           answerData = modelData.getAnswer().toString();
+                          values.put("`answer`", answerData);
                         }
-                                                values.put("`answer`", answerData);
+                                  
                                 
                                                             String statusData = "";
                         if(modelData.getStatus() != null){
                           statusData = modelData.getStatus().toString();
+                          values.put("`status`", statusData);
                         }
-                                                values.put("`status`", statusData);
+                                  
                                 
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
                         String idData = "";
@@ -90,12 +92,13 @@ public class CommentDb{
                               if(method.invoke(modelData) != null){
                                 //idData = modelData.getId().toString();
                                 idData = (String) method.invoke(modelData);
+                                values.put("`id`", idData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
                         }
 
-                                                values.put("`id`", idData);
+                                  
                                 
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
                         String postIdData = "";
@@ -104,12 +107,13 @@ public class CommentDb{
                               if(method.invoke(modelData) != null){
                                 //postIdData = modelData.getPostId().toString();
                                 postIdData = (String) method.invoke(modelData);
+                                values.put("`postId`", postIdData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
                         }
 
-                                                values.put("`postId`", postIdData);
+                                  
                                 
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
                         String customerIdData = "";
@@ -118,14 +122,52 @@ public class CommentDb{
                               if(method.invoke(modelData) != null){
                                 //customerIdData = modelData.getCustomerId().toString();
                                 customerIdData = (String) method.invoke(modelData);
+                                values.put("`customerId`", customerIdData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
                         }
 
-                                                values.put("`customerId`", customerIdData);
+                                  
                   
-
+        
+          
+                    String commentDetailIdData = "";
+                    try {
+                        Method method = modelData.getClass().getMethod("getCommentDetailId");
+                        if(method.invoke(modelData) != null){
+                          //commentDetailIdData = modelData.getCommentDetailId().toString();
+                          commentDetailIdData = (String) method.invoke(modelData);
+                          values.put("`commentDetailId`", commentDetailIdData);
+                        }
+                    } catch (Exception e) {
+                      Log.e("Database Error", e.toString());
+                    }
+          
+                    String postSubscriberIdData = "";
+                    try {
+                        Method method = modelData.getClass().getMethod("getPostSubscriberId");
+                        if(method.invoke(modelData) != null){
+                          //postSubscriberIdData = modelData.getPostSubscriberId().toString();
+                          postSubscriberIdData = (String) method.invoke(modelData);
+                          values.put("`postSubscriberId`", postSubscriberIdData);
+                        }
+                    } catch (Exception e) {
+                      Log.e("Database Error", e.toString());
+                    }
+          
+                    String postDetailIdData = "";
+                    try {
+                        Method method = modelData.getClass().getMethod("getPostDetailId");
+                        if(method.invoke(modelData) != null){
+                          //postDetailIdData = modelData.getPostDetailId().toString();
+                          postDetailIdData = (String) method.invoke(modelData);
+                          values.put("`postDetailId`", postDetailIdData);
+                        }
+                    } catch (Exception e) {
+                      Log.e("Database Error", e.toString());
+                    }
+          
         //Add the updated data property value to be 1
         values.put("`_DATA_UPDATED`", 1);
         return values;
@@ -254,7 +296,55 @@ public class CommentDb{
                           }
                         }
                                                 
-                  
+                  //End for loop
+         
+          
+                    String commentDetailIdData = "";
+                    int commentDetailIdindex = cursor.getColumnIndex("commentDetailId");
+                    if(commentDetailIdindex >= 0){
+
+                        if(cursor.getString(commentDetailIdindex) != null){
+                          commentDetailIdData = cursor.getString(commentDetailIdindex);
+                          if(commentDetailIdData != null){
+                            commentDetailIdData = commentDetailIdData.toString();
+                            hashMap.put("commentDetailId", commentDetailIdData);
+                          }
+                        }
+
+                    }
+
+          
+                    String postSubscriberIdData = "";
+                    int postSubscriberIdindex = cursor.getColumnIndex("postSubscriberId");
+                    if(postSubscriberIdindex >= 0){
+
+                        if(cursor.getString(postSubscriberIdindex) != null){
+                          postSubscriberIdData = cursor.getString(postSubscriberIdindex);
+                          if(postSubscriberIdData != null){
+                            postSubscriberIdData = postSubscriberIdData.toString();
+                            hashMap.put("postSubscriberId", postSubscriberIdData);
+                          }
+                        }
+
+                    }
+
+          
+                    String postDetailIdData = "";
+                    int postDetailIdindex = cursor.getColumnIndex("postDetailId");
+                    if(postDetailIdindex >= 0){
+
+                        if(cursor.getString(postDetailIdindex) != null){
+                          postDetailIdData = cursor.getString(postDetailIdindex);
+                          if(postDetailIdData != null){
+                            postDetailIdData = postDetailIdData.toString();
+                            hashMap.put("postDetailId", postDetailIdData);
+                          }
+                        }
+
+                    }
+
+          
+
         return hashMap;
     }//parseCursor
 
@@ -550,6 +640,27 @@ public class CommentDb{
 
 
 
+    // Deleting by whereKeyValue filter data present..
+    public void delete__db(final HashMap<String, Object> whereKeyValue) {
+      new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
+                db.beginTransaction();
+                String where = getWhere(whereKeyValue);
+                db.delete("Comment", where , null);
+                db.setTransactionSuccessful();
+                db.endTransaction();
+            }
+        }).start();
+    }
+
+
+
+
+
+
+
     // Getting All Data where
     public DataList<Comment>  getAll__db(String whereKey, String whereKeyValue) {
         DataList<Comment> modelList = new DataList<Comment>();
@@ -637,6 +748,44 @@ public class CommentDb{
         }).start();
 
     }
+
+
+    //Update multiple data at once..
+    public void updateAll__db(final HashMap<String, Object> whereKeyValue, final Comment modelData ){
+      new Thread(new Runnable(){
+        @Override
+        public void run(){
+          SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
+          db.beginTransaction();
+          ContentValues values = getContentValues(modelData);
+          String where = getWhere(whereKeyValue);
+          db.update("Comment", values, where, null);
+          db.setTransactionSuccessful();
+          db.endTransaction();
+          //db.close();
+        }
+
+      }).start();
+    }
+
+
+
+
+    // Deleting by whereKey and whereKeyValue
+    public void delete__db(final String whereKey, final String whereKeyValue) {
+      new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
+                db.beginTransaction();
+                db.delete(TABLE, whereKey + " = ?", new String[]{whereKeyValue});
+                db.setTransactionSuccessful();
+                db.endTransaction();
+                //db.close();
+            }
+        }).start();
+    }
+
 
 
     // Updating single contact

@@ -74,26 +74,30 @@ public class PostDb{
                                                             String headingData = "";
                         if(modelData.getHeading() != null){
                           headingData = modelData.getHeading().toString();
+                          values.put("`heading`", headingData);
                         }
-                                                values.put("`heading`", headingData);
+                                  
                                 
                                                             String descriptionData = "";
                         if(modelData.getDescription() != null){
                           descriptionData = modelData.getDescription().toString();
+                          values.put("`description`", descriptionData);
                         }
-                                                values.put("`description`", descriptionData);
+                                  
                                 
                                                             String addedData = "";
                         if(modelData.getAdded() != null){
                           addedData = modelData.getAdded().toString();
+                          values.put("`added`", addedData);
                         }
-                                                values.put("`added`", addedData);
+                                  
                                 
                                   String postImagesData = "";
                   if(modelData.getPostImages() != null){
                     postImagesData = new Gson().toJson(modelData.getPostImages(), DataList.class);
+                    values.put("`postImages`", postImagesData);
                   }
-                            values.put("`postImages`", postImagesData);
+              
                                 
                                                             int anonymousData = 0;
                         if(modelData.getAnonymous()){
@@ -101,13 +105,50 @@ public class PostDb{
                         }else{
                           anonymousData = 0;
                         }
-                                                values.put("`anonymous`", anonymousData);
+                        values.put("`anonymous`", anonymousData);
+                                  
                                 
                                                             String statusData = "";
                         if(modelData.getStatus() != null){
                           statusData = modelData.getStatus().toString();
+                          values.put("`status`", statusData);
                         }
-                                                values.put("`status`", statusData);
+                                  
+                                
+                                                            String latestData = "";
+                        if(modelData.getLatest() != null){
+                          latestData = modelData.getLatest().toString();
+                          values.put("`latest`", latestData);
+                        }
+                                  
+                                
+                                                            String unsolvedData = "";
+                        if(modelData.getUnsolved() != null){
+                          unsolvedData = modelData.getUnsolved().toString();
+                          values.put("`unsolved`", unsolvedData);
+                        }
+                                  
+                                
+                                                            String trendingData = "";
+                        if(modelData.getTrending() != null){
+                          trendingData = modelData.getTrending().toString();
+                          values.put("`trending`", trendingData);
+                        }
+                                  
+                                
+                                                            String postedData = "";
+                        if(modelData.getPosted() != null){
+                          postedData = modelData.getPosted().toString();
+                          values.put("`posted`", postedData);
+                        }
+                                  
+                                
+                                                            String savedData = "";
+                        if(modelData.getSaved() != null){
+                          savedData = modelData.getSaved().toString();
+                          values.put("`saved`", savedData);
+                        }
+                                  
                                 
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
                         String idData = "";
@@ -116,12 +157,13 @@ public class PostDb{
                               if(method.invoke(modelData) != null){
                                 //idData = modelData.getId().toString();
                                 idData = (String) method.invoke(modelData);
+                                values.put("`id`", idData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
                         }
 
-                                                values.put("`id`", idData);
+                                  
                                 
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
                         String customerIdData = "";
@@ -130,14 +172,28 @@ public class PostDb{
                               if(method.invoke(modelData) != null){
                                 //customerIdData = modelData.getCustomerId().toString();
                                 customerIdData = (String) method.invoke(modelData);
+                                values.put("`customerId`", customerIdData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
                         }
 
-                                                values.put("`customerId`", customerIdData);
+                                  
                   
-
+        
+          
+                    String postDetailIdData = "";
+                    try {
+                        Method method = modelData.getClass().getMethod("getPostDetailId");
+                        if(method.invoke(modelData) != null){
+                          //postDetailIdData = modelData.getPostDetailId().toString();
+                          postDetailIdData = (String) method.invoke(modelData);
+                          values.put("`postDetailId`", postDetailIdData);
+                        }
+                    } catch (Exception e) {
+                      Log.e("Database Error", e.toString());
+                    }
+          
         //Add the updated data property value to be 1
         values.put("`_DATA_UPDATED`", 1);
         return values;
@@ -264,6 +320,7 @@ public class PostDb{
                         }else{
                           anonymousData = false;
                         }
+                        hashMap.put("anonymous", anonymousData);
                                                 
                                 
                                                             String statusData = "";
@@ -276,9 +333,59 @@ public class PostDb{
                         }
                                                 
                                 
-                                                            String idData = "";
+                                                            String latestData = "";
                         if(cursor.getString(6) != null){
-                          idData = cursor.getString(6);
+                          latestData = cursor.getString(6);
+                          if(latestData != null){
+                            latestData = (String)latestData;
+                            hashMap.put("latest", latestData);
+                          }
+                        }
+                                                
+                                
+                                                            String unsolvedData = "";
+                        if(cursor.getString(7) != null){
+                          unsolvedData = cursor.getString(7);
+                          if(unsolvedData != null){
+                            unsolvedData = (String)unsolvedData;
+                            hashMap.put("unsolved", unsolvedData);
+                          }
+                        }
+                                                
+                                
+                                                            String trendingData = "";
+                        if(cursor.getString(8) != null){
+                          trendingData = cursor.getString(8);
+                          if(trendingData != null){
+                            trendingData = (String)trendingData;
+                            hashMap.put("trending", trendingData);
+                          }
+                        }
+                                                
+                                
+                                                            String postedData = "";
+                        if(cursor.getString(9) != null){
+                          postedData = cursor.getString(9);
+                          if(postedData != null){
+                            postedData = (String)postedData;
+                            hashMap.put("posted", postedData);
+                          }
+                        }
+                                                
+                                
+                                                            String savedData = "";
+                        if(cursor.getString(10) != null){
+                          savedData = cursor.getString(10);
+                          if(savedData != null){
+                            savedData = (String)savedData;
+                            hashMap.put("saved", savedData);
+                          }
+                        }
+                                                
+                                
+                                                            String idData = "";
+                        if(cursor.getString(11) != null){
+                          idData = cursor.getString(11);
                           if(idData != null){
                             idData = idData.toString();
                             hashMap.put("id", idData);
@@ -287,15 +394,33 @@ public class PostDb{
                                                 
                                 
                                                             String customerIdData = "";
-                        if(cursor.getString(7) != null){
-                          customerIdData = cursor.getString(7);
+                        if(cursor.getString(12) != null){
+                          customerIdData = cursor.getString(12);
                           if(customerIdData != null){
                             customerIdData = customerIdData.toString();
                             hashMap.put("customerId", customerIdData);
                           }
                         }
                                                 
-                  
+                  //End for loop
+         
+          
+                    String postDetailIdData = "";
+                    int postDetailIdindex = cursor.getColumnIndex("postDetailId");
+                    if(postDetailIdindex >= 0){
+
+                        if(cursor.getString(postDetailIdindex) != null){
+                          postDetailIdData = cursor.getString(postDetailIdindex);
+                          if(postDetailIdData != null){
+                            postDetailIdData = postDetailIdData.toString();
+                            hashMap.put("postDetailId", postDetailIdData);
+                          }
+                        }
+
+                    }
+
+          
+
         return hashMap;
     }//parseCursor
 
@@ -591,6 +716,27 @@ public class PostDb{
 
 
 
+    // Deleting by whereKeyValue filter data present..
+    public void delete__db(final HashMap<String, Object> whereKeyValue) {
+      new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
+                db.beginTransaction();
+                String where = getWhere(whereKeyValue);
+                db.delete("Post", where , null);
+                db.setTransactionSuccessful();
+                db.endTransaction();
+            }
+        }).start();
+    }
+
+
+
+
+
+
+
     // Getting All Data where
     public DataList<Post>  getAll__db(String whereKey, String whereKeyValue) {
         DataList<Post> modelList = new DataList<Post>();
@@ -678,6 +824,44 @@ public class PostDb{
         }).start();
 
     }
+
+
+    //Update multiple data at once..
+    public void updateAll__db(final HashMap<String, Object> whereKeyValue, final Post modelData ){
+      new Thread(new Runnable(){
+        @Override
+        public void run(){
+          SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
+          db.beginTransaction();
+          ContentValues values = getContentValues(modelData);
+          String where = getWhere(whereKeyValue);
+          db.update("Post", values, where, null);
+          db.setTransactionSuccessful();
+          db.endTransaction();
+          //db.close();
+        }
+
+      }).start();
+    }
+
+
+
+
+    // Deleting by whereKey and whereKeyValue
+    public void delete__db(final String whereKey, final String whereKeyValue) {
+      new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
+                db.beginTransaction();
+                db.delete(TABLE, whereKey + " = ?", new String[]{whereKeyValue});
+                db.setTransactionSuccessful();
+                db.endTransaction();
+                //db.close();
+            }
+        }).start();
+    }
+
 
 
     // Updating single contact

@@ -74,26 +74,30 @@ public class AmazonPdfDb{
                                                             String nameData = "";
                         if(modelData.getName() != null){
                           nameData = modelData.getName().toString();
+                          values.put("`name`", nameData);
                         }
-                                                values.put("`name`", nameData);
+                                  
                                 
                                                             String containerData = "";
                         if(modelData.getContainer() != null){
                           containerData = modelData.getContainer().toString();
+                          values.put("`container`", containerData);
                         }
-                                                values.put("`container`", containerData);
+                                  
                                 
                                                             String typeData = "";
                         if(modelData.getType() != null){
                           typeData = modelData.getType().toString();
+                          values.put("`type`", typeData);
                         }
-                                                values.put("`type`", typeData);
+                                  
                                 
                                                             String urlData = "";
                         if(modelData.getUrl() != null){
                           urlData = new Gson().toJson(modelData.getUrl(), HashMap.class);
+                          values.put("`url`", urlData);
                         }
-                                                values.put("`url`", urlData);
+                                  
                                 
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
                         String idData = "";
@@ -102,14 +106,16 @@ public class AmazonPdfDb{
                               if(method.invoke(modelData) != null){
                                 //idData = modelData.getId().toString();
                                 idData = (String) method.invoke(modelData);
+                                values.put("`id`", idData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
                         }
 
-                                                values.put("`id`", idData);
+                                  
                   
-
+        
+          
         //Add the updated data property value to be 1
         values.put("`_DATA_UPDATED`", 1);
         return values;
@@ -238,7 +244,10 @@ public class AmazonPdfDb{
                           }
                         }
                                                 
-                  
+                  //End for loop
+         
+          
+
         return hashMap;
     }//parseCursor
 
@@ -534,6 +543,27 @@ public class AmazonPdfDb{
 
 
 
+    // Deleting by whereKeyValue filter data present..
+    public void delete__db(final HashMap<String, Object> whereKeyValue) {
+      new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
+                db.beginTransaction();
+                String where = getWhere(whereKeyValue);
+                db.delete("AmazonPdf", where , null);
+                db.setTransactionSuccessful();
+                db.endTransaction();
+            }
+        }).start();
+    }
+
+
+
+
+
+
+
     // Getting All Data where
     public DataList<AmazonPdf>  getAll__db(String whereKey, String whereKeyValue) {
         DataList<AmazonPdf> modelList = new DataList<AmazonPdf>();
@@ -621,6 +651,44 @@ public class AmazonPdfDb{
         }).start();
 
     }
+
+
+    //Update multiple data at once..
+    public void updateAll__db(final HashMap<String, Object> whereKeyValue, final AmazonPdf modelData ){
+      new Thread(new Runnable(){
+        @Override
+        public void run(){
+          SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
+          db.beginTransaction();
+          ContentValues values = getContentValues(modelData);
+          String where = getWhere(whereKeyValue);
+          db.update("AmazonPdf", values, where, null);
+          db.setTransactionSuccessful();
+          db.endTransaction();
+          //db.close();
+        }
+
+      }).start();
+    }
+
+
+
+
+    // Deleting by whereKey and whereKeyValue
+    public void delete__db(final String whereKey, final String whereKeyValue) {
+      new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
+                db.beginTransaction();
+                db.delete(TABLE, whereKey + " = ?", new String[]{whereKeyValue});
+                db.setTransactionSuccessful();
+                db.endTransaction();
+                //db.close();
+            }
+        }).start();
+    }
+
 
 
     // Updating single contact

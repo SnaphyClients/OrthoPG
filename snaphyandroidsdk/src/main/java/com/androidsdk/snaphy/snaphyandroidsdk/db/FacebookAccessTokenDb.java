@@ -74,20 +74,23 @@ public class FacebookAccessTokenDb{
                                                             String FbUserIdData = "";
                         if(modelData.getFbUserId() != null){
                           FbUserIdData = modelData.getFbUserId().toString();
+                          values.put("`FbUserId`", FbUserIdData);
                         }
-                                                values.put("`FbUserId`", FbUserIdData);
+                                  
                                 
                                                             String tokenData = "";
                         if(modelData.getToken() != null){
                           tokenData = modelData.getToken().toString();
+                          values.put("`token`", tokenData);
                         }
-                                                values.put("`token`", tokenData);
+                                  
                                 
                                                             String expiresData = "";
                         if(modelData.getExpires() != null){
                           expiresData = modelData.getExpires().toString();
+                          values.put("`expires`", expiresData);
                         }
-                                                values.put("`expires`", expiresData);
+                                  
                                 
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
                         String userIdData = "";
@@ -96,18 +99,20 @@ public class FacebookAccessTokenDb{
                               if(method.invoke(modelData) != null){
                                 //userIdData = modelData.getUserId().toString();
                                 userIdData = (String) method.invoke(modelData);
+                                values.put("`userId`", userIdData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
                         }
 
-                                                values.put("`userId`", userIdData);
+                                  
                                 
                                                             String typeData = "";
                         if(modelData.getType() != null){
                           typeData = modelData.getType().toString();
+                          values.put("`type`", typeData);
                         }
-                                                values.put("`type`", typeData);
+                                  
                                 
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
                         String customerIdData = "";
@@ -116,14 +121,16 @@ public class FacebookAccessTokenDb{
                               if(method.invoke(modelData) != null){
                                 //customerIdData = modelData.getCustomerId().toString();
                                 customerIdData = (String) method.invoke(modelData);
+                                values.put("`customerId`", customerIdData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
                         }
 
-                                                values.put("`customerId`", customerIdData);
+                                  
                   
-
+        
+          
         //Add the updated data property value to be 1
         values.put("`_DATA_UPDATED`", 1);
         return values;
@@ -262,7 +269,10 @@ public class FacebookAccessTokenDb{
                           }
                         }
                                                 
-                  
+                  //End for loop
+         
+          
+
         return hashMap;
     }//parseCursor
 
@@ -558,6 +568,27 @@ public class FacebookAccessTokenDb{
 
 
 
+    // Deleting by whereKeyValue filter data present..
+    public void delete__db(final HashMap<String, Object> whereKeyValue) {
+      new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
+                db.beginTransaction();
+                String where = getWhere(whereKeyValue);
+                db.delete("FacebookAccessToken", where , null);
+                db.setTransactionSuccessful();
+                db.endTransaction();
+            }
+        }).start();
+    }
+
+
+
+
+
+
+
     // Getting All Data where
     public DataList<FacebookAccessToken>  getAll__db(String whereKey, String whereKeyValue) {
         DataList<FacebookAccessToken> modelList = new DataList<FacebookAccessToken>();
@@ -645,6 +676,44 @@ public class FacebookAccessTokenDb{
         }).start();
 
     }
+
+
+    //Update multiple data at once..
+    public void updateAll__db(final HashMap<String, Object> whereKeyValue, final FacebookAccessToken modelData ){
+      new Thread(new Runnable(){
+        @Override
+        public void run(){
+          SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
+          db.beginTransaction();
+          ContentValues values = getContentValues(modelData);
+          String where = getWhere(whereKeyValue);
+          db.update("FacebookAccessToken", values, where, null);
+          db.setTransactionSuccessful();
+          db.endTransaction();
+          //db.close();
+        }
+
+      }).start();
+    }
+
+
+
+
+    // Deleting by whereKey and whereKeyValue
+    public void delete__db(final String whereKey, final String whereKeyValue) {
+      new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
+                db.beginTransaction();
+                db.delete(TABLE, whereKey + " = ?", new String[]{whereKeyValue});
+                db.setTransactionSuccessful();
+                db.endTransaction();
+                //db.close();
+            }
+        }).start();
+    }
+
 
 
     // Updating single contact

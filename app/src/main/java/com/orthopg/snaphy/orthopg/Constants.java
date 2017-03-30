@@ -21,13 +21,15 @@ public class Constants {
     private static String CLIENT_SECRET_KEY = "ORFoabt0p6XEOFLmKBsYQGZh";
 
 
-    public static String baseUrl = "http://192.168.0.7:3000";
+    //public static String baseUrl = "http://192.168.0.6:3000";
     //public static String baseUrl = "http://192.168.43.21:3000";
-    //public static String baseUrl = "http://192.168.0.9:3000";
+    public static String baseUrl = "http://192.168.0.9:3000";
     //public static String baseUrl = "http://admin.orthopg.com";
     //public static String baseUrl = "http://ec2-54-209-33-191.compute-1.amazonaws.com:3000";
     public static String apiUrl = baseUrl+"/api";
     public static final String AMAZON_CLOUD_FRONT_URL = "http://d3j3ux0h7dntsg.cloudfront.net";
+
+    public static String OLD_DB_FIELD_FLAG = "_DATA_UPDATED";
     /**
      * Substitute you own sender ID here. This is the project number you got
      * from the API Console, as described in "Getting Started."

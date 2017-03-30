@@ -374,9 +374,12 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
     }
 
     @OnClick(R.id.fragment_book_description_button4) void onEbookBuy(){
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("bookTitle", true);
-        editor.commit();
+
+        mainActivity.replaceFragment(R.layout.fragment_checkout, null);
+      //  SharedPreferences.Editor editor = sharedPreferences.edit();
+        //editor.putBoolean("bookTitle", true);
+
+        //editor.commit();
      /*   PayUmoneySdkInitilizer.PaymentParam.Builder builder = new PayUmoneySdkInitilizer.PaymentParam.Builder()
                 .setMerchantId("XXX")
                 .setKey("YYY")

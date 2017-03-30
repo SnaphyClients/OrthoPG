@@ -73,7 +73,8 @@ public class PostDetailDb{
                        
                                                             double totalLikeData;
                         totalLikeData = (double)modelData.getTotalLike();
-                                                values.put("`totalLike`", totalLikeData);
+                        values.put("`totalLike`", totalLikeData);
+                                  
                                 
                                                             int hasAcceptedAnswerData = 0;
                         if(modelData.getHasAcceptedAnswer()){
@@ -81,35 +82,41 @@ public class PostDetailDb{
                         }else{
                           hasAcceptedAnswerData = 0;
                         }
-                                                values.put("`hasAcceptedAnswer`", hasAcceptedAnswerData);
+                        values.put("`hasAcceptedAnswer`", hasAcceptedAnswerData);
+                                  
                                 
                                                             double totalSaveData;
                         totalSaveData = (double)modelData.getTotalSave();
-                                                values.put("`totalSave`", totalSaveData);
+                        values.put("`totalSave`", totalSaveData);
+                                  
                                 
                                                             String addedData = "";
                         if(modelData.getAdded() != null){
                           addedData = modelData.getAdded().toString();
+                          values.put("`added`", addedData);
                         }
-                                                values.put("`added`", addedData);
+                                  
                                 
                                                             String updatedData = "";
                         if(modelData.getUpdated() != null){
                           updatedData = modelData.getUpdated().toString();
+                          values.put("`updated`", updatedData);
                         }
-                                                values.put("`updated`", updatedData);
+                                  
                                 
                                                             String typeData = "";
                         if(modelData.getType() != null){
                           typeData = modelData.getType().toString();
+                          values.put("`type`", typeData);
                         }
-                                                values.put("`type`", typeData);
+                                  
                                 
                                                             String statusData = "";
                         if(modelData.getStatus() != null){
                           statusData = modelData.getStatus().toString();
+                          values.put("`status`", statusData);
                         }
-                                                values.put("`status`", statusData);
+                                  
                                 
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
                         String idData = "";
@@ -118,12 +125,13 @@ public class PostDetailDb{
                               if(method.invoke(modelData) != null){
                                 //idData = modelData.getId().toString();
                                 idData = (String) method.invoke(modelData);
+                                values.put("`id`", idData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
                         }
 
-                                                values.put("`id`", idData);
+                                  
                                 
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
                         String postIdData = "";
@@ -132,12 +140,13 @@ public class PostDetailDb{
                               if(method.invoke(modelData) != null){
                                 //postIdData = modelData.getPostId().toString();
                                 postIdData = (String) method.invoke(modelData);
+                                values.put("`postId`", postIdData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
                         }
 
-                                                values.put("`postId`", postIdData);
+                                  
                                 
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
                         String commentIdData = "";
@@ -146,14 +155,16 @@ public class PostDetailDb{
                               if(method.invoke(modelData) != null){
                                 //commentIdData = modelData.getCommentId().toString();
                                 commentIdData = (String) method.invoke(modelData);
+                                values.put("`commentId`", commentIdData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
                         }
 
-                                                values.put("`commentId`", commentIdData);
+                                  
                   
-
+        
+          
         //Add the updated data property value to be 1
         values.put("`_DATA_UPDATED`", 1);
         return values;
@@ -248,6 +259,7 @@ public class PostDetailDb{
                         }else{
                           hasAcceptedAnswerData = false;
                         }
+                        hashMap.put("hasAcceptedAnswer", hasAcceptedAnswerData);
                                                 
                                 
                                                             double totalSaveData = (double)0;
@@ -327,7 +339,10 @@ public class PostDetailDb{
                           }
                         }
                                                 
-                  
+                  //End for loop
+         
+          
+
         return hashMap;
     }//parseCursor
 
@@ -623,6 +638,27 @@ public class PostDetailDb{
 
 
 
+    // Deleting by whereKeyValue filter data present..
+    public void delete__db(final HashMap<String, Object> whereKeyValue) {
+      new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
+                db.beginTransaction();
+                String where = getWhere(whereKeyValue);
+                db.delete("PostDetail", where , null);
+                db.setTransactionSuccessful();
+                db.endTransaction();
+            }
+        }).start();
+    }
+
+
+
+
+
+
+
     // Getting All Data where
     public DataList<PostDetail>  getAll__db(String whereKey, String whereKeyValue) {
         DataList<PostDetail> modelList = new DataList<PostDetail>();
@@ -710,6 +746,44 @@ public class PostDetailDb{
         }).start();
 
     }
+
+
+    //Update multiple data at once..
+    public void updateAll__db(final HashMap<String, Object> whereKeyValue, final PostDetail modelData ){
+      new Thread(new Runnable(){
+        @Override
+        public void run(){
+          SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
+          db.beginTransaction();
+          ContentValues values = getContentValues(modelData);
+          String where = getWhere(whereKeyValue);
+          db.update("PostDetail", values, where, null);
+          db.setTransactionSuccessful();
+          db.endTransaction();
+          //db.close();
+        }
+
+      }).start();
+    }
+
+
+
+
+    // Deleting by whereKey and whereKeyValue
+    public void delete__db(final String whereKey, final String whereKeyValue) {
+      new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
+                db.beginTransaction();
+                db.delete(TABLE, whereKey + " = ?", new String[]{whereKeyValue});
+                db.setTransactionSuccessful();
+                db.endTransaction();
+                //db.close();
+            }
+        }).start();
+    }
+
 
 
     // Updating single contact

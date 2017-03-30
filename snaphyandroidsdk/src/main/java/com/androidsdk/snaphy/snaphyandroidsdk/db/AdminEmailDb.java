@@ -78,12 +78,13 @@ public class AdminEmailDb{
                               if(method.invoke(modelData) != null){
                                 //toData = modelData.getTo().toString();
                                 toData = (String) method.invoke(modelData);
+                                values.put("`to`", toData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
                         }
 
-                                                values.put("`to`", toData);
+                                  
                                 
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
                         String fromData = "";
@@ -92,12 +93,13 @@ public class AdminEmailDb{
                               if(method.invoke(modelData) != null){
                                 //fromData = modelData.getFrom().toString();
                                 fromData = (String) method.invoke(modelData);
+                                values.put("`from`", fromData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
                         }
 
-                                                values.put("`from`", fromData);
+                                  
                                 
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
                         String subjectData = "";
@@ -106,12 +108,13 @@ public class AdminEmailDb{
                               if(method.invoke(modelData) != null){
                                 //subjectData = modelData.getSubject().toString();
                                 subjectData = (String) method.invoke(modelData);
+                                values.put("`subject`", subjectData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
                         }
 
-                                                values.put("`subject`", subjectData);
+                                  
                                 
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
                         String textData = "";
@@ -120,12 +123,13 @@ public class AdminEmailDb{
                               if(method.invoke(modelData) != null){
                                 //textData = modelData.getText().toString();
                                 textData = (String) method.invoke(modelData);
+                                values.put("`text`", textData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
                         }
 
-                                                values.put("`text`", textData);
+                                  
                                 
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
                         String htmlData = "";
@@ -134,12 +138,13 @@ public class AdminEmailDb{
                               if(method.invoke(modelData) != null){
                                 //htmlData = modelData.getHtml().toString();
                                 htmlData = (String) method.invoke(modelData);
+                                values.put("`html`", htmlData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
                         }
 
-                                                values.put("`html`", htmlData);
+                                  
                                 
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
                         String idData = "";
@@ -148,14 +153,16 @@ public class AdminEmailDb{
                               if(method.invoke(modelData) != null){
                                 //idData = modelData.getId().toString();
                                 idData = (String) method.invoke(modelData);
+                                values.put("`id`", idData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
                         }
 
-                                                values.put("`id`", idData);
+                                  
                   
-
+        
+          
         //Add the updated data property value to be 1
         values.put("`_DATA_UPDATED`", 1);
         return values;
@@ -294,7 +301,10 @@ public class AdminEmailDb{
                           }
                         }
                                                 
-                  
+                  //End for loop
+         
+          
+
         return hashMap;
     }//parseCursor
 
@@ -590,6 +600,27 @@ public class AdminEmailDb{
 
 
 
+    // Deleting by whereKeyValue filter data present..
+    public void delete__db(final HashMap<String, Object> whereKeyValue) {
+      new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
+                db.beginTransaction();
+                String where = getWhere(whereKeyValue);
+                db.delete("AdminEmail", where , null);
+                db.setTransactionSuccessful();
+                db.endTransaction();
+            }
+        }).start();
+    }
+
+
+
+
+
+
+
     // Getting All Data where
     public DataList<AdminEmail>  getAll__db(String whereKey, String whereKeyValue) {
         DataList<AdminEmail> modelList = new DataList<AdminEmail>();
@@ -677,6 +708,44 @@ public class AdminEmailDb{
         }).start();
 
     }
+
+
+    //Update multiple data at once..
+    public void updateAll__db(final HashMap<String, Object> whereKeyValue, final AdminEmail modelData ){
+      new Thread(new Runnable(){
+        @Override
+        public void run(){
+          SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
+          db.beginTransaction();
+          ContentValues values = getContentValues(modelData);
+          String where = getWhere(whereKeyValue);
+          db.update("AdminEmail", values, where, null);
+          db.setTransactionSuccessful();
+          db.endTransaction();
+          //db.close();
+        }
+
+      }).start();
+    }
+
+
+
+
+    // Deleting by whereKey and whereKeyValue
+    public void delete__db(final String whereKey, final String whereKeyValue) {
+      new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
+                db.beginTransaction();
+                db.delete(TABLE, whereKey + " = ?", new String[]{whereKeyValue});
+                db.setTransactionSuccessful();
+                db.endTransaction();
+                //db.close();
+            }
+        }).start();
+    }
+
 
 
     // Updating single contact

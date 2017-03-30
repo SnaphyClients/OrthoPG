@@ -5,6 +5,7 @@ import android.util.Log;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.Util;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Model;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.ModelRepository;
+import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.VoidCallback;
 
 import org.json.JSONObject;
 
@@ -170,6 +171,29 @@ public class SnaphySocket<M extends Model, R extends ModelRepository<M>> {
         socket.on("PUT", onDataDeleted);
         return this;
     }
+
+
+    /**
+     * Subscriber fires when socket is disconnected.
+     * @param callback
+     * @return {SnaphyRealTime} Return self to maintain chaining.
+     */
+    public SnaphySocket onDisconnected(final VoidCallback callback){
+        callback.onBefore();
+        Emitter.Listener onDataAdded = new Emitter.Listener() {
+            @Override
+            public void call(final Object... args) {
+                callback.onSuccess();
+                callback.onFinally();
+            }
+        };
+
+
+        //On Data added
+        socket.on(Socket.EVENT_DISCONNECT, onDataAdded);
+        return this;
+    }
+
 
 
     /**
