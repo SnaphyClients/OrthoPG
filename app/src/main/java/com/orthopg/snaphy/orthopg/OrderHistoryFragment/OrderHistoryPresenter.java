@@ -8,6 +8,7 @@ import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Order;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
+import com.androidsdk.snaphy.snaphyandroidsdk.repository.BookRepository;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.OrderRepository;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.SpecialityRepository;
 import com.orthopg.snaphy.orthopg.Constants;
@@ -27,6 +28,7 @@ public class OrderHistoryPresenter {
     DataList<Order> orderDataList;
     public double limit = 7;
     public double skip = 0;
+    String localOrderBy = "datetime(added) DESC";
 
     public OrderHistoryPresenter(RestAdapter restAdapter, MainActivity mainActivity){
 
@@ -51,11 +53,15 @@ public class OrderHistoryPresenter {
         String customerId = (String)customer.getId();
         if(customerId!=null){
             OrderRepository orderRepository = restAdapter.createRepository(OrderRepository.class);
+            orderRepository.addStorage(mainActivity);
             orderRepository.fetchPastOrder(customerId, new DataListCallback<Order>() {
                 @Override
                 public void onBefore() {
                     super.onBefore();
-                    mainActivity.startProgressBar(mainActivity.progressBar);
+                    if(mainActivity!=null) {
+                        mainActivity.startProgressBar(mainActivity.progressBar);
+                    }
+                    setOldFlag();
                 }
 
                 @Override
@@ -65,7 +71,11 @@ public class OrderHistoryPresenter {
                         if(reset){
                             orderDataList.clear();
                         }
-
+                        for(Order order : objects){
+                            if(order!=null){
+                                saveOrderData(order);
+                            }
+                        }
                         orderDataList.addAll(objects);
                         skip = skip + objects.size();
                     }
@@ -75,6 +85,7 @@ public class OrderHistoryPresenter {
                 public void onError(Throwable t) {
                     super.onError(t);
                     Log.e(Constants.TAG, t.toString());
+                    loadOfflineOrderData();
                 }
 
                 @Override
@@ -84,6 +95,35 @@ public class OrderHistoryPresenter {
                 }
             });
 
+        }
+    }
+
+    public void setOldFlag(){
+        OrderRepository orderRepository = restAdapter.createRepository(OrderRepository.class);
+        orderRepository.addStorage(mainActivity);
+        orderRepository.getDb().checkOldData__db();
+    }
+
+    public void saveOrderData(Order order){
+        BookRepository bookRepository = restAdapter.createRepository(BookRepository.class);
+        bookRepository.addStorage(mainActivity);
+        if(order.getBook()!=null){
+            bookRepository.getDb().upsert__db(order.getBook().getId().toString(), order.getBook());
+        }
+
+        OrderRepository orderRepository = restAdapter.createRepository(OrderRepository.class);
+        orderRepository.addStorage(mainActivity);
+        orderRepository.getDb().upsert__db(order.getId().toString(), order);
+    }
+
+
+    public void loadOfflineOrderData(){
+        orderDataList.clear();
+        OrderRepository orderRepository = restAdapter.createRepository(OrderRepository.class);
+        orderRepository.addStorage(mainActivity);
+        HashMap<String, Object> localFlagQuery = new HashMap<>();
+        if(orderRepository.getDb().count__db(localFlagQuery, localOrderBy,50)>0){
+            orderDataList.addAll(orderRepository.getDb().getAll__db(localFlagQuery, localOrderBy,50));
         }
     }
 }

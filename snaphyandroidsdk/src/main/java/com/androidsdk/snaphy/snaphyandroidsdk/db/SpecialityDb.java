@@ -57,7 +57,7 @@ public class SpecialityDb{
                 SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
                 // Inserting Row
                 ContentValues values = getContentValues(modelData);
-                db.insert("Speciality", null, values);
+                db.insert("`Speciality`", null, values);
                 //db.close(); // Closing database connection
             }
         }).start();
@@ -139,7 +139,7 @@ public class SpecialityDb{
     public   Speciality get__db(String whereKey, String whereKeyValue) {
         if (whereKeyValue != null) {
             SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getReadableDatabase();
-            Cursor cursor = db.query("Speciality", null, "`" + whereKey + "` =?", new String[]{whereKeyValue}, null, null, null, null);
+            Cursor cursor = db.query("`Speciality`", null, "`" + whereKey + "` =?", new String[]{whereKeyValue}, null, null, null, null);
             if (cursor != null) {
                 if (!cursor.moveToFirst() || cursor.getCount() == 0){
                     return null;
@@ -216,7 +216,7 @@ public class SpecialityDb{
     public DataList<Speciality>  getAll__db() {
         DataList<Speciality> modelList = new DataList<Speciality>();
         // Select All Query
-        String selectQuery = "SELECT  * FROM Speciality";
+        String selectQuery = "SELECT  * FROM `Speciality`";
 
         SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getReadableDatabase();
         //http://www.tothenew.com/blog/sqlite-locking-and-transaction-handling-in-android/
@@ -266,25 +266,48 @@ public class SpecialityDb{
             if(keyValue != null){
                 if(keyValue.size() != 0){
                     String returnedKey = keyValue.get(0);
-                    String value = keyValue.get(1);
+                    try{
+                        int value = Integer.parseInt(keyValue.get(1));
+                        if(i==0){
+                            if(returnedKey.equals("gt")){
+                                where = where + " `" + key + "` > "+ value + "";
+                            }else if(returnedKey.equals("lt")){
+                                where = where + " `" + key + "` < "+ value + "";
+                            }else{
+                                where = where + " `" + key + "` = "+ value + "";
+                            }
+                        }else{
+                            if(returnedKey.equals("gt")){
+                                where = where + " AND `" + key + "` > "+ value + "";
+                            }else if(returnedKey.equals("lt")){
+                                where = where + " AND `" + key + "` < "+ value + "";
+                            }else{
+                                where = where + " AND `" + key + "` = "+ value + "";
+                            }
+                        }
 
-                    if(i==0){
-                        if(returnedKey.equals("gt")){
-                            where = where + " `" + key + "` > '"+ value + "'";
-                        }else if(returnedKey.equals("lt")){
-                            where = where + " `" + key + "` < '"+ value + "'";
-                        }else{
-                            where = where + " `" + key + "` = '"+ value + "'";
-                        }
-                    }else{
-                        if(returnedKey.equals("gt")){
-                            where = where + " AND `" + key + "` > '"+ value + "'";
-                        }else if(returnedKey.equals("lt")){
-                            where = where + " AND `" + key + "` < '"+ value + "'";
-                        }else{
-                            where = where + " AND `" + key + "` = '"+ value + "'";
-                        }
+                    }catch(Exception e){
+                      String value = keyValue.get(1);
+                      if(i==0){
+                          if(returnedKey.equals("gt")){
+                              where = where + " `" + key + "` > '"+ value + "'";
+                          }else if(returnedKey.equals("lt")){
+                              where = where + " `" + key + "` < '"+ value + "'";
+                          }else{
+                              where = where + " `" + key + "` = '"+ value + "'";
+                          }
+                      }else{
+                          if(returnedKey.equals("gt")){
+                              where = where + " AND `" + key + "` > '"+ value + "'";
+                          }else if(returnedKey.equals("lt")){
+                              where = where + " AND `" + key + "` < '"+ value + "'";
+                          }else{
+                              where = where + " AND `" + key + "` = '"+ value + "'";
+                          }
+                      }
+
                     }
+
                     i++;
                 }
             }
@@ -330,7 +353,7 @@ public class SpecialityDb{
         String whereQuery = getWhereQuery(whereKeyValue);
         String selectQuery;
         if(orderBy != null){
-            selectQuery = "SELECT  * FROM Speciality " + whereQuery  + " ORDER BY " + orderBy ;
+            selectQuery = "SELECT  * FROM `Speciality` " + whereQuery  + " ORDER BY " + orderBy ;
             if(limit != 0){
                 // Select All Query
                 selectQuery = selectQuery +  " " + " LIMIT " + limit;
@@ -393,7 +416,7 @@ public class SpecialityDb{
         String whereQuery = getWhereQuery(whereKeyValue);
         String countQuery;
         if(orderBy != null){
-            countQuery = "SELECT  * FROM Speciality " + whereQuery  + " ORDER BY " + orderBy ;
+            countQuery = "SELECT  * FROM `Speciality` " + whereQuery  + " ORDER BY " + orderBy ;
             if(limit != 0){
                 // Select All Query
                 countQuery = countQuery +  " " + " LIMIT " + limit;
@@ -401,9 +424,9 @@ public class SpecialityDb{
         }else{
             if(limit != 0){
                 // Select All Query
-                countQuery = "SELECT  * FROM Speciality " + whereQuery + " LIMIT " + limit;
+                countQuery = "SELECT  * FROM `Speciality` " + whereQuery + " LIMIT " + limit;
             }else{
-                countQuery = "SELECT  * FROM Speciality " + whereQuery;
+                countQuery = "SELECT  * FROM `Speciality` " + whereQuery;
             }
         }
 
@@ -426,9 +449,9 @@ public class SpecialityDb{
         String whereQuery = getWhereQuery(whereKeyValue);
         String countQuery;
         if(limit != 0){
-            countQuery = "SELECT  * FROM Speciality " + whereQuery + " LIMIT " + limit;
+            countQuery = "SELECT  * FROM `Speciality` " + whereQuery + " LIMIT " + limit;
         }else{
-            countQuery = "SELECT  * FROM Speciality " + whereQuery;
+            countQuery = "SELECT  * FROM `Speciality` " + whereQuery;
         }
 
         SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getReadableDatabase();
@@ -461,7 +484,7 @@ public class SpecialityDb{
                 values.put("_DATA_UPDATED", 0);
                 String where = getWhere(whereKeyValue);
                 // updating row
-                db.update("Speciality", values, "_DATA_UPDATED = 1 AND " + where, null);
+                db.update("`Speciality`", values, "_DATA_UPDATED = 1 AND " + where, null);
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();
@@ -479,7 +502,7 @@ public class SpecialityDb{
                 SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
                 db.beginTransaction();
                 String where = getWhere(whereKeyValue);
-                db.delete("Speciality", "_DATA_UPDATED = 0 AND " + where , null);
+                db.delete("`Speciality`", "_DATA_UPDATED = 0 AND " + where , null);
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();
@@ -500,7 +523,7 @@ public class SpecialityDb{
                 SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
                 db.beginTransaction();
                 String where = getWhere(whereKeyValue);
-                db.delete("Speciality", where , null);
+                db.delete("`Speciality`", where , null);
                 db.setTransactionSuccessful();
                 db.endTransaction();
             }
@@ -576,7 +599,7 @@ public class SpecialityDb{
                 ContentValues values = new ContentValues();
                 values.put("_DATA_UPDATED", 0);
                 // updating row
-                db.update("Speciality", values, "_DATA_UPDATED = 1 AND `" + whereKey + "` = ?", new String[]{whereKeyValue});
+                db.update("`Speciality`", values, "_DATA_UPDATED = 1 AND `" + whereKey + "` = ?", new String[]{whereKeyValue});
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();
@@ -592,7 +615,7 @@ public class SpecialityDb{
             public void run() {
                 SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
                 db.beginTransaction();
-                db.delete("Speciality", "_DATA_UPDATED = 0 AND `" + whereKey + "` = ?", new String[]{whereKeyValue});
+                db.delete("`Speciality`", "_DATA_UPDATED = 0 AND `" + whereKey + "` = ?", new String[]{whereKeyValue});
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();
@@ -611,7 +634,7 @@ public class SpecialityDb{
           db.beginTransaction();
           ContentValues values = getContentValues(modelData);
           String where = getWhere(whereKeyValue);
-          db.update("Speciality", values, where, null);
+          db.update("`Speciality`", values, where, null);
           db.setTransactionSuccessful();
           db.endTransaction();
           //db.close();
@@ -649,7 +672,7 @@ public class SpecialityDb{
                 db.beginTransaction();
                 ContentValues values = getContentValues(modelData);
                 // updating row
-                db.update("Speciality", values, "id = ?",
+                db.update("`Speciality`", values, "id = ?",
                         new String[] { id });
                 db.setTransactionSuccessful();
                 db.endTransaction();
@@ -670,7 +693,7 @@ public class SpecialityDb{
                 ContentValues values = new ContentValues();
                 values.put("_DATA_UPDATED", 0);
                 // updating row
-                db.update("Speciality", values, "_DATA_UPDATED = 1", null);
+                db.update("`Speciality`", values, "_DATA_UPDATED = 1", null);
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();
@@ -687,7 +710,7 @@ public class SpecialityDb{
             public void run() {
                 SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
                 db.beginTransaction();
-                db.delete("Speciality", "_DATA_UPDATED = 0", null);
+                db.delete("`Speciality`", "_DATA_UPDATED = 0", null);
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();

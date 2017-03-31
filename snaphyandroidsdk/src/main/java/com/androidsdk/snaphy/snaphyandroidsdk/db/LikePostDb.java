@@ -57,7 +57,7 @@ public class LikePostDb{
                 SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
                 // Inserting Row
                 ContentValues values = getContentValues(modelData);
-                db.insert("LikePost", null, values);
+                db.insert("`LikePost`", null, values);
                 //db.close(); // Closing database connection
             }
         }).start();
@@ -181,7 +181,7 @@ public class LikePostDb{
     public   LikePost get__db(String whereKey, String whereKeyValue) {
         if (whereKeyValue != null) {
             SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getReadableDatabase();
-            Cursor cursor = db.query("LikePost", null, "`" + whereKey + "` =?", new String[]{whereKeyValue}, null, null, null, null);
+            Cursor cursor = db.query("`LikePost`", null, "`" + whereKey + "` =?", new String[]{whereKeyValue}, null, null, null, null);
             if (cursor != null) {
                 if (!cursor.moveToFirst() || cursor.getCount() == 0){
                     return null;
@@ -293,7 +293,7 @@ public class LikePostDb{
     public DataList<LikePost>  getAll__db() {
         DataList<LikePost> modelList = new DataList<LikePost>();
         // Select All Query
-        String selectQuery = "SELECT  * FROM LikePost";
+        String selectQuery = "SELECT  * FROM `LikePost`";
 
         SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getReadableDatabase();
         //http://www.tothenew.com/blog/sqlite-locking-and-transaction-handling-in-android/
@@ -343,25 +343,48 @@ public class LikePostDb{
             if(keyValue != null){
                 if(keyValue.size() != 0){
                     String returnedKey = keyValue.get(0);
-                    String value = keyValue.get(1);
+                    try{
+                        int value = Integer.parseInt(keyValue.get(1));
+                        if(i==0){
+                            if(returnedKey.equals("gt")){
+                                where = where + " `" + key + "` > "+ value + "";
+                            }else if(returnedKey.equals("lt")){
+                                where = where + " `" + key + "` < "+ value + "";
+                            }else{
+                                where = where + " `" + key + "` = "+ value + "";
+                            }
+                        }else{
+                            if(returnedKey.equals("gt")){
+                                where = where + " AND `" + key + "` > "+ value + "";
+                            }else if(returnedKey.equals("lt")){
+                                where = where + " AND `" + key + "` < "+ value + "";
+                            }else{
+                                where = where + " AND `" + key + "` = "+ value + "";
+                            }
+                        }
 
-                    if(i==0){
-                        if(returnedKey.equals("gt")){
-                            where = where + " `" + key + "` > '"+ value + "'";
-                        }else if(returnedKey.equals("lt")){
-                            where = where + " `" + key + "` < '"+ value + "'";
-                        }else{
-                            where = where + " `" + key + "` = '"+ value + "'";
-                        }
-                    }else{
-                        if(returnedKey.equals("gt")){
-                            where = where + " AND `" + key + "` > '"+ value + "'";
-                        }else if(returnedKey.equals("lt")){
-                            where = where + " AND `" + key + "` < '"+ value + "'";
-                        }else{
-                            where = where + " AND `" + key + "` = '"+ value + "'";
-                        }
+                    }catch(Exception e){
+                      String value = keyValue.get(1);
+                      if(i==0){
+                          if(returnedKey.equals("gt")){
+                              where = where + " `" + key + "` > '"+ value + "'";
+                          }else if(returnedKey.equals("lt")){
+                              where = where + " `" + key + "` < '"+ value + "'";
+                          }else{
+                              where = where + " `" + key + "` = '"+ value + "'";
+                          }
+                      }else{
+                          if(returnedKey.equals("gt")){
+                              where = where + " AND `" + key + "` > '"+ value + "'";
+                          }else if(returnedKey.equals("lt")){
+                              where = where + " AND `" + key + "` < '"+ value + "'";
+                          }else{
+                              where = where + " AND `" + key + "` = '"+ value + "'";
+                          }
+                      }
+
                     }
+
                     i++;
                 }
             }
@@ -407,7 +430,7 @@ public class LikePostDb{
         String whereQuery = getWhereQuery(whereKeyValue);
         String selectQuery;
         if(orderBy != null){
-            selectQuery = "SELECT  * FROM LikePost " + whereQuery  + " ORDER BY " + orderBy ;
+            selectQuery = "SELECT  * FROM `LikePost` " + whereQuery  + " ORDER BY " + orderBy ;
             if(limit != 0){
                 // Select All Query
                 selectQuery = selectQuery +  " " + " LIMIT " + limit;
@@ -470,7 +493,7 @@ public class LikePostDb{
         String whereQuery = getWhereQuery(whereKeyValue);
         String countQuery;
         if(orderBy != null){
-            countQuery = "SELECT  * FROM LikePost " + whereQuery  + " ORDER BY " + orderBy ;
+            countQuery = "SELECT  * FROM `LikePost` " + whereQuery  + " ORDER BY " + orderBy ;
             if(limit != 0){
                 // Select All Query
                 countQuery = countQuery +  " " + " LIMIT " + limit;
@@ -478,9 +501,9 @@ public class LikePostDb{
         }else{
             if(limit != 0){
                 // Select All Query
-                countQuery = "SELECT  * FROM LikePost " + whereQuery + " LIMIT " + limit;
+                countQuery = "SELECT  * FROM `LikePost` " + whereQuery + " LIMIT " + limit;
             }else{
-                countQuery = "SELECT  * FROM LikePost " + whereQuery;
+                countQuery = "SELECT  * FROM `LikePost` " + whereQuery;
             }
         }
 
@@ -503,9 +526,9 @@ public class LikePostDb{
         String whereQuery = getWhereQuery(whereKeyValue);
         String countQuery;
         if(limit != 0){
-            countQuery = "SELECT  * FROM LikePost " + whereQuery + " LIMIT " + limit;
+            countQuery = "SELECT  * FROM `LikePost` " + whereQuery + " LIMIT " + limit;
         }else{
-            countQuery = "SELECT  * FROM LikePost " + whereQuery;
+            countQuery = "SELECT  * FROM `LikePost` " + whereQuery;
         }
 
         SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getReadableDatabase();
@@ -538,7 +561,7 @@ public class LikePostDb{
                 values.put("_DATA_UPDATED", 0);
                 String where = getWhere(whereKeyValue);
                 // updating row
-                db.update("LikePost", values, "_DATA_UPDATED = 1 AND " + where, null);
+                db.update("`LikePost`", values, "_DATA_UPDATED = 1 AND " + where, null);
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();
@@ -556,7 +579,7 @@ public class LikePostDb{
                 SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
                 db.beginTransaction();
                 String where = getWhere(whereKeyValue);
-                db.delete("LikePost", "_DATA_UPDATED = 0 AND " + where , null);
+                db.delete("`LikePost`", "_DATA_UPDATED = 0 AND " + where , null);
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();
@@ -577,7 +600,7 @@ public class LikePostDb{
                 SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
                 db.beginTransaction();
                 String where = getWhere(whereKeyValue);
-                db.delete("LikePost", where , null);
+                db.delete("`LikePost`", where , null);
                 db.setTransactionSuccessful();
                 db.endTransaction();
             }
@@ -653,7 +676,7 @@ public class LikePostDb{
                 ContentValues values = new ContentValues();
                 values.put("_DATA_UPDATED", 0);
                 // updating row
-                db.update("LikePost", values, "_DATA_UPDATED = 1 AND `" + whereKey + "` = ?", new String[]{whereKeyValue});
+                db.update("`LikePost`", values, "_DATA_UPDATED = 1 AND `" + whereKey + "` = ?", new String[]{whereKeyValue});
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();
@@ -669,7 +692,7 @@ public class LikePostDb{
             public void run() {
                 SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
                 db.beginTransaction();
-                db.delete("LikePost", "_DATA_UPDATED = 0 AND `" + whereKey + "` = ?", new String[]{whereKeyValue});
+                db.delete("`LikePost`", "_DATA_UPDATED = 0 AND `" + whereKey + "` = ?", new String[]{whereKeyValue});
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();
@@ -688,7 +711,7 @@ public class LikePostDb{
           db.beginTransaction();
           ContentValues values = getContentValues(modelData);
           String where = getWhere(whereKeyValue);
-          db.update("LikePost", values, where, null);
+          db.update("`LikePost`", values, where, null);
           db.setTransactionSuccessful();
           db.endTransaction();
           //db.close();
@@ -726,7 +749,7 @@ public class LikePostDb{
                 db.beginTransaction();
                 ContentValues values = getContentValues(modelData);
                 // updating row
-                db.update("LikePost", values, "id = ?",
+                db.update("`LikePost`", values, "id = ?",
                         new String[] { id });
                 db.setTransactionSuccessful();
                 db.endTransaction();
@@ -747,7 +770,7 @@ public class LikePostDb{
                 ContentValues values = new ContentValues();
                 values.put("_DATA_UPDATED", 0);
                 // updating row
-                db.update("LikePost", values, "_DATA_UPDATED = 1", null);
+                db.update("`LikePost`", values, "_DATA_UPDATED = 1", null);
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();
@@ -764,7 +787,7 @@ public class LikePostDb{
             public void run() {
                 SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
                 db.beginTransaction();
-                db.delete("LikePost", "_DATA_UPDATED = 0", null);
+                db.delete("`LikePost`", "_DATA_UPDATED = 0", null);
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();

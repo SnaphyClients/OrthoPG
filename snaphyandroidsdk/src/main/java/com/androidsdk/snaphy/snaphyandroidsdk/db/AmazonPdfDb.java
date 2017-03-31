@@ -57,7 +57,7 @@ public class AmazonPdfDb{
                 SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
                 // Inserting Row
                 ContentValues values = getContentValues(modelData);
-                db.insert("AmazonPdf", null, values);
+                db.insert("`AmazonPdf`", null, values);
                 //db.close(); // Closing database connection
             }
         }).start();
@@ -160,7 +160,7 @@ public class AmazonPdfDb{
     public   AmazonPdf get__db(String whereKey, String whereKeyValue) {
         if (whereKeyValue != null) {
             SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getReadableDatabase();
-            Cursor cursor = db.query("AmazonPdf", null, "`" + whereKey + "` =?", new String[]{whereKeyValue}, null, null, null, null);
+            Cursor cursor = db.query("`AmazonPdf`", null, "`" + whereKey + "` =?", new String[]{whereKeyValue}, null, null, null, null);
             if (cursor != null) {
                 if (!cursor.moveToFirst() || cursor.getCount() == 0){
                     return null;
@@ -267,7 +267,7 @@ public class AmazonPdfDb{
     public DataList<AmazonPdf>  getAll__db() {
         DataList<AmazonPdf> modelList = new DataList<AmazonPdf>();
         // Select All Query
-        String selectQuery = "SELECT  * FROM AmazonPdf";
+        String selectQuery = "SELECT  * FROM `AmazonPdf`";
 
         SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getReadableDatabase();
         //http://www.tothenew.com/blog/sqlite-locking-and-transaction-handling-in-android/
@@ -317,25 +317,48 @@ public class AmazonPdfDb{
             if(keyValue != null){
                 if(keyValue.size() != 0){
                     String returnedKey = keyValue.get(0);
-                    String value = keyValue.get(1);
+                    try{
+                        int value = Integer.parseInt(keyValue.get(1));
+                        if(i==0){
+                            if(returnedKey.equals("gt")){
+                                where = where + " `" + key + "` > "+ value + "";
+                            }else if(returnedKey.equals("lt")){
+                                where = where + " `" + key + "` < "+ value + "";
+                            }else{
+                                where = where + " `" + key + "` = "+ value + "";
+                            }
+                        }else{
+                            if(returnedKey.equals("gt")){
+                                where = where + " AND `" + key + "` > "+ value + "";
+                            }else if(returnedKey.equals("lt")){
+                                where = where + " AND `" + key + "` < "+ value + "";
+                            }else{
+                                where = where + " AND `" + key + "` = "+ value + "";
+                            }
+                        }
 
-                    if(i==0){
-                        if(returnedKey.equals("gt")){
-                            where = where + " `" + key + "` > '"+ value + "'";
-                        }else if(returnedKey.equals("lt")){
-                            where = where + " `" + key + "` < '"+ value + "'";
-                        }else{
-                            where = where + " `" + key + "` = '"+ value + "'";
-                        }
-                    }else{
-                        if(returnedKey.equals("gt")){
-                            where = where + " AND `" + key + "` > '"+ value + "'";
-                        }else if(returnedKey.equals("lt")){
-                            where = where + " AND `" + key + "` < '"+ value + "'";
-                        }else{
-                            where = where + " AND `" + key + "` = '"+ value + "'";
-                        }
+                    }catch(Exception e){
+                      String value = keyValue.get(1);
+                      if(i==0){
+                          if(returnedKey.equals("gt")){
+                              where = where + " `" + key + "` > '"+ value + "'";
+                          }else if(returnedKey.equals("lt")){
+                              where = where + " `" + key + "` < '"+ value + "'";
+                          }else{
+                              where = where + " `" + key + "` = '"+ value + "'";
+                          }
+                      }else{
+                          if(returnedKey.equals("gt")){
+                              where = where + " AND `" + key + "` > '"+ value + "'";
+                          }else if(returnedKey.equals("lt")){
+                              where = where + " AND `" + key + "` < '"+ value + "'";
+                          }else{
+                              where = where + " AND `" + key + "` = '"+ value + "'";
+                          }
+                      }
+
                     }
+
                     i++;
                 }
             }
@@ -381,7 +404,7 @@ public class AmazonPdfDb{
         String whereQuery = getWhereQuery(whereKeyValue);
         String selectQuery;
         if(orderBy != null){
-            selectQuery = "SELECT  * FROM AmazonPdf " + whereQuery  + " ORDER BY " + orderBy ;
+            selectQuery = "SELECT  * FROM `AmazonPdf` " + whereQuery  + " ORDER BY " + orderBy ;
             if(limit != 0){
                 // Select All Query
                 selectQuery = selectQuery +  " " + " LIMIT " + limit;
@@ -444,7 +467,7 @@ public class AmazonPdfDb{
         String whereQuery = getWhereQuery(whereKeyValue);
         String countQuery;
         if(orderBy != null){
-            countQuery = "SELECT  * FROM AmazonPdf " + whereQuery  + " ORDER BY " + orderBy ;
+            countQuery = "SELECT  * FROM `AmazonPdf` " + whereQuery  + " ORDER BY " + orderBy ;
             if(limit != 0){
                 // Select All Query
                 countQuery = countQuery +  " " + " LIMIT " + limit;
@@ -452,9 +475,9 @@ public class AmazonPdfDb{
         }else{
             if(limit != 0){
                 // Select All Query
-                countQuery = "SELECT  * FROM AmazonPdf " + whereQuery + " LIMIT " + limit;
+                countQuery = "SELECT  * FROM `AmazonPdf` " + whereQuery + " LIMIT " + limit;
             }else{
-                countQuery = "SELECT  * FROM AmazonPdf " + whereQuery;
+                countQuery = "SELECT  * FROM `AmazonPdf` " + whereQuery;
             }
         }
 
@@ -477,9 +500,9 @@ public class AmazonPdfDb{
         String whereQuery = getWhereQuery(whereKeyValue);
         String countQuery;
         if(limit != 0){
-            countQuery = "SELECT  * FROM AmazonPdf " + whereQuery + " LIMIT " + limit;
+            countQuery = "SELECT  * FROM `AmazonPdf` " + whereQuery + " LIMIT " + limit;
         }else{
-            countQuery = "SELECT  * FROM AmazonPdf " + whereQuery;
+            countQuery = "SELECT  * FROM `AmazonPdf` " + whereQuery;
         }
 
         SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getReadableDatabase();
@@ -512,7 +535,7 @@ public class AmazonPdfDb{
                 values.put("_DATA_UPDATED", 0);
                 String where = getWhere(whereKeyValue);
                 // updating row
-                db.update("AmazonPdf", values, "_DATA_UPDATED = 1 AND " + where, null);
+                db.update("`AmazonPdf`", values, "_DATA_UPDATED = 1 AND " + where, null);
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();
@@ -530,7 +553,7 @@ public class AmazonPdfDb{
                 SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
                 db.beginTransaction();
                 String where = getWhere(whereKeyValue);
-                db.delete("AmazonPdf", "_DATA_UPDATED = 0 AND " + where , null);
+                db.delete("`AmazonPdf`", "_DATA_UPDATED = 0 AND " + where , null);
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();
@@ -551,7 +574,7 @@ public class AmazonPdfDb{
                 SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
                 db.beginTransaction();
                 String where = getWhere(whereKeyValue);
-                db.delete("AmazonPdf", where , null);
+                db.delete("`AmazonPdf`", where , null);
                 db.setTransactionSuccessful();
                 db.endTransaction();
             }
@@ -627,7 +650,7 @@ public class AmazonPdfDb{
                 ContentValues values = new ContentValues();
                 values.put("_DATA_UPDATED", 0);
                 // updating row
-                db.update("AmazonPdf", values, "_DATA_UPDATED = 1 AND `" + whereKey + "` = ?", new String[]{whereKeyValue});
+                db.update("`AmazonPdf`", values, "_DATA_UPDATED = 1 AND `" + whereKey + "` = ?", new String[]{whereKeyValue});
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();
@@ -643,7 +666,7 @@ public class AmazonPdfDb{
             public void run() {
                 SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
                 db.beginTransaction();
-                db.delete("AmazonPdf", "_DATA_UPDATED = 0 AND `" + whereKey + "` = ?", new String[]{whereKeyValue});
+                db.delete("`AmazonPdf`", "_DATA_UPDATED = 0 AND `" + whereKey + "` = ?", new String[]{whereKeyValue});
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();
@@ -662,7 +685,7 @@ public class AmazonPdfDb{
           db.beginTransaction();
           ContentValues values = getContentValues(modelData);
           String where = getWhere(whereKeyValue);
-          db.update("AmazonPdf", values, where, null);
+          db.update("`AmazonPdf`", values, where, null);
           db.setTransactionSuccessful();
           db.endTransaction();
           //db.close();
@@ -700,7 +723,7 @@ public class AmazonPdfDb{
                 db.beginTransaction();
                 ContentValues values = getContentValues(modelData);
                 // updating row
-                db.update("AmazonPdf", values, "id = ?",
+                db.update("`AmazonPdf`", values, "id = ?",
                         new String[] { id });
                 db.setTransactionSuccessful();
                 db.endTransaction();
@@ -721,7 +744,7 @@ public class AmazonPdfDb{
                 ContentValues values = new ContentValues();
                 values.put("_DATA_UPDATED", 0);
                 // updating row
-                db.update("AmazonPdf", values, "_DATA_UPDATED = 1", null);
+                db.update("`AmazonPdf`", values, "_DATA_UPDATED = 1", null);
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();
@@ -738,7 +761,7 @@ public class AmazonPdfDb{
             public void run() {
                 SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
                 db.beginTransaction();
-                db.delete("AmazonPdf", "_DATA_UPDATED = 0", null);
+                db.delete("`AmazonPdf`", "_DATA_UPDATED = 0", null);
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();

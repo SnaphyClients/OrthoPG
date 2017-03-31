@@ -57,7 +57,7 @@ public class NewsDb{
                 SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
                 // Inserting Row
                 ContentValues values = getContentValues(modelData);
-                db.insert("News", null, values);
+                db.insert("`News`", null, values);
                 //db.close(); // Closing database connection
             }
         }).start();
@@ -188,7 +188,7 @@ public class NewsDb{
     public   News get__db(String whereKey, String whereKeyValue) {
         if (whereKeyValue != null) {
             SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getReadableDatabase();
-            Cursor cursor = db.query("News", null, "`" + whereKey + "` =?", new String[]{whereKeyValue}, null, null, null, null);
+            Cursor cursor = db.query("`News`", null, "`" + whereKey + "` =?", new String[]{whereKeyValue}, null, null, null, null);
             if (cursor != null) {
                 if (!cursor.moveToFirst() || cursor.getCount() == 0){
                     return null;
@@ -335,7 +335,7 @@ public class NewsDb{
     public DataList<News>  getAll__db() {
         DataList<News> modelList = new DataList<News>();
         // Select All Query
-        String selectQuery = "SELECT  * FROM News";
+        String selectQuery = "SELECT  * FROM `News`";
 
         SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getReadableDatabase();
         //http://www.tothenew.com/blog/sqlite-locking-and-transaction-handling-in-android/
@@ -385,25 +385,48 @@ public class NewsDb{
             if(keyValue != null){
                 if(keyValue.size() != 0){
                     String returnedKey = keyValue.get(0);
-                    String value = keyValue.get(1);
+                    try{
+                        int value = Integer.parseInt(keyValue.get(1));
+                        if(i==0){
+                            if(returnedKey.equals("gt")){
+                                where = where + " `" + key + "` > "+ value + "";
+                            }else if(returnedKey.equals("lt")){
+                                where = where + " `" + key + "` < "+ value + "";
+                            }else{
+                                where = where + " `" + key + "` = "+ value + "";
+                            }
+                        }else{
+                            if(returnedKey.equals("gt")){
+                                where = where + " AND `" + key + "` > "+ value + "";
+                            }else if(returnedKey.equals("lt")){
+                                where = where + " AND `" + key + "` < "+ value + "";
+                            }else{
+                                where = where + " AND `" + key + "` = "+ value + "";
+                            }
+                        }
 
-                    if(i==0){
-                        if(returnedKey.equals("gt")){
-                            where = where + " `" + key + "` > '"+ value + "'";
-                        }else if(returnedKey.equals("lt")){
-                            where = where + " `" + key + "` < '"+ value + "'";
-                        }else{
-                            where = where + " `" + key + "` = '"+ value + "'";
-                        }
-                    }else{
-                        if(returnedKey.equals("gt")){
-                            where = where + " AND `" + key + "` > '"+ value + "'";
-                        }else if(returnedKey.equals("lt")){
-                            where = where + " AND `" + key + "` < '"+ value + "'";
-                        }else{
-                            where = where + " AND `" + key + "` = '"+ value + "'";
-                        }
+                    }catch(Exception e){
+                      String value = keyValue.get(1);
+                      if(i==0){
+                          if(returnedKey.equals("gt")){
+                              where = where + " `" + key + "` > '"+ value + "'";
+                          }else if(returnedKey.equals("lt")){
+                              where = where + " `" + key + "` < '"+ value + "'";
+                          }else{
+                              where = where + " `" + key + "` = '"+ value + "'";
+                          }
+                      }else{
+                          if(returnedKey.equals("gt")){
+                              where = where + " AND `" + key + "` > '"+ value + "'";
+                          }else if(returnedKey.equals("lt")){
+                              where = where + " AND `" + key + "` < '"+ value + "'";
+                          }else{
+                              where = where + " AND `" + key + "` = '"+ value + "'";
+                          }
+                      }
+
                     }
+
                     i++;
                 }
             }
@@ -449,7 +472,7 @@ public class NewsDb{
         String whereQuery = getWhereQuery(whereKeyValue);
         String selectQuery;
         if(orderBy != null){
-            selectQuery = "SELECT  * FROM News " + whereQuery  + " ORDER BY " + orderBy ;
+            selectQuery = "SELECT  * FROM `News` " + whereQuery  + " ORDER BY " + orderBy ;
             if(limit != 0){
                 // Select All Query
                 selectQuery = selectQuery +  " " + " LIMIT " + limit;
@@ -512,7 +535,7 @@ public class NewsDb{
         String whereQuery = getWhereQuery(whereKeyValue);
         String countQuery;
         if(orderBy != null){
-            countQuery = "SELECT  * FROM News " + whereQuery  + " ORDER BY " + orderBy ;
+            countQuery = "SELECT  * FROM `News` " + whereQuery  + " ORDER BY " + orderBy ;
             if(limit != 0){
                 // Select All Query
                 countQuery = countQuery +  " " + " LIMIT " + limit;
@@ -520,9 +543,9 @@ public class NewsDb{
         }else{
             if(limit != 0){
                 // Select All Query
-                countQuery = "SELECT  * FROM News " + whereQuery + " LIMIT " + limit;
+                countQuery = "SELECT  * FROM `News` " + whereQuery + " LIMIT " + limit;
             }else{
-                countQuery = "SELECT  * FROM News " + whereQuery;
+                countQuery = "SELECT  * FROM `News` " + whereQuery;
             }
         }
 
@@ -545,9 +568,9 @@ public class NewsDb{
         String whereQuery = getWhereQuery(whereKeyValue);
         String countQuery;
         if(limit != 0){
-            countQuery = "SELECT  * FROM News " + whereQuery + " LIMIT " + limit;
+            countQuery = "SELECT  * FROM `News` " + whereQuery + " LIMIT " + limit;
         }else{
-            countQuery = "SELECT  * FROM News " + whereQuery;
+            countQuery = "SELECT  * FROM `News` " + whereQuery;
         }
 
         SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getReadableDatabase();
@@ -580,7 +603,7 @@ public class NewsDb{
                 values.put("_DATA_UPDATED", 0);
                 String where = getWhere(whereKeyValue);
                 // updating row
-                db.update("News", values, "_DATA_UPDATED = 1 AND " + where, null);
+                db.update("`News`", values, "_DATA_UPDATED = 1 AND " + where, null);
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();
@@ -598,7 +621,7 @@ public class NewsDb{
                 SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
                 db.beginTransaction();
                 String where = getWhere(whereKeyValue);
-                db.delete("News", "_DATA_UPDATED = 0 AND " + where , null);
+                db.delete("`News`", "_DATA_UPDATED = 0 AND " + where , null);
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();
@@ -619,7 +642,7 @@ public class NewsDb{
                 SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
                 db.beginTransaction();
                 String where = getWhere(whereKeyValue);
-                db.delete("News", where , null);
+                db.delete("`News`", where , null);
                 db.setTransactionSuccessful();
                 db.endTransaction();
             }
@@ -695,7 +718,7 @@ public class NewsDb{
                 ContentValues values = new ContentValues();
                 values.put("_DATA_UPDATED", 0);
                 // updating row
-                db.update("News", values, "_DATA_UPDATED = 1 AND `" + whereKey + "` = ?", new String[]{whereKeyValue});
+                db.update("`News`", values, "_DATA_UPDATED = 1 AND `" + whereKey + "` = ?", new String[]{whereKeyValue});
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();
@@ -711,7 +734,7 @@ public class NewsDb{
             public void run() {
                 SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
                 db.beginTransaction();
-                db.delete("News", "_DATA_UPDATED = 0 AND `" + whereKey + "` = ?", new String[]{whereKeyValue});
+                db.delete("`News`", "_DATA_UPDATED = 0 AND `" + whereKey + "` = ?", new String[]{whereKeyValue});
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();
@@ -730,7 +753,7 @@ public class NewsDb{
           db.beginTransaction();
           ContentValues values = getContentValues(modelData);
           String where = getWhere(whereKeyValue);
-          db.update("News", values, where, null);
+          db.update("`News`", values, where, null);
           db.setTransactionSuccessful();
           db.endTransaction();
           //db.close();
@@ -768,7 +791,7 @@ public class NewsDb{
                 db.beginTransaction();
                 ContentValues values = getContentValues(modelData);
                 // updating row
-                db.update("News", values, "id = ?",
+                db.update("`News`", values, "id = ?",
                         new String[] { id });
                 db.setTransactionSuccessful();
                 db.endTransaction();
@@ -789,7 +812,7 @@ public class NewsDb{
                 ContentValues values = new ContentValues();
                 values.put("_DATA_UPDATED", 0);
                 // updating row
-                db.update("News", values, "_DATA_UPDATED = 1", null);
+                db.update("`News`", values, "_DATA_UPDATED = 1", null);
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();
@@ -806,7 +829,7 @@ public class NewsDb{
             public void run() {
                 SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
                 db.beginTransaction();
-                db.delete("News", "_DATA_UPDATED = 0", null);
+                db.delete("`News`", "_DATA_UPDATED = 0", null);
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();

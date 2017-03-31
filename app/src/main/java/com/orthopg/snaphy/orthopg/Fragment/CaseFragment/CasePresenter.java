@@ -295,7 +295,7 @@ public class CasePresenter {
                             }
                         }
                         //Set old flag..
-                        //setOldFlag(listType);
+                        setOldFlag(listType);
                     }
 
                     @Override
@@ -310,7 +310,7 @@ public class CasePresenter {
                             //Now increment skip....
                             list.incrementSkip(objects.size());
                             //Now remove old data..
-                          //  removeTagFromOldData(listType);
+                            removeTagFromOldData(listType);
                         }
                     }
 
@@ -319,14 +319,15 @@ public class CasePresenter {
                         //SHOW ERROR MESSAGE..
                         Log.e(Constants.TAG, t.toString() + "---CasePresenter.java");
                         //TODO: Check no internet..
-                        if(list.getPostDataList().size() != 0){
+                        loadDataOffline(listType);
+                       /* if(list.getPostDataList().size() != 0){
                             HashMap<String, Object> localFlagQuery = new HashMap<String, Object>();
                             localFlagQuery.put(listType, listType);
                             //Display offline data ..here..
                             if(postRepository.getDb().count__db(localFlagQuery, localOrderBy, 50) > 0){
                                 list.getPostDataList().addAll(postRepository.getDb().getAll__db(localFlagQuery, localOrderBy, 50));
                             }
-                        }
+                        }*/
 
                     }
 
@@ -457,7 +458,7 @@ public class CasePresenter {
                             //Now increment skip..
                             list.incrementSkip(objects.size());
                             //Now remove old data..
-                           // removeTagFromOldData(listType);
+                            removeTagFromOldData(listType);
                         }
 
                     }
@@ -595,6 +596,7 @@ public class CasePresenter {
                     localFlagQuery.put(listType, listType);
                     //Display offline data ..here..
                     if (postRepository.getDb().count__db(localFlagQuery, localOrderBy, 50) > 0) {
+                    //if(postRepository.getDb().count__db()>0){
                         list.getPostDataList().addAll(postRepository.getDb().getAll__db(localFlagQuery, localOrderBy, 50));
                     }
                 }

@@ -158,16 +158,18 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
                 replaceFragment(R.layout.fragment_help, null);
             } else {
                 //Check Login
-                stopProgressBar(progressBar);
                 checkLogin();
+                stopProgressBar(progressBar);
+
 
 
             }
         } else {
             // No Internet is connected
             //Toast.makeText(this, "Internet not connected", Toast.LENGTH_SHORT).show();
-            TastyToast.makeText(getApplicationContext(), "Connection Error! Check your network", TastyToast.LENGTH_LONG, TastyToast.ERROR);
-            hideRetryButton(false);
+            checkLogin();
+            /*TastyToast.makeText(getApplicationContext(), "Connection Error! Check your network", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+            hideRetryButton(false);*/
         }
     }
 
@@ -904,7 +906,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             snaphyHelper.getLoopBackAdapter().setAccessToken(accessToken.getId().toString());
             customerRepository.setCurrentUserId(accessToken.getUserId());
             customerRepository.setCachedCurrentUser(user);
-
+            user.save__db();
             Presenter.getInstance().addModel(Constants.LOGIN_CUSTOMER, user);
             String mciNumber = Presenter.getInstance().getModel(String.class, Constants.MCI_NUMBER);
             if(mciNumber != null){
@@ -999,7 +1001,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
 
 
     public void checkLogin(){
-        CustomerRepository customerRepository = snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
+        final CustomerRepository customerRepository = snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
+        customerRepository.addStorage(mainActivity);
         Customer current = customerRepository.getCachedCurrentUser();
         if (current != null) {
             //Now add this to list..
@@ -1035,9 +1038,16 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
                         if (t.getMessage().equals("Unauthorized")) {
                             googleLogout();
                             moveToLogin();
-                        } else {
-                            //SHOW INTERNET CONNECTION ERROR.
-                            hideRetryButton(false);
+                        } else if(t.getMessage().equals("Not Found")){
+                            googleLogout();
+                            moveToLogin();
+                        }
+                        else {
+
+                            //customerRepository.getDb().get
+
+                            /*//SHOW INTERNET CONNECTION ERROR.
+                            hideRetryButton(false);*/
                         }
 
                     }

@@ -26,6 +26,7 @@ public class NewsPresenter {
     public double skip = 0;
     CircleProgressBar circleProgressBar;
     MainActivity mainActivity;
+    String localOrderBy = "datetime(added) DESC";
 
     public NewsPresenter(RestAdapter restAdapter, CircleProgressBar progressBar, MainActivity mainActivity){
         this.restAdapter = restAdapter;
@@ -56,16 +57,26 @@ public class NewsPresenter {
         where.put("status", Constants.PUBLISH);
         filter.put("where", where);
         NewsRepository newsRepository = restAdapter.createRepository(NewsRepository.class);
+        newsRepository.addStorage(mainActivity);
         newsRepository.find(filter, new DataListCallback<News>() {
             @Override
             public void onBefore() {
                 super.onBefore();
-                mainActivity.startProgressBar(circleProgressBar);
+                if(mainActivity!=null) {
+                    mainActivity.startProgressBar(circleProgressBar);
+                }
+                setOldFlag();
             }
 
             @Override
             public void onSuccess(DataList<News> objects) {
                 if(objects != null){
+
+                    for(News news : objects){
+                        if(news!=null){
+                            saveNewsData(news);
+                        }
+                    }
                     newsDataList.addAll(objects);
                     //Now add skip..
                     skip = skip + objects.size();
@@ -76,12 +87,46 @@ public class NewsPresenter {
             @Override
             public void onError(Throwable t) {
                 Log.e(Constants.TAG, t.toString());
+                loadOfflineNews();
             }
 
             @Override
             public void onFinally() {
+                removeOldNewsFlag();
                 mainActivity.stopProgressBar(circleProgressBar);
             }
         });
+    }
+
+    public void setOldFlag(){
+        NewsRepository newsRepository = restAdapter.createRepository(NewsRepository.class);
+        newsRepository.addStorage(mainActivity);
+        newsRepository.getDb().checkOldData__db();
+    }
+
+    public void saveNewsData(News news){
+        NewsRepository newsRepository = restAdapter.createRepository(NewsRepository.class);
+        newsRepository.addStorage(mainActivity);
+        newsRepository.getDb().upsert__db(news.getId().toString(),news);
+    }
+
+    public void loadOfflineNews(){
+        newsDataList.clear();
+        NewsRepository newsRepository = restAdapter.createRepository(NewsRepository.class);
+        newsRepository.addStorage(mainActivity);
+        HashMap<String, Object> localFlagQuery = new HashMap<>();
+        if(newsRepository.getDb().count__db(localFlagQuery, localOrderBy,50)>0){
+            newsDataList.addAll(newsRepository.getDb().getAll__db(localFlagQuery, localOrderBy,50));
+        }
+    }
+
+    public void removeOldNewsFlag(){
+        NewsRepository newsRepository = restAdapter.createRepository(NewsRepository.class);
+        newsRepository.addStorage(mainActivity);
+        HashMap<String, Object> localFlagQuery = new HashMap<String, Object>();
+        localFlagQuery.put(Constants.OLD_DB_FIELD_FLAG, 0);
+        HashMap<String, Object> newsMap = new HashMap<>();
+        News news = newsRepository.createObject(newsMap);
+        newsRepository.getDb().updateAll__db(localFlagQuery,news);
     }
 }

@@ -1,5 +1,6 @@
 package com.orthopg.snaphy.orthopg.Fragment.BooksFragment;
 
+import android.os.Handler;
 import android.util.Log;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.DataListCallback;
@@ -17,6 +18,7 @@ import com.orthopg.snaphy.orthopg.MainActivity;
 import com.strongloop.android.loopback.RestAdapter;
 
 import java.util.HashMap;
+import java.util.logging.LogRecord;
 
 /**
  * Created by Ravi-Gupta on 10/6/2016.
@@ -31,6 +33,8 @@ public class BooksPresenter {
     public double skip = 0;
     CircleProgressBar circleProgressBar;
     MainActivity mainActivity;
+    Handler handler = new Handler();
+    String localOrderBy = "datetime(added) DESC";
 
     public BooksPresenter(RestAdapter restAdapter, CircleProgressBar progressBar, MainActivity mainActivity){
         this.restAdapter = restAdapter;
@@ -49,17 +53,23 @@ public class BooksPresenter {
 
         if(reset){
             skip =0;
+            bookCategoryDataList.clear();
         }
 
         Customer customer  = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
         String customerId = String.valueOf(customer.getId());
         if(customerId!=null){
             final BookCategoryRepository bookCategoryRepository = restAdapter.createRepository(BookCategoryRepository.class);
+            bookCategoryRepository.addStorage(mainActivity);
             bookCategoryRepository.fetchBookList(customerId, new DataListCallback<BookCategory>() {
                 @Override
                 public void onBefore() {
                     super.onBefore();
-                    mainActivity.startProgressBar(mainActivity.progressBar);
+                    if(mainActivity!=null) {
+                        mainActivity.startProgressBar(mainActivity.progressBar);
+                    }
+
+                    setOldFlag();
                 }
 
                 @Override
@@ -69,6 +79,11 @@ public class BooksPresenter {
                         if(reset){
                             bookCategoryDataList.clear();
                         }
+                        for(BookCategory bookCategory : objects){
+                            if(bookCategory!=null){
+                                saveBookCategoryData(bookCategory);
+                            }
+                        }
                         bookCategoryDataList.addAll(objects);
                     }
                 }
@@ -77,17 +92,92 @@ public class BooksPresenter {
                 public void onError(Throwable t) {
                     super.onError(t);
                     Log.e(Constants.TAG, t.toString());
+                    loadOfflineBookData();
                 }
 
                 @Override
                 public void onFinally() {
                     super.onFinally();
+                    //removeOldBookData();
                     mainActivity.stopProgressBar(mainActivity.progressBar);
                 }
             });
         }
 
 
+    }
+
+    /**
+     * Setting the flag on old books data
+     */
+    public void setOldFlag(){
+        BookCategoryRepository bookCategoryRepository = restAdapter.createRepository(BookCategoryRepository.class);
+        bookCategoryRepository.addStorage(mainActivity);
+        bookCategoryRepository.getDb().checkOldData__db();
+        BookRepository bookRepository = restAdapter.createRepository(BookRepository.class);
+        bookRepository.addStorage(mainActivity);
+        bookRepository.getDb().checkOldData__db();
+    }
+
+    public void saveBookCategoryData(BookCategory bookCategory){
+
+        BookRepository bookRepository = restAdapter.createRepository(BookRepository.class);
+        bookRepository.addStorage(mainActivity);
+        if(bookCategory.getBooks()!=null){
+            if(bookCategory.getBooks().size()!=0){
+                for(Book book : bookCategory.getBooks()){
+                    bookRepository.getDb().upsert__db(book.getId().toString(), book);
+                }
+            }
+        }
+        /*BookCategoryRepository bookCategoryRepository = restAdapter.createRepository(BookCategoryRepository.class);
+        bookCategoryRepository.addStorage(mainActivity);
+        bookCategoryRepository.getDb().upsert__db(bookCategory.getId().toString(), bookCategory);*/
+    }
+
+    public void loadOfflineBookData(){
+        bookCategoryDataList.clear();
+        BookCategoryRepository bookCategoryRepository = restAdapter.createRepository(BookCategoryRepository.class);
+        BookRepository bookRepository = restAdapter.createRepository(BookRepository.class);
+        bookCategoryRepository.addStorage(mainActivity);
+        bookRepository.addStorage(mainActivity);
+        //if(bookCategoryDataList.size()==0){
+            HashMap<String, Object> localFlagQuery = new HashMap<>();
+            if(bookCategoryRepository.getDb().count__db(localFlagQuery, localOrderBy,50)>0){
+                bookCategoryDataList.addAll(bookCategoryRepository.getDb().getAll__db(localFlagQuery, localOrderBy,50));
+            }
+
+            for(BookCategory bookCategory: bookCategoryDataList){
+                HashMap<String, Object> where = new HashMap<>();
+                where.put("bookCategoryId", bookCategory.getId().toString());
+                DataList<Book> books = bookRepository.getDb().getAll__db(where, localOrderBy, 50);
+                if(books != null){
+                    bookCategory.setBooks(books);
+                }
+            }
+
+       // }
+    }
+
+    public void removeOldBookData(){
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                BookCategoryRepository bookCategoryRepository = restAdapter.createRepository(BookCategoryRepository.class);
+                bookCategoryRepository.addStorage(mainActivity);
+                BookRepository bookRepository = restAdapter.createRepository(BookRepository.class);
+                bookRepository.addStorage(mainActivity);
+                HashMap<String, Object> localFlagQuery = new HashMap<String, Object>();
+                localFlagQuery.put(Constants.OLD_DB_FIELD_FLAG, 0);
+                HashMap<String, Object> bookCategoryMap = new HashMap<String, Object>();
+                BookCategory bookCategory = bookCategoryRepository.createObject(bookCategoryMap);
+                HashMap<String, Object> bookMap = new HashMap<String, Object>();
+                Book book = bookRepository.createObject(bookMap);
+                bookRepository.getDb().updateAll__db(localFlagQuery, book);
+                bookCategoryRepository.getDb().updateAll__db(localFlagQuery,bookCategory);
+            }
+        }, 3000);
     }
 
    /* public void fetchBooks(boolean reset){
