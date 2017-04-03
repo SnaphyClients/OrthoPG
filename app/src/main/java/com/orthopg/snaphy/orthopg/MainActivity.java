@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
                 .build();
         Fabric.with(fabric);
         setContentView(R.layout.activity_main);
-        Intent intent = new Intent(this, RegistrationIntentService.class);
+        /*Intent intent = new Intent(this, RegistrationIntentService.class);
         startService(intent);
         ButterKnife.bind(this);
         progressBar = (CircleProgressBar) findViewById(R.id.activity_main_progressBar);
@@ -168,9 +168,9 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             // No Internet is connected
             //Toast.makeText(this, "Internet not connected", Toast.LENGTH_SHORT).show();
             checkLogin();
-            /*TastyToast.makeText(getApplicationContext(), "Connection Error! Check your network", TastyToast.LENGTH_LONG, TastyToast.ERROR);
-            hideRetryButton(false);*/
-        }
+            *//*TastyToast.makeText(getApplicationContext(), "Connection Error! Check your network", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+            hideRetryButton(false);*//*
+        }*/
     }
 
     @Override
@@ -898,6 +898,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             JSONObject userJson = response.optJSONObject("user");
             Log.i(Constants.TAG, userJson.toString());
             CustomerRepository customerRepository = snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
+            //customerRepository.addStorage(mainActivity);
             Customer user = userJson != null
                     ? customerRepository.createObject(JsonUtil.fromJson(userJson))
                     : null;
@@ -906,7 +907,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             snaphyHelper.getLoopBackAdapter().setAccessToken(accessToken.getId().toString());
             customerRepository.setCurrentUserId(accessToken.getUserId());
             customerRepository.setCachedCurrentUser(user);
-            user.save__db();
+           // user.save__db();
             Presenter.getInstance().addModel(Constants.LOGIN_CUSTOMER, user);
             String mciNumber = Presenter.getInstance().getModel(String.class, Constants.MCI_NUMBER);
             if(mciNumber != null){
@@ -1002,7 +1003,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
 
     public void checkLogin(){
         final CustomerRepository customerRepository = snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
-        customerRepository.addStorage(mainActivity);
+        //customerRepository.addStorage(mainActivity);
         Customer current = customerRepository.getCachedCurrentUser();
         if (current != null) {
             //Now add this to list..
@@ -1010,6 +1011,17 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             //Move to home fragment
             moveToHome();
         } else {
+            /*//First check if user is logged in..
+            Object userId = customerRepository.getCurrentUserId();
+            //Now user data from database
+            Customer customer = customerRepository.getDb().get__db((String)userId);
+            if(customer!=null){
+                Presenter.getInstance().addModel(Constants.LOGIN_CUSTOMER, customer);
+                moveToHome();
+                findCurrentUser(true);
+            } else{
+                findCurrentUser(false);
+            }*/
             customerRepository.findCurrentUser(new com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback<Customer>() {
                 @Override
                 public void onBefore() {
@@ -1046,8 +1058,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
 
                             //customerRepository.getDb().get
 
-                            /*//SHOW INTERNET CONNECTION ERROR.
-                            hideRetryButton(false);*/
+
                         }
 
                     }
@@ -1063,6 +1074,94 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         }
 
     }
+
+   /* public void findCurrentUser(final boolean isHomeOpened){
+        final CustomerRepository customerRepository = snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
+        customerRepository.addStorage(mainActivity);
+        customerRepository.findCurrentUser(new com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback<AppUser>() {
+            @Override
+            public void onBefore() {
+                if(!isHomeOpened){
+                    //Show progress bar..
+                    startProgressBar(progressBar);
+                }
+            }
+
+            @Override
+            public void onSuccess(Customer object) {
+                //Save to database..
+                if(object != null) {
+                    object.save__db();
+                    Presenter.getInstance().addModel(Constants.LOGIN_CUSTOMER, object);
+                    if(!isHomeOpened){
+                        //Move to home fragment
+                        moveToHome();
+                    }
+                } else {
+                    TastyToast.makeText(mainActivity, "Login to continue", TastyToast.LENGTH_SHORT, TastyToast.CONFUSING);
+                    moveToLogin();
+                }
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                Object userId = customerRepository.getCurrentUserId();
+                if(userId != null){
+                    //Check here for faliure..
+                    if (t.getMessage() != null) {
+                        if (t.getMessage().equals("Unauthorized")) {
+                            deleteUserCredentials(userId.toString());
+                        } else if(t.getMessage().equals("Not Found")){
+                            deleteUserCredentials(userId.toString());
+                        }else{
+                            //Fetch user data from database..
+                            Customer customer = customerRepository.getDb().get__db((String) userId);
+                            if(customer != null){
+                                Presenter.getInstance().addModel(Constants.LOGIN_CUSTOMER, customer);
+                                //Open home fragment..
+                                if(!isHomeOpened){
+                                    //Move to home fragment
+                                    moveToHome();
+                                }
+
+                            }else{
+                                deleteUserCredentials(userId.toString());
+                            }
+
+                        }
+                    }else{
+                        deleteUserCredentials(userId.toString());
+                    }
+                }else{
+                    googleLogout();
+                    TastyToast.makeText(mainActivity, "Login to continue", TastyToast.LENGTH_SHORT, TastyToast.CONFUSING);
+                    moveToLogin();
+                }
+            }
+
+            @Override
+            public void onFinally() {
+                //END PROGRESS BAR..
+                if(!isHomeOpened){
+                    //Show progress bar..
+                    stopProgressBar(progressBar);
+                }
+            }
+        });
+    }*/
+
+    public void deleteUserCredentials(String userId){
+        final CustomerRepository customerRepository = snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
+        customerRepository.addStorage(mainActivity);
+        //Delete data from database too..
+        customerRepository.getDb().delete__db(userId);
+        googleLogout();
+        TastyToast.makeText(mainActivity, "Login to continue", TastyToast.LENGTH_SHORT, TastyToast.CONFUSING);
+        moveToLogin();
+
+    }
+
+
 
     @OnClick(R.id.activity_main_button1) void retryButton() {
         hideRetryButton(true);

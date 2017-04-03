@@ -112,12 +112,12 @@
         "source": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/snaphyandroidsdk/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/drawable-mdpi/abc_tab_indicator_mtrl_alpha.9.png"
     },
     {
-        "merged": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/snaphyandroidsdk/build/intermediates/res/merged/androidTest/debug/drawable-mdpi/abc_ic_menu_selectall_mtrl_alpha.png",
-        "source": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/snaphyandroidsdk/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/drawable-mdpi/abc_ic_menu_selectall_mtrl_alpha.png"
-    },
-    {
         "merged": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/snaphyandroidsdk/build/intermediates/res/merged/androidTest/debug/drawable-mdpi/abc_list_longpressed_holo.9.png",
         "source": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/snaphyandroidsdk/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/drawable-mdpi/abc_list_longpressed_holo.9.png"
+    },
+    {
+        "merged": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/snaphyandroidsdk/build/intermediates/res/merged/androidTest/debug/drawable-mdpi/abc_ic_menu_selectall_mtrl_alpha.png",
+        "source": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/snaphyandroidsdk/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/drawable-mdpi/abc_ic_menu_selectall_mtrl_alpha.png"
     },
     {
         "merged": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/snaphyandroidsdk/build/intermediates/res/merged/androidTest/debug/drawable-mdpi/abc_btn_switch_to_on_mtrl_00001.9.png",
