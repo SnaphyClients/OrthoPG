@@ -898,6 +898,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             JSONObject userJson = response.optJSONObject("user");
             Log.i(Constants.TAG, userJson.toString());
             CustomerRepository customerRepository = snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
+            customerRepository.addStorage(mainActivity);
             Customer user = userJson != null
                     ? customerRepository.createObject(JsonUtil.fromJson(userJson))
                     : null;
@@ -1010,59 +1011,112 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             //Move to home fragment
             moveToHome();
         } else {
-            customerRepository.findCurrentUser(new com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback<Customer>() {
-                @Override
-                public void onBefore() {
-                    //Show progress bar..
-                    startProgressBar(progressBar);
-                }
+            //First check if login customer present in database...
+            Object userId = customerRepository.getCurrentUserId();
+            //Now fetch user from database..
+            Customer customer = customerRepository.getDb().get__db((String)userId);
+            if(customer!=null){
+                Presenter.getInstance().addModel(Constants.LOGIN_CUSTOMER, customer);
+                moveToHome();
+                //Now check if user is logged in or logged out
+                findCurrentUser(true);
 
-                @Override
-                public void onSuccess(Customer object) {
-                    Presenter.getInstance().addModel(Constants.LOGIN_CUSTOMER, object);
-                    //Move to home fragment
-                    moveToHome();
-                }
+            } else{
+                findCurrentUser(false);
+            }
 
-                @Override
-                public void onError(Throwable t) {
-                    //report faliure login
-                    if(t.getMessage()!=null){
-                        Answers.getInstance().logLogin(new LoginEvent()
-                                .putSuccess(false).
-                                        putCustomAttribute("Login Error", t.getMessage()));
-                    }
-
-                    //Retry Login
-                    if (t.getMessage() != null) {
-                        if (t.getMessage().equals("Unauthorized")) {
-                            googleLogout();
-                            moveToLogin();
-                        } else if(t.getMessage().equals("Not Found")){
-                            googleLogout();
-                            moveToLogin();
-                        }
-                        else {
-
-                            //customerRepository.getDb().get
-
-                            /*//SHOW INTERNET CONNECTION ERROR.
-                            hideRetryButton(false);*/
-                        }
-
-                    }
-                }
-
-                @Override
-                public void onFinally() {
-                    //END PROGRESS BAR..
-                    stopProgressBar(progressBar);
-
-                }
-            });
         }
 
     }
+
+
+    public void findCurrentUser(final boolean isHomeOpened){
+        final CustomerRepository customerRepository = snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
+        customerRepository.addStorage(mainActivity);
+        customerRepository.findCurrentUser(new com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback<Customer>() {
+            @Override
+            public void onBefore() {
+                if(!isHomeOpened){
+                    //Show progress bar..
+                    startProgressBar(progressBar);
+                }
+            }
+
+            @Override
+            public void onSuccess(Customer object) {
+                //Save to database..
+                if(object != null) {
+                   // object.save__db();
+                    Presenter.getInstance().addModel(Constants.LOGIN_CUSTOMER, object);
+                    if(!isHomeOpened){
+                        //Move to home fragment
+                        moveToHome();
+                    }
+                } else {
+                    TastyToast.makeText(mainActivity, "Login to continue", TastyToast.LENGTH_SHORT, TastyToast.CONFUSING);
+                    moveToLogin();
+                }
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                Object userId = customerRepository.getCurrentUserId();
+                if(userId != null){
+                    //Check here for faliure..
+                    if (t.getMessage() != null) {
+                        if (t.getMessage().equals("Unauthorized")) {
+                            deleteUserCredentials(userId.toString());
+                        } else if(t.getMessage().equals("Not Found")){
+                            deleteUserCredentials(userId.toString());
+                        }else{
+                            //Fetch user data from database..
+                            Customer appUser = customerRepository.getDb().get__db((String) userId);
+                            if(appUser != null){
+                                Presenter.getInstance().addModel(Constants.LOGIN_CUSTOMER, appUser);
+                                //Open home fragment..
+                                if(!isHomeOpened){
+                                    //Move to home fragment
+                                    moveToHome();
+                                }
+
+                            }else{
+                                deleteUserCredentials(userId.toString());
+                            }
+
+                        }
+                    }else{
+                        deleteUserCredentials(userId.toString());
+                    }
+                }else{
+                    googleLogout();
+                    TastyToast.makeText(mainActivity, "Login to continue", TastyToast.LENGTH_SHORT, TastyToast.CONFUSING);
+                    moveToLogin();
+                }
+            }
+
+            @Override
+            public void onFinally() {
+                //END PROGRESS BAR..
+                if(!isHomeOpened){
+                    //Show progress bar..
+                    stopProgressBar(progressBar);
+                }
+            }
+        });
+    }
+
+
+    public void deleteUserCredentials(String userId){
+        final CustomerRepository customerRepository = snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
+        customerRepository.addStorage(mainActivity);
+        //Delete data from database too..
+        customerRepository.getDb().delete__db(userId);
+        googleLogout();
+        TastyToast.makeText(mainActivity, "Login to continue", TastyToast.LENGTH_SHORT, TastyToast.CONFUSING);
+        moveToLogin();
+
+    }
+
 
     @OnClick(R.id.activity_main_button1) void retryButton() {
         hideRetryButton(true);

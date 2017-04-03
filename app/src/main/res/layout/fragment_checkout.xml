@@ -7,77 +7,7 @@
     android:background="@color/white"
     android:weightSum="1">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="50dp"
-        android:layout_marginLeft="30dp"
-        android:layout_weight="1"
-        android:layout_marginRight="30dp"
-        android:orientation="vertical"
-        android:background="@drawable/curved_rectangle_info">
 
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:id="@+id/fragment_checkout_editText1"
-            android:hint="Name"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:id="@+id/fragment_checkout_editText2"
-            android:hint="Mobile No."/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:id="@+id/fragment_checkout_editText3"
-            android:hint="Pincode"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:id="@+id/fragment_checkout_editText4"
-            android:hint="House No./Floor/Building"/>
-
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:id="@+id/fragment_checkout_editText5"
-            android:hint="Locality/Street/Colony"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:id="@+id/fragment_checkout_editText6"
-            android:hint="Landmark(Optional)"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:id="@+id/fragment_checkout_editText7"
-            android:hint="City"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:id="@+id/fragment_checkout_editText8"
-            android:hint="State"/>
-
-        <Button
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:background="@drawable/curved_rectangle_success"
-            android:text="PAY"
-            android:textAllCaps="false"
-            android:textColor="@color/success"/>
-
-    </LinearLayout>
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
@@ -101,6 +31,88 @@
         </RelativeLayout>
 
     </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="30dp"
+        android:layout_weight="1"
+        android:layout_marginRight="30dp"
+        android:orientation="vertical"
+        android:background="@drawable/curved_rectangle_info">
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/fragment_checkout_editText1"
+            android:hint="Name"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/fragment_checkout_editText2"
+            android:hint="Mobile No."/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/fragment_checkout_editText3"
+            android:hint="Pincode"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/fragment_checkout_editText4"
+            android:hint="House No./Floor/Building"/>
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/fragment_checkout_editText5"
+            android:hint="Locality/Street/Colony"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/fragment_checkout_editText6"
+            android:hint="Landmark(Optional)"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/fragment_checkout_editText7"
+            android:hint="City"/>
+
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="@drawable/curved_pay_button"
+            android:text="PAY"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp"
+            android:textAllCaps="false"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
 

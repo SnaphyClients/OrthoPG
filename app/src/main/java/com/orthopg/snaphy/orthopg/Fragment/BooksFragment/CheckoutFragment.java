@@ -38,7 +38,6 @@ public class CheckoutFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.fragment_checkout_editText5) EditText loaclity;
     @Bind(R.id.fragment_checkout_editText6) EditText landmark;
     @Bind(R.id.fragment_checkout_editText7) EditText city;
-    @Bind(R.id.fragment_checkout_editText8) EditText state;
 
     public CheckoutFragment() {
         // Required empty public constructor
