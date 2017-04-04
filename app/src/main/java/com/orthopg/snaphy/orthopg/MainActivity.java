@@ -133,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         notConnectedText = (TextView) findViewById(R.id.activity_main_textview1);
         retryButton = (Button) findViewById(R.id.activity_main_button1);
         context = getApplicationContext();
+        mainActivity = this;
         snaphyHelper = new SnaphyHelper(this);
         resetVariables();
         final Handler handler = new Handler();

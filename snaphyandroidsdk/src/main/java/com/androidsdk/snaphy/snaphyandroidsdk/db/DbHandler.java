@@ -235,6 +235,14 @@ public class DbHandler extends SQLiteOpenHelper {
                         db.execSQL(CREATE_Order_TABLE_36);
 
 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                        
+
+                        
+                        String CREATE_DummyCustomerSpeciality_TABLE_37 = "CREATE TABLE IF NOT EXISTS `DummyCustomerSpeciality` (  `customerId` TEXT, `specialityId` TEXT, `added` TEXT, `id` TEXT PRIMARY KEY, _DATA_UPDATED NUMBER )";
+                        db.execSQL(CREATE_DummyCustomerSpeciality_TABLE_37);
+
+
             
         }
 
@@ -352,6 +360,9 @@ public class DbHandler extends SQLiteOpenHelper {
             
                 // Drop older table if existed
                 db.execSQL("DROP TABLE IF EXISTS `Order`");
+            
+                // Drop older table if existed
+                db.execSQL("DROP TABLE IF EXISTS `DummyCustomerSpeciality`");
             
 
             // Create tables again

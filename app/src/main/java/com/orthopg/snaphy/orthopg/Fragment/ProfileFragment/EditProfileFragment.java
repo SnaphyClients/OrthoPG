@@ -112,13 +112,16 @@ public class EditProfileFragment extends Fragment {
     }
 
     public void updateCurrentWorkingData(final String currentWorking){
-        Customer customer = Presenter.getInstance().getModel(Customer.class,Constants.LOGIN_CUSTOMER);
+        final Customer customer = Presenter.getInstance().getModel(Customer.class,Constants.LOGIN_CUSTOMER);
         customer.setCurrentCity(currentWorking);
-        CustomerRepository customerRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
+
+        final CustomerRepository customerRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
+        customerRepository.addStorage(mainActivity);
         customerRepository.upsert(customer.toMap(), new ObjectCallback<Customer>() {
             @Override
             public void onSuccess(Customer object) {
                 super.onSuccess(object);
+                customerRepository.getDb().upsert__db(customer.getId().toString(),object);
                 mainActivity.onBackPressed();
                 TastyToast.makeText(mainActivity, "Successfully updated data", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
             }
@@ -134,13 +137,15 @@ public class EditProfileFragment extends Fragment {
 
 
     public void updateWorkExperienceData(final String workExperience){
-        Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+        final Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
         customer.setWorkExperience(Double.parseDouble(workExperience));
-        CustomerRepository customerRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
+        final CustomerRepository customerRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
+        customerRepository.addStorage(mainActivity);
         customerRepository.upsert(customer.toMap(), new ObjectCallback<Customer>() {
             @Override
             public void onSuccess(Customer object) {
                 super.onSuccess(object);
+                customerRepository.getDb().upsert__db(customer.getId().toString(), object);
                 mainActivity.onBackPressed();
                 TastyToast.makeText(mainActivity, "Successfully updated data", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
             }

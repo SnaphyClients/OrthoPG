@@ -30,10 +30,12 @@ import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.DataListCallback;
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.DummyCustomerSpeciality;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Qualification;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Speciality;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.CustomerRepository;
+import com.androidsdk.snaphy.snaphyandroidsdk.repository.DummyCustomerSpecialityRepository;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.SpecialityRepository;
 import com.google.common.collect.ContiguousSet;
 import com.orthopg.snaphy.orthopg.Constants;
@@ -42,6 +44,7 @@ import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 import com.orthopg.snaphy.orthopg.WordUtils;
 
+import java.util.Date;
 import java.util.HashMap;
 
 import butterknife.Bind;
@@ -141,9 +144,11 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
                 specialityTxt.setVisibility(View.GONE);
             }
         } else {
-            Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
-            if (customer != null) {
-                setCustomerProfileData(customer);
+            CustomerRepository customerRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
+            customerRepository.addStorage(mainActivity);
+            Customer customer1 = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+            if (customer1 != null) {
+                setCustomerProfileData(customer1);
             } else {
                 emailTxt.setVisibility(View.GONE);
                 mciNumberTxt.setVisibility(View.GONE);
@@ -151,9 +156,10 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
                 currentWorkingTxt.setVisibility(View.GONE);
                 qualificationTxt.setVisibility(View.GONE);
                 specialityTxt.setVisibility(View.GONE);
+                 }
             }
         }
-    }
+
 
     public void checkVisiblity(){
         editProfileTxt.setVisibility(View.GONE);
@@ -166,7 +172,7 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
         orderHistoryTxt.setVisibility(View.GONE);
     }
 
-    public void setCustomerProfileData(Customer customer){
+    public void setCustomerProfileData(final Customer customer){
         if (customer.getEmail() != null) {
             if (!customer.getEmail().isEmpty()) {
                 emailTxt.setVisibility(View.VISIBLE);
@@ -239,16 +245,83 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
             currentWorkingTxt.setVisibility(View.GONE);
         }
 
+        final DummyCustomerSpecialityRepository dummyCustomerSpecialityRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(DummyCustomerSpecialityRepository.class);
+        dummyCustomerSpecialityRepository.addStorage(mainActivity);
 
-        if (customer.getSpecialities() != null) {
-            if (customer.getSpecialities().size() == 0) {
+        final SpecialityRepository specialityRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(SpecialityRepository.class);
+        specialityRepository.addStorage(mainActivity);
+
+        DataList<Speciality> specialityDataList = new DataList<>();
+            //if internet not..availaible....
+        if(!mainActivity.snaphyHelper.isNetworkAvailable()) {
+            HashMap<String, Object> where = new HashMap<>();
+            where.put("customerId", customer.getId());
+            if (dummyCustomerSpecialityRepository.getDb().count__db(where) > 0) {
+                DataList<DummyCustomerSpeciality> dummyCustomerSpecialities = dummyCustomerSpecialityRepository.getDb().getAll__db(where);
+
+                for (DummyCustomerSpeciality dummyCustomerSpeciality : dummyCustomerSpecialities) {
+                    specialityDataList.add(specialityRepository.getDb().get__db(dummyCustomerSpeciality.getSpecialityId()));
+                }
+            }
+            customer.setSpecialities(specialityDataList);
+            setSpeciality(customer);
+        } else {
+            if (customer.getSpecialities() != null) {
+                if (customer.getSpecialities().size() == 0) {
+                    HashMap<String, Object> filter = new HashMap<>();
+
+                    customer.get__specialities(filter, mainActivity.snaphyHelper.getLoopBackAdapter(), new DataListCallback<Speciality>() {
+                        @Override
+                        public void onSuccess(DataList<Speciality> objects) {
+                            super.onSuccess(objects);
+                            SpecialityRepository specialityRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(SpecialityRepository.class);
+                            specialityRepository.addStorage(mainActivity);
+                            for (Speciality speciality : objects) {
+                                HashMap<String, Object> hashMap = new HashMap<String, Object>();
+                                DummyCustomerSpeciality dummyCustomerSpeciality = dummyCustomerSpecialityRepository.createObject(hashMap);
+                                dummyCustomerSpeciality.setCustomerId(customer.getId().toString());
+                                dummyCustomerSpeciality.setSpecialityId(speciality.getId().toString());
+                                int m = (int)((new Date().getTime()/1000L));
+                                dummyCustomerSpeciality.setId(m);
+                                dummyCustomerSpeciality.save__db();
+                                specialityRepository.getDb().upsert__db(speciality.getId().toString(), speciality);
+                            }
+                            Presenter.getInstance().addList(Constants.CUSTOMER_SPECIALITY_LIST, objects);
+                            setSpeciality(customer);
+                        }
+
+                        @Override
+                        public void onError(Throwable t) {
+                            super.onError(t);
+                            Log.e(Constants.TAG, t.toString());
+                        }
+                    });
+                } else {
+                    setSpeciality(customer);
+                }
+
+            } else {
+                specialityTxt.setVisibility(View.GONE);
                 HashMap<String, Object> filter = new HashMap<>();
                 customer.get__specialities(filter, mainActivity.snaphyHelper.getLoopBackAdapter(), new DataListCallback<Speciality>() {
                     @Override
                     public void onSuccess(DataList<Speciality> objects) {
                         super.onSuccess(objects);
-                        Presenter.getInstance().addList(Constants.CUSTOMER_SPECIALITY_LIST,objects);
-                        setSpeciality();
+                        SpecialityRepository specialityRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(SpecialityRepository.class);
+                        specialityRepository.addStorage(mainActivity);
+                        for (Speciality speciality : objects) {
+                            HashMap<String, Object> hashMap = new HashMap<String, Object>();
+                            specialityRepository.getDb().upsert__db(speciality.getId().toString(), speciality);
+                            DummyCustomerSpeciality dummyCustomerSpeciality = dummyCustomerSpecialityRepository.createObject(hashMap);
+                            dummyCustomerSpeciality.setCustomerId(customer.getId().toString());
+                            dummyCustomerSpeciality.setSpecialityId(speciality.getId().toString());
+                            int m = (int)((new Date().getTime()/1000L));
+                            dummyCustomerSpeciality.setId(m);
+                            dummyCustomerSpeciality.save__db();
+                            specialityRepository.getDb().upsert__db(speciality.getId().toString(), speciality);
+                        }
+                        Presenter.getInstance().addList(Constants.CUSTOMER_SPECIALITY_LIST, objects);
+                        setSpeciality(customer);
                     }
 
                     @Override
@@ -258,24 +331,6 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
                     }
                 });
             }
-            setSpeciality();
-        } else {
-            specialityTxt.setVisibility(View.GONE);
-            HashMap<String, Object> filter = new HashMap<>();
-            customer.get__specialities(filter, mainActivity.snaphyHelper.getLoopBackAdapter(), new DataListCallback<Speciality>() {
-                @Override
-                public void onSuccess(DataList<Speciality> objects) {
-                    super.onSuccess(objects);
-                    Presenter.getInstance().addList(Constants.CUSTOMER_SPECIALITY_LIST,objects);
-                    setSpeciality();
-                }
-
-                @Override
-                public void onError(Throwable t) {
-                    super.onError(t);
-                    Log.e(Constants.TAG, t.toString());
-                }
-            });
         }
         if (customer.getQualifications() != null) {
             if (customer.getQualifications().size() == 0) {
@@ -344,9 +399,8 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
         mainActivity.replaceFragment(R.layout.fragment_order_history, null);
     }
 
-    public void setSpeciality() {
+    public void setSpeciality(Customer customer) {
 
-        Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
         if (customer.getSpecialities() == null) {
             if(OtherProfileFragment.FROM.equals(CaseFragment.TAG)){
                 specialityHeading.setVisibility(View.GONE);

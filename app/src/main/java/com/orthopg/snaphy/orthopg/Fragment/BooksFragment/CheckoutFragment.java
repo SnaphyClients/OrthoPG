@@ -31,13 +31,13 @@ public class CheckoutFragment extends android.support.v4.app.Fragment {
     MainActivity mainActivity;
     private OnFragmentInteractionListener mListener;
     public final static String TAG = "CheckoutFragment";
-    @Bind(R.id.fragment_checkout_editText1) EditText name;
+ /*   @Bind(R.id.fragment_checkout_editText1) EditText name;
     @Bind(R.id.fragment_checkout_editText2) EditText monileno;
     @Bind(R.id.fragment_checkout_editText3) EditText pincode;
     @Bind(R.id.fragment_checkout_editText4) EditText house;
     @Bind(R.id.fragment_checkout_editText5) EditText loaclity;
     @Bind(R.id.fragment_checkout_editText6) EditText landmark;
-    @Bind(R.id.fragment_checkout_editText7) EditText city;
+    @Bind(R.id.fragment_checkout_editText7) EditText city;*/
 
     public CheckoutFragment() {
         // Required empty public constructor
@@ -64,7 +64,7 @@ public class CheckoutFragment extends android.support.v4.app.Fragment {
     }
 
     public void getCustomerData(){
-        Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+       /* Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
         if(customer!=null){
             if(customer.getFirstName()!=null) {
                 if (!customer.getFirstName().isEmpty()) {
@@ -79,7 +79,7 @@ public class CheckoutFragment extends android.support.v4.app.Fragment {
             }
 
 
-        }
+        }*/
     }
 
     // TODO: Rename method, update argument and hook method into UI event
