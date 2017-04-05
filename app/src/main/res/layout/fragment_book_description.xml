@@ -35,6 +35,15 @@
                 android:id="@+id/fragment_view_all_books_textview1"
                 android:text="Book Name"/>
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/share"
+                android:layout_marginRight="15dp"
+                android:id="@+id/fragment_book_description_imageview3"
+                android:layout_marginTop="10dp"/>
+
 
         </RelativeLayout>
 
@@ -43,10 +52,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@id/fragment_book_description_toolbar">
+        android:layout_below="@+id/fragment_book_description_toolbar">
 
         <RelativeLayout
             android:layout_width="match_parent"

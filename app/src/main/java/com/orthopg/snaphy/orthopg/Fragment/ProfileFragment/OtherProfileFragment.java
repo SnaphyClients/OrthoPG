@@ -30,12 +30,15 @@ import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.DataListCallback;
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.DummyCustomerQualification;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.DummyCustomerSpeciality;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Qualification;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Speciality;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.CustomerRepository;
+import com.androidsdk.snaphy.snaphyandroidsdk.repository.DummyCustomerQualificationRepository;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.DummyCustomerSpecialityRepository;
+import com.androidsdk.snaphy.snaphyandroidsdk.repository.QualificationRepository;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.SpecialityRepository;
 import com.google.common.collect.ContiguousSet;
 import com.orthopg.snaphy.orthopg.Constants;
@@ -281,8 +284,7 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
                                 DummyCustomerSpeciality dummyCustomerSpeciality = dummyCustomerSpecialityRepository.createObject(hashMap);
                                 dummyCustomerSpeciality.setCustomerId(customer.getId().toString());
                                 dummyCustomerSpeciality.setSpecialityId(speciality.getId().toString());
-                                int m = (int)((new Date().getTime()/1000L));
-                                dummyCustomerSpeciality.setId(m);
+                                dummyCustomerSpeciality.setId(customer.getId());
                                 dummyCustomerSpeciality.save__db();
                                 specialityRepository.getDb().upsert__db(speciality.getId().toString(), speciality);
                             }
@@ -315,8 +317,7 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
                             DummyCustomerSpeciality dummyCustomerSpeciality = dummyCustomerSpecialityRepository.createObject(hashMap);
                             dummyCustomerSpeciality.setCustomerId(customer.getId().toString());
                             dummyCustomerSpeciality.setSpecialityId(speciality.getId().toString());
-                            int m = (int)((new Date().getTime()/1000L));
-                            dummyCustomerSpeciality.setId(m);
+                            dummyCustomerSpeciality.setId(customer.getId());
                             dummyCustomerSpeciality.save__db();
                             specialityRepository.getDb().upsert__db(speciality.getId().toString(), speciality);
                         }
@@ -332,15 +333,80 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
                 });
             }
         }
-        if (customer.getQualifications() != null) {
-            if (customer.getQualifications().size() == 0) {
+
+        final DummyCustomerQualificationRepository dummyCustomerQualificationRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(DummyCustomerQualificationRepository.class);
+        dummyCustomerQualificationRepository.addStorage(mainActivity);
+
+        QualificationRepository qualificationRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(QualificationRepository.class);
+        qualificationRepository.addStorage(mainActivity);
+
+        DataList<Qualification> qualificationDataList = new DataList<>();
+        if(!mainActivity.snaphyHelper.isNetworkAvailable()){
+            HashMap<String, Object> where = new HashMap<>();
+            where.put("customerId", customer.getId());
+            if (dummyCustomerQualificationRepository.getDb().count__db(where) > 0) {
+                DataList<DummyCustomerQualification> dummyCustomerQualifications = dummyCustomerQualificationRepository.getDb().getAll__db(where);
+
+                for (DummyCustomerQualification dummyCustomerQualification : dummyCustomerQualifications) {
+                    qualificationDataList.add(qualificationRepository.getDb().get__db(dummyCustomerQualification.getQualificationId()));
+                }
+            }
+            customer.setQualifications(qualificationDataList);
+            setQualification(customer);
+        } else{
+            if (customer.getQualifications() != null) {
+                if (customer.getQualifications().size() == 0) {
+                    HashMap<String, Object> filter = new HashMap<>();
+                    customer.get__qualifications(filter, mainActivity.snaphyHelper.getLoopBackAdapter(), new DataListCallback<Qualification>() {
+                        @Override
+                        public void onSuccess(DataList<Qualification> objects) {
+                            super.onSuccess(objects);
+                            QualificationRepository qualificationRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(QualificationRepository.class);
+                            qualificationRepository.addStorage(mainActivity);
+                            for (Qualification qualification : objects) {
+                                HashMap<String, Object> hashMap = new HashMap<String, Object>();
+                                qualificationRepository.getDb().upsert__db(qualification.getId().toString(), qualification);
+                                DummyCustomerQualification dummyCustomerQualification = dummyCustomerQualificationRepository.createObject(hashMap);
+                                dummyCustomerQualification.setCustomerId(customer.getId().toString());
+                                dummyCustomerQualification.setQualificationId(qualification.getId().toString());
+                                dummyCustomerQualification.setId(customer.getId());
+                                dummyCustomerQualification.save__db();
+                                qualificationRepository.getDb().upsert__db(qualification.getId().toString(), qualification);
+                            }
+                            Presenter.getInstance().addList(Constants.CUSTOMER_QUALIFICATION_LIST,objects);
+                            setQualification(customer);
+                        }
+
+                        @Override
+                        public void onError(Throwable t) {
+                            super.onError(t);
+                            Log.e(Constants.TAG, t.toString());
+                        }
+                    });
+                } else {
+                    setQualification(customer);
+                }
+            } else{
+                qualificationTxt.setVisibility(View.GONE);
                 HashMap<String, Object> filter = new HashMap<>();
                 customer.get__qualifications(filter, mainActivity.snaphyHelper.getLoopBackAdapter(), new DataListCallback<Qualification>() {
                     @Override
                     public void onSuccess(DataList<Qualification> objects) {
                         super.onSuccess(objects);
+                        QualificationRepository qualificationRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(QualificationRepository.class);
+                        qualificationRepository.addStorage(mainActivity);
+                        for (Qualification qualification : objects) {
+                            HashMap<String, Object> hashMap = new HashMap<String, Object>();
+                            qualificationRepository.getDb().upsert__db(qualification.getId().toString(), qualification);
+                            DummyCustomerQualification dummyCustomerQualification = dummyCustomerQualificationRepository.createObject(hashMap);
+                            dummyCustomerQualification.setCustomerId(customer.getId().toString());
+                            dummyCustomerQualification.setQualificationId(qualification.getId().toString());
+                            dummyCustomerQualification.setId(customer.getId());
+                            dummyCustomerQualification.save__db();
+                            qualificationRepository.getDb().upsert__db(qualification.getId().toString(), qualification);
+                        }
                         Presenter.getInstance().addList(Constants.CUSTOMER_QUALIFICATION_LIST,objects);
-                        setQualification();
+                        setQualification(customer);
                     }
 
                     @Override
@@ -350,53 +416,66 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
                     }
                 });
             }
-            setQualification();
-        } else{
-            qualificationTxt.setVisibility(View.GONE);
-            HashMap<String, Object> filter = new HashMap<>();
-            customer.get__qualifications(filter, mainActivity.snaphyHelper.getLoopBackAdapter(), new DataListCallback<Qualification>() {
-                @Override
-                public void onSuccess(DataList<Qualification> objects) {
-                    super.onSuccess(objects);
-                    Presenter.getInstance().addList(Constants.CUSTOMER_QUALIFICATION_LIST,objects);
-                    setQualification();
-                }
-
-                @Override
-                public void onError(Throwable t) {
-                    super.onError(t);
-                    Log.e(Constants.TAG, t.toString());
-                }
-            });
         }
+
+
     }
 
     @OnClick(R.id.fragment_profile_imageview2) void onEditCity(){
-        mainActivity.replaceFragment(R.layout.fragment_edit_profile, CITY_TAG);
+        //No Network Connection
+        if(!mainActivity.snaphyHelper.isNetworkAvailable()){
+            Snackbar.make(profileImage,"No Network Connection! Check Internet Connection and try again", Snackbar.LENGTH_SHORT).show();
+        } else {
+            mainActivity.replaceFragment(R.layout.fragment_edit_profile, CITY_TAG);
+        }
     }
 
     @OnClick(R.id.fragment_profile_textview3) void onEditCityText(){
-        mainActivity.replaceFragment(R.layout.fragment_edit_profile, CITY_TAG);
+        if(!mainActivity.snaphyHelper.isNetworkAvailable()){
+            Snackbar.make(profileImage,"No Network Connection! Check Internet Connection and try again", Snackbar.LENGTH_SHORT).show();
+        } else {
+            mainActivity.replaceFragment(R.layout.fragment_edit_profile, CITY_TAG);
+        }
     }
 
     @OnClick(R.id.fragment_profile_imageview3) void onMCIEdit(){
-        mainActivity.replaceFragment(R.layout.fragment_edit_profile, MCINUMBER_TAG);
+        if(!mainActivity.snaphyHelper.isNetworkAvailable()){
+            Snackbar.make(profileImage,"No Network Connection! Check Internet Connection and try again", Snackbar.LENGTH_SHORT).show();
+        } else {
+            mainActivity.replaceFragment(R.layout.fragment_edit_profile, MCINUMBER_TAG);
+        }
     }
 
     @OnClick(R.id.fragment_profile_imageview4) void onWorkExperienceEdit(){
-        mainActivity.replaceFragment(R.layout.fragment_edit_profile, WORKEXPERIENCETAG);
+        if(!mainActivity.snaphyHelper.isNetworkAvailable()){
+            Snackbar.make(profileImage,"No Network Connection! Check Internet Connection and try again", Snackbar.LENGTH_SHORT).show();
+        } else {
+            mainActivity.replaceFragment(R.layout.fragment_edit_profile, WORKEXPERIENCETAG);
+        }
     }
 
     @OnClick(R.id.fragment_profile_imageview5) void onSpecialityEdit(){
-        mainActivity.replaceFragment(R.layout.fragment_speciality, null);
+        if(!mainActivity.snaphyHelper.isNetworkAvailable()){
+            Snackbar.make(profileImage,"No Network Connection! Check Internet Connection and try again", Snackbar.LENGTH_SHORT).show();
+        } else {
+            mainActivity.replaceFragment(R.layout.fragment_speciality, null);
+        }
     }
 
     @OnClick(R.id.fragment_profile_imageview6) void onQualificationEdit(){
-        mainActivity.replaceFragment(R.layout.fragment_qualification, null);
+        if(!mainActivity.snaphyHelper.isNetworkAvailable()){
+            Snackbar.make(profileImage,"No Network Connection! Check Internet Connection and try again", Snackbar.LENGTH_SHORT).show();
+        } else {
+            mainActivity.replaceFragment(R.layout.fragment_qualification, null);
+        }
     }
 
     @OnClick(R.id.fragment_profile_relative_layout1) void onPastOrderList(){
-        mainActivity.replaceFragment(R.layout.fragment_order_history, null);
+        if(!mainActivity.snaphyHelper.isNetworkAvailable()){
+            Snackbar.make(profileImage,"No Network Connection! Check Internet Connection and try again", Snackbar.LENGTH_SHORT).show();
+        } else {
+            mainActivity.replaceFragment(R.layout.fragment_order_history, null);
+        }
     }
 
     public void setSpeciality(Customer customer) {
@@ -429,8 +508,7 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
         }
     }
 
-    public void setQualification(){
-        Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+    public void setQualification(Customer customer){
         if(customer.getQualifications()==null) {
             if(OtherProfileFragment.FROM.equals(CaseFragment.TAG)){
                 qualificationHeading.setVisibility(View.GONE);

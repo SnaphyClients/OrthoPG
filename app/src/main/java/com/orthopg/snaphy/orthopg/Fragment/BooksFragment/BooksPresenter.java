@@ -12,6 +12,7 @@ import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.BookCategoryRepository;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.BookRepository;
+import com.androidsdk.snaphy.snaphyandroidsdk.repository.OrderRepository;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
@@ -31,14 +32,12 @@ public class BooksPresenter {
     DataList<BookCategory> bookCategoryDataList;
     public double limit = 7;
     public double skip = 0;
-    CircleProgressBar circleProgressBar;
     MainActivity mainActivity;
     Handler handler = new Handler();
     String localOrderBy = "datetime(added) DESC";
 
-    public BooksPresenter(RestAdapter restAdapter, CircleProgressBar progressBar, MainActivity mainActivity){
+    public BooksPresenter(RestAdapter restAdapter, MainActivity mainActivity){
         this.restAdapter = restAdapter;
-        circleProgressBar = progressBar;
         this.mainActivity = mainActivity;
         //Only add if not initialized already..
         if(Presenter.getInstance().getList(Book.class, Constants.BOOK_LIST_BOOKS_FRAGMENT) == null){
@@ -66,7 +65,7 @@ public class BooksPresenter {
                 public void onBefore() {
                     super.onBefore();
                     if(mainActivity!=null) {
-                        mainActivity.startProgressBar(mainActivity.progressBar);
+                        //mainActivity.startProgressBar(mainActivity.progressBar);
                     }
 
                     setOldFlag();
@@ -98,8 +97,8 @@ public class BooksPresenter {
                 @Override
                 public void onFinally() {
                     super.onFinally();
-                    //removeOldBookData();
-                    mainActivity.stopProgressBar(mainActivity.progressBar);
+                    removeOldBookData();
+                    //mainActivity.stopProgressBar(mainActivity.progressBar);
                 }
             });
         }
@@ -120,19 +119,21 @@ public class BooksPresenter {
     }
 
     public void saveBookCategoryData(BookCategory bookCategory){
-
+        if(bookCategory.getName() == null){
+            return;
+        }
         BookRepository bookRepository = restAdapter.createRepository(BookRepository.class);
         bookRepository.addStorage(mainActivity);
         if(bookCategory.getBooks()!=null){
             if(bookCategory.getBooks().size()!=0){
                 for(Book book : bookCategory.getBooks()){
+                    if(bookCategory.getName().equals(Constants.SAVED_BOOKS_CATEGORY)){
+                        book.setSavedCategoryId(bookCategory.getId().toString());
+                    }
                     bookRepository.getDb().upsert__db(book.getId().toString(), book);
                 }
             }
         }
-        /*BookCategoryRepository bookCategoryRepository = restAdapter.createRepository(BookCategoryRepository.class);
-        bookCategoryRepository.addStorage(mainActivity);
-        bookCategoryRepository.getDb().upsert__db(bookCategory.getId().toString(), bookCategory);*/
     }
 
     public void loadOfflineBookData(){
@@ -141,13 +142,20 @@ public class BooksPresenter {
         BookRepository bookRepository = restAdapter.createRepository(BookRepository.class);
         bookCategoryRepository.addStorage(mainActivity);
         bookRepository.addStorage(mainActivity);
-        //if(bookCategoryDataList.size()==0){
-            HashMap<String, Object> localFlagQuery = new HashMap<>();
-            if(bookCategoryRepository.getDb().count__db(localFlagQuery, localOrderBy,50)>0){
-                bookCategoryDataList.addAll(bookCategoryRepository.getDb().getAll__db(localFlagQuery, localOrderBy,50));
-            }
+        HashMap<String, Object> localFlagQuery = new HashMap<>();
+        if(bookCategoryRepository.getDb().count__db(localFlagQuery, localOrderBy,50)>0){
+            bookCategoryDataList.addAll(bookCategoryRepository.getDb().getAll__db(localFlagQuery, localOrderBy,50));
+        }
 
-            for(BookCategory bookCategory: bookCategoryDataList){
+        for(BookCategory bookCategory: bookCategoryDataList){
+            if(bookCategory.getName().equals(Constants.SAVED_BOOKS_CATEGORY)){
+                HashMap<String, Object> where = new HashMap<>();
+                where.put("savedCategoryId", bookCategory.getId().toString());
+                DataList<Book> books = bookRepository.getDb().getAll__db(where, localOrderBy, 50);
+                if(books != null){
+                    bookCategory.setBooks(books);
+                }
+            }else{
                 HashMap<String, Object> where = new HashMap<>();
                 where.put("bookCategoryId", bookCategory.getId().toString());
                 DataList<Book> books = bookRepository.getDb().getAll__db(where, localOrderBy, 50);
@@ -155,8 +163,9 @@ public class BooksPresenter {
                     bookCategory.setBooks(books);
                 }
             }
+        }
 
-       // }
+
     }
 
     public void removeOldBookData(){

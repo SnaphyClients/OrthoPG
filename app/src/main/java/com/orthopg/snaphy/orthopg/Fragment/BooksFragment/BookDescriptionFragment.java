@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
 import android.util.Log;
@@ -67,6 +68,10 @@ import javax.crypto.spec.SecretKeySpec;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.branch.indexing.BranchUniversalObject;
+import io.branch.referral.Branch;
+import io.branch.referral.BranchError;
+import io.branch.referral.util.LinkProperties;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -89,6 +94,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.fragment_book_description_imageview2) ImageView bookCover;
     @Bind(R.id.fragment_book_description_textview1) TextView bookTitle;
     @Bind(R.id.fragment_book_description_textview7) TextView bookDescription;
+    @Bind(R.id.fragment_book_description_button1) Button downloadSample;
     String bookId = "";
     public final static String TAG = "BookDescriptionFragment";
     int read;
@@ -162,20 +168,17 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
             } else{
                 bookCover.setVisibility(View.GONE);
             }
-            String bookCategory = Presenter.getInstance().getModel(String.class,Constants.SAVED_BOOKS_DATA);
             bookKey = sharedPreferences.getString(bookId,"");
             bookIv = sharedPreferences.getString(bookId + "iv", "");
-            if(bookCategory!=null){
 
-                if(bookKey.isEmpty() || bookIv.isEmpty()) {
+               /* if(bookKey.isEmpty() || bookIv.isEmpty()) {
                     bookDownload2.setText("Download");
                 } else{
                     bookDownload2.setText("View");
-                }
-            } else if(!bookKey.isEmpty() && !bookIv.isEmpty()&& outFile.exists()){
+                }*/
+            } /*else if(!bookKey.isEmpty() && !bookIv.isEmpty()&& outFile.exists()){
                 bookDownload2.setText("View");
-            }
-        }
+            }*/
     }
 
  /*   public boolean checkPurchasedBook(Book book){
@@ -214,8 +217,19 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
         mainActivity.onBackPressed();
     }
 
+    @OnClick(R.id.fragment_book_description_button1) void onDownloadSample(){
+        //Check Internet Connection
+        if(!mainActivity.snaphyHelper.isNetworkAvailable()){
+            Snackbar.make(downloadSample,"No Network Connection! Check Internet Connection and try again", Snackbar.LENGTH_SHORT).show();
+        }
+    }
+
     @OnClick(R.id.fragment_book_description_button4) void onHardCopyBuy(){
-        if(bookDownload2.getText().toString().equals("Download")) {
+        //Check Internet Connection
+        if(!mainActivity.snaphyHelper.isNetworkAvailable()){
+            Snackbar.make(bookDownload2,"No Network Connection! Check Internet Connection and try again", Snackbar.LENGTH_SHORT).show();
+        }
+       /* if(bookDownload2.getText().toString().equals("Download")) {
             new DownloadFile().execute("http://www.damtp.cam.ac.uk/user/tong/string/string.pdf","sample.pdf");
         }
         else if(bookDownload2.getText().toString().equals("View")){
@@ -243,7 +257,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
             }
             // mainActivity.replaceFragment(R.layout.fragment_book_pdfrender, null);
 
-        }
+        }*/
 /*
         PayUmoneySdkInitilizer.PaymentParam.Builder builder = new PayUmoneySdkInitilizer.PaymentParam.Builder()
                 .setMerchantId("XXX")
@@ -373,9 +387,13 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
         return iv;
     }
 
-    @OnClick(R.id.fragment_book_description_button4) void onEbookBuy(){
-
-        mainActivity.replaceFragment(R.layout.fragment_checkout, null);
+    @OnClick(R.id.fragment_book_description_button3) void onEbookBuy(){
+        //No network Connection
+        if(!mainActivity.snaphyHelper.isNetworkAvailable()){
+            Snackbar.make(bookDownload,"No Network Connection! Check Internet Connection and try again", Snackbar.LENGTH_SHORT).show();
+        } else {
+            mainActivity.replaceFragment(R.layout.fragment_checkout, null);
+        }
       //  SharedPreferences.Editor editor = sharedPreferences.edit();
         //editor.putBoolean("bookTitle", true);
 
@@ -402,6 +420,36 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
         String serverCalulatedHash = hashCal("SHA-512", hashSequence);
         paymentParam.setMerchantHash(serverCalulatedHash);
         PayUmoneySdkInitilizer.startPaymentActivityForResult(mainActivity, paymentParam);*/
+    }
+
+    @OnClick(R.id.fragment_book_description_imageview3) void onShare(){
+
+        BranchUniversalObject branchUniversalObject = new BranchUniversalObject()
+                .setCanonicalIdentifier("item/12345")
+                .setTitle("My Content Title")
+                .setContentDescription("My Content Description")
+                .setContentImageUrl("https://example.com/mycontent-12345.png")
+                .setContentIndexingMode(BranchUniversalObject.CONTENT_INDEX_MODE.PUBLIC)
+                .addContentMetadata("type", "book")
+                .addContentMetadata("id", bookId);
+
+        LinkProperties linkProperties = new LinkProperties()
+                .setFeature("sharing");
+        branchUniversalObject.generateShortUrl(mainActivity, linkProperties, new Branch.BranchLinkCreateListener() {
+            @Override
+            public void onLinkCreate(String url, BranchError error) {
+                if (error == null) {
+                    Log.i("MyApp", "got my Branch link to share: " + url);
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.setType("text/plain");
+                    intent.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL");
+                    intent.putExtra(Intent.EXTRA_TEXT, url);
+                    startActivity(Intent.createChooser(intent, "Share URL"));
+                } else {
+                    Log.e(Constants.TAG,error.toString());
+                }
+            }
+        });
     }
 
     public static String hashCal(String type, String str){

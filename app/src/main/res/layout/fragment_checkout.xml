@@ -4,8 +4,9 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="#f3f3f3"
     android:weightSum="1">
+
 
 
 
@@ -20,7 +21,7 @@
             android:layout_height="match_parent">
 
             <ImageButton
-                android:id="@+id/fragment_other_profile_imageview1"
+                android:id="@+id/fragment_checkout_imageview1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/cross_white"
@@ -39,8 +40,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="#f3f3f3">
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -55,14 +55,115 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="15dp"
-                    android:textSize="18sp"
-                    android:text="Name"
-                    android:textColor="@color/black" />
+                    android:textSize="12sp"
+                    android:textColor="@color/dark_grey"
+                    android:textStyle="bold"
+                    android:id="@+id/fragment_checkout_textview1"
+                    android:text="Name :" />
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
+                    android:id="@+id/fragment_checkout_editText1"
+                    android:textSize="13sp"
+                    android:layout_marginLeft="10dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal"
+                android:background="@drawable/rectangle_address">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:text="Mobile No. :"
+                    android:id="@+id/fragment_checkout_textview2"
+                    android:textColor="@color/dark_grey"/>
+
+                <EditText
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:id="@+id/fragment_checkout_editText2"
+                    android:textSize="13sp"
+                    android:layout_marginLeft="5dp"/>
+            </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="horizontal"
+                    android:background="@drawable/rectangle_address">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:text="Pincode :"
+                        android:textColor="@color/dark_grey"
+                        android:id="@+id/fragment_checkout_textview3"/>
+
+                    <EditText
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="13sp"
+                        android:background="@android:color/transparent"
+                        android:id="@+id/fragment_checkout_editText3"
+                        android:layout_marginLeft="5dp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal"
+                android:background="@drawable/rectangle_address">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp"
+                    android:paddingLeft="15dp"
+                    android:textSize="12sp"
+                    android:text="House No. :"
+                    android:textStyle="bold"
+                    android:textColor="@color/dark_grey"
+                    android:id="@+id/fragment_checkout_textview4"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="13sp"
+                    android:background="@android:color/transparent"
+                    android:id="@+id/fragment_checkout_editText4"
                     android:layout_marginLeft="10dp"/>
             </LinearLayout>
 
@@ -78,15 +179,21 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="15dp"
-                    android:textSize="18sp"
-                    android:text="Mobile No."
-                    android:textColor="@color/black" />
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp"
+                    android:paddingLeft="15dp"
+                    android:textSize="12sp"
+                    android:text="Street/Colony :"
+                    android:id="@+id/fragment_checkout_textview5"
+                    android:textStyle="bold"
+                    android:textColor="@color/dark_grey"/>
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
+                    android:textSize="13sp"
+                    android:id="@+id/fragment_checkout_editText5"
                     android:layout_marginLeft="10dp"/>
             </LinearLayout>
 
@@ -99,90 +206,25 @@
                 android:orientation="horizontal"
                 android:background="@drawable/rectangle_address">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="15dp"
-                    android:textSize="18sp"
-                    android:text="PinCode"
-                    android:textColor="@color/black" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:layout_marginLeft="10dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:orientation="horizontal"
-                android:background="@drawable/rectangle_address">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="15dp"
-                    android:textSize="18sp"
-                    android:text="House No."
-                    android:textColor="@color/black" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:layout_marginLeft="10dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:orientation="horizontal"
-                android:background="@drawable/rectangle_address">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="15dp"
-                    android:textSize="18sp"
-                    android:text="Street/Colony"
-                    android:textColor="@color/black" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:layout_marginLeft="10dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:orientation="horizontal"
-                android:background="@drawable/rectangle_address">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="15dp"
-                    android:textSize="18sp"
-                    android:text="Landmark"
-                    android:textColor="@color/black" />
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp"
+                    android:paddingLeft="15dp"
+                    android:textSize="12sp"
+                    android:text="Landmark :"
+                    android:id="@+id/fragment_checkout_textview6"
+                    android:textStyle="bold"
+                    android:textColor="@color/dark_grey"/>
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="(Optional)"
+                    android:textSize="13sp"
+                    android:id="@+id/fragment_checkout_editText6"
                     android:background="@android:color/transparent"
                     android:layout_marginLeft="10dp"/>
             </LinearLayout>
@@ -199,15 +241,21 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="15dp"
-                    android:textSize="18sp"
-                    android:text="City"
-                    android:textColor="@color/black" />
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="15dp"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:text="City :"
+                    android:id="@+id/fragment_checkout_textview7"
+                    android:textColor="@color/dark_grey" />
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
+                    android:textSize="13sp"
+                    android:id="@+id/fragment_checkout_editText7"
                     android:layout_marginLeft="10dp"/>
             </LinearLayout>
 
@@ -217,6 +265,7 @@
                 android:layout_gravity="center"
                 android:background="@drawable/curved_pay_button"
                 android:text="PAY"
+                android:id="@+id/fragment_checkout_button1"
                 android:layout_marginBottom="20dp"
                 android:layout_marginTop="20dp"
                 android:textAllCaps="false"

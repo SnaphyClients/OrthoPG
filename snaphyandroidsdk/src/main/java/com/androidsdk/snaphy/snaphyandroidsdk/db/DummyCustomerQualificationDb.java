@@ -15,16 +15,16 @@ import android.util.Log;
 import java.util.Map;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 
-import com.androidsdk.snaphy.snaphyandroidsdk.models.Book;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.DummyCustomerQualification;
 //Import self repository..
-import com.androidsdk.snaphy.snaphyandroidsdk.repository.BookRepository;
+import com.androidsdk.snaphy.snaphyandroidsdk.repository.DummyCustomerQualificationRepository;
 import com.strongloop.android.loopback.RestAdapter;
 
 /**
 * Created by snaphy on 1/2/2017.
 */
 
-public class BookDb{
+public class DummyCustomerQualificationDb{
 
     // All Static variables
     RestAdapter restAdapter;
@@ -39,25 +39,25 @@ public class BookDb{
     // Contacts table name
     private static String TABLE;
 
-  public BookDb(Context context, String DATABASE_NAME, RestAdapter restAdapter){
+  public DummyCustomerQualificationDb(Context context, String DATABASE_NAME, RestAdapter restAdapter){
     //super(context, DATABASE_NAME, null, DATABASE_VERSION);
     this.context = context;
     this.restAdapter = restAdapter;
-    TABLE = "Book";
+    TABLE = "DummyCustomerQualification";
     this.DATABASE_NAME = DATABASE_NAME;
     SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
     DbHandler.getInstance(context, DATABASE_NAME).onCreate(db);
   }
 
 
-    public void insert__db (final String id, final Book modelData) {
+    public void insert__db (final String id, final DummyCustomerQualification modelData) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
                 // Inserting Row
                 ContentValues values = getContentValues(modelData);
-                db.insert("`Book`", null, values);
+                db.insert("`DummyCustomerQualification`", null, values);
                 //db.close(); // Closing database connection
             }
         }).start();
@@ -68,48 +68,20 @@ public class BookDb{
 
 
 
-    public ContentValues getContentValues(Book modelData){
+    public ContentValues getContentValues(DummyCustomerQualification modelData){
       ContentValues values = new ContentValues();
                        
-                                                            String titleData = "";
-                        if(modelData.getTitle() != null){
-                          titleData = modelData.getTitle().toString();
-                          values.put("`title`", titleData);
+                                                            String customerIdData = "";
+                        if(modelData.getCustomerId() != null){
+                          customerIdData = modelData.getCustomerId().toString();
+                          values.put("`customerId`", customerIdData);
                         }
                                   
                                 
-                                                            String descriptionData = "";
-                        if(modelData.getDescription() != null){
-                          descriptionData = modelData.getDescription().toString();
-                          values.put("`description`", descriptionData);
-                        }
-                                  
-                                
-                                                            String statusData = "";
-                        if(modelData.getStatus() != null){
-                          statusData = modelData.getStatus().toString();
-                          values.put("`status`", statusData);
-                        }
-                                  
-                                
-                                                            String frontCoverData = "";
-                        if(modelData.getFrontCover() != null){
-                          frontCoverData = new Gson().toJson(modelData.getFrontCover(), HashMap.class);
-                          values.put("`frontCover`", frontCoverData);
-                        }
-                                  
-                                
-                                                            String backCoverData = "";
-                        if(modelData.getBackCover() != null){
-                          backCoverData = new Gson().toJson(modelData.getBackCover(), HashMap.class);
-                          values.put("`backCover`", backCoverData);
-                        }
-                                  
-                                
-                                                            String uploadBookData = "";
-                        if(modelData.getUploadBook() != null){
-                          uploadBookData = new Gson().toJson(modelData.getUploadBook(), HashMap.class);
-                          values.put("`uploadBook`", uploadBookData);
+                                                            String qualificationIdData = "";
+                        if(modelData.getQualificationId() != null){
+                          qualificationIdData = modelData.getQualificationId().toString();
+                          values.put("`qualificationId`", qualificationIdData);
                         }
                                   
                                 
@@ -117,20 +89,6 @@ public class BookDb{
                         if(modelData.getAdded() != null){
                           addedData = modelData.getAdded().toString();
                           values.put("`added`", addedData);
-                        }
-                                  
-                                
-                                                            String savedCategoryIdData = "";
-                        if(modelData.getSavedCategoryId() != null){
-                          savedCategoryIdData = modelData.getSavedCategoryId().toString();
-                          values.put("`savedCategoryId`", savedCategoryIdData);
-                        }
-                                  
-                                
-                                                            String updatedData = "";
-                        if(modelData.getUpdated() != null){
-                          updatedData = modelData.getUpdated().toString();
-                          values.put("`updated`", updatedData);
                         }
                                   
                                 
@@ -148,21 +106,6 @@ public class BookDb{
                         }
 
                                   
-                                
-                                                            //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
-                        String bookCategoryIdData = "";
-                        try {
-                              Method method = modelData.getClass().getMethod("getBookCategoryId");
-                              if(method.invoke(modelData) != null){
-                                //bookCategoryIdData = modelData.getBookCategoryId().toString();
-                                bookCategoryIdData = (String) method.invoke(modelData);
-                                values.put("`bookCategoryId`", bookCategoryIdData);
-                              }
-                        } catch (Exception e) {
-                          Log.e("Database Error", e.toString());
-                        }
-
-                                  
                   
         
           
@@ -174,10 +117,10 @@ public class BookDb{
 
 
     // Getting single c
-    public   Book get__db(String id) {
+    public   DummyCustomerQualification get__db(String id) {
         if (id != null) {
             SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getReadableDatabase();
-            Cursor cursor = db.query("Book", null, "id=?", new String[]{id}, null, null, null, null);
+            Cursor cursor = db.query("DummyCustomerQualification", null, "id=?", new String[]{id}, null, null, null, null);
             if (cursor != null) {
                 if (!cursor.moveToFirst() || cursor.getCount() == 0){
                     return null;
@@ -186,9 +129,9 @@ public class BookDb{
                     cursor.close();
                     //db.close(); // Closing database connection
                     if (hashMap != null) {
-                        BookRepository repo = restAdapter.createRepository(BookRepository.class);
+                        DummyCustomerQualificationRepository repo = restAdapter.createRepository(DummyCustomerQualificationRepository.class);
                         repo.addStorage(context);
-                        return (Book)repo.createObject(hashMap);
+                        return (DummyCustomerQualification)repo.createObject(hashMap);
                     } else {
                         return null;
                     }
@@ -207,10 +150,10 @@ public class BookDb{
 
 
     // Getting single cont
-    public   Book get__db(String whereKey, String whereKeyValue) {
+    public   DummyCustomerQualification get__db(String whereKey, String whereKeyValue) {
         if (whereKeyValue != null) {
             SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getReadableDatabase();
-            Cursor cursor = db.query("`Book`", null, "`" + whereKey + "` =?", new String[]{whereKeyValue}, null, null, null, null);
+            Cursor cursor = db.query("`DummyCustomerQualification`", null, "`" + whereKey + "` =?", new String[]{whereKeyValue}, null, null, null, null);
             if (cursor != null) {
                 if (!cursor.moveToFirst() || cursor.getCount() == 0){
                     return null;
@@ -221,9 +164,9 @@ public class BookDb{
                     //db.close(); // Closing database connection
 
                     if (hashMap != null) {
-                        BookRepository repo = restAdapter.createRepository(BookRepository.class);
+                        DummyCustomerQualificationRepository repo = restAdapter.createRepository(DummyCustomerQualificationRepository.class);
                         repo.addStorage(context);
-                        return (Book)repo.createObject(hashMap);
+                        return (DummyCustomerQualification)repo.createObject(hashMap);
                     } else {
                         return null;
                     }
@@ -245,69 +188,29 @@ public class BookDb{
       HashMap<String, Object> hashMap = new HashMap<>();
 
                       
-                                                            String titleData = "";
+                                                            String customerIdData = "";
                         if(cursor.getString(0) != null){
-                          titleData = cursor.getString(0);
-                          if(titleData != null){
-                            titleData = (String)titleData;
-                            hashMap.put("title", titleData);
+                          customerIdData = cursor.getString(0);
+                          if(customerIdData != null){
+                            customerIdData = (String)customerIdData;
+                            hashMap.put("customerId", customerIdData);
                           }
                         }
                                                 
                                 
-                                                            String descriptionData = "";
+                                                            String qualificationIdData = "";
                         if(cursor.getString(1) != null){
-                          descriptionData = cursor.getString(1);
-                          if(descriptionData != null){
-                            descriptionData = (String)descriptionData;
-                            hashMap.put("description", descriptionData);
-                          }
-                        }
-                                                
-                                
-                                                            String statusData = "";
-                        if(cursor.getString(2) != null){
-                          statusData = cursor.getString(2);
-                          if(statusData != null){
-                            statusData = (String)statusData;
-                            hashMap.put("status", statusData);
-                          }
-                        }
-                                                
-                                
-                                                            Map<String, Object> frontCoverData = new HashMap<>();
-                        if(cursor.getString(3) != null){
-                          frontCoverData = new Gson().fromJson(cursor.getString(3), Map.class);
-                          if(frontCoverData != null){
-                            frontCoverData = (Map<String, Object>)frontCoverData;
-                            hashMap.put("frontCover", frontCoverData);
-                          }
-                        }
-                                                
-                                
-                                                            Map<String, Object> backCoverData = new HashMap<>();
-                        if(cursor.getString(4) != null){
-                          backCoverData = new Gson().fromJson(cursor.getString(4), Map.class);
-                          if(backCoverData != null){
-                            backCoverData = (Map<String, Object>)backCoverData;
-                            hashMap.put("backCover", backCoverData);
-                          }
-                        }
-                                                
-                                
-                                                            Map<String, Object> uploadBookData = new HashMap<>();
-                        if(cursor.getString(5) != null){
-                          uploadBookData = new Gson().fromJson(cursor.getString(5), Map.class);
-                          if(uploadBookData != null){
-                            uploadBookData = (Map<String, Object>)uploadBookData;
-                            hashMap.put("uploadBook", uploadBookData);
+                          qualificationIdData = cursor.getString(1);
+                          if(qualificationIdData != null){
+                            qualificationIdData = (String)qualificationIdData;
+                            hashMap.put("qualificationId", qualificationIdData);
                           }
                         }
                                                 
                                 
                                                             String addedData = "";
-                        if(cursor.getString(6) != null){
-                          addedData = cursor.getString(6);
+                        if(cursor.getString(2) != null){
+                          addedData = cursor.getString(2);
                           if(addedData != null){
                             addedData = (String)addedData;
                             hashMap.put("added", addedData);
@@ -315,42 +218,12 @@ public class BookDb{
                         }
                                                 
                                 
-                                                            String savedCategoryIdData = "";
-                        if(cursor.getString(7) != null){
-                          savedCategoryIdData = cursor.getString(7);
-                          if(savedCategoryIdData != null){
-                            savedCategoryIdData = (String)savedCategoryIdData;
-                            hashMap.put("savedCategoryId", savedCategoryIdData);
-                          }
-                        }
-                                                
-                                
-                                                            String updatedData = "";
-                        if(cursor.getString(8) != null){
-                          updatedData = cursor.getString(8);
-                          if(updatedData != null){
-                            updatedData = (String)updatedData;
-                            hashMap.put("updated", updatedData);
-                          }
-                        }
-                                                
-                                
                                                             String idData = "";
-                        if(cursor.getString(9) != null){
-                          idData = cursor.getString(9);
+                        if(cursor.getString(3) != null){
+                          idData = cursor.getString(3);
                           if(idData != null){
                             idData = idData.toString();
                             hashMap.put("id", idData);
-                          }
-                        }
-                                                
-                                
-                                                            String bookCategoryIdData = "";
-                        if(cursor.getString(10) != null){
-                          bookCategoryIdData = cursor.getString(10);
-                          if(bookCategoryIdData != null){
-                            bookCategoryIdData = bookCategoryIdData.toString();
-                            hashMap.put("bookCategoryId", bookCategoryIdData);
                           }
                         }
                                                 
@@ -363,7 +236,7 @@ public class BookDb{
 
 
 
-    public void upsert__db(String id, Book model){
+    public void upsert__db(String id, DummyCustomerQualification model){
         if(count__db(id) != 0){
             update__db(id, model);
         }else{
@@ -374,25 +247,25 @@ public class BookDb{
 
 
     // Getting All Contacts
-    public DataList<Book>  getAll__db() {
-        DataList<Book> modelList = new DataList<Book>();
+    public DataList<DummyCustomerQualification>  getAll__db() {
+        DataList<DummyCustomerQualification> modelList = new DataList<DummyCustomerQualification>();
         // Select All Query
-        String selectQuery = "SELECT  * FROM `Book`";
+        String selectQuery = "SELECT  * FROM `DummyCustomerQualification`";
 
         SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getReadableDatabase();
         //http://www.tothenew.com/blog/sqlite-locking-and-transaction-handling-in-android/
         db.beginTransaction();
         Cursor cursor = db.rawQuery(selectQuery, null);
         if (!cursor.moveToFirst() || cursor.getCount() == 0){
-            return (DataList<Book>) modelList;
+            return (DataList<DummyCustomerQualification>) modelList;
         }else{
             do {
 
                 HashMap<String, Object> hashMap = parseCursor(cursor);
                 if(hashMap != null){
-                    BookRepository repo = restAdapter.createRepository(BookRepository.class);
+                    DummyCustomerQualificationRepository repo = restAdapter.createRepository(DummyCustomerQualificationRepository.class);
                     repo.addStorage(context);
-                    modelList.add((Book)repo.createObject(hashMap));
+                    modelList.add((DummyCustomerQualification)repo.createObject(hashMap));
                 }
             } while (cursor.moveToNext());
         }
@@ -401,7 +274,7 @@ public class BookDb{
         cursor.close();
         //db.close();
         // return contact list
-        return (DataList<Book>) modelList;
+        return (DataList<DummyCustomerQualification>) modelList;
     }
 
 
@@ -502,19 +375,19 @@ public class BookDb{
 
 
     // Getting All Data where
-    public DataList<Book>  getAll__db(HashMap<String, Object> whereKeyValue) {
+    public DataList<DummyCustomerQualification>  getAll__db(HashMap<String, Object> whereKeyValue) {
         return getAll__db(whereKeyValue, null, 0);
     }
 
 
 
     // Getting All Data where and sort column according to date wise..
-    public DataList<Book>  getAll__db(HashMap<String, Object> whereKeyValue, String orderBy, int limit) {
-        DataList<Book> modelList = new DataList<Book>();
+    public DataList<DummyCustomerQualification>  getAll__db(HashMap<String, Object> whereKeyValue, String orderBy, int limit) {
+        DataList<DummyCustomerQualification> modelList = new DataList<DummyCustomerQualification>();
         String whereQuery = getWhereQuery(whereKeyValue);
         String selectQuery;
         if(orderBy != null){
-            selectQuery = "SELECT  * FROM `Book` " + whereQuery  + " ORDER BY " + orderBy ;
+            selectQuery = "SELECT  * FROM `DummyCustomerQualification` " + whereQuery  + " ORDER BY " + orderBy ;
             if(limit != 0){
                 // Select All Query
                 selectQuery = selectQuery +  " " + " LIMIT " + limit;
@@ -522,9 +395,9 @@ public class BookDb{
         }else{
             if(limit != 0){
                 // Select All Query
-                selectQuery = "SELECT  * FROM Book " + whereQuery + " LIMIT " + limit;
+                selectQuery = "SELECT  * FROM DummyCustomerQualification " + whereQuery + " LIMIT " + limit;
             }else{
-                selectQuery = "SELECT  * FROM Book " + whereQuery;
+                selectQuery = "SELECT  * FROM DummyCustomerQualification " + whereQuery;
             }
         }
 
@@ -535,15 +408,15 @@ public class BookDb{
 
         // looping through all rows and adding to list
          if (!cursor.moveToFirst() || cursor.getCount() == 0){
-            return (DataList<Book>) modelList;
+            return (DataList<DummyCustomerQualification>) modelList;
          }else{
             do {
 
                 HashMap<String, Object> hashMap = parseCursor(cursor);
                 if(hashMap != null){
-                    BookRepository repo = restAdapter.createRepository(BookRepository.class);
+                    DummyCustomerQualificationRepository repo = restAdapter.createRepository(DummyCustomerQualificationRepository.class);
                     repo.addStorage(context);
-                    modelList.add((Book)repo.createObject(hashMap));
+                    modelList.add((DummyCustomerQualification)repo.createObject(hashMap));
                 }
             } while (cursor.moveToNext());
          }
@@ -553,12 +426,12 @@ public class BookDb{
         cursor.close();
         //db.close();
         // return contact list
-        return (DataList<Book>) modelList;
+        return (DataList<DummyCustomerQualification>) modelList;
     }
 
 
     // Getting All Data where
-    public DataList<Book>  getAll__db(HashMap<String, Object> whereKeyValue, int limit) {
+    public DataList<DummyCustomerQualification>  getAll__db(HashMap<String, Object> whereKeyValue, int limit) {
         return getAll__db(whereKeyValue, null,  limit);
     }
 
@@ -577,7 +450,7 @@ public class BookDb{
         String whereQuery = getWhereQuery(whereKeyValue);
         String countQuery;
         if(orderBy != null){
-            countQuery = "SELECT  * FROM `Book` " + whereQuery  + " ORDER BY " + orderBy ;
+            countQuery = "SELECT  * FROM `DummyCustomerQualification` " + whereQuery  + " ORDER BY " + orderBy ;
             if(limit != 0){
                 // Select All Query
                 countQuery = countQuery +  " " + " LIMIT " + limit;
@@ -585,9 +458,9 @@ public class BookDb{
         }else{
             if(limit != 0){
                 // Select All Query
-                countQuery = "SELECT  * FROM `Book` " + whereQuery + " LIMIT " + limit;
+                countQuery = "SELECT  * FROM `DummyCustomerQualification` " + whereQuery + " LIMIT " + limit;
             }else{
-                countQuery = "SELECT  * FROM `Book` " + whereQuery;
+                countQuery = "SELECT  * FROM `DummyCustomerQualification` " + whereQuery;
             }
         }
 
@@ -610,9 +483,9 @@ public class BookDb{
         String whereQuery = getWhereQuery(whereKeyValue);
         String countQuery;
         if(limit != 0){
-            countQuery = "SELECT  * FROM `Book` " + whereQuery + " LIMIT " + limit;
+            countQuery = "SELECT  * FROM `DummyCustomerQualification` " + whereQuery + " LIMIT " + limit;
         }else{
-            countQuery = "SELECT  * FROM `Book` " + whereQuery;
+            countQuery = "SELECT  * FROM `DummyCustomerQualification` " + whereQuery;
         }
 
         SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getReadableDatabase();
@@ -645,7 +518,7 @@ public class BookDb{
                 values.put("_DATA_UPDATED", 0);
                 String where = getWhere(whereKeyValue);
                 // updating row
-                db.update("`Book`", values, "_DATA_UPDATED = 1 AND " + where, null);
+                db.update("`DummyCustomerQualification`", values, "_DATA_UPDATED = 1 AND " + where, null);
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();
@@ -663,7 +536,7 @@ public class BookDb{
                 SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
                 db.beginTransaction();
                 String where = getWhere(whereKeyValue);
-                db.delete("`Book`", "_DATA_UPDATED = 0 AND " + where , null);
+                db.delete("`DummyCustomerQualification`", "_DATA_UPDATED = 0 AND " + where , null);
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();
@@ -684,7 +557,7 @@ public class BookDb{
                 SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
                 db.beginTransaction();
                 String where = getWhere(whereKeyValue);
-                db.delete("`Book`", where , null);
+                db.delete("`DummyCustomerQualification`", where , null);
                 db.setTransactionSuccessful();
                 db.endTransaction();
             }
@@ -698,10 +571,10 @@ public class BookDb{
 
 
     // Getting All Data where
-    public DataList<Book>  getAll__db(String whereKey, String whereKeyValue) {
-        DataList<Book> modelList = new DataList<Book>();
+    public DataList<DummyCustomerQualification>  getAll__db(String whereKey, String whereKeyValue) {
+        DataList<DummyCustomerQualification> modelList = new DataList<DummyCustomerQualification>();
         // Select All Query
-        String selectQuery = "SELECT  * FROM `Book` WHERE `" + whereKey +"` ='"+ whereKeyValue + "'" ;
+        String selectQuery = "SELECT  * FROM `DummyCustomerQualification` WHERE `" + whereKey +"` ='"+ whereKeyValue + "'" ;
 
         SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getReadableDatabase();
         //http://www.tothenew.com/blog/sqlite-locking-and-transaction-handling-in-android/
@@ -710,15 +583,15 @@ public class BookDb{
 
         // looping through all rows and adding to list
          if (!cursor.moveToFirst() || cursor.getCount() == 0){
-            return (DataList<Book>) modelList;
+            return (DataList<DummyCustomerQualification>) modelList;
          }else{
             do {
 
                 HashMap<String, Object> hashMap = parseCursor(cursor);
                 if(hashMap != null){
-                    BookRepository repo = restAdapter.createRepository(BookRepository.class);
+                    DummyCustomerQualificationRepository repo = restAdapter.createRepository(DummyCustomerQualificationRepository.class);
                     repo.addStorage(context);
-                    modelList.add((Book)repo.createObject(hashMap));
+                    modelList.add((DummyCustomerQualification)repo.createObject(hashMap));
                 }
             } while (cursor.moveToNext());
          }
@@ -728,7 +601,7 @@ public class BookDb{
         cursor.close();
         //db.close();
         // return contact list
-        return (DataList<Book>) modelList;
+        return (DataList<DummyCustomerQualification>) modelList;
     }
 
 
@@ -740,7 +613,7 @@ public class BookDb{
      * @return
      */
     public int count__db(String whereKey, String whereKeyValue){
-        String countQuery = "SELECT  * FROM `Book` WHERE `" + whereKey +"` ='"+ whereKeyValue + "'" ;
+        String countQuery = "SELECT  * FROM `DummyCustomerQualification` WHERE `" + whereKey +"` ='"+ whereKeyValue + "'" ;
         SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
         int count = cursor.getCount();
@@ -760,7 +633,7 @@ public class BookDb{
                 ContentValues values = new ContentValues();
                 values.put("_DATA_UPDATED", 0);
                 // updating row
-                db.update("`Book`", values, "_DATA_UPDATED = 1 AND `" + whereKey + "` = ?", new String[]{whereKeyValue});
+                db.update("`DummyCustomerQualification`", values, "_DATA_UPDATED = 1 AND `" + whereKey + "` = ?", new String[]{whereKeyValue});
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();
@@ -776,7 +649,7 @@ public class BookDb{
             public void run() {
                 SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
                 db.beginTransaction();
-                db.delete("`Book`", "_DATA_UPDATED = 0 AND `" + whereKey + "` = ?", new String[]{whereKeyValue});
+                db.delete("`DummyCustomerQualification`", "_DATA_UPDATED = 0 AND `" + whereKey + "` = ?", new String[]{whereKeyValue});
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();
@@ -787,7 +660,7 @@ public class BookDb{
 
 
     //Update multiple data at once..
-    public void updateAll__db(final HashMap<String, Object> whereKeyValue, final Book modelData ){
+    public void updateAll__db(final HashMap<String, Object> whereKeyValue, final DummyCustomerQualification modelData ){
       new Thread(new Runnable(){
         @Override
         public void run(){
@@ -795,7 +668,7 @@ public class BookDb{
           db.beginTransaction();
           ContentValues values = getContentValues(modelData);
           String where = getWhere(whereKeyValue);
-          db.update("`Book`", values, where, null);
+          db.update("`DummyCustomerQualification`", values, where, null);
           db.setTransactionSuccessful();
           db.endTransaction();
           //db.close();
@@ -825,7 +698,7 @@ public class BookDb{
 
 
     // Updating single contact
-    public void update__db(final String id,   final Book modelData) {
+    public void update__db(final String id,   final DummyCustomerQualification modelData) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -833,7 +706,7 @@ public class BookDb{
                 db.beginTransaction();
                 ContentValues values = getContentValues(modelData);
                 // updating row
-                db.update("`Book`", values, "id = ?",
+                db.update("`DummyCustomerQualification`", values, "id = ?",
                         new String[] { id });
                 db.setTransactionSuccessful();
                 db.endTransaction();
@@ -854,7 +727,7 @@ public class BookDb{
                 ContentValues values = new ContentValues();
                 values.put("_DATA_UPDATED", 0);
                 // updating row
-                db.update("`Book`", values, "_DATA_UPDATED = 1", null);
+                db.update("`DummyCustomerQualification`", values, "_DATA_UPDATED = 1", null);
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();
@@ -871,7 +744,7 @@ public class BookDb{
             public void run() {
                 SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
                 db.beginTransaction();
-                db.delete("`Book`", "_DATA_UPDATED = 0", null);
+                db.delete("`DummyCustomerQualification`", "_DATA_UPDATED = 0", null);
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();

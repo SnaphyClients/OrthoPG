@@ -90,7 +90,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.layout_case_details_textview8) TextView selectedAnswerUserName;
     @Bind(R.id.layout_case_details_textview9) TextView selectedAnswer;
     @Bind(R.id.layout_case_details_textview10) TextView selectedLongAnswer;
-    @Bind(R.id.layout_case_details_textview11) TextView share;
+    @Bind(R.id.layout_case_details_textview11) ImageView share;
     @Bind(R.id.button_toggle_case_detail) Button toggleButton;
     @Bind(R.id.layout_case_details_imageview1) ImageView isAnswerSelected;
     @Bind(R.id.fragment_case_detail_linearLayout1) LinearLayout saveLinearLayout;

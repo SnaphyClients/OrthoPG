@@ -17,14 +17,16 @@ import java.io.File;
 public class PDFReaderActivity extends Activity {
 
     PDFView pdfView;
+    File file;
+    File outFile;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pdf_reader);
         pdfView = (PDFView) findViewById(R.id.pdfView);
-
-        File file = new File(Environment.getExternalStorageDirectory() + "/OrthoPg/" + "dsample.pdf");
+        file = new File(Environment.getExternalStorageDirectory() + "/OrthoPg/" + "dsample.pdf");
+        outFile = new File(Environment.getExternalStorageDirectory() + "/OrthoPg/" + "sample.pdf");
         pdfView.fromFile(file)// all pages are displayed by default
                 .enableSwipe(true)
                 .swipeHorizontal(true)
@@ -36,5 +38,14 @@ public class PDFReaderActivity extends Activity {
         pdfView.setLayerType(View.LAYER_TYPE_HARDWARE,null);
         pdfView.setDrawingCacheEnabled(true);
         pdfView.enableRenderDuringScale(false);
+        pdfView.loadPages();
+        pdfView.getCurrentPage();
+
 }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        file.delete();
+    }
 }

@@ -232,11 +232,13 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
             setCountDown();
             enableOkButton(true);
             enableGoButton(false);
-            View view1 = mainActivity.getCurrentFocus();
-            if (view1 != null) {
+            //View view1 = mainActivity.getCurrentFocus();
+            otpCode.setFocusable(true);
+            mainActivity.hideSoftKeyboard(otpCode);
+            /*if (view1 != null) {
                 InputMethodManager imm = (InputMethodManager)mainActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(view1.getWindowToken(), 0);
-            }
+            }*/
 
 
 

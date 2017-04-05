@@ -157,7 +157,7 @@ public class BookTestFragment extends android.support.v4.app.Fragment {
 
     public void loadPresenter(){
 
-        booksPresenter = new BooksPresenter(mainActivity.snaphyHelper.getLoopBackAdapter(), mainActivity.progressBar,mainActivity);
+        booksPresenter = new BooksPresenter(mainActivity.snaphyHelper.getLoopBackAdapter(),mainActivity);
         booksPresenter.fetchBooks(true);
     }
 

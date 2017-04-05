@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -702,6 +703,21 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         if(progressBar != null) {
             progressBar.setVisibility(View.GONE);
         }
+    }
+
+
+
+    public void showSoftKeyboard(View view1) {
+        // Show soft keyboard for the user to enter the value.
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+
+    }
+
+    public void hideSoftKeyboard(View view){
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(),0);
+
     }
 
 

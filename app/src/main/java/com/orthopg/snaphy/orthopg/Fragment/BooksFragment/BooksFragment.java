@@ -80,7 +80,7 @@ public class BooksFragment extends android.support.v4.app.Fragment {
 
 
     public void loadPresenter() {
-        booksPresenter = new BooksPresenter(mainActivity.snaphyHelper.getLoopBackAdapter(), progressBar, mainActivity);
+        booksPresenter = new BooksPresenter(mainActivity.snaphyHelper.getLoopBackAdapter(), mainActivity);
         bookDataList = Presenter.getInstance().getList(Book.class, Constants.BOOK_LIST_BOOKS_FRAGMENT);
 
         bookDataList.subscribe(this, new Listen<Book>() {

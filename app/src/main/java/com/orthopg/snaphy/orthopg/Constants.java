@@ -23,7 +23,7 @@ public class Constants {
 
     //public static String baseUrl = "http://192.168.0.6:3000";
     //public static String baseUrl = "http://192.168.43.21:3000";
-      public static String baseUrl = "http://192.168.0.9:3000";
+    public static String baseUrl = "http://192.168.0.9:3000";
     //public static String baseUrl = "http://admin.orthopg.com";
     //public static String baseUrl = "http://ec2-54-209-33-191.compute-1.amazonaws.com:3000";
     public static String apiUrl = baseUrl+"/api";
@@ -57,6 +57,7 @@ public class Constants {
     public static String CUSTOMER_QUALIFICATION_LIST = "CustomerQualificationList";
     public static String ORDER_HISTORY_LIST = "OrderHistoryList";
     public static String HOME_ANSWER_LIST = "HomeAnswerList";
+    public static String VIEW_ALL_BOOKS_IDS_LIST = "ViewAllBooksIdsList";
     /*END OF DATA LIST IDs*/
 
     /*MOdel IDs*/
@@ -76,6 +77,7 @@ public class Constants {
     public static String CASE_PROFILE_DATA = "CaseProfileData";
     public static String SAVED_BOOKS_DATA = "SavedBooksData";
     public static String BRANCH_CASE_ID = "BranchCaseId";
+    public static String PAYMENT_BOOK_ID = "PaymentBookId";
     /*---------------*/
 
     /*IDs*/
@@ -119,6 +121,7 @@ public class Constants {
     public static String SECONDS = "seconds";
 
 
+    public static String SAVED_BOOKS_CATEGORY = "Saved Books";
 
 
     /*-------------------------------------------------------------------------------------------------------*/

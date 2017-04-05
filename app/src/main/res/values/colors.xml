@@ -20,4 +20,5 @@
     <color name="warning">#f0ad4e</color>
     <color name="success">#5cb85c</color>
     <color name="danger">#d9534f</color>
+    <color name="dark_grey">#444444</color>
 </resources>

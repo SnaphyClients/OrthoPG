@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -81,6 +82,7 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.fragment_case_button3) Button unsolvedCaseButton;
     @Bind(R.id.fragment_case_button5) Button postedCaseButton;
     @Bind(R.id.fragment_case_button6) Button savedCaseButton;
+    @Bind(R.id.fragment_case_button4) Button postCase;
 
     public CaseFragment() {
         // Required empty public constructor
@@ -518,27 +520,31 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     }
 
     @OnClick(R.id.fragment_case_button4) void postCaseButtonClick() {
-        //First create a post object then..move to fragment..
-        Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
-        if(customer != null) {
-            final String MCINumber = customer.getMciNumber() != null ? customer.getMciNumber() : "";
-            if(customer.getStatus() != null) {
-                if (customer.getStatus().equals(Constants.ALLOW)) {
-                    casePresenter.InitNewCaseObject();
-                    mainActivity.replaceFragment(R.id.fragment_case_button4, null);
-                } else {
-                    TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+        //No Network Connection
+        if(!mainActivity.snaphyHelper.isNetworkAvailable()){
+            Snackbar.make(postCase,"No Network Connection! Check Internet Connection and try again", Snackbar.LENGTH_SHORT).show();
+        } else {
+            //First create a post object then..move to fragment..
+            Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+            if (customer != null) {
+                final String MCINumber = customer.getMciNumber() != null ? customer.getMciNumber() : "";
+                if (customer.getStatus() != null) {
+                    if (customer.getStatus().equals(Constants.ALLOW)) {
+                        casePresenter.InitNewCaseObject();
+                        mainActivity.replaceFragment(R.id.fragment_case_button4, null);
+                    } else {
+                        TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
                     /*if(MCINumber.isEmpty()) {
                         mainActivity.replaceFragment(R.layout.fragment_mciverification, null);
                     } else {
                         TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
                     }*/
+                    }
                 }
+
+
             }
-
-
         }
-
 
     }
 

@@ -1,12 +1,15 @@
 package com.orthopg.snaphy.orthopg.Fragment.BooksFragment;
 
 import android.app.DownloadManager;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
@@ -71,6 +74,9 @@ public class BookListTestAdapter extends RecyclerView.Adapter<BookListTestAdapte
     public static byte[] key, iv;
     int read;
     String bookId = "";
+    NotificationManager notificationManager;
+    NotificationCompat.Builder mBuilder;
+    int id = 1;
 
    /* public BookListTestAdapter(MainActivity mainActivity, List<BookListModel> bookListModelList){
 
@@ -102,7 +108,7 @@ public class BookListTestAdapter extends RecyclerView.Adapter<BookListTestAdapte
         sharedPreferences = mainActivity.getSharedPreferences(Constants.BOOK_SHARED_PREFERENCE,Context.MODE_PRIVATE);
         TextView bookName = holder.bookName;
         ImageView bookCover = holder.bookCover;
-        CardView cardView = holder.cardView;
+        final CardView cardView = holder.cardView;
 
         if(book!=null){
             bookId = String.valueOf(book.getId());
@@ -158,9 +164,21 @@ public class BookListTestAdapter extends RecyclerView.Adapter<BookListTestAdapte
                     String bookIv = sharedPreferences.getString(bookId + "iv","");
 
                     if(bookKey.isEmpty() || bookIv.isEmpty() || !outFile.exists()){
-                        key = getKey();
-                        iv = getIV();
-                        new DownloadFile().execute("http://www.damtp.cam.ac.uk/user/tong/string/string.pdf","sample.pdf");
+                        //Check for network connection
+                        if(!mainActivity.snaphyHelper.isNetworkAvailable()){
+                            Snackbar.make(cardView,"Can't download! Check for network connection",Snackbar.LENGTH_SHORT).show();
+                            outFile.delete();
+                        } else {
+                            key = getKey();
+                            iv = getIV();
+                            notificationManager =
+                                    (NotificationManager) mainActivity.getSystemService(Context.NOTIFICATION_SERVICE);
+                            mBuilder = new NotificationCompat.Builder(mainActivity);
+                            mBuilder.setContentTitle("PDF Download")
+                                    .setContentText("Download in progress")
+                                    .setSmallIcon(R.mipmap.ic_launcher);
+                            new DownloadFile().execute("http://www.damtp.cam.ac.uk/user/tong/string/string.pdf", "sample.pdf");
+                        }
                     } else{
                         //Open the decypted pdf
 
@@ -175,16 +193,20 @@ public class BookListTestAdapter extends RecyclerView.Adapter<BookListTestAdapte
                             SecretKeySpec specKey = new SecretKeySpec(keyArray, "AES");
                             decipher.init(Cipher.DECRYPT_MODE,specKey,new IvParameterSpec(ivArray));
                             CipherOutputStream cos = new CipherOutputStream(defos,decipher);
+                           // mainActivity.startProgressBar(mainActivity.progressBar);
                             while((read = enfis.read())!=-1){
                                 cos.write(read);
                                 cos.flush();
                             }
                             cos.close();
+                           // mainActivity.stopProgressBar(mainActivity.progressBar);
                             Toast.makeText(mainActivity,"Decrytption completed",Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(mainActivity,PDFReaderActivity.class);
                             mainActivity.startActivity(intent);
                         }catch (Exception e){
                             e.printStackTrace();
+                            outFile.delete();
+                            decFile.delete();
                         }
                     }
                 } else {
@@ -202,6 +224,7 @@ public class BookListTestAdapter extends RecyclerView.Adapter<BookListTestAdapte
         });
 
     }
+
 
     private class DownloadFile extends AsyncTask<String, Void, Void> {
 
@@ -230,6 +253,10 @@ public class BookListTestAdapter extends RecyclerView.Adapter<BookListTestAdapte
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             Toast.makeText(mainActivity, "Download Completed..", Toast.LENGTH_SHORT).show();
+            mBuilder.setContentText("Download complete")
+                    // Removes the progress bar
+                    .setProgress(0,0,false);
+            notificationManager.notify(id, mBuilder.build());
             SharedPreferences.Editor editor = sharedPreferences.edit();
             String byteKey = Base64.encodeToString(key, Base64.DEFAULT);
             String byteIv = Base64.encodeToString(iv, Base64.DEFAULT);
@@ -259,6 +286,7 @@ public class BookListTestAdapter extends RecyclerView.Adapter<BookListTestAdapte
             SecretKeySpec specKey = new SecretKeySpec(key, "AES");
             encipher.init(Cipher.ENCRYPT_MODE,specKey,new IvParameterSpec(iv));
             CipherInputStream cis = new CipherInputStream(inputStream,encipher);
+            notificationManager.notify(id, mBuilder.build());
             while((read = cis.read())!=-1){
                 fos.write((char)read);
                 fos.flush();}

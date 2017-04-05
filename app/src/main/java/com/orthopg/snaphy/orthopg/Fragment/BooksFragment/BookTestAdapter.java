@@ -160,6 +160,7 @@ public class BookTestAdapter extends RecyclerView.Adapter<BookTestAdapter.ViewHo
         @Override
         public void onClick (View v){
         Presenter.getInstance().addModel(Constants.BOOK_CATEGORY_ID, bookCategory_);
+        Presenter.getInstance().addModel(Constants.VIEW_ALL_BOOKS_LIST,bookCategory_.getBooks());
         mainActivity.replaceFragment(R.layout.fragment_view_all_books, null);
     }
     });

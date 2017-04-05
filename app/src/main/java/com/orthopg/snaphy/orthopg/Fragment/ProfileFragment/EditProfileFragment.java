@@ -79,10 +79,16 @@ public class EditProfileFragment extends Fragment {
 
         if(EditProfileFragment.FROM.equals(OtherProfileFragment.CITY_TAG)){
             updateCurrentWorkingData(editText.getText().toString());
+            editText.setFocusable(true);
+            mainActivity.hideSoftKeyboard(editText);
         } else if(EditProfileFragment.FROM.equals(OtherProfileFragment.MCINUMBER_TAG)){
             updateMCINumberData(editText.getText().toString());
+            editText.setFocusable(true);
+            mainActivity.hideSoftKeyboard(editText);
         } else if(EditProfileFragment.FROM.equals(OtherProfileFragment.WORKEXPERIENCETAG)){
            updateWorkExperienceData(editText.getText().toString());
+            editText.setFocusable(true);
+            mainActivity.hideSoftKeyboard(editText);
         }
     }
 

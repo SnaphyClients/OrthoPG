@@ -85,6 +85,15 @@ public class PaymentDb{
                         }
                                   
                                 
+                                                            int statusData = 0;
+                        if(modelData.getStatus()){
+                          statusData = 1;
+                        }else{
+                          statusData = 0;
+                        }
+                        values.put("`status`", statusData);
+                                  
+                                
                                                             String phoneNumberData = "";
                         if(modelData.getPhoneNumber() != null){
                           phoneNumberData = modelData.getPhoneNumber().toString();
@@ -142,21 +151,6 @@ public class PaymentDb{
                                 //customerIdData = modelData.getCustomerId().toString();
                                 customerIdData = (String) method.invoke(modelData);
                                 values.put("`customerId`", customerIdData);
-                              }
-                        } catch (Exception e) {
-                          Log.e("Database Error", e.toString());
-                        }
-
-                                  
-                                
-                                                            //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
-                        String orderIdData = "";
-                        try {
-                              Method method = modelData.getClass().getMethod("getOrderId");
-                              if(method.invoke(modelData) != null){
-                                //orderIdData = modelData.getOrderId().toString();
-                                orderIdData = (String) method.invoke(modelData);
-                                values.put("`orderId`", orderIdData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
@@ -265,9 +259,19 @@ public class PaymentDb{
                         }
                                                 
                                 
+                                                            boolean statusData = false;
+                        int tempstatusData = cursor.getInt(2);
+                        if( tempstatusData > 0){
+                          statusData = true;
+                        }else{
+                          statusData = false;
+                        }
+                        hashMap.put("status", statusData);
+                                                
+                                
                                                             String phoneNumberData = "";
-                        if(cursor.getString(2) != null){
-                          phoneNumberData = cursor.getString(2);
+                        if(cursor.getString(3) != null){
+                          phoneNumberData = cursor.getString(3);
                           if(phoneNumberData != null){
                             phoneNumberData = (String)phoneNumberData;
                             hashMap.put("phoneNumber", phoneNumberData);
@@ -276,8 +280,8 @@ public class PaymentDb{
                                                 
                                 
                                                             String emailData = "";
-                        if(cursor.getString(3) != null){
-                          emailData = cursor.getString(3);
+                        if(cursor.getString(4) != null){
+                          emailData = cursor.getString(4);
                           if(emailData != null){
                             emailData = (String)emailData;
                             hashMap.put("email", emailData);
@@ -286,7 +290,7 @@ public class PaymentDb{
                                                 
                                 
                                                             double amountData = (double)0;
-                          amountData = cursor.getInt(4);
+                          amountData = cursor.getInt(5);
                           amountData = (double)amountData;
                           hashMap.put("amount", amountData);
 
@@ -294,8 +298,8 @@ public class PaymentDb{
                                                 
                                 
                                                             String idData = "";
-                        if(cursor.getString(5) != null){
-                          idData = cursor.getString(5);
+                        if(cursor.getString(6) != null){
+                          idData = cursor.getString(6);
                           if(idData != null){
                             idData = idData.toString();
                             hashMap.put("id", idData);
@@ -304,8 +308,8 @@ public class PaymentDb{
                                                 
                                 
                                                             String bookIdData = "";
-                        if(cursor.getString(6) != null){
-                          bookIdData = cursor.getString(6);
+                        if(cursor.getString(7) != null){
+                          bookIdData = cursor.getString(7);
                           if(bookIdData != null){
                             bookIdData = bookIdData.toString();
                             hashMap.put("bookId", bookIdData);
@@ -314,21 +318,11 @@ public class PaymentDb{
                                                 
                                 
                                                             String customerIdData = "";
-                        if(cursor.getString(7) != null){
-                          customerIdData = cursor.getString(7);
+                        if(cursor.getString(8) != null){
+                          customerIdData = cursor.getString(8);
                           if(customerIdData != null){
                             customerIdData = customerIdData.toString();
                             hashMap.put("customerId", customerIdData);
-                          }
-                        }
-                                                
-                                
-                                                            String orderIdData = "";
-                        if(cursor.getString(8) != null){
-                          orderIdData = cursor.getString(8);
-                          if(orderIdData != null){
-                            orderIdData = orderIdData.toString();
-                            hashMap.put("orderId", orderIdData);
                           }
                         }
                                                 
