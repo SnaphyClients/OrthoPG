@@ -12,6 +12,7 @@ import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Order;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
+import com.orthopg.snaphy.orthopg.WordUtils;
 
 import org.w3c.dom.Text;
 
@@ -85,7 +86,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                     bookOrderNo.setVisibility(View.GONE);
                 }
 
-                if(String.valueOf(order.getAmount())!=null){
+                if(String.valueOf(order.getAmount())!= null){
                     if(!String.valueOf(order.getAmount()).isEmpty()){
                         bookPrice.setVisibility(View.VISIBLE);
                         bookPrice.setText(String.valueOf(order.getAmount()));
@@ -96,10 +97,17 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                     bookPrice.setVisibility(View.GONE);
                 }
 
-                if(order.getOrderStatus()!=null){
+                if(order.getOrderStatus()!= null){
                     if(!order.getOrderStatus().isEmpty()){
                         bookStatus.setVisibility(View.VISIBLE);
-                        bookStatus.setText(order.getOrderStatus());
+                        if(order.getOrderStatus().equals("delivered")) {
+                            bookStatus.setTextColor(mainActivity.getResources().getColor(R.color.success));
+                        } else if(order.getOrderStatus().equals("pending")) {
+                            bookStatus.setTextColor(mainActivity.getResources().getColor(R.color.warning));
+                        } else if(order.getOrderStatus().equals("cancelled")) {
+                            bookStatus.setTextColor(mainActivity.getResources().getColor(R.color.danger));
+                        }
+                        bookStatus.setText(WordUtils.capitalize(order.getOrderStatus()));
                     } else{
                         bookStatus.setVisibility(View.GONE);
                     }
@@ -108,7 +116,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                 }
 
                 if(order.getTransactionId()!=null){
-                    if(order.getTransactionId().isEmpty()){
+                    if(!order.getTransactionId().isEmpty()){
                         bookTransactionId.setVisibility(View.VISIBLE);
                         bookTransactionId.setText(order.getTransactionId().toString());
                     } else{
@@ -119,17 +127,19 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                 }
 
             if (order.getPaymentStatus() != null) {
-                if(order.getPaymentStatus().isEmpty()){
-                    if(order.getPaymentStatus().equalsIgnoreCase("Failed")){
-                        bookPaymentStatus.setVisibility(View.VISIBLE);
-                    } else{
-                        bookPaymentStatus.setVisibility(View.VISIBLE);
+                if(!order.getPaymentStatus().isEmpty()){
+                    bookPaymentStatus.setText(order.getPaymentStatus());
+                    bookPaymentStatus.setVisibility(View.VISIBLE);
+                    if(order.getPaymentStatus().equals("success")) {
+                        bookPaymentStatus.setTextColor(mainActivity.getResources().getColor(R.color.success));
+                    } else if(order.getPaymentStatus().equals("error")) {
+                        bookPaymentStatus.setTextColor(mainActivity.getResources().getColor(R.color.danger));
                     }
                 } else{
-                    bookPaymentStatus.setVisibility(View.VISIBLE);
+                    bookPaymentStatus.setVisibility(View.GONE);
                 }
             } else{
-                bookPaymentStatus.setVisibility(View.VISIBLE);
+                bookPaymentStatus.setVisibility(View.GONE);
             }
 
         }

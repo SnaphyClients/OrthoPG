@@ -25,27 +25,39 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="35dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:src="@mipmap/cross"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="10dp"
                 android:layout_alignParentLeft="true"
-                android:id="@+id/fragment_speciality_imageview1"
-                >
-
+                android:id="@+id/fragment_speciality_imageview1">
             </ImageView>
 
-
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/fragment_speciality_imageview1"
+                android:text="Speciality"
+                android:layout_centerVertical="true"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:textAllCaps="true"
+                android:paddingLeft="10dp"/>
 
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#CCC"
+        android:id="@+id/fragment_qualification_view"
+        android:layout_below="@+id/fragment_speciality_toolbar"/>
 
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
         android:layout_below="@+id/fragment_speciality_toolbar"
         android:id="@+id/fragment_speciality_recyclerview1">
 

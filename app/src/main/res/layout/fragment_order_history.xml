@@ -29,10 +29,19 @@
                 android:layout_height="wrap_content"
                 android:src="@mipmap/cross"
                 android:layout_alignParentLeft="true"
-                android:id="@+id/fragment_order_history_imageview1"
-                >
-
+                android:id="@+id/fragment_order_history_imageview1">
             </ImageView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/fragment_order_history_imageview1"
+                android:text="Order History"
+                android:layout_centerVertical="true"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:textAllCaps="true"
+                android:paddingLeft="10dp"/>
 
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>

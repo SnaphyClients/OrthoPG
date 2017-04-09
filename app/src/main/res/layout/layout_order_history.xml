@@ -8,16 +8,16 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="3dp"
+        app:cardElevation="2dp"
         app:cardUseCompatPadding="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="-5dp"
-        android:layout_marginBottom="6dp">
+        android:layout_marginLeft="2dp"
+        android:layout_marginTop="-4dp"
+        android:layout_marginRight="2dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="7dp"
             android:id="@+id/layout_order_history_relative_layout1">
 
             <ImageView
@@ -27,8 +27,7 @@
                 android:adjustViewBounds="true"
                 android:padding="5dp"
                 android:layout_marginTop="5dp"
-                android:id="@+id/layout_order_history_imageview1"
-                />
+                android:id="@+id/layout_order_history_imageview1" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -36,10 +35,10 @@
                 android:id="@+id/layout_order_history_textview1"
                 android:layout_toRightOf="@+id/layout_order_history_imageview1"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:text="Book Name"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textStyle="bold"/>
 
             <TextView
@@ -50,7 +49,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
                 android:text="Transaction Id"
-                android:maxLines="3"
+                android:maxLines="1"
+                android:textSize="12sp"
                 android:id="@+id/layout_order_history_textview2"
                 />
 
@@ -61,7 +61,8 @@
                 android:layout_below="@+id/layout_order_history_textview2"
                 android:layout_toRightOf="@+id/layout_order_history_imageview1"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
+                android:textSize="12sp"
+                android:layout_marginTop="2dp"
                 android:text="Order No.:"
                 />
 
@@ -72,7 +73,9 @@
                 android:layout_below="@+id/layout_order_history_textview2"
                 android:layout_toRightOf="@+id/layout_order_history_textview6"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="2dp"
                 android:text="23"
                 />
 
@@ -84,9 +87,8 @@
                 android:layout_toRightOf="@+id/layout_order_history_imageview1"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
-                android:text="Price:"
-
-                />
+                android:textColor="#333"
+                android:text="Price:" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -96,16 +98,37 @@
                 android:layout_toRightOf="@+id/layout_order_history_textview3"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
+                android:textColor="#333"
                 android:text="25"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/layout_order_history_textview9"
+                android:layout_below="@+id/layout_order_history_textview4"
+                android:layout_marginRight="10dp"
+                android:text="Payment Status"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/layout_order_history_imageview1"
+                android:textAllCaps="true"
+                android:gravity="center"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:id="@+id/layout_order_history_textview8"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/layout_order_history_textview2"
-                android:layout_marginRight="40dp"
-                android:text="Failed"
+                android:layout_below="@+id/layout_order_history_textview4"
+                android:layout_marginRight="10dp"
+                android:text="STATUS"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/layout_order_history_textview9"
+                android:textAllCaps="true"
                 android:gravity="center"/>
 
             <TextView
@@ -113,12 +136,15 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/layout_order_history_textview5"
                 android:layout_alignParentRight="true"
-               android:gravity="bottom"
-               android:layout_below="@+id/layout_order_history_textview4"
-                android:layout_marginRight="20dp"
-                android:text="Purchased"
-                android:layout_marginBottom="5dp" />
+                android:gravity="bottom"
+                android:layout_below="@+id/layout_order_history_textview1"
+                android:layout_marginRight="10dp"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:layout_marginTop="4dp"
+                android:text="DELIVERED"
+                android:textAllCaps="true" />
 
             </RelativeLayout>
-        </android.support.v7.widget.CardView>
+    </android.support.v7.widget.CardView>
     </LinearLayout>

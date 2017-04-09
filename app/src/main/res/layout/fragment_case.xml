@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:clickable="true"
+    android:background="@color/background"
     tools:context="com.orthopg.snaphy.orthopg.Fragment.CaseFragment.CaseFragment" >
 
 
@@ -118,9 +119,10 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:background="#DDDDDD"
+        android:layout_height="2dp"
+        android:background="@color/headingColor"
         android:layout_alignParentBottom="true"
+        android:visibility="gone"
         android:layout_marginBottom="45dp"/>
 
     <com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar
@@ -135,15 +137,13 @@
     <Button
         android:id="@+id/fragment_case_button4"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:text="Post a Case"
-        android:textAllCaps="false"
-        android:textColor="@color/buttonColor"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
         android:layout_alignParentBottom="true"
-        android:background="@android:color/white"
-        android:paddingLeft="30dp"
-        android:drawableLeft="@mipmap/post"
-        android:gravity="left|center"/>
+        android:background="@color/danger"
+        android:gravity="center"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/fragment_case_recycler_view"
@@ -154,7 +154,7 @@
         android:layout_below="@+id/fragment_case_horizontal_scroll_view"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="54dp"/>
+        android:layout_marginBottom="45dp"/>
 
 </RelativeLayout>
 
