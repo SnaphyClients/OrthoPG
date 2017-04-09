@@ -118,8 +118,7 @@
                 android:layout_marginTop="5dp"
                 android:text="Buy"
                 android:textSize="10sp"
-                android:textAllCaps="false"
-                />
+                android:textAllCaps="false" />
 
 
             <TextView

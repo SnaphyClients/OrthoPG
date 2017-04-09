@@ -15,7 +15,6 @@ import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.Listen;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Book;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
-import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
@@ -35,7 +34,6 @@ public class BooksFragment extends android.support.v4.app.Fragment {
 
     private OnFragmentInteractionListener mListener;
     @Bind(R.id.fragment_books_recycler_view) RecyclerView recyclerView;
-    @Bind(R.id.fragment_books_progressBar) CircleProgressBar progressBar;
     @Bind(R.id.fragment_books_textview1) TextView noBooksPresent;
     LinearLayoutManager linearLayoutManager;
     BooksListAdapter booksListAdapter;
@@ -155,7 +153,6 @@ public class BooksFragment extends android.support.v4.app.Fragment {
                     if (!loading && (totalItemCount - visibleItemCount)
                             <= (firstVisibleItem + visibleThreshold)) {
                         //Fetch more data here
-                        //EventBus.getDefault().post(TrackCollection.progressBar, Constants.REQUEST_LOAD_MORE_EVENT_FROM_HOME_FRAGMENT);
                         // Refresh Items here
                         booksPresenter.fetchBooks(false);
                         loading = true;

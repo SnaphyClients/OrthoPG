@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
-    android:background="#EEEEEE"
+    android:background="@color/background"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.orthopg.snaphy.orthopg.Fragment.BooksFragment.ViewAllBooksFragment">
 
@@ -31,10 +31,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:layout_toRightOf="@+id/fragment_view_all_books_imageview1"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="10dp"
                 android:textColor="@color/black"
                 android:id="@+id/fragment_view_all_books_textview1"
-                android:text="Category name"/>
+                android:text=""/>
 
 
         </RelativeLayout>
@@ -44,7 +44,8 @@
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="1dp"
         android:layout_below="@+id/fragment_view_all_books_toolbar"
         android:id="@+id/fragment_view_all_books_recyclerview">
 

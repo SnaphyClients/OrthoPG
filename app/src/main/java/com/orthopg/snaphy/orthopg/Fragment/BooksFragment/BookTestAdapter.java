@@ -120,40 +120,6 @@ public class BookTestAdapter extends RecyclerView.Adapter<BookTestAdapter.ViewHo
         }));
 
 
-       /* if(bookModel!=null){
-
-            if(bookModel.getBookType().equals("Saved Books")){
-
-                if(bookModel.getBookCategory()!=null){
-                    if(!bookModel.getBookCategory().isEmpty()){
-                        bookCategory.setText(bookModel.getBookCategory().toString());
-                    }
-                }
-
-                if(bookModel.getBookListModelList()!=null){
-                    if(bookModel.getBookListModelList().size()!=0){
-                        recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity,LinearLayoutManager.HORIZONTAL,false));
-                        bookListTestAdapter = new BookListTestAdapter(mainActivity,bookModel.getBookListModelList());
-                        recyclerView.setAdapter(bookListTestAdapter);
-                    }
-                }
-            } else {
-                if (bookModel.getBookCategory() != null) {
-                    if (!bookModel.getBookCategory().isEmpty()) {
-                        bookCategory.setText(bookModel.getBookCategory().toString());
-                    }
-                }
-
-                if (bookModel.getBookListModelList() != null) {
-                    if (bookModel.getBookListModelList().size() != 0) {
-                        recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false));
-                        bookListTestAdapter = new BookListTestAdapter(mainActivity, bookModel.getBookListModelList());
-                        recyclerView.setAdapter(bookListTestAdapter);
-                    }
-                }
-            }
-        }*/
-
     viewAll.setOnClickListener(new View.OnClickListener()
 
     {

@@ -23,12 +23,4 @@
         android:visibility="gone"
         android:id="@+id/fragment_books_textview1"/>
 
-    <com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:id="@+id/fragment_books_progressBar"
-        android:layout_centerInParent="true"
-        app:mlpb_progress_stoke_width="3dp"
-        app:mlpb_progress_color="#566da9"/>
-
 </RelativeLayout>

@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.Listen;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Book;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.BookCategory;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
@@ -66,25 +67,9 @@ public class ViewAllBooksFragment extends android.support.v4.app.Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loadPresenter();
-        //initializeBookList();
     }
 
-    public void initializeBookList(){
 
-        bookListModelList.add(new BookListModel("Theory of everything",getResources().getDrawable(R.drawable.sampleimage)));
-        bookListModelList.add(new BookListModel("Theory of everything",getResources().getDrawable(R.drawable.bookcover1)));
-        bookListModelList.add(new BookListModel("Theory of everything",getResources().getDrawable(R.drawable.bookcover2)));
-        bookListModelList.add(new BookListModel("Theory of everything",getResources().getDrawable(R.drawable.bookcover3)));
-        bookListModelList.add(new BookListModel("Theory of everything",getResources().getDrawable(R.drawable.bookcover4)));
-        bookListModelList.add(new BookListModel("Theory of everything",getResources().getDrawable(R.drawable.bookcover5)));
-        bookListModelList.add(new BookListModel("Theory of everything",getResources().getDrawable(R.drawable.bookcover6)));
-        bookListModelList.add(new BookListModel("Theory of everything",getResources().getDrawable(R.drawable.bookcover7)));
-        bookListModelList.add(new BookListModel("Theory of everything",getResources().getDrawable(R.drawable.bookcover8)));
-        bookListModelList.add(new BookListModel("Theory of everything",getResources().getDrawable(R.drawable.bookcover9)));
-        bookListModelList.add(new BookListModel("Theory of everything",getResources().getDrawable(R.drawable.bookcover1)));
-        bookListModelList.add(new BookListModel("Theory of everything",getResources().getDrawable(R.drawable.bookcover2)));
-        bookListModelList.add(new BookListModel("Theory of everything",getResources().getDrawable(R.drawable.bookcover3)));
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -96,14 +81,16 @@ public class ViewAllBooksFragment extends android.support.v4.app.Fragment {
         linearLayoutManager = new LinearLayoutManager(mainActivity);
         recyclerView.setLayoutManager(linearLayoutManager);
         subscribe();
-        /*recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity));
-        viewAllBooksAdapter = new ViewAllBooksAdapter(mainActivity,bookListModelList);
-        recyclerView.setAdapter(viewAllBooksAdapter);*/
+        BookCategory bookCategory = Presenter.getInstance().getModel(BookCategory.class, Constants.BOOK_CATEGORY_ID);
+        if(bookCategory != null) {
+            if(bookCategory.getName() != null) {
+                categoryName.setText(bookCategory.getName());
+            }
+        }
         return view;
     }
 
     public void loadPresenter(){
-
         viewAllBooksPresenter = new ViewAllBooksPresenter(mainActivity.snaphyHelper.getLoopBackAdapter(), mainActivity);
         viewAllBooksPresenter.fetchAllBooks(true);
     }
@@ -145,9 +132,9 @@ public class ViewAllBooksFragment extends android.support.v4.app.Fragment {
     }
 
     @OnClick(R.id.fragment_view_all_books_imageview1) void onBack(){
-
         mainActivity.onBackPressed();
     }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

@@ -7,9 +7,6 @@
     android:background="#f3f3f3"
     android:weightSum="1">
 
-
-
-
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -26,8 +23,17 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/cross_white"
                 android:background="@android:color/transparent"
-                android:layout_alignParentRight="true"
-                android:padding="15dp"/>
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Address"
+                android:layout_toRightOf="@+id/fragment_checkout_imageview1"
+                android:layout_centerVertical="true"
+                android:textColor="@color/white"
+                android:textAllCaps="true"
+                android:paddingLeft="10dp"/>
 
         </RelativeLayout>
 
