@@ -49,7 +49,7 @@ public class PostAnswerFragment extends android.support.v4.app.Fragment {
     MainActivity mainActivity;
     @Bind(R.id.fragment_post_answer_button1)
     Button postButton;
-   public static String FROM;
+    public static String FROM = "";
     Comment comment;
     Post post;
     int position;
@@ -69,9 +69,13 @@ public class PostAnswerFragment extends android.support.v4.app.Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(!PostAnswerFragment.FROM.equals(CaseDetailFragment.TAG)) {
-            Bundle bundle = this.getArguments();
-            position = bundle.getInt("position");
+        try {
+            if (!PostAnswerFragment.FROM.equals(CaseDetailFragment.TAG)) {
+                Bundle bundle = this.getArguments();
+                position = bundle.getInt("position");
+            }
+        } catch(Exception e) {
+            // DO NOTHING
         }
         InputMethodManager imm = (InputMethodManager) mainActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);

@@ -312,10 +312,10 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:id="@+id/fragment_profile_relative_layout1"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp">
+                android:paddingTop="5dp"
+                android:paddingBottom="10dp">
 
-                <Button
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:textAllCaps="false"
