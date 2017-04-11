@@ -138,27 +138,17 @@ public class BookListTestAdapter extends RecyclerView.Adapter<BookListTestAdapte
                 }
             }
 
-
         }
 
-     /*   if (bookListModel != null) {
-            if(bookListModel.getName()!=null){
-                if(!bookListModel.getName().isEmpty()){
-                    bookName.setText(bookListModel.getName().toString());
-                }
-            }
-
-            if(bookListModel.getDrawable()!=null){
-                bookCover.setImageDrawable(bookListModel.getDrawable());
-            }
-        }*/
 
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String bookCategory = Presenter.getInstance().getModel(String.class, Constants.SAVED_BOOKS_DATA);
-                File outFile = new File(Environment.getExternalStorageDirectory() + "/OrthoPg/" + "sample.pdf");
-                File decFile = new File(Environment.getExternalStorageDirectory() + "/OrthoPg/" + "dsample.pdf");
+                String  bookName__ = book.getTitle();
+                bookName__ = bookName__.replace(" ", "");
+                File outFile = new File(Environment.getExternalStorageDirectory() + "/OrthoPg/" + bookName__+".pdf");
+                File decFile = new File(Environment.getExternalStorageDirectory() + "/OrthoPg/" + "d_"+bookName__+".pdf");
                 if(bookCategory!=null){
                     String bookKey = sharedPreferences.getString(bookId,"");
                     String bookIv = sharedPreferences.getString(bookId + "iv","");
@@ -177,7 +167,21 @@ public class BookListTestAdapter extends RecyclerView.Adapter<BookListTestAdapte
                             mBuilder.setContentTitle("PDF Download")
                                     .setContentText("Download in progress")
                                     .setSmallIcon(R.mipmap.ic_launcher);
-                            new DownloadFile().execute("http://www.damtp.cam.ac.uk/user/tong/string/string.pdf", "sample.pdf");
+                            Log.v(Constants.TAG, book+"");
+                            if(book.getUploadBook() != null) {
+                                if(book.getUploadBook().get("url") != null) {
+                                    Map<String, Object> bookHashMap = (Map<String, Object>)book.getUploadBook().get("url");
+                                    if(bookHashMap != null) {
+                                        String bookUnsignedUrl = (String)bookHashMap.get("unSignedUrl");
+                                        Log.v(Constants.TAG, bookUnsignedUrl);
+                                        String  bookName = book.getTitle();
+                                        bookName = bookName.replace(" ", "");
+                                        Presenter.getInstance().addModel(Constants.DOWNLOADED_BOOK_ID, bookName);
+                                        new DownloadFile().execute(bookUnsignedUrl, bookName+".pdf");
+
+                                    }
+                                }
+                            }
                         }
                     } else{
                         //Open the decypted pdf
