@@ -58,6 +58,7 @@ public class MainFragment extends android.support.v4.app.Fragment {
         viewPager.setAdapter(new MainFragmentTabLayoutAdapter(mainActivity.getSupportFragmentManager()));
         tabLayout.setupWithViewPager(viewPager);
         setTextInTabLayout();
+        viewPager.setOffscreenPageLimit(4);
         if(Presenter.getInstance().getModel(Integer.class, Constants.VIEW_PAGER_ID) != null) {
             int selectedTab = Presenter.getInstance().getModel(Integer.class, Constants.VIEW_PAGER_ID);
             viewPager.setCurrentItem(selectedTab);

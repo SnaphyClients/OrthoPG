@@ -488,31 +488,31 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         unsolvedCaseButton.setEnabled(true);
 
         if(trending) {
-            trendingButton.setTextColor(Color.parseColor("#3F51B5"));
+            trendingButton.setTextColor(Color.parseColor("#67c3ad"));
             trendingButton.setEnabled(false);
             isTrendingSelected = true;
         }
 
         if(newCase) {
-            newCaseButton.setTextColor(Color.parseColor("#3F51B5"));
+            newCaseButton.setTextColor(Color.parseColor("#67c3ad"));
             newCaseButton.setEnabled(false);
             isNewSelected = true;
         }
 
         if(unsolved) {
-            unsolvedCaseButton.setTextColor(Color.parseColor("#3F51B5"));
+            unsolvedCaseButton.setTextColor(Color.parseColor("#67c3ad"));
             unsolvedCaseButton.setEnabled(false);
             isUnsolvedSelected = true;
         }
 
         if(saved) {
-            savedCaseButton.setTextColor(Color.parseColor("#3F51B5"));
+            savedCaseButton.setTextColor(Color.parseColor("#67c3ad"));
             savedCaseButton.setEnabled(false);
             isSavedSelected = true;
         }
 
         if(posted) {
-            postedCaseButton.setTextColor(Color.parseColor("#3F51B5"));
+            postedCaseButton.setTextColor(Color.parseColor("#67c3ad"));
             postedCaseButton.setEnabled(false);
             isPostedSelected = true;
         }
