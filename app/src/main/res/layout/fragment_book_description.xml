@@ -44,37 +44,33 @@
         android:layout_marginTop="150dp"
         android:background="@drawable/circle_info_filled"/>
 
-
-    <ImageView
-        android:layout_width="140dp"
-        android:layout_height="170dp"
-        android:adjustViewBounds="true"
-        android:src="@drawable/bookcover1"
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        android:id="@+id/fragment_book_description_imageview2"
-        android:layout_centerHorizontal="true"/>
+        android:id="@+id/fragment_book_description_linearLayout2"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/bookcover1"
+            android:background="@drawable/shadow"
+            android:id="@+id/fragment_book_description_imageview2" />
+
+    </RelativeLayout>
+
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/fragment_book_description_imageview2">
+        android:layout_below="@+id/fragment_book_description_linearLayout2">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/fragment_book_description_relativelayout1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/b_2"
-                android:text="The Human Interface"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="7dp"
-                android:textStyle="bold"
-                android:textSize="21sp"
-                android:id="@+id/fragment_book_description_textview1"
-                android:textColor="@color/primary"/>
 
 
             <TextView
@@ -86,6 +82,7 @@
                 android:background="#fe6969"
                 android:textColor="@color/white"
                 android:padding="10dp"
+                android:textStyle="bold"
                 android:id="@+id/fragment_book_description_button1"
                 android:gravity="center_horizontal"
                 android:layout_marginTop="20dp"/>
@@ -116,7 +113,7 @@
 
                 <Button
                     android:layout_width="wrap_content"
-                    android:layout_height="45dp"
+                    android:layout_height="42dp"
                     android:background="@drawable/curved_rectangle_info_filled"
                     android:text="Ebook @ INR 350"
                     android:textColor="@color/white"
@@ -128,7 +125,7 @@
 
                 <Button
                     android:layout_width="wrap_content"
-                    android:layout_height="45dp"
+                    android:layout_height="42dp"
                     android:background="@drawable/curved_rectangle_info_filled"
                     android:text="Hardcopy @ INR 350"
                     android:textColor="@color/white"
@@ -138,9 +135,7 @@
                     android:id="@+id/fragment_book_description_button4"
                     android:paddingRight="15dp"/>
 
-
             </LinearLayout>
-
 
             <TextView
                 android:layout_width="wrap_content"
@@ -163,8 +158,17 @@
                 android:layout_marginRight="10dp"
                 android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. "/>
 
-
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="The Human Interface"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="3dp"
+                android:id="@+id/fragment_book_description_textview1"
+                android:textColor="@color/primary"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
 
 
         </RelativeLayout>
