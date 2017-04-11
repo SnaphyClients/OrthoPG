@@ -105,6 +105,8 @@ public class ViewAllBooksAdapter extends RecyclerView.Adapter<ViewAllBooksAdapte
             } else{
                 bookDescription.setVisibility(View.GONE);
             }
+
+
         }
 
         /*if(bookListModel!=null){

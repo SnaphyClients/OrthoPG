@@ -29,10 +29,9 @@ public class PDFReaderActivity extends Activity {
         outFile = new File(Environment.getExternalStorageDirectory() + "/OrthoPg/" + "sample.pdf");
         pdfView.fromFile(file)// all pages are displayed by default
                 .enableSwipe(true)
-                .swipeHorizontal(true)
+                .swipeHorizontal(false)
                 .enableDoubletap(true)
                 .defaultPage(0)
-
                 .load();
 
         pdfView.setLayerType(View.LAYER_TYPE_HARDWARE,null);

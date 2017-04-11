@@ -22,6 +22,7 @@ import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
+import com.orthopg.snaphy.orthopg.RecyclerItemClickListener;
 
 import org.w3c.dom.Text;
 
@@ -66,7 +67,7 @@ public class ViewAllBooksFragment extends android.support.v4.app.Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        loadPresenter();
+        //loadPresenter();
     }
 
 
@@ -80,15 +81,38 @@ public class ViewAllBooksFragment extends android.support.v4.app.Fragment {
         setTypeface();
         linearLayoutManager = new LinearLayoutManager(mainActivity);
         recyclerView.setLayoutManager(linearLayoutManager);
-        subscribe();
+        //subscribe();
         BookCategory bookCategory = Presenter.getInstance().getModel(BookCategory.class, Constants.BOOK_CATEGORY_ID);
         if(bookCategory != null) {
             if(bookCategory.getName() != null) {
                 categoryName.setText(bookCategory.getName());
             }
+            setCategoryBooks(bookCategory);
         }
+        viewAllBooksAdapter = new ViewAllBooksAdapter(mainActivity, bookDataList);
+        recyclerView.setAdapter(viewAllBooksAdapter);
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(mainActivity, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Book book = bookDataList.get(position);
+                Presenter.getInstance().addModel(Constants.BOOK_DESCRIPTION_ID,book);
+                mainActivity.replaceFragment(R.layout.fragment_book_description, null);
+            }
+        }));
         return view;
     }
+
+    public void setCategoryBooks(BookCategory bookCategory){
+
+        if(bookCategory.getBooks()!=null){
+           if(bookCategory.getBooks().size()!=0){
+               for(Book book : bookCategory.getBooks()){
+                   bookDataList.add(book);
+               }
+           }
+        }
+    }
+
 
     public void loadPresenter(){
         viewAllBooksPresenter = new ViewAllBooksPresenter(mainActivity.snaphyHelper.getLoopBackAdapter(), mainActivity);

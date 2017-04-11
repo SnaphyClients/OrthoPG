@@ -183,6 +183,7 @@ public class BookListTestAdapter extends RecyclerView.Adapter<BookListTestAdapte
                         //Open the decypted pdf
 
                         try {
+                            mainActivity.startProgressBar(mainActivity.progressBar);
                             FileInputStream enfis = new FileInputStream(outFile);
                             FileOutputStream defos = new FileOutputStream(decFile);
                             Cipher decipher = Cipher.getInstance("AES");
@@ -193,7 +194,6 @@ public class BookListTestAdapter extends RecyclerView.Adapter<BookListTestAdapte
                             SecretKeySpec specKey = new SecretKeySpec(keyArray, "AES");
                             decipher.init(Cipher.DECRYPT_MODE,specKey,new IvParameterSpec(ivArray));
                             CipherOutputStream cos = new CipherOutputStream(defos,decipher);
-                           // mainActivity.startProgressBar(mainActivity.progressBar);
                             while((read = enfis.read())!=-1){
                                 cos.write(read);
                                 cos.flush();
