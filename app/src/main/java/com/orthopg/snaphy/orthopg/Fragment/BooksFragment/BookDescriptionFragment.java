@@ -88,13 +88,14 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
     SharedPreferences sharedPreferences;
     public static byte[] key, iv;
     private static final int  MEGABYTE = 1024 * 1024;
-    @Bind(R.id.fragment_book_description_button3) Button bookDownload;
-    @Bind(R.id.fragment_book_description_button4) Button bookDownload2;
+    @Bind(R.id.fragment_book_description_button3) Button eBookDownload;
+    @Bind(R.id.fragment_book_description_button4) Button hardCopyDownload;
     @Bind(R.id.fragment_view_all_books_textview1) TextView bookHeading;
     @Bind(R.id.fragment_book_description_imageview2) ImageView bookCover;
+    @Bind(R.id.fragment_book_description_cover) ImageView bookCover2;
     @Bind(R.id.fragment_book_description_textview1) TextView bookTitle;
     @Bind(R.id.fragment_book_description_textview7) TextView bookDescription;
-    @Bind(R.id.fragment_book_description_button1) Button downloadSample;
+    @Bind(R.id.fragment_book_description_button1) TextView downloadSample;
     String bookId = "";
     public final static String TAG = "BookDescriptionFragment";
     int read;
@@ -165,6 +166,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
             if(book.getFrontCover()!=null){
                 bookCover.setVisibility(View.VISIBLE);
                 mainActivity.snaphyHelper.loadUnsignedUrl(book.getFrontCover(),bookCover);
+                mainActivity.snaphyHelper.loadUnsignedUrl(book.getFrontCover(), bookCover2);
             } else{
                 bookCover.setVisibility(View.GONE);
             }
@@ -172,12 +174,12 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
             bookIv = sharedPreferences.getString(bookId + "iv", "");
 
                /* if(bookKey.isEmpty() || bookIv.isEmpty()) {
-                    bookDownload2.setText("Download");
+                    hardCopyDownload.setText("Download");
                 } else{
-                    bookDownload2.setText("View");
+                    hardCopyDownload.setText("View");
                 }*/
             } /*else if(!bookKey.isEmpty() && !bookIv.isEmpty()&& outFile.exists()){
-                bookDownload2.setText("View");
+                hardCopyDownload.setText("View");
             }*/
     }
 
@@ -227,12 +229,12 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
     @OnClick(R.id.fragment_book_description_button4) void onHardCopyBuy(){
         //Check Internet Connection
         if(!mainActivity.snaphyHelper.isNetworkAvailable()){
-            Snackbar.make(bookDownload2,"No Network Connection! Check Internet Connection and try again", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(hardCopyDownload,"No Network Connection! Check Internet Connection and try again", Snackbar.LENGTH_SHORT).show();
         }
-       /* if(bookDownload2.getText().toString().equals("Download")) {
+       /* if(hardCopyDownload.getText().toString().equals("Download")) {
             new DownloadFile().execute("http://www.damtp.cam.ac.uk/user/tong/string/string.pdf","sample.pdf");
         }
-        else if(bookDownload2.getText().toString().equals("View")){
+        else if(hardCopyDownload.getText().toString().equals("View")){
             try {
                 FileInputStream enfis = new FileInputStream(outFile);
                 FileOutputStream defos = new FileOutputStream(decFile);
@@ -319,7 +321,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
             editor.putString(bookId + "iv", byteIv);
             editor.commit();
 
-            bookDownload2.setText("View");
+            hardCopyDownload.setText("View");
         }
     }
 
@@ -390,7 +392,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
     @OnClick(R.id.fragment_book_description_button3) void onEbookBuy(){
         //No network Connection
         if(!mainActivity.snaphyHelper.isNetworkAvailable()){
-            Snackbar.make(bookDownload,"No Network Connection! Check Internet Connection and try again", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(eBookDownload,"No Network Connection! Check Internet Connection and try again", Snackbar.LENGTH_SHORT).show();
         } else {
             mainActivity.replaceFragment(R.layout.fragment_checkout, null);
         }

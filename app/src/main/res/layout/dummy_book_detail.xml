@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="@color/background">
+    
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:src="@drawable/bookcover1"
+        android:scaleType="centerCrop"
+        android:alpha="0.3"
+        android:id="@+id/b_1"
+        android:background="@color/headingColor"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/cross"
+        android:id="@+id/b_7"
+        android:padding="5dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/b_7"
+        android:text="The Human Interface"
+        android:layout_marginTop="20dp"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
+
+    <ImageView
+        android:layout_width="140dp"
+        android:layout_height="170dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/bookcover1"
+        android:layout_marginTop="100dp"
+        android:id="@+id/b_2"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/b_2"
+        android:text="The Human Interface"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="7dp"
+        android:textStyle="bold"
+        android:textSize="21sp"
+        android:id="@+id/b_3"
+        android:textColor="@color/primary"/>
+
+    <TextView
+    android:layout_width="220dp"
+    android:layout_height="40dp"
+    android:layout_below="@+id/b_3"
+    android:layout_alignParentRight="true"
+    android:text="Download Sample"
+    android:background="#fe6969"
+    android:textColor="@color/white"
+    android:padding="10dp"
+    android:id="@+id/b_4"
+    android:gravity="center_horizontal"
+    android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/b_3"
+        android:layout_alignParentRight="true"
+        android:background="@color/background"
+        android:layout_marginTop="20dp"
+        android:rotation="45"
+        android:layout_marginRight="190dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/b_4"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:id="@+id/b_5">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:background="@drawable/curved_rectangle_info_filled"
+            android:text="Ebook @ INR 350"
+            android:textColor="@color/white"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:textAllCaps="false"
+            android:layout_marginRight="10dp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:background="@drawable/curved_rectangle_info_filled"
+            android:text="Hardcopy @ INR 350"
+            android:textColor="@color/white"
+            android:paddingLeft="15dp"
+            android:textAllCaps="false"
+            android:layout_marginLeft="10dp"
+            android:paddingRight="15dp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/b_5"
+        android:id="@+id/b_6"
+        android:text="Description"
+        android:textStyle="bold"
+        android:layout_marginTop="15dp"
+        android:textColor="#555"
+        android:layout_marginLeft="15dp"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/b_6"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. "/>
+
+</RelativeLayout>
