@@ -68,6 +68,13 @@ import com.androidsdk.snaphy.snaphyandroidsdk.db.BookDb;
         
     
 
+    
+            import com.androidsdk.snaphy.snaphyandroidsdk.models.BookDetail;
+            import com.androidsdk.snaphy.snaphyandroidsdk.repository.BookDetailRepository;
+            
+        
+    
+
 
 
 
@@ -209,6 +216,42 @@ public class BookRepository extends ModelRepository<Book> {
 
     
     contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:bookId/orders/:fk", "PUT"), "Book.prototype.__updateById__orders");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:bookId/bookDetails", "GET"), "Book.prototype.__get__bookDetails");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:bookId/bookDetails", "POST"), "Book.prototype.__create__bookDetails");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:bookId/bookDetails", "PUT"), "Book.prototype.__update__bookDetails");
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/:bookId/bookDetails", "DELETE"), "Book.prototype.__destroy__bookDetails");
     
 
     
@@ -401,6 +444,18 @@ public class BookRepository extends ModelRepository<Book> {
 
     
     contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/getAbsoluteSchema", "POST"), "Book.getAbsoluteSchema");
+    
+
+    
+    
+
+    
+    
+
+    
+
+    
+    contract.addItem(new RestContractItem("/" + getNameForRestUrl() + "/fetchBookDetail", "POST"), "Book.fetchBookDetail");
     
 
     
@@ -979,6 +1034,307 @@ public class BookRepository extends ModelRepository<Book> {
                 
 
             }//Method updateById__orders definition ends here..
+
+            
+
+        
+    
+        
+            //Method get__bookDetails definition
+            public void get__bookDetails(  String bookId,  Boolean refresh, final ObjectCallback<BookDetail> callback){
+
+                /**
+                Call the onBefore event
+                */
+                callback.onBefore();
+
+
+                //Definging hashMap for data conversion
+                Map<String, Object> hashMapObject = new HashMap<>();
+                //Now add the arguments...
+                
+                        hashMapObject.put("bookId", bookId);
+                
+                        hashMapObject.put("refresh", refresh);
+                
+
+                
+
+
+                
+                    
+                    
+                    invokeStaticMethod("prototype.__get__bookDetails", hashMapObject, new Adapter.JsonObjectCallback() {
+                    
+                        @Override
+                        public void onError(Throwable t) {
+                            callback.onError(t);
+                            //Call the finally method..
+                            callback.onFinally();
+                        }
+
+                        @Override
+                        public void onSuccess(JSONObject response) {
+                            
+                                if(response != null){
+                                    BookDetailRepository bookDetailRepo = getRestAdapter().createRepository(BookDetailRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = bookDetailRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(bookDetailRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //bookDetailRepo.addStorage(context);
+                                    }
+                                    Map<String, Object> result = Util.fromJson(response);
+                                    BookDetail bookDetail = bookDetailRepo.createObject(result);
+
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = bookDetail.getClass().getMethod("save__db");
+                                                    method.invoke(bookDetail);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(bookDetail);
+                                }else{
+                                    callback.onSuccess(null);
+                                }
+                            
+                            //Call the finally method..
+                            callback.onFinally();
+                        }
+                    });
+                
+
+                
+
+            }//Method get__bookDetails definition ends here..
+
+            
+
+        
+    
+        
+            //Method create__bookDetails definition
+            public void create__bookDetails(  String bookId,  Map<String,  ? extends Object> data, final ObjectCallback<BookDetail> callback){
+
+                /**
+                Call the onBefore event
+                */
+                callback.onBefore();
+
+
+                //Definging hashMap for data conversion
+                Map<String, Object> hashMapObject = new HashMap<>();
+                //Now add the arguments...
+                
+                        hashMapObject.put("bookId", bookId);
+                
+                        hashMapObject.putAll(data);
+                
+
+                
+
+
+                
+                    
+                    
+                    invokeStaticMethod("prototype.__create__bookDetails", hashMapObject, new Adapter.JsonObjectCallback() {
+                    
+                        @Override
+                        public void onError(Throwable t) {
+                            callback.onError(t);
+                            //Call the finally method..
+                            callback.onFinally();
+                        }
+
+                        @Override
+                        public void onSuccess(JSONObject response) {
+                            
+                                if(response != null){
+                                    BookDetailRepository bookDetailRepo = getRestAdapter().createRepository(BookDetailRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = bookDetailRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(bookDetailRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //bookDetailRepo.addStorage(context);
+                                    }
+                                    Map<String, Object> result = Util.fromJson(response);
+                                    BookDetail bookDetail = bookDetailRepo.createObject(result);
+
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = bookDetail.getClass().getMethod("save__db");
+                                                    method.invoke(bookDetail);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(bookDetail);
+                                }else{
+                                    callback.onSuccess(null);
+                                }
+                            
+                            //Call the finally method..
+                            callback.onFinally();
+                        }
+                    });
+                
+
+                
+
+            }//Method create__bookDetails definition ends here..
+
+            
+
+        
+    
+        
+            //Method update__bookDetails definition
+            public void update__bookDetails(  String bookId,  Map<String,  ? extends Object> data, final ObjectCallback<BookDetail> callback){
+
+                /**
+                Call the onBefore event
+                */
+                callback.onBefore();
+
+
+                //Definging hashMap for data conversion
+                Map<String, Object> hashMapObject = new HashMap<>();
+                //Now add the arguments...
+                
+                        hashMapObject.put("bookId", bookId);
+                
+                        hashMapObject.putAll(data);
+                
+
+                
+
+
+                
+                    
+                    
+                    invokeStaticMethod("prototype.__update__bookDetails", hashMapObject, new Adapter.JsonObjectCallback() {
+                    
+                        @Override
+                        public void onError(Throwable t) {
+                            callback.onError(t);
+                            //Call the finally method..
+                            callback.onFinally();
+                        }
+
+                        @Override
+                        public void onSuccess(JSONObject response) {
+                            
+                                if(response != null){
+                                    BookDetailRepository bookDetailRepo = getRestAdapter().createRepository(BookDetailRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = bookDetailRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(bookDetailRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //bookDetailRepo.addStorage(context);
+                                    }
+                                    Map<String, Object> result = Util.fromJson(response);
+                                    BookDetail bookDetail = bookDetailRepo.createObject(result);
+
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = bookDetail.getClass().getMethod("save__db");
+                                                    method.invoke(bookDetail);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(bookDetail);
+                                }else{
+                                    callback.onSuccess(null);
+                                }
+                            
+                            //Call the finally method..
+                            callback.onFinally();
+                        }
+                    });
+                
+
+                
+
+            }//Method update__bookDetails definition ends here..
+
+            
+
+        
+    
+        
+            //Method destroy__bookDetails definition
+            public void destroy__bookDetails(  String bookId, final VoidCallback callback){
+
+                /**
+                Call the onBefore event
+                */
+                callback.onBefore();
+
+
+                //Definging hashMap for data conversion
+                Map<String, Object> hashMapObject = new HashMap<>();
+                //Now add the arguments...
+                
+                        hashMapObject.put("bookId", bookId);
+                
+
+                
+                    invokeStaticMethod("prototype.__destroy__bookDetails", hashMapObject, new Adapter.Callback() {
+                        @Override
+                        public void onError(Throwable t) {
+                                callback.onError(t);
+                                //Call the finally method..
+                                callback.onFinally();
+                        }
+
+                        @Override
+                        public void onSuccess(String response) {
+                            callback.onSuccess();
+                            //Call the finally method..
+                            callback.onFinally();
+                        }
+                    });
+                
+
+
+                
+
+                
+
+            }//Method destroy__bookDetails definition ends here..
 
             
 
@@ -2326,6 +2682,91 @@ public class BookRepository extends ModelRepository<Book> {
                 
 
             }//Method getAbsoluteSchema definition ends here..
+
+            
+
+        
+    
+        
+    
+        
+            //Method fetchBookDetail definition
+            public void fetchBookDetail(  String bookId, final ObjectCallback<BookDetail> callback){
+
+                /**
+                Call the onBefore event
+                */
+                callback.onBefore();
+
+
+                //Definging hashMap for data conversion
+                Map<String, Object> hashMapObject = new HashMap<>();
+                //Now add the arguments...
+                
+                        hashMapObject.put("bookId", bookId);
+                
+
+                
+
+
+                
+                    
+                    
+                    invokeStaticMethod("fetchBookDetail", hashMapObject, new Adapter.JsonObjectCallback() {
+                    
+                        @Override
+                        public void onError(Throwable t) {
+                            callback.onError(t);
+                            //Call the finally method..
+                            callback.onFinally();
+                        }
+
+                        @Override
+                        public void onSuccess(JSONObject response) {
+                            
+                                if(response != null){
+                                    BookDetailRepository bookDetailRepo = getRestAdapter().createRepository(BookDetailRepository.class);
+                                    if(context != null){
+                                        try {
+                                            Method method = bookDetailRepo.getClass().getMethod("addStorage", Context.class);
+                                            method.invoke(bookDetailRepo, context);
+
+                                        } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                        }
+
+                                        //bookDetailRepo.addStorage(context);
+                                    }
+                                    Map<String, Object> result = Util.fromJson(response);
+                                    BookDetail bookDetail = bookDetailRepo.createObject(result);
+
+                                      //Add to database if persistent storage required..
+                                      if(isSTORE_LOCALLY()){
+                                          //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
+                                          try {
+                                                    Method method = bookDetail.getClass().getMethod("save__db");
+                                                    method.invoke(bookDetail);
+
+                                          } catch (Exception e) {
+                                            Log.e("Database Error", e.toString());
+                                          }
+
+                                      }
+
+                                    callback.onSuccess(bookDetail);
+                                }else{
+                                    callback.onSuccess(null);
+                                }
+                            
+                            //Call the finally method..
+                            callback.onFinally();
+                        }
+                    });
+                
+
+                
+
+            }//Method fetchBookDetail definition ends here..
 
             
 

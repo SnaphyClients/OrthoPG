@@ -226,30 +226,33 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
     }
 
     @OnClick(R.id.fragment_verification_button1) void requestOTP() {
-        if(isPhoneValidate(mobileNumber.getText().toString())) {
-            phoneNumber = mobileNumber.getText().toString();
-            requestOTPFromServer(mobileNumber.getText().toString());
-            setCountDown();
-            enableOkButton(true);
-            enableGoButton(false);
-            //View view1 = mainActivity.getCurrentFocus();
-            otpCode.setFocusable(true);
-            mainActivity.hideSoftKeyboard(otpCode);
+        if(!mainActivity.snaphyHelper.isNetworkAvailable()){
+            Snackbar.make(goButton, "Check your network connection and try again!!", Snackbar.LENGTH_SHORT).show();
+        } else {
+            if (isPhoneValidate(mobileNumber.getText().toString())) {
+                phoneNumber = mobileNumber.getText().toString();
+                requestOTPFromServer(mobileNumber.getText().toString());
+                setCountDown();
+                enableOkButton(true);
+                enableGoButton(false);
+                //View view1 = mainActivity.getCurrentFocus();
+                otpCode.setFocusable(true);
+                mainActivity.hideSoftKeyboard(otpCode);
             /*if (view1 != null) {
                 InputMethodManager imm = (InputMethodManager)mainActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(view1.getWindowToken(), 0);
             }*/
 
 
-
-        } else {
-            View view1 = mainActivity.getCurrentFocus();
-            if (view1 != null) {
-                InputMethodManager imm = (InputMethodManager)mainActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(view1.getWindowToken(), 0);
-            }
-            if(rootview != null) {
-                Snackbar.make(rootview, "Enter Valid Mobile Number", Snackbar.LENGTH_SHORT).show();
+            } else {
+                View view1 = mainActivity.getCurrentFocus();
+                if (view1 != null) {
+                    InputMethodManager imm = (InputMethodManager) mainActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view1.getWindowToken(), 0);
+                }
+                if (rootview != null) {
+                    Snackbar.make(rootview, "Enter Valid Mobile Number", Snackbar.LENGTH_SHORT).show();
+                }
             }
         }
     }
@@ -267,6 +270,8 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
                         }
                     }
                     LoginToGoogle(otpCode.getText().toString(), phoneNumber);
+                    okButton.requestFocus();
+                    mainActivity.hideSoftKeyboard(okButton);
                 }
             } else {
                 TastyToast.makeText(mainActivity.getApplicationContext(), Constants.OTP, TastyToast.LENGTH_SHORT, TastyToast.ERROR);

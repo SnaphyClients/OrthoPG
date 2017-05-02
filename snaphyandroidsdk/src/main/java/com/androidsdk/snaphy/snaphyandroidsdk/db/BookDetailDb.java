@@ -17,16 +17,16 @@ import android.util.Log;
 import java.util.Map;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 
-import com.androidsdk.snaphy.snaphyandroidsdk.models.Comment;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.BookDetail;
 //Import self repository..
-import com.androidsdk.snaphy.snaphyandroidsdk.repository.CommentRepository;
+import com.androidsdk.snaphy.snaphyandroidsdk.repository.BookDetailRepository;
 import com.strongloop.android.loopback.RestAdapter;
 
 /**
 * Created by snaphy on 1/2/2017.
 */
 
-public class CommentDb{
+public class BookDetailDb{
 
     // All Static variables
     RestAdapter restAdapter;
@@ -41,25 +41,25 @@ public class CommentDb{
     // Contacts table name
     private static String TABLE;
 
-  public CommentDb(Context context, String DATABASE_NAME, RestAdapter restAdapter){
+  public BookDetailDb(Context context, String DATABASE_NAME, RestAdapter restAdapter){
     //super(context, DATABASE_NAME, null, DATABASE_VERSION);
     this.context = context;
     this.restAdapter = restAdapter;
-    TABLE = "Comment";
+    TABLE = "BookDetail";
     this.DATABASE_NAME = DATABASE_NAME;
     SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
     DbHandler.getInstance(context, DATABASE_NAME).onCreate(db);
   }
 
 
-    public void insert__db (final String id, final Comment modelData) {
+    public void insert__db (final String id, final BookDetail modelData) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
                 // Inserting Row
                 ContentValues values = getContentValues(modelData);
-                db.insert("`Comment`", null, values);
+                db.insert("`BookDetail`", null, values);
                 //db.close(); // Closing database connection
             }
         }).start();
@@ -70,20 +70,23 @@ public class CommentDb{
 
 
 
-    public ContentValues getContentValues(Comment modelData){
+    public ContentValues getContentValues(BookDetail modelData){
       ContentValues values = new ContentValues();
                        
-                                                            String answerData = "";
-                        if(modelData.getAnswer() != null){
-                          answerData = modelData.getAnswer().toString();
-                          values.put("`answer`", answerData);
+                                                            String bookPdfData = "";
+                        if(modelData.getBookPdf() != null){
+                          GsonBuilder gsonBuilder = new GsonBuilder();
+                          gsonBuilder.setLongSerializationPolicy(LongSerializationPolicy.STRING);
+                          Gson gson = gsonBuilder.create();
+                          bookPdfData = gson.toJson(modelData.getBookPdf(), HashMap.class);
+                          values.put("`bookPdf`", bookPdfData);
                         }
                                   
                                 
-                                                            String statusData = "";
-                        if(modelData.getStatus() != null){
-                          statusData = modelData.getStatus().toString();
-                          values.put("`status`", statusData);
+                                                            String addedData = "";
+                        if(modelData.getAdded() != null){
+                          addedData = modelData.getAdded().toString();
+                          values.put("`added`", addedData);
                         }
                                   
                                 
@@ -103,28 +106,13 @@ public class CommentDb{
                                   
                                 
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
-                        String postIdData = "";
+                        String bookIdData = "";
                         try {
-                              Method method = modelData.getClass().getMethod("getPostId");
+                              Method method = modelData.getClass().getMethod("getBookId");
                               if(method.invoke(modelData) != null){
-                                //postIdData = modelData.getPostId().toString();
-                                postIdData = (String) method.invoke(modelData);
-                                values.put("`postId`", postIdData);
-                              }
-                        } catch (Exception e) {
-                          Log.e("Database Error", e.toString());
-                        }
-
-                                  
-                                
-                                                            //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
-                        String customerIdData = "";
-                        try {
-                              Method method = modelData.getClass().getMethod("getCustomerId");
-                              if(method.invoke(modelData) != null){
-                                //customerIdData = modelData.getCustomerId().toString();
-                                customerIdData = (String) method.invoke(modelData);
-                                values.put("`customerId`", customerIdData);
+                                //bookIdData = modelData.getBookId().toString();
+                                bookIdData = (String) method.invoke(modelData);
+                                values.put("`bookId`", bookIdData);
                               }
                         } catch (Exception e) {
                           Log.e("Database Error", e.toString());
@@ -134,42 +122,6 @@ public class CommentDb{
                   
         
           
-                    String commentDetailIdData = "";
-                    try {
-                        Method method = modelData.getClass().getMethod("getCommentDetailId");
-                        if(method.invoke(modelData) != null){
-                          //commentDetailIdData = modelData.getCommentDetailId().toString();
-                          commentDetailIdData = (String) method.invoke(modelData);
-                          values.put("`commentDetailId`", commentDetailIdData);
-                        }
-                    } catch (Exception e) {
-                      Log.e("Database Error", e.toString());
-                    }
-          
-                    String postSubscriberIdData = "";
-                    try {
-                        Method method = modelData.getClass().getMethod("getPostSubscriberId");
-                        if(method.invoke(modelData) != null){
-                          //postSubscriberIdData = modelData.getPostSubscriberId().toString();
-                          postSubscriberIdData = (String) method.invoke(modelData);
-                          values.put("`postSubscriberId`", postSubscriberIdData);
-                        }
-                    } catch (Exception e) {
-                      Log.e("Database Error", e.toString());
-                    }
-          
-                    String postDetailIdData = "";
-                    try {
-                        Method method = modelData.getClass().getMethod("getPostDetailId");
-                        if(method.invoke(modelData) != null){
-                          //postDetailIdData = modelData.getPostDetailId().toString();
-                          postDetailIdData = (String) method.invoke(modelData);
-                          values.put("`postDetailId`", postDetailIdData);
-                        }
-                    } catch (Exception e) {
-                      Log.e("Database Error", e.toString());
-                    }
-          
         //Add the updated data property value to be 1
         values.put("`_DATA_UPDATED`", 1);
         return values;
@@ -178,10 +130,10 @@ public class CommentDb{
 
 
     // Getting single c
-    public   Comment get__db(String id) {
+    public   BookDetail get__db(String id) {
         if (id != null) {
             SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getReadableDatabase();
-            Cursor cursor = db.query("Comment", null, "id=?", new String[]{id}, null, null, null, null);
+            Cursor cursor = db.query("BookDetail", null, "id=?", new String[]{id}, null, null, null, null);
             if (cursor != null) {
                 if (!cursor.moveToFirst() || cursor.getCount() == 0){
                     return null;
@@ -190,9 +142,9 @@ public class CommentDb{
                     cursor.close();
                     //db.close(); // Closing database connection
                     if (hashMap != null) {
-                        CommentRepository repo = restAdapter.createRepository(CommentRepository.class);
+                        BookDetailRepository repo = restAdapter.createRepository(BookDetailRepository.class);
                         repo.addStorage(context);
-                        return (Comment)repo.createObject(hashMap);
+                        return (BookDetail)repo.createObject(hashMap);
                     } else {
                         return null;
                     }
@@ -211,10 +163,10 @@ public class CommentDb{
 
 
     // Getting single cont
-    public   Comment get__db(String whereKey, String whereKeyValue) {
+    public   BookDetail get__db(String whereKey, String whereKeyValue) {
         if (whereKeyValue != null) {
             SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getReadableDatabase();
-            Cursor cursor = db.query("`Comment`", null, "`" + whereKey + "` =?", new String[]{whereKeyValue}, null, null, null, null);
+            Cursor cursor = db.query("`BookDetail`", null, "`" + whereKey + "` =?", new String[]{whereKeyValue}, null, null, null, null);
             if (cursor != null) {
                 if (!cursor.moveToFirst() || cursor.getCount() == 0){
                     return null;
@@ -225,9 +177,9 @@ public class CommentDb{
                     //db.close(); // Closing database connection
 
                     if (hashMap != null) {
-                        CommentRepository repo = restAdapter.createRepository(CommentRepository.class);
+                        BookDetailRepository repo = restAdapter.createRepository(BookDetailRepository.class);
                         repo.addStorage(context);
-                        return (Comment)repo.createObject(hashMap);
+                        return (BookDetail)repo.createObject(hashMap);
                     } else {
                         return null;
                     }
@@ -249,22 +201,25 @@ public class CommentDb{
       HashMap<String, Object> hashMap = new HashMap<>();
 
                       
-                                                            String answerData = "";
+                                                            Map<String, Object> bookPdfData = new HashMap<>();
                         if(cursor.getString(0) != null){
-                          answerData = cursor.getString(0);
-                          if(answerData != null){
-                            answerData = (String)answerData;
-                            hashMap.put("answer", answerData);
+                          GsonBuilder gsonBuilder = new GsonBuilder();
+                          gsonBuilder.setLongSerializationPolicy(LongSerializationPolicy.STRING);
+                          Gson gson = gsonBuilder.create();
+                           bookPdfData = gson.fromJson(cursor.getString(0), Map.class);
+                          if(bookPdfData != null){
+                            bookPdfData = (Map<String, Object>)bookPdfData;
+                            hashMap.put("bookPdf", bookPdfData);
                           }
                         }
                                                 
                                 
-                                                            String statusData = "";
+                                                            String addedData = "";
                         if(cursor.getString(1) != null){
-                          statusData = cursor.getString(1);
-                          if(statusData != null){
-                            statusData = (String)statusData;
-                            hashMap.put("status", statusData);
+                          addedData = cursor.getString(1);
+                          if(addedData != null){
+                            addedData = (String)addedData;
+                            hashMap.put("added", addedData);
                           }
                         }
                                                 
@@ -279,72 +234,17 @@ public class CommentDb{
                         }
                                                 
                                 
-                                                            String postIdData = "";
+                                                            String bookIdData = "";
                         if(cursor.getString(3) != null){
-                          postIdData = cursor.getString(3);
-                          if(postIdData != null){
-                            postIdData = postIdData.toString();
-                            hashMap.put("postId", postIdData);
-                          }
-                        }
-                                                
-                                
-                                                            String customerIdData = "";
-                        if(cursor.getString(4) != null){
-                          customerIdData = cursor.getString(4);
-                          if(customerIdData != null){
-                            customerIdData = customerIdData.toString();
-                            hashMap.put("customerId", customerIdData);
+                          bookIdData = cursor.getString(3);
+                          if(bookIdData != null){
+                            bookIdData = bookIdData.toString();
+                            hashMap.put("bookId", bookIdData);
                           }
                         }
                                                 
                   //End for loop
          
-          
-                    String commentDetailIdData = "";
-                    int commentDetailIdindex = cursor.getColumnIndex("commentDetailId");
-                    if(commentDetailIdindex >= 0){
-
-                        if(cursor.getString(commentDetailIdindex) != null){
-                          commentDetailIdData = cursor.getString(commentDetailIdindex);
-                          if(commentDetailIdData != null){
-                            commentDetailIdData = commentDetailIdData.toString();
-                            hashMap.put("commentDetailId", commentDetailIdData);
-                          }
-                        }
-
-                    }
-
-          
-                    String postSubscriberIdData = "";
-                    int postSubscriberIdindex = cursor.getColumnIndex("postSubscriberId");
-                    if(postSubscriberIdindex >= 0){
-
-                        if(cursor.getString(postSubscriberIdindex) != null){
-                          postSubscriberIdData = cursor.getString(postSubscriberIdindex);
-                          if(postSubscriberIdData != null){
-                            postSubscriberIdData = postSubscriberIdData.toString();
-                            hashMap.put("postSubscriberId", postSubscriberIdData);
-                          }
-                        }
-
-                    }
-
-          
-                    String postDetailIdData = "";
-                    int postDetailIdindex = cursor.getColumnIndex("postDetailId");
-                    if(postDetailIdindex >= 0){
-
-                        if(cursor.getString(postDetailIdindex) != null){
-                          postDetailIdData = cursor.getString(postDetailIdindex);
-                          if(postDetailIdData != null){
-                            postDetailIdData = postDetailIdData.toString();
-                            hashMap.put("postDetailId", postDetailIdData);
-                          }
-                        }
-
-                    }
-
           
 
         return hashMap;
@@ -352,7 +252,7 @@ public class CommentDb{
 
 
 
-    public void upsert__db(String id, Comment model){
+    public void upsert__db(String id, BookDetail model){
         if(count__db(id) != 0){
             update__db(id, model);
         }else{
@@ -363,25 +263,25 @@ public class CommentDb{
 
 
     // Getting All Contacts
-    public DataList<Comment>  getAll__db() {
-        DataList<Comment> modelList = new DataList<Comment>();
+    public DataList<BookDetail>  getAll__db() {
+        DataList<BookDetail> modelList = new DataList<BookDetail>();
         // Select All Query
-        String selectQuery = "SELECT  * FROM `Comment`";
+        String selectQuery = "SELECT  * FROM `BookDetail`";
 
         SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getReadableDatabase();
         //http://www.tothenew.com/blog/sqlite-locking-and-transaction-handling-in-android/
         db.beginTransaction();
         Cursor cursor = db.rawQuery(selectQuery, null);
         if (!cursor.moveToFirst() || cursor.getCount() == 0){
-            return (DataList<Comment>) modelList;
+            return (DataList<BookDetail>) modelList;
         }else{
             do {
 
                 HashMap<String, Object> hashMap = parseCursor(cursor);
                 if(hashMap != null){
-                    CommentRepository repo = restAdapter.createRepository(CommentRepository.class);
+                    BookDetailRepository repo = restAdapter.createRepository(BookDetailRepository.class);
                     repo.addStorage(context);
-                    modelList.add((Comment)repo.createObject(hashMap));
+                    modelList.add((BookDetail)repo.createObject(hashMap));
                 }
             } while (cursor.moveToNext());
         }
@@ -390,7 +290,7 @@ public class CommentDb{
         cursor.close();
         //db.close();
         // return contact list
-        return (DataList<Comment>) modelList;
+        return (DataList<BookDetail>) modelList;
     }
 
 
@@ -491,19 +391,19 @@ public class CommentDb{
 
 
     // Getting All Data where
-    public DataList<Comment>  getAll__db(HashMap<String, Object> whereKeyValue) {
+    public DataList<BookDetail>  getAll__db(HashMap<String, Object> whereKeyValue) {
         return getAll__db(whereKeyValue, null, 0);
     }
 
 
 
     // Getting All Data where and sort column according to date wise..
-    public DataList<Comment>  getAll__db(HashMap<String, Object> whereKeyValue, String orderBy, int limit) {
-        DataList<Comment> modelList = new DataList<Comment>();
+    public DataList<BookDetail>  getAll__db(HashMap<String, Object> whereKeyValue, String orderBy, int limit) {
+        DataList<BookDetail> modelList = new DataList<BookDetail>();
         String whereQuery = getWhereQuery(whereKeyValue);
         String selectQuery;
         if(orderBy != null){
-            selectQuery = "SELECT  * FROM `Comment` " + whereQuery  + " ORDER BY " + orderBy ;
+            selectQuery = "SELECT  * FROM `BookDetail` " + whereQuery  + " ORDER BY " + orderBy ;
             if(limit != 0){
                 // Select All Query
                 selectQuery = selectQuery +  " " + " LIMIT " + limit;
@@ -511,9 +411,9 @@ public class CommentDb{
         }else{
             if(limit != 0){
                 // Select All Query
-                selectQuery = "SELECT  * FROM Comment " + whereQuery + " LIMIT " + limit;
+                selectQuery = "SELECT  * FROM BookDetail " + whereQuery + " LIMIT " + limit;
             }else{
-                selectQuery = "SELECT  * FROM Comment " + whereQuery;
+                selectQuery = "SELECT  * FROM BookDetail " + whereQuery;
             }
         }
 
@@ -524,15 +424,15 @@ public class CommentDb{
 
         // looping through all rows and adding to list
          if (!cursor.moveToFirst() || cursor.getCount() == 0){
-            return (DataList<Comment>) modelList;
+            return (DataList<BookDetail>) modelList;
          }else{
             do {
 
                 HashMap<String, Object> hashMap = parseCursor(cursor);
                 if(hashMap != null){
-                    CommentRepository repo = restAdapter.createRepository(CommentRepository.class);
+                    BookDetailRepository repo = restAdapter.createRepository(BookDetailRepository.class);
                     repo.addStorage(context);
-                    modelList.add((Comment)repo.createObject(hashMap));
+                    modelList.add((BookDetail)repo.createObject(hashMap));
                 }
             } while (cursor.moveToNext());
          }
@@ -542,12 +442,12 @@ public class CommentDb{
         cursor.close();
         //db.close();
         // return contact list
-        return (DataList<Comment>) modelList;
+        return (DataList<BookDetail>) modelList;
     }
 
 
     // Getting All Data where
-    public DataList<Comment>  getAll__db(HashMap<String, Object> whereKeyValue, int limit) {
+    public DataList<BookDetail>  getAll__db(HashMap<String, Object> whereKeyValue, int limit) {
         return getAll__db(whereKeyValue, null,  limit);
     }
 
@@ -566,7 +466,7 @@ public class CommentDb{
         String whereQuery = getWhereQuery(whereKeyValue);
         String countQuery;
         if(orderBy != null){
-            countQuery = "SELECT  * FROM `Comment` " + whereQuery  + " ORDER BY " + orderBy ;
+            countQuery = "SELECT  * FROM `BookDetail` " + whereQuery  + " ORDER BY " + orderBy ;
             if(limit != 0){
                 // Select All Query
                 countQuery = countQuery +  " " + " LIMIT " + limit;
@@ -574,9 +474,9 @@ public class CommentDb{
         }else{
             if(limit != 0){
                 // Select All Query
-                countQuery = "SELECT  * FROM `Comment` " + whereQuery + " LIMIT " + limit;
+                countQuery = "SELECT  * FROM `BookDetail` " + whereQuery + " LIMIT " + limit;
             }else{
-                countQuery = "SELECT  * FROM `Comment` " + whereQuery;
+                countQuery = "SELECT  * FROM `BookDetail` " + whereQuery;
             }
         }
 
@@ -599,9 +499,9 @@ public class CommentDb{
         String whereQuery = getWhereQuery(whereKeyValue);
         String countQuery;
         if(limit != 0){
-            countQuery = "SELECT  * FROM `Comment` " + whereQuery + " LIMIT " + limit;
+            countQuery = "SELECT  * FROM `BookDetail` " + whereQuery + " LIMIT " + limit;
         }else{
-            countQuery = "SELECT  * FROM `Comment` " + whereQuery;
+            countQuery = "SELECT  * FROM `BookDetail` " + whereQuery;
         }
 
         SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getReadableDatabase();
@@ -634,7 +534,7 @@ public class CommentDb{
                 values.put("_DATA_UPDATED", 0);
                 String where = getWhere(whereKeyValue);
                 // updating row
-                db.update("`Comment`", values, "_DATA_UPDATED = 1 AND " + where, null);
+                db.update("`BookDetail`", values, "_DATA_UPDATED = 1 AND " + where, null);
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();
@@ -652,7 +552,7 @@ public class CommentDb{
                 SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
                 db.beginTransaction();
                 String where = getWhere(whereKeyValue);
-                db.delete("`Comment`", "_DATA_UPDATED = 0 AND " + where , null);
+                db.delete("`BookDetail`", "_DATA_UPDATED = 0 AND " + where , null);
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();
@@ -673,7 +573,7 @@ public class CommentDb{
                 SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
                 db.beginTransaction();
                 String where = getWhere(whereKeyValue);
-                db.delete("`Comment`", where , null);
+                db.delete("`BookDetail`", where , null);
                 db.setTransactionSuccessful();
                 db.endTransaction();
             }
@@ -687,10 +587,10 @@ public class CommentDb{
 
 
     // Getting All Data where
-    public DataList<Comment>  getAll__db(String whereKey, String whereKeyValue) {
-        DataList<Comment> modelList = new DataList<Comment>();
+    public DataList<BookDetail>  getAll__db(String whereKey, String whereKeyValue) {
+        DataList<BookDetail> modelList = new DataList<BookDetail>();
         // Select All Query
-        String selectQuery = "SELECT  * FROM `Comment` WHERE `" + whereKey +"` ='"+ whereKeyValue + "'" ;
+        String selectQuery = "SELECT  * FROM `BookDetail` WHERE `" + whereKey +"` ='"+ whereKeyValue + "'" ;
 
         SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getReadableDatabase();
         //http://www.tothenew.com/blog/sqlite-locking-and-transaction-handling-in-android/
@@ -699,15 +599,15 @@ public class CommentDb{
 
         // looping through all rows and adding to list
          if (!cursor.moveToFirst() || cursor.getCount() == 0){
-            return (DataList<Comment>) modelList;
+            return (DataList<BookDetail>) modelList;
          }else{
             do {
 
                 HashMap<String, Object> hashMap = parseCursor(cursor);
                 if(hashMap != null){
-                    CommentRepository repo = restAdapter.createRepository(CommentRepository.class);
+                    BookDetailRepository repo = restAdapter.createRepository(BookDetailRepository.class);
                     repo.addStorage(context);
-                    modelList.add((Comment)repo.createObject(hashMap));
+                    modelList.add((BookDetail)repo.createObject(hashMap));
                 }
             } while (cursor.moveToNext());
          }
@@ -717,7 +617,7 @@ public class CommentDb{
         cursor.close();
         //db.close();
         // return contact list
-        return (DataList<Comment>) modelList;
+        return (DataList<BookDetail>) modelList;
     }
 
 
@@ -729,7 +629,7 @@ public class CommentDb{
      * @return
      */
     public int count__db(String whereKey, String whereKeyValue){
-        String countQuery = "SELECT  * FROM `Comment` WHERE `" + whereKey +"` ='"+ whereKeyValue + "'" ;
+        String countQuery = "SELECT  * FROM `BookDetail` WHERE `" + whereKey +"` ='"+ whereKeyValue + "'" ;
         SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
         int count = cursor.getCount();
@@ -749,7 +649,7 @@ public class CommentDb{
                 ContentValues values = new ContentValues();
                 values.put("_DATA_UPDATED", 0);
                 // updating row
-                db.update("`Comment`", values, "_DATA_UPDATED = 1 AND `" + whereKey + "` = ?", new String[]{whereKeyValue});
+                db.update("`BookDetail`", values, "_DATA_UPDATED = 1 AND `" + whereKey + "` = ?", new String[]{whereKeyValue});
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();
@@ -765,7 +665,7 @@ public class CommentDb{
             public void run() {
                 SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
                 db.beginTransaction();
-                db.delete("`Comment`", "_DATA_UPDATED = 0 AND `" + whereKey + "` = ?", new String[]{whereKeyValue});
+                db.delete("`BookDetail`", "_DATA_UPDATED = 0 AND `" + whereKey + "` = ?", new String[]{whereKeyValue});
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();
@@ -776,7 +676,7 @@ public class CommentDb{
 
 
     //Update multiple data at once..
-    public void updateAll__db(final HashMap<String, Object> whereKeyValue, final Comment modelData ){
+    public void updateAll__db(final HashMap<String, Object> whereKeyValue, final BookDetail modelData ){
       new Thread(new Runnable(){
         @Override
         public void run(){
@@ -784,7 +684,7 @@ public class CommentDb{
           db.beginTransaction();
           ContentValues values = getContentValues(modelData);
           String where = getWhere(whereKeyValue);
-          db.update("`Comment`", values, where, null);
+          db.update("`BookDetail`", values, where, null);
           db.setTransactionSuccessful();
           db.endTransaction();
           //db.close();
@@ -814,7 +714,7 @@ public class CommentDb{
 
 
     // Updating single contact
-    public void update__db(final String id,   final Comment modelData) {
+    public void update__db(final String id,   final BookDetail modelData) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -822,7 +722,7 @@ public class CommentDb{
                 db.beginTransaction();
                 ContentValues values = getContentValues(modelData);
                 // updating row
-                db.update("`Comment`", values, "id = ?",
+                db.update("`BookDetail`", values, "id = ?",
                         new String[] { id });
                 db.setTransactionSuccessful();
                 db.endTransaction();
@@ -843,7 +743,7 @@ public class CommentDb{
                 ContentValues values = new ContentValues();
                 values.put("_DATA_UPDATED", 0);
                 // updating row
-                db.update("`Comment`", values, "_DATA_UPDATED = 1", null);
+                db.update("`BookDetail`", values, "_DATA_UPDATED = 1", null);
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();
@@ -860,7 +760,7 @@ public class CommentDb{
             public void run() {
                 SQLiteDatabase db = DbHandler.getInstance(context, DATABASE_NAME).getWritableDatabase();
                 db.beginTransaction();
-                db.delete("`Comment`", "_DATA_UPDATED = 0", null);
+                db.delete("`BookDetail`", "_DATA_UPDATED = 0", null);
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 //db.close();

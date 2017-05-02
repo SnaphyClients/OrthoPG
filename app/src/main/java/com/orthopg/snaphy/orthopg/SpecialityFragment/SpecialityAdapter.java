@@ -56,7 +56,7 @@ public class SpecialityAdapter extends RecyclerView.Adapter<SpecialityAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(SpecialityAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(SpecialityAdapter.ViewHolder holder, final int position) {
        final Speciality speciality_ = specialities.get(position);
         //final SpecialityModel specialityModel = specialityModelDataList.get(position);
         TextView speciality = holder.speciality;
@@ -93,12 +93,15 @@ public class SpecialityAdapter extends RecyclerView.Adapter<SpecialityAdapter.Vi
                     if(buttonView.isChecked()){
                         checkBox.setChecked(true);
                         specialityDataList.add(speciality_);
+                        Presenter.getInstance().addList(Constants.CUSTOMER_SPECIALITY_LIST, specialityDataList);
                         //specialityModel.setSpecialitySelected(true);
 
 
                     } else{
                         checkBox.setChecked(false);
-                        specialityDataList.remove(speciality_);
+                        //specialityDataList.remove(speciality_);
+                        specialityDataList.remove(position);
+                        Presenter.getInstance().addList(Constants.CUSTOMER_SPECIALITY_LIST, specialityDataList);
                         //specialityModel.setSpecialitySelected(false);
 
                     }

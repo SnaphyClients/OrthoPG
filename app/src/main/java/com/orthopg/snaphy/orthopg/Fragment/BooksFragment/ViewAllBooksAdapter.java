@@ -77,9 +77,9 @@ public class ViewAllBooksAdapter extends RecyclerView.Adapter<ViewAllBooksAdapte
         softCopyPrice.setTypeface(typefaceDescription);*/
 
         if(book!=null){
-            if(book.getFrontCover()!=null){
+            if(book.getBookCover()!=null){
                 bookCover.setVisibility(View.VISIBLE);
-                mainActivity.snaphyHelper.loadUnsignedUrl(book.getFrontCover(), bookCover);
+                mainActivity.snaphyHelper.loadUnsignedUrl(book.getBookCover(), bookCover);
             } else{
                 bookCover.setVisibility(View.VISIBLE);
             }

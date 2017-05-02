@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,11 +26,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.DataListCallback;
+import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Book;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.BookDetail;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Payment;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
+import com.androidsdk.snaphy.snaphyandroidsdk.repository.BookDetailRepository;
+import com.androidsdk.snaphy.snaphyandroidsdk.repository.BookRepository;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.PaymentRepository;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
@@ -96,6 +101,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.fragment_book_description_textview1) TextView bookTitle;
     @Bind(R.id.fragment_book_description_textview7) TextView bookDescription;
     @Bind(R.id.fragment_book_description_button1) TextView downloadSample;
+    @Bind(R.id.fragment_book_description_textview2) TextView downloadSampleText;
     String bookId = "";
     public final static String TAG = "BookDescriptionFragment";
     int read;
@@ -126,12 +132,85 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_book_description, container, false);
         ButterKnife.bind(this,view);
-        getBookData();
-
+        getBookDetail();
+        //checkPurchased();
         //String key = mainActivity.getSharedPreferences.getString("sample.pdf","");
         outFile = new File(Environment.getExternalStorageDirectory() + "/OrthoPg/" + "sample.pdf");
         decFile = new File(Environment.getExternalStorageDirectory() + "/OrthoPg/" + "dsample.pdf");
         return view;
+    }
+
+    public void checkPurchased(){
+
+        Book book = Presenter.getInstance().getModel(Book.class, Constants.BOOK_DESCRIPTION_ID);
+        String bookId = String.valueOf(book.getId());
+        if(bookId!=null){
+            BookRepository bookRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(BookRepository.class);
+            bookRepository.addStorage(mainActivity);
+            bookRepository.fetchBookDetail(bookId, new ObjectCallback<BookDetail>() {
+                @Override
+                public void onBefore() {
+                    super.onBefore();
+                }
+
+                @Override
+                public void onSuccess(BookDetail object) {
+                    super.onSuccess(object);
+                    if(object!=null){
+                        eBookDownload.setText("View");
+                    } else{
+                        eBookDownload.setText("Ebook @ INR 350");
+                    }
+                }
+
+                @Override
+                public void onError(Throwable t) {
+                    super.onError(t);
+                    Log.e(Constants.TAG, t.toString());
+                }
+
+                @Override
+                public void onFinally() {
+                    super.onFinally();
+                }
+            });
+        }
+    }
+
+    public void getBookDetail(){
+        Book book = Presenter.getInstance().getModel(Book.class,Constants.BOOK_DESCRIPTION_ID);
+        if(book!=null){
+            bookId = String.valueOf(book.getId());
+            HashMap<String, Object> hashMap = new HashMap<>();
+            BookDetailRepository bookDetailRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(BookDetailRepository.class);
+            BookDetail bookDetail = bookDetailRepository.createObject(hashMap);
+            bookDetail.setBookId(bookId);
+            bookDetailRepository.find(bookDetail.toMap(), new DataListCallback<BookDetail>() {
+                @Override
+                public void onBefore() {
+                    super.onBefore();
+                }
+
+                @Override
+                public void onSuccess(DataList<BookDetail> objects) {
+                    super.onSuccess(objects);
+                    BookDetail bookDetail1 = objects.get(0);
+                    Presenter.getInstance().addModel(Constants.BOOK_DETAIL_MODEL_VALUE, bookDetail1);
+                    getBookData();
+
+                }
+
+                @Override
+                public void onError(Throwable t) {
+                    super.onError(t);
+                }
+
+                @Override
+                public void onFinally() {
+                    super.onFinally();
+                }
+            });
+        }
     }
 
     public void getBookData(){
@@ -163,13 +242,71 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
                 bookDescription.setVisibility(View.GONE);
             }
 
-            if(book.getFrontCover()!=null){
+            if(book.getBookCover()!=null){
                 bookCover.setVisibility(View.VISIBLE);
-                mainActivity.snaphyHelper.loadUnsignedUrl(book.getFrontCover(),bookCover);
-                mainActivity.snaphyHelper.loadUnsignedUrl(book.getFrontCover(), bookCover2);
+                mainActivity.snaphyHelper.loadUnsignedUrl(book.getBookCover(),bookCover);
+                mainActivity.snaphyHelper.loadUnsignedUrl(book.getBookCover(), bookCover2);
             } else{
                 bookCover.setVisibility(View.GONE);
             }
+
+            if(book.getUploadSampleBook()!=null){
+                if(!book.getUploadSampleBook().isEmpty()){
+                    downloadSample.setVisibility(View.VISIBLE);
+                    downloadSampleText.setVisibility(View.VISIBLE);
+                } else{
+                    downloadSample.setVisibility(View.GONE);
+                    downloadSampleText.setVisibility(View.GONE);
+                }
+            } else{
+                downloadSample.setVisibility(View.GONE);
+                downloadSampleText.setVisibility(View.GONE);
+            }
+
+            if(book.getEbookPrice()!=null){
+                if(!book.getEbookPrice().isEmpty()){
+                    if(Double.parseDouble(book.getEbookPrice())==0){
+                        eBookDownload.setText("Read Book");
+                        downloadSample.setVisibility(View.GONE);
+                        downloadSampleText.setVisibility(View.GONE);
+                    } else{
+                        downloadSample.setVisibility(View.VISIBLE);
+                        downloadSampleText.setVisibility(View.VISIBLE);
+                        eBookDownload.setText("Ebook @ INR " + book.getEbookPrice());
+                    }
+                } else{
+                    eBookDownload.setText("Read Book");
+                    downloadSample.setVisibility(View.GONE);
+                    downloadSampleText.setVisibility(View.GONE);
+                }
+            } else{
+                eBookDownload.setText("Read Book");
+                downloadSample.setVisibility(View.GONE);
+                downloadSampleText.setVisibility(View.GONE);
+            }
+
+            if(book.getHardCopyPrice()!=null){
+                if(!book.getHardCopyPrice().isEmpty()){
+                    if(Double.parseDouble(book.getHardCopyPrice())==0){
+                        hardCopyDownload.setText(" Hardcopy Not Available");
+                        hardCopyDownload.setEnabled(false);
+                        hardCopyDownload.setBackground(getResources().getDrawable(R.drawable.curved_rectangle_disabled_filled));
+                    } else{
+                        hardCopyDownload.setEnabled(false);
+                        hardCopyDownload.setText("Hardcopy @ INR " + book.getHardCopyPrice());
+                    }
+                } else{
+                    hardCopyDownload.setText("Not Available");
+                    hardCopyDownload.setEnabled(false);
+                    hardCopyDownload.setBackgroundColor(Color.parseColor("#777777"));
+                }
+            } else{
+                hardCopyDownload.setText("Not Available");
+                hardCopyDownload.setEnabled(false);
+                hardCopyDownload.setBackgroundColor(Color.parseColor("#777777"));
+            }
+
+
             bookKey = sharedPreferences.getString(bookId,"");
             bookIv = sharedPreferences.getString(bookId + "iv", "");
 
@@ -230,6 +367,14 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
         //Check Internet Connection
         if(!mainActivity.snaphyHelper.isNetworkAvailable()){
             Snackbar.make(hardCopyDownload,"No Network Connection! Check Internet Connection and try again", Snackbar.LENGTH_SHORT).show();
+        } else{
+            Presenter.getInstance().addModel(Constants.BOOK_TYPE, Constants.HARDCOPY_BOOK_TYPE);
+            /*Book book = Presenter.getInstance().getModel(Book.class, Constants.BOOK_DESCRIPTION_ID);
+            BookRepository bookRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(BookRepository.class);
+            bookRepository.fetchBookDetail();
+            if(book.getUploadBook()!=null){
+
+            }*/
         }
        /* if(hardCopyDownload.getText().toString().equals("Download")) {
             new DownloadFile().execute("http://www.damtp.cam.ac.uk/user/tong/string/string.pdf","sample.pdf");
@@ -394,6 +539,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
         if(!mainActivity.snaphyHelper.isNetworkAvailable()){
             Snackbar.make(eBookDownload,"No Network Connection! Check Internet Connection and try again", Snackbar.LENGTH_SHORT).show();
         } else {
+            Presenter.getInstance().addModel(Constants.BOOK_TYPE, Constants.EBOOK_BOOK_TYPE);
             mainActivity.replaceFragment(R.layout.fragment_checkout, null);
         }
       //  SharedPreferences.Editor editor = sharedPreferences.edit();

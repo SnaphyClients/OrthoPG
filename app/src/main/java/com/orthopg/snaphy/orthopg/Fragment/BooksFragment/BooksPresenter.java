@@ -60,47 +60,51 @@ public class BooksPresenter {
         if(customerId!=null){
             final BookCategoryRepository bookCategoryRepository = restAdapter.createRepository(BookCategoryRepository.class);
             bookCategoryRepository.addStorage(mainActivity);
-            bookCategoryRepository.fetchBookList(customerId, new DataListCallback<BookCategory>() {
-                @Override
-                public void onBefore() {
-                    super.onBefore();
-                    if(mainActivity!=null) {
-                        //mainActivity.startProgressBar(mainActivity.progressBar);
+            if(!mainActivity.snaphyHelper.isNetworkAvailable()){
+                loadOfflineBookData();
+            } else {
+                bookCategoryRepository.fetchBookList(customerId, new DataListCallback<BookCategory>() {
+                    @Override
+                    public void onBefore() {
+                        super.onBefore();
+                        if (mainActivity != null) {
+                            //mainActivity.startProgressBar(mainActivity.progressBar);
+                        }
+
+                        setOldFlag();
                     }
 
-                    setOldFlag();
-                }
-
-                @Override
-                public void onSuccess(DataList<BookCategory> objects) {
-                    super.onSuccess(objects);
-                    if(objects!=null){
-                        if(reset){
-                            bookCategoryDataList.clear();
-                        }
-                        for(BookCategory bookCategory : objects){
-                            if(bookCategory!=null){
-                                saveBookCategoryData(bookCategory);
+                    @Override
+                    public void onSuccess(DataList<BookCategory> objects) {
+                        super.onSuccess(objects);
+                        if (objects != null) {
+                            if (reset) {
+                                bookCategoryDataList.clear();
                             }
+                            for (BookCategory bookCategory : objects) {
+                                if (bookCategory != null) {
+                                    saveBookCategoryData(bookCategory);
+                                }
+                            }
+                            bookCategoryDataList.addAll(objects);
                         }
-                        bookCategoryDataList.addAll(objects);
                     }
-                }
 
-                @Override
-                public void onError(Throwable t) {
-                    super.onError(t);
-                    Log.e(Constants.TAG, t.toString());
-                    loadOfflineBookData();
-                }
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                        Log.e(Constants.TAG, t.toString());
+                        //loadOfflineBookData();
+                    }
 
-                @Override
-                public void onFinally() {
-                    super.onFinally();
-                    removeOldBookData();
-                    //mainActivity.stopProgressBar(mainActivity.progressBar);
-                }
-            });
+                    @Override
+                    public void onFinally() {
+                        super.onFinally();
+                        removeOldBookData();
+                        //mainActivity.stopProgressBar(mainActivity.progressBar);
+                    }
+                });
+            }
         }
 
 

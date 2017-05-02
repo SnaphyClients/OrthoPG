@@ -44,7 +44,7 @@ public class QualificationAdapter extends RecyclerView.Adapter<QualificationAdap
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
           final Qualification qualification = qualificationDataList.get(position);
 
           TextView textView = holder.textView;
@@ -78,7 +78,7 @@ public class QualificationAdapter extends RecyclerView.Adapter<QualificationAdap
 
                     } else{
                         checkBox.setChecked(false);
-                        qualificationDataList.remove(qualification);
+                        qualificationDataList.remove(position);
 
                     }
                 }

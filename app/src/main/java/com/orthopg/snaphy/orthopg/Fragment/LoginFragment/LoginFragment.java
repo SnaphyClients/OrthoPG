@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
@@ -27,6 +29,7 @@ import com.sdsmdg.tastytoast.TastyToast;
 
 import org.json.JSONObject;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -46,6 +49,7 @@ public class LoginFragment extends android.support.v4.app.Fragment {
     private GoogleApiClient googleApiClient;
     private static final int RC_SIGN_IN = 0;
     GoogleSignInOptions gso;
+    @Bind(R.id.fragment_login_button1) Button login;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -167,8 +171,12 @@ public class LoginFragment extends android.support.v4.app.Fragment {
 
     @OnClick(R.id.fragment_login_button1) void loginButton() {
         //mainActivity.replaceFragment(R.layout.fragment_mciverification, null);
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+        if(!mainActivity.snaphyHelper.isNetworkAvailable()){
+            Snackbar.make(login,"Check your network connection and try again!", Snackbar.LENGTH_SHORT).show();
+        } else {
+            Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
+            startActivityForResult(signInIntent, RC_SIGN_IN);
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

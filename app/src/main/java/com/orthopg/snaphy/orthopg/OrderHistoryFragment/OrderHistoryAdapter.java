@@ -56,9 +56,9 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 
         if(order!=null){
             if(order.getBook()!=null){
-                if(order.getBook().getFrontCover()!=null){
+                if(order.getBook().getBookCover()!=null){
                     bookCover.setVisibility(View.VISIBLE);
-                    mainActivity.snaphyHelper.loadUnsignedUrl(order.getBook().getFrontCover(), bookCover);
+                    mainActivity.snaphyHelper.loadUnsignedUrl(order.getBook().getBookCover(), bookCover);
                 } else{
                     bookCover.setVisibility(View.GONE);
                 }

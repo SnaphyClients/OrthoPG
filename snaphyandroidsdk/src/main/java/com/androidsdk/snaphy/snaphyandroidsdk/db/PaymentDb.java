@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.content.ContentValues;
 import java.util.HashMap;
 import com.google.gson.Gson;
+import com.google.gson.LongSerializationPolicy;
+import com.google.gson.GsonBuilder;
 import android.database.Cursor;
 import java.lang.reflect.Method;
 import android.util.Log;
@@ -73,7 +75,10 @@ public class PaymentDb{
                        
                                                             String bookDetailData = "";
                         if(modelData.getBookDetail() != null){
-                          bookDetailData = new Gson().toJson(modelData.getBookDetail(), HashMap.class);
+                          GsonBuilder gsonBuilder = new GsonBuilder();
+                          gsonBuilder.setLongSerializationPolicy(LongSerializationPolicy.STRING);
+                          Gson gson = gsonBuilder.create();
+                          bookDetailData = gson.toJson(modelData.getBookDetail(), HashMap.class);
                           values.put("`bookDetail`", bookDetailData);
                         }
                                   
@@ -241,7 +246,10 @@ public class PaymentDb{
                       
                                                             Map<String, Object> bookDetailData = new HashMap<>();
                         if(cursor.getString(0) != null){
-                          bookDetailData = new Gson().fromJson(cursor.getString(0), Map.class);
+                          GsonBuilder gsonBuilder = new GsonBuilder();
+                          gsonBuilder.setLongSerializationPolicy(LongSerializationPolicy.STRING);
+                          Gson gson = gsonBuilder.create();
+                           bookDetailData = gson.fromJson(cursor.getString(0), Map.class);
                           if(bookDetailData != null){
                             bookDetailData = (Map<String, Object>)bookDetailData;
                             hashMap.put("bookDetail", bookDetailData);

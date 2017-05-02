@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.content.ContentValues;
 import java.util.HashMap;
 import com.google.gson.Gson;
+import com.google.gson.LongSerializationPolicy;
+import com.google.gson.GsonBuilder;
 import android.database.Cursor;
 import java.lang.reflect.Method;
 import android.util.Log;
@@ -94,7 +96,10 @@ public class AmazonPdfDb{
                                 
                                                             String urlData = "";
                         if(modelData.getUrl() != null){
-                          urlData = new Gson().toJson(modelData.getUrl(), HashMap.class);
+                          GsonBuilder gsonBuilder = new GsonBuilder();
+                          gsonBuilder.setLongSerializationPolicy(LongSerializationPolicy.STRING);
+                          Gson gson = gsonBuilder.create();
+                          urlData = gson.toJson(modelData.getUrl(), HashMap.class);
                           values.put("`url`", urlData);
                         }
                                   
@@ -227,7 +232,10 @@ public class AmazonPdfDb{
                                 
                                                             Map<String, Object> urlData = new HashMap<>();
                         if(cursor.getString(3) != null){
-                          urlData = new Gson().fromJson(cursor.getString(3), Map.class);
+                          GsonBuilder gsonBuilder = new GsonBuilder();
+                          gsonBuilder.setLongSerializationPolicy(LongSerializationPolicy.STRING);
+                          Gson gson = gsonBuilder.create();
+                           urlData = gson.fromJson(cursor.getString(3), Map.class);
                           if(urlData != null){
                             urlData = (Map<String, Object>)urlData;
                             hashMap.put("url", urlData);

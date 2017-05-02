@@ -112,10 +112,10 @@ public class BookListTestAdapter extends RecyclerView.Adapter<BookListTestAdapte
 
         if(book!=null){
             bookId = String.valueOf(book.getId());
-            if(book.getFrontCover()!=null){
+            if(book.getBookCover()!=null){
                 bookCover.setVisibility(View.VISIBLE);
-                bookCoverMap = book.getFrontCover();
-                mainActivity.snaphyHelper.loadUnsignedUrl(book.getFrontCover(),bookCover);
+                bookCoverMap = book.getBookCover();
+                mainActivity.snaphyHelper.loadUnsignedUrl(book.getBookCover(),bookCover);
             } else{
                 bookCover.setVisibility(View.GONE);
             }
@@ -168,9 +168,9 @@ public class BookListTestAdapter extends RecyclerView.Adapter<BookListTestAdapte
                                     .setContentText("Download in progress")
                                     .setSmallIcon(R.mipmap.ic_launcher);
                             Log.v(Constants.TAG, book+"");
-                            if(book.getUploadBook() != null) {
-                                if(book.getUploadBook().get("url") != null) {
-                                    Map<String, Object> bookHashMap = (Map<String, Object>)book.getUploadBook().get("url");
+                            if(book.getUploadSampleBook() != null) {
+                                if(book.getUploadSampleBook().get("url") != null) {
+                                    Map<String, Object> bookHashMap = (Map<String, Object>)book.getUploadSampleBook().get("url");
                                     if(bookHashMap != null) {
                                         String bookUnsignedUrl = (String)bookHashMap.get("unSignedUrl");
                                         Log.v(Constants.TAG, bookUnsignedUrl);
@@ -187,7 +187,7 @@ public class BookListTestAdapter extends RecyclerView.Adapter<BookListTestAdapte
                         //Open the decypted pdf
 
                         try {
-                            mainActivity.startProgressBar(mainActivity.progressBar);
+                            //mainActivity.startProgressBar(mainActivity.progressBar);
                             FileInputStream enfis = new FileInputStream(outFile);
                             FileOutputStream defos = new FileOutputStream(decFile);
                             Cipher decipher = Cipher.getInstance("AES");
@@ -198,8 +198,9 @@ public class BookListTestAdapter extends RecyclerView.Adapter<BookListTestAdapte
                             SecretKeySpec specKey = new SecretKeySpec(keyArray, "AES");
                             decipher.init(Cipher.DECRYPT_MODE,specKey,new IvParameterSpec(ivArray));
                             CipherOutputStream cos = new CipherOutputStream(defos,decipher);
-                            while((read = enfis.read())!=-1){
-                                cos.write(read);
+                            byte[] d = new byte[1024*1024];
+                            while((read = enfis.read(d))!=-1){
+                                cos.write(d,0,read);
                                 cos.flush();
                             }
                             cos.close();
@@ -227,6 +228,13 @@ public class BookListTestAdapter extends RecyclerView.Adapter<BookListTestAdapte
             }
         });
 
+    /*    cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String bookName__ = book.getTitle();
+                File file =
+            }
+        });*/
     }
 
 
@@ -291,8 +299,9 @@ public class BookListTestAdapter extends RecyclerView.Adapter<BookListTestAdapte
             encipher.init(Cipher.ENCRYPT_MODE,specKey,new IvParameterSpec(iv));
             CipherInputStream cis = new CipherInputStream(inputStream,encipher);
             notificationManager.notify(id, mBuilder.build());
-            while((read = cis.read())!=-1){
-                fos.write((char)read);
+            byte[] buffer = new byte[1024*1024];
+            while((read = cis.read(buffer))!=-1){
+                fos.write(buffer, 0, read);
                 fos.flush();}
             fos.close();
             //Toast.makeText(mainActivity,"Encryption completed",Toast.LENGTH_SHORT).show();
@@ -338,7 +347,7 @@ public class BookListTestAdapter extends RecyclerView.Adapter<BookListTestAdapte
     public void setBookData(int position){
         Book book = bookDataList.get(position);
         book.setTitle(book.getTitle());
-        book.setFrontCover(book.getFrontCover());
+        book.setBookCover(book.getBookCover());
         book.setDescription(book.getDescription());
         Presenter.getInstance().addModel(Constants.BOOK_DESCRIPTION_ID,book);
     }

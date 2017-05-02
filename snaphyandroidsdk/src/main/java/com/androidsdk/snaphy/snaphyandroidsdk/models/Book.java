@@ -51,6 +51,13 @@ import com.androidsdk.snaphy.snaphyandroidsdk.repository.BookRepository;
         
     
 
+    
+            import com.androidsdk.snaphy.snaphyandroidsdk.repository.BookDetailRepository;
+            
+
+        
+    
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -126,6 +133,48 @@ public class Book extends Model {
             
 
             
+                private String ebookPrice;
+                /* Adding Getter and Setter methods */
+                public String getEbookPrice(){
+                    return ebookPrice;
+                }
+
+                /* Adding Getter and Setter methods */
+                public void setEbookPrice(String ebookPrice){
+                    this.ebookPrice = ebookPrice;
+                    //Update hashMap value..
+                    hashMap.put("ebookPrice", ebookPrice);
+                }
+
+            
+            
+        
+    
+        
+            
+
+            
+                private String hardCopyPrice;
+                /* Adding Getter and Setter methods */
+                public String getHardCopyPrice(){
+                    return hardCopyPrice;
+                }
+
+                /* Adding Getter and Setter methods */
+                public void setHardCopyPrice(String hardCopyPrice){
+                    this.hardCopyPrice = hardCopyPrice;
+                    //Update hashMap value..
+                    hashMap.put("hardCopyPrice", hardCopyPrice);
+                }
+
+            
+            
+        
+    
+        
+            
+
+            
                 private String status;
                 /* Adding Getter and Setter methods */
                 public String getStatus(){
@@ -147,17 +196,17 @@ public class Book extends Model {
             
 
             
-                private Map<String, Object> frontCover;
+                private Map<String, Object> bookCover;
                 /* Adding Getter and Setter methods */
-                public Map<String, Object> getFrontCover(){
-                    return frontCover;
+                public Map<String, Object> getBookCover(){
+                    return bookCover;
                 }
 
                 /* Adding Getter and Setter methods */
-                public void setFrontCover(Map<String, Object> frontCover){
-                    this.frontCover = frontCover;
+                public void setBookCover(Map<String, Object> bookCover){
+                    this.bookCover = bookCover;
                     //Update Map value..
-                    hashMap.put("frontCover", frontCover);
+                    hashMap.put("bookCover", bookCover);
                 }
 
             
@@ -168,38 +217,17 @@ public class Book extends Model {
             
 
             
-                private Map<String, Object> backCover;
+                private Map<String, Object> uploadSampleBook;
                 /* Adding Getter and Setter methods */
-                public Map<String, Object> getBackCover(){
-                    return backCover;
+                public Map<String, Object> getUploadSampleBook(){
+                    return uploadSampleBook;
                 }
 
                 /* Adding Getter and Setter methods */
-                public void setBackCover(Map<String, Object> backCover){
-                    this.backCover = backCover;
+                public void setUploadSampleBook(Map<String, Object> uploadSampleBook){
+                    this.uploadSampleBook = uploadSampleBook;
                     //Update Map value..
-                    hashMap.put("backCover", backCover);
-                }
-
-            
-            
-        
-    
-        
-            
-
-            
-                private Map<String, Object> uploadBook;
-                /* Adding Getter and Setter methods */
-                public Map<String, Object> getUploadBook(){
-                    return uploadBook;
-                }
-
-                /* Adding Getter and Setter methods */
-                public void setUploadBook(Map<String, Object> uploadBook){
-                    this.uploadBook = uploadBook;
-                    //Update Map value..
-                    hashMap.put("uploadBook", uploadBook);
+                    hashMap.put("uploadSampleBook", uploadSampleBook);
                 }
 
             
@@ -545,6 +573,16 @@ public class Book extends Model {
                             
                          
                             
+                         
+                            
+                         
+                            
+                         
+                            
+                         
+                            
+                        
+                        
                         
                         
                         
@@ -885,6 +923,14 @@ public class Book extends Model {
                             
                          
                             
+                         
+                            
+                         
+                            
+                         
+                            
+                         
+                            
                         
 
                                     //Write the method here..
@@ -1099,6 +1145,8 @@ public class Book extends Model {
                             
                          
                             
+                        
+                        
                         
                         
                         
@@ -1450,6 +1498,14 @@ public class Book extends Model {
                             
                          
                             
+                         
+                            
+                         
+                            
+                         
+                            
+                         
+                            
                         
 
                                     //Write the method here..
@@ -1682,12 +1738,400 @@ public class Book extends Model {
                         
                         
                         
+                        
+                        
                     
 
                 
 
                 
                     //Define hasMany, hasManyThrough method here..
+
+                 
+                 
+             
+          
+    
+        
+        
+                
+                    //Define belongsTo relation method here..
+                    private transient BookDetail  bookDetails ;
+                    private String bookDetailId;
+
+                    public String getBookDetailId(){
+                         return bookDetailId;
+                    }
+
+                    public void setBookDetailId(Object bookDetailId){
+                        if(bookDetailId != null){
+                          this.bookDetailId = bookDetailId.toString();
+                        }
+                    }
+
+                    public BookDetail getBookDetails() {
+                        try{
+                          //Adding database method for fetching from relation if not present..
+                                      if(bookDetails == null){
+                                        BookRepository bookRepository = (BookRepository) getRepository();
+
+                                        RestAdapter restAdapter = bookRepository.getRestAdapter();
+                                        if(restAdapter != null){
+                                          //Fetch locally from db
+                                          bookDetails = getBookDetails__db(restAdapter);
+                                        }
+                                      }
+                        }catch(Exception e){
+                          //Ignore
+                        }
+
+                        return bookDetails;
+                    }
+
+                    public void setBookDetails(BookDetail bookDetails) {
+                        this.bookDetails = bookDetails;
+                    }
+
+                    //Adding related model automatically in case of include statement from server..
+                    public void setBookDetails(Map<String, Object> bookDetails) {
+                        //First create a dummy Repo class object for customer.
+                        BookDetailRepository bookDetailsRepository = new BookDetailRepository();
+                        BookDetail bookDetails1 = bookDetailsRepository.createObject(bookDetails);
+                        setBookDetails(bookDetails1);
+                    }
+
+                    //Adding related model automatically in case of include statement from server..
+                    public void setBookDetails(HashMap<String, Object> bookDetails) {
+                        //First create a dummy Repo class object for customer.
+                        BookDetailRepository bookDetailsRepository = new BookDetailRepository();
+                        BookDetail bookDetails1 = bookDetailsRepository.createObject(bookDetails);
+                        setBookDetails(bookDetails1);
+                    }
+
+                    //Adding relation method..
+                    public void addRelation(BookDetail bookDetails) {
+                        that.setBookDetails(bookDetails);
+                    }
+
+
+                    //Fetch related data from local database if present a bookDetailId identifier as property for belongsTo
+                    public BookDetail getBookDetails__db(RestAdapter restAdapter){
+                      if(bookDetailId != null){
+                        BookDetailRepository bookDetailsRepository = restAdapter.createRepository(BookDetailRepository.class);
+                            try{
+                            BookRepository lowercaseFirstLetterRepository = (BookRepository) getRepository();
+                                          if(lowercaseFirstLetterRepository.isSTORE_LOCALLY()){
+                                                Context context = lowercaseFirstLetterRepository.getContext();
+                                                if(bookDetailsRepository.getDb() == null ){
+                                                    bookDetailsRepository.addStorage(context);
+                                                }
+
+                                                if(context != null && bookDetailsRepository.getDb() != null){
+                                                    bookDetailsRepository.addStorage(context);
+                                                    BookDetail bookDetails = (BookDetail) bookDetailsRepository.getDb().get__db(bookDetailId);
+                                                    return bookDetails;
+                                                }else{
+                                                    return null;
+                                                }
+                                          }else{
+                                            return null;
+                                          }
+                            }catch(Exception e){
+                            //Ignore exception..
+                            return null;
+                            }
+
+                        }else{
+                          return null;
+                      }
+                    }
+                
+
+                
+                
+
+
+
+
+
+
+
+                    //Now add instance methods to fetch the related belongsTo Model..
+                    
+
+                     
+                            
+                         
+                            
+                         
+                            
+                         
+                            
+                         
+                            
+                         
+                            
+                         
+                            
+                        
+
+                                    //Write the method here..
+                                    public void get__bookDetails( Boolean refresh,  RestAdapter restAdapter, final ObjectCallback<BookDetail> callback) {
+                                        //Call the onBefore callback method..
+                                        callback.onBefore();
+
+                                        //Define methods here..
+                                        final BookRepository  bookRepo = restAdapter.createRepository(BookRepository.class);
+                                        
+                                        
+                                        
+                                        
+                                        
+
+
+
+                                        bookRepo.get__bookDetails( (String)that.getId(), refresh,  new ObjectCallback<BookDetail> (){
+                                            
+
+                                            
+                                                @Override
+                                                
+                                                    public void onSuccess(BookDetail object) {
+                                                        if(object != null){
+                                                            //now add relation to this recipe.
+                                                            addRelation(object);
+                                                            //Also add relation to child type for two way communication..Removing two way communication for cyclic error
+                                                            //object.addRelation(that);
+                                                            callback.onSuccess(object);
+                                                            //Calling the finally..callback
+                                                            callback.onFinally();
+                                                        }else{
+                                                            callback.onSuccess(null);
+                                                            //Calling the finally..callback
+                                                            callback.onFinally();
+                                                        }
+
+                                                    }
+                                                
+                                            
+
+
+                                            
+
+                                            @Override
+                                            public void onError(Throwable t) {
+                                                //Now calling the callback
+                                                callback.onError(t);
+                                                //Calling the finally..callback
+                                                callback.onFinally();
+                                            }
+
+                                        });
+                                    } //method def ends here.
+                                 
+                            
+                        
+
+                                    //Write the method here..
+                                    public void create__bookDetails( BookDetail data,  RestAdapter restAdapter, final ObjectCallback<BookDetail> callback) {
+                                        //Call the onBefore callback method..
+                                        callback.onBefore();
+
+                                        //Define methods here..
+                                        final BookRepository  bookRepo = restAdapter.createRepository(BookRepository.class);
+                                        
+                                        
+                                        
+                                        
+                                        
+
+
+
+                                        bookRepo.create__bookDetails( (String)that.getId(), data.convertMap(),  new ObjectCallback<BookDetail> (){
+                                            
+
+                                            
+                                                @Override
+                                                
+                                                    public void onSuccess(BookDetail object) {
+                                                        if(object != null){
+                                                            //now add relation to this recipe.
+                                                            addRelation(object);
+                                                            //Also add relation to child type for two way communication..Removing two way communication for cyclic error
+                                                            //object.addRelation(that);
+                                                            callback.onSuccess(object);
+                                                            //Calling the finally..callback
+                                                            callback.onFinally();
+                                                        }else{
+                                                            callback.onSuccess(null);
+                                                            //Calling the finally..callback
+                                                            callback.onFinally();
+                                                        }
+
+                                                    }
+                                                
+                                            
+
+
+                                            
+
+                                            @Override
+                                            public void onError(Throwable t) {
+                                                //Now calling the callback
+                                                callback.onError(t);
+                                                //Calling the finally..callback
+                                                callback.onFinally();
+                                            }
+
+                                        });
+                                    } //method def ends here.
+                                 
+                            
+                        
+
+                                    //Write the method here..
+                                    public void update__bookDetails( BookDetail data,  RestAdapter restAdapter, final ObjectCallback<BookDetail> callback) {
+                                        //Call the onBefore callback method..
+                                        callback.onBefore();
+
+                                        //Define methods here..
+                                        final BookRepository  bookRepo = restAdapter.createRepository(BookRepository.class);
+                                        
+                                        
+                                        
+                                        
+                                        
+
+
+
+                                        bookRepo.update__bookDetails( (String)that.getId(), data.convertMap(),  new ObjectCallback<BookDetail> (){
+                                            
+
+                                            
+                                                @Override
+                                                
+                                                    public void onSuccess(BookDetail object) {
+                                                        if(object != null){
+                                                            //now add relation to this recipe.
+                                                            addRelation(object);
+                                                            //Also add relation to child type for two way communication..Removing two way communication for cyclic error
+                                                            //object.addRelation(that);
+                                                            callback.onSuccess(object);
+                                                            //Calling the finally..callback
+                                                            callback.onFinally();
+                                                        }else{
+                                                            callback.onSuccess(null);
+                                                            //Calling the finally..callback
+                                                            callback.onFinally();
+                                                        }
+
+                                                    }
+                                                
+                                            
+
+
+                                            
+
+                                            @Override
+                                            public void onError(Throwable t) {
+                                                //Now calling the callback
+                                                callback.onError(t);
+                                                //Calling the finally..callback
+                                                callback.onFinally();
+                                            }
+
+                                        });
+                                    } //method def ends here.
+                                 
+                            
+                        
+
+                                    //Write the method here..
+                                    public void destroy__bookDetails( RestAdapter restAdapter, final VoidCallback callback) {
+                                        //Call the onBefore callback method..
+                                        callback.onBefore();
+
+                                        //Define methods here..
+                                        final BookRepository  bookRepo = restAdapter.createRepository(BookRepository.class);
+                                        
+                                        
+
+
+
+                                        bookRepo.destroy__bookDetails( (String)that.getId(),  new VoidCallback (){
+                                            
+                                                @Override
+                                                public void onSuccess() {
+                                                    callback.onSuccess();
+                                                    //Calling the finally..callback
+                                                    callback.onFinally();
+                                                }
+                                            
+
+                                            
+
+
+                                            
+
+                                            @Override
+                                            public void onError(Throwable t) {
+                                                //Now calling the callback
+                                                callback.onError(t);
+                                                //Calling the finally..callback
+                                                callback.onFinally();
+                                            }
+
+                                        });
+                                    } //method def ends here.
+                                 
+                            
+                         
+                            
+                         
+                            
+                         
+                            
+                         
+                            
+                         
+                            
+                         
+                            
+                         
+                            
+                         
+                            
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    
+
+                
 
                  
                  

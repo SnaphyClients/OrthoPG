@@ -155,11 +155,11 @@ public class DbHandler extends SQLiteOpenHelper {
                         db.execSQL(CREATE_News_TABLE_26);
 
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
                         
 
                         
-                        String CREATE_Book_TABLE_27 = "CREATE TABLE IF NOT EXISTS `Book` (  `title` TEXT, `description` TEXT, `status` TEXT, `frontCover` TEXT, `backCover` TEXT, `uploadBook` TEXT, `added` TEXT, `savedCategoryId` TEXT, `updated` TEXT, `id` TEXT PRIMARY KEY, `bookCategoryId` TEXT, _DATA_UPDATED NUMBER )";
+                        String CREATE_Book_TABLE_27 = "CREATE TABLE IF NOT EXISTS `Book` (  `title` TEXT, `description` TEXT, `ebookPrice` TEXT, `hardCopyPrice` TEXT, `status` TEXT, `bookCover` TEXT, `uploadSampleBook` TEXT, `added` TEXT, `savedCategoryId` TEXT, `updated` TEXT, `id` TEXT PRIMARY KEY, `bookCategoryId` TEXT, bookDetailId TEXT , _DATA_UPDATED NUMBER )";
                         db.execSQL(CREATE_Book_TABLE_27);
 
 
@@ -249,6 +249,22 @@ public class DbHandler extends SQLiteOpenHelper {
                         
                         String CREATE_DummyCustomerQualification_TABLE_38 = "CREATE TABLE IF NOT EXISTS `DummyCustomerQualification` (  `customerId` TEXT, `qualificationId` TEXT, `added` TEXT, `id` TEXT PRIMARY KEY, _DATA_UPDATED NUMBER )";
                         db.execSQL(CREATE_DummyCustomerQualification_TABLE_38);
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                        
+
+                        
+                        String CREATE_BookDetail_TABLE_39 = "CREATE TABLE IF NOT EXISTS `BookDetail` (  `bookPdf` TEXT, `added` TEXT, `id` TEXT PRIMARY KEY, `bookId` TEXT, _DATA_UPDATED NUMBER )";
+                        db.execSQL(CREATE_BookDetail_TABLE_39);
+
+
+                                                                                                                                                                                                                                                                                                                                                                                    
+                        
+
+                        
+                        String CREATE_Counter_TABLE_40 = "CREATE TABLE IF NOT EXISTS `Counter` (  `value` NUMBER, `collection` TEXT, `id` TEXT PRIMARY KEY, _DATA_UPDATED NUMBER )";
+                        db.execSQL(CREATE_Counter_TABLE_40);
 
 
             
@@ -374,6 +390,12 @@ public class DbHandler extends SQLiteOpenHelper {
             
                 // Drop older table if existed
                 db.execSQL("DROP TABLE IF EXISTS `DummyCustomerQualification`");
+            
+                // Drop older table if existed
+                db.execSQL("DROP TABLE IF EXISTS `BookDetail`");
+            
+                // Drop older table if existed
+                db.execSQL("DROP TABLE IF EXISTS `Counter`");
             
 
             // Create tables again

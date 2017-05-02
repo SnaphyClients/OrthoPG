@@ -60,6 +60,7 @@
         <activity android:name=".PDFViewPagerActivity"/>
         <activity android:name=".PDFReaderActivity"
             android:hardwareAccelerated="true"/>
+        <activity android:name=".PayUActivity"/>
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

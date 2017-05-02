@@ -53,7 +53,7 @@ public class CaseFragment extends android.support.v4.app.Fragment {
 
     private OnFragmentInteractionListener mListener;
     @Bind(R.id.fragment_case_recycler_view) RecyclerView recyclerView;
-    @Bind(R.id.fragment_case_progressBar) CircleProgressBar progressBar;
+   // @Bind(R.id.fragment_case_progressBar) CircleProgressBar progressBar;
     @Bind(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.fragment_case_textview1) TextView noCasePresentText;
     LinearLayoutManager linearLayoutManager;
@@ -307,7 +307,7 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     //Create all lists..
     private void loadPresenter(){
         //Trending list..
-        casePresenter = new CasePresenter(mainActivity.snaphyHelper.getLoopBackAdapter(), progressBar, mainActivity, noCasePresentText);
+        casePresenter = new CasePresenter(mainActivity.snaphyHelper.getLoopBackAdapter(), mainActivity.progressBar, mainActivity, noCasePresentText);
         Presenter.getInstance().addModel(Constants.CASE_PRESENTER_ID, casePresenter);
         trackList = Presenter.getInstance().getModel(HashMap.class, Constants.LIST_CASE_FRAGMENT);
         unsubscribeAll();

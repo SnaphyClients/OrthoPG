@@ -79,6 +79,8 @@ public class Constants {
     public static String BRANCH_CASE_ID = "BranchCaseId";
     public static String PAYMENT_BOOK_ID = "PaymentBookId";
     public static String DOWNLOADED_BOOK_ID = "DOWNLOADED_BOOK_ID";
+    public static String BOOK_DETAIL_MODEL_VALUE = "BookDetailValue";
+    public static String PAYMENT_MODEL_DATA = "PaymentModelData";
     /*---------------*/
 
     /*IDs*/
@@ -123,6 +125,10 @@ public class Constants {
 
 
     public static String SAVED_BOOKS_CATEGORY = "Saved Books";
+
+    public static String BOOK_TYPE = "Book Type";
+    public static String EBOOK_BOOK_TYPE = "ebook";
+    public static String HARDCOPY_BOOK_TYPE = "hardcopy";
 
 
     /*-------------------------------------------------------------------------------------------------------*/

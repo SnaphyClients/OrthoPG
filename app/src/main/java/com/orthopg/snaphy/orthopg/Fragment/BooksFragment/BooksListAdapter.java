@@ -66,19 +66,19 @@ public class BooksListAdapter extends RecyclerView.Adapter<BooksListAdapter.View
         Button downloadBook = holder.downloadBook;
         Typeface font = Typeface.createFromAsset(mainActivity.getAssets(), "fonts/OpenSans-Regular.ttf");
 
-        if(booksModel.getFrontCover() != null){
+        if(booksModel.getBookCover() != null){
             frontCover.setVisibility(View.VISIBLE);
-            mainActivity.snaphyHelper.loadUnsignedUrl(booksModel.getFrontCover(), frontCover );
+            mainActivity.snaphyHelper.loadUnsignedUrl(booksModel.getBookCover(), frontCover );
         }else{
             frontCover.setVisibility(View.GONE);
         }
 
-        if(booksModel.getBackCover() != null){
+        /*if(booksModel.getBackCover() != null){
             backCover.setVisibility(View.VISIBLE);
             mainActivity.snaphyHelper.loadUnsignedUrl(booksModel.getBackCover(), backCover);
         }else{
             backCover.setVisibility(View.GONE);
-        }
+        }*/
         if(booksModel.getTitle()!= null){
             bookName.setText(booksModel.getTitle());
         }
@@ -88,13 +88,13 @@ public class BooksListAdapter extends RecyclerView.Adapter<BooksListAdapter.View
             bookDescription.setText(booksModel.getDescription());
         }
 
-        if(booksModel.getUploadBook() != null){
+        if(booksModel.getUploadSampleBook() != null){
             downloadBook.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     File direct = new File(Environment.getExternalStorageDirectory()
                             + "/OrthoPG");
-                    Map<String, Object> hashMap =  (Map<String, Object>)booksModel.getUploadBook();
+                    Map<String, Object> hashMap =  (Map<String, Object>)booksModel.getUploadSampleBook();
                     if(hashMap.get("url") !=  null){
                         HashMap<String, String> url = (HashMap<String, String>)hashMap.get("url");
                         if(url.get("unSignedUrl") != null){

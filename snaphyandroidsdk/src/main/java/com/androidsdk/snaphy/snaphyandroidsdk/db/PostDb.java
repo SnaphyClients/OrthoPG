@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.content.ContentValues;
 import java.util.HashMap;
 import com.google.gson.Gson;
+import com.google.gson.LongSerializationPolicy;
+import com.google.gson.GsonBuilder;
 import android.database.Cursor;
 import java.lang.reflect.Method;
 import android.util.Log;
@@ -94,7 +96,10 @@ public class PostDb{
                                 
                                   String postImagesData = "";
                   if(modelData.getPostImages() != null){
-                    postImagesData = new Gson().toJson(modelData.getPostImages(), DataList.class);
+                    GsonBuilder gsonBuilder = new GsonBuilder();
+                    gsonBuilder.setLongSerializationPolicy(LongSerializationPolicy.STRING);
+                    Gson gson = gsonBuilder.create();
+                    postImagesData = gson.toJson(modelData.getPostImages(), DataList.class);
                     values.put("`postImages`", postImagesData);
                   }
               
@@ -305,7 +310,10 @@ public class PostDb{
                                 
                                   DataList<Map<String, Object>> postImagesData = new DataList<>();
                   if(cursor.getString(3) != null){
-                    postImagesData = new Gson().fromJson(cursor.getString(3), DataList.class);
+                    GsonBuilder gsonBuilder = new GsonBuilder();
+                    gsonBuilder.setLongSerializationPolicy(LongSerializationPolicy.STRING);
+                    Gson gson = gsonBuilder.create();
+                    postImagesData = gson.fromJson(cursor.getString(3), DataList.class);
                     if(postImagesData != null){
                       postImagesData = (DataList<Map<String, Object>>)postImagesData;
                       hashMap.put("postImages", postImagesData);

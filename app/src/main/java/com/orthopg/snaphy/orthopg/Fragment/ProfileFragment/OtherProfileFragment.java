@@ -495,6 +495,7 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
             for (Speciality s : speciality) {
                 if(count<speciality.size()-1) {
                     specialities = specialities + s.getName() + "\n";
+                    count++;
                 } else{
                     specialities = specialities + s.getName();
                 }
@@ -518,11 +519,12 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
         if(customer.getQualifications().size()!=0){
             qualificationTxt.setVisibility(View.VISIBLE);
             String qualifications = "";
-
+            int qualificationCount = 0;
             DataList<Qualification> qualification = customer.getQualifications();
             for(Qualification q : qualification){
-                if(qualification.size()>1) {
+                if(qualificationCount<qualification.size()-1) {
                     qualifications = qualifications + q.getName() + "\n";
+                    qualificationCount++;
                 } else{
                     qualifications = qualifications + q.getName();
                 }

@@ -29,7 +29,7 @@ android {
     buildToolsVersion "23.0.1"
     defaultConfig {
         applicationId "com.orthopg.snaphy.orthopg"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 23
         versionCode 6
         versionName "1.5"
@@ -64,6 +64,7 @@ dependencies {
         exclude group: 'com.android.support'
     }
     compile project(':payUMoneysdk')
+    compile 'com.payu.india:payu-sdk:4.3.9'
     compile 'com.theartofdev.edmodo:android-image-cropper:2.3.+'
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'com.android.support:design:24.1.1'

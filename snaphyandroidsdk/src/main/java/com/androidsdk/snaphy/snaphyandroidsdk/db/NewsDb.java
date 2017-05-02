@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.content.ContentValues;
 import java.util.HashMap;
 import com.google.gson.Gson;
+import com.google.gson.LongSerializationPolicy;
+import com.google.gson.GsonBuilder;
 import android.database.Cursor;
 import java.lang.reflect.Method;
 import android.util.Log;
@@ -108,7 +110,10 @@ public class NewsDb{
                                 
                                                             String imageData = "";
                         if(modelData.getImage() != null){
-                          imageData = new Gson().toJson(modelData.getImage(), HashMap.class);
+                          GsonBuilder gsonBuilder = new GsonBuilder();
+                          gsonBuilder.setLongSerializationPolicy(LongSerializationPolicy.STRING);
+                          Gson gson = gsonBuilder.create();
+                          imageData = gson.toJson(modelData.getImage(), HashMap.class);
                           values.put("`image`", imageData);
                         }
                                   
@@ -275,7 +280,10 @@ public class NewsDb{
                                 
                                                             Map<String, Object> imageData = new HashMap<>();
                         if(cursor.getString(5) != null){
-                          imageData = new Gson().fromJson(cursor.getString(5), Map.class);
+                          GsonBuilder gsonBuilder = new GsonBuilder();
+                          gsonBuilder.setLongSerializationPolicy(LongSerializationPolicy.STRING);
+                          Gson gson = gsonBuilder.create();
+                           imageData = gson.fromJson(cursor.getString(5), Map.class);
                           if(imageData != null){
                             imageData = (Map<String, Object>)imageData;
                             hashMap.put("image", imageData);

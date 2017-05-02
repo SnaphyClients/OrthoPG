@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
                     // params will be empty if no data found
                     // ... insert custom logic here ...
                     String data = referringParams.toString();
-                    Toast.makeText(getApplicationContext(),data, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(),data, Toast.LENGTH_SHORT).show();
                 } else {
                     Log.i("MyApp", error.getMessage());
                 }

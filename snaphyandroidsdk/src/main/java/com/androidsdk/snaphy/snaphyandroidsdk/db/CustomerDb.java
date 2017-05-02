@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.content.ContentValues;
 import java.util.HashMap;
 import com.google.gson.Gson;
+import com.google.gson.LongSerializationPolicy;
+import com.google.gson.GsonBuilder;
 import android.database.Cursor;
 import java.lang.reflect.Method;
 import android.util.Log;
@@ -136,7 +138,10 @@ public class CustomerDb{
                                 
                                                             String profilePicData = "";
                         if(modelData.getProfilePic() != null){
-                          profilePicData = new Gson().toJson(modelData.getProfilePic(), HashMap.class);
+                          GsonBuilder gsonBuilder = new GsonBuilder();
+                          gsonBuilder.setLongSerializationPolicy(LongSerializationPolicy.STRING);
+                          Gson gson = gsonBuilder.create();
+                          profilePicData = gson.toJson(modelData.getProfilePic(), HashMap.class);
                           values.put("`profilePic`", profilePicData);
                         }
                                   
@@ -488,7 +493,10 @@ public class CustomerDb{
                                 
                                                             Map<String, Object> profilePicData = new HashMap<>();
                         if(cursor.getString(9) != null){
-                          profilePicData = new Gson().fromJson(cursor.getString(9), Map.class);
+                          GsonBuilder gsonBuilder = new GsonBuilder();
+                          gsonBuilder.setLongSerializationPolicy(LongSerializationPolicy.STRING);
+                          Gson gson = gsonBuilder.create();
+                           profilePicData = gson.fromJson(cursor.getString(9), Map.class);
                           if(profilePicData != null){
                             profilePicData = (Map<String, Object>)profilePicData;
                             hashMap.put("profilePic", profilePicData);

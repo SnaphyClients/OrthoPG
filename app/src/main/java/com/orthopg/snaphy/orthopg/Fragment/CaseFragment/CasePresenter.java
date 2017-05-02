@@ -53,6 +53,7 @@ public class CasePresenter {
         this.noCasePresentText = noCasePresentText;
         //Only add if not initialized already..
         trackList = new HashMap<String, TrackList>();
+        mainActivity.stopProgressBar(progressBar);
         Presenter.getInstance().addModel(Constants.LIST_CASE_FRAGMENT, trackList);
         HashMap<Object, TrackLike> trackLike = new HashMap<>();
         Presenter.getInstance().addModel(Constants.TRACK_LIKE, trackLike);
@@ -283,43 +284,45 @@ public class CasePresenter {
 
                 final PostRepository postRepository = restAdapter.createRepository(PostRepository.class);
                 postRepository.addStorage(mainActivity);
-
-                postRepository.getPostedCases(list.getSkip(), list.getLimit(), (String) customer.getId(), new DataListCallback<Post>() {
-                    @Override
-                    public void onBefore() {
-                        if (mainActivity != null) {
-                            //Start loading bar..
-                            mainActivity.startProgressBar(circleProgressBar);
-                            if(noCasePresentText != null){
-                                noCasePresentText.setVisibility(View.GONE);
-                            }
-                        }
-                        //Set old flag..
-                        setOldFlag(listType);
-                    }
-
-                    @Override
-                    public void onSuccess(DataList<Post> objects) {
-                        if(objects != null){
-                            for (Post post : objects) {
-                                if (post != null) {
-                                    savePostData(post, listType);
+                if(!mainActivity.snaphyHelper.isNetworkAvailable()){
+                    loadDataOffline(listType);
+                } else {
+                    postRepository.getPostedCases(list.getSkip(), list.getLimit(), (String) customer.getId(), new DataListCallback<Post>() {
+                        @Override
+                        public void onBefore() {
+                            if (mainActivity != null) {
+                                //Start loading bar..
+                                mainActivity.startProgressBar(circleProgressBar);
+                                if (noCasePresentText != null) {
+                                    noCasePresentText.setVisibility(View.GONE);
                                 }
                             }
-                            list.getPostDataList().addAll(objects);
-                            //Now increment skip....
-                            list.incrementSkip(objects.size());
-                            //Now remove old data..
-                            removeTagFromOldData(listType);
+                            //Set old flag..
+                            setOldFlag(listType);
                         }
-                    }
 
-                    @Override
-                    public void onError(Throwable t) {
-                        //SHOW ERROR MESSAGE..
-                        Log.e(Constants.TAG, t.toString() + "---CasePresenter.java");
-                        //TODO: Check no internet..
-                        loadDataOffline(listType);
+                        @Override
+                        public void onSuccess(DataList<Post> objects) {
+                            if (objects != null) {
+                                for (Post post : objects) {
+                                    if (post != null) {
+                                        savePostData(post, listType);
+                                    }
+                                }
+                                list.getPostDataList().addAll(objects);
+                                //Now increment skip....
+                                list.incrementSkip(objects.size());
+                                //Now remove old data..
+                                removeTagFromOldData(listType);
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable t) {
+                            //SHOW ERROR MESSAGE..
+                            Log.e(Constants.TAG, t.toString() + "---CasePresenter.java");
+                            //TODO: Check no internet..
+                            //loadDataOffline(listType);
                        /* if(list.getPostDataList().size() != 0){
                             HashMap<String, Object> localFlagQuery = new HashMap<String, Object>();
                             localFlagQuery.put(listType, listType);
@@ -329,21 +332,22 @@ public class CasePresenter {
                             }
                         }*/
 
-                    }
+                        }
 
-                    @Override
-                    public void onFinally() {
-                        if (mainActivity != null) {
-                            //Stop loading bar..
-                            mainActivity.stopProgressBar(circleProgressBar);
-                            if(list.getPostDataList().size() == 0){
-                                if(noCasePresentText != null){
-                                    noCasePresentText.setVisibility(View.VISIBLE);
+                        @Override
+                        public void onFinally() {
+                            if (mainActivity != null) {
+                                //Stop loading bar..
+                                mainActivity.stopProgressBar(circleProgressBar);
+                                if (list.getPostDataList().size() == 0) {
+                                    if (noCasePresentText != null) {
+                                        noCasePresentText.setVisibility(View.VISIBLE);
+                                    }
                                 }
                             }
                         }
-                    }
-                });
+                    });
+                }
             }//list != null
         }else{
             Log.e(Constants.TAG, "User not logged! Cannot display SavedCases List");
@@ -431,59 +435,63 @@ public class CasePresenter {
 
                 final PostRepository postRepository = restAdapter.createRepository(PostRepository.class);
                 postRepository.addStorage(mainActivity);
-                postRepository.fetchSavedCases(list.getSkip(), list.getLimit(), (String) customer.getId(), new DataListCallback<Post>() {
-                    @Override
-                    public void onBefore() {
-                        if (mainActivity != null) {
-                            //Start loading bar..
-                            mainActivity.startProgressBar(circleProgressBar);
-                            if(noCasePresentText != null){
-                                noCasePresentText.setVisibility(View.GONE);
-                            }
-                        }
-
-                        //Set old flag..
-                        setOldFlag(listType);
-                    }
-
-                    @Override
-                    public void onSuccess(DataList<Post> objects) {
-                        if(objects != null){
-                            for (Post post : objects) {
-                                if (post != null) {
-                                    savePostData(post, listType);
+                if(!mainActivity.snaphyHelper.isNetworkAvailable()){
+                    loadDataOffline(listType);
+                } else {
+                    postRepository.fetchSavedCases(list.getSkip(), list.getLimit(), (String) customer.getId(), new DataListCallback<Post>() {
+                        @Override
+                        public void onBefore() {
+                            if (mainActivity != null) {
+                                //Start loading bar..
+                                mainActivity.startProgressBar(circleProgressBar);
+                                if (noCasePresentText != null) {
+                                    noCasePresentText.setVisibility(View.GONE);
                                 }
                             }
-                            list.getPostDataList().addAll(objects);
-                            //Now increment skip..
-                            list.incrementSkip(objects.size());
-                            //Now remove old data..
-                            removeTagFromOldData(listType);
+
+                            //Set old flag..
+                            setOldFlag(listType);
                         }
 
-                    }
+                        @Override
+                        public void onSuccess(DataList<Post> objects) {
+                            if (objects != null) {
+                                for (Post post : objects) {
+                                    if (post != null) {
+                                        savePostData(post, listType);
+                                    }
+                                }
+                                list.getPostDataList().addAll(objects);
+                                //Now increment skip..
+                                list.incrementSkip(objects.size());
+                                //Now remove old data..
+                                removeTagFromOldData(listType);
+                            }
 
-
-                    @Override
-                    public void onError(Throwable t) {
-                        //SHOW ERROR MESSAGE..
-                        Log.e(Constants.TAG, t.toString() + "---CasePresenter.java");
-                        loadDataOffline(listType);
-                    }
-
-                    @Override
-                    public void onFinally() {
-                        if (mainActivity != null) {
-                            //Stop loading bar..
-                            mainActivity.stopProgressBar(circleProgressBar);
                         }
-                        if(list.getPostDataList().size() == 0){
-                            if(noCasePresentText != null){
-                                noCasePresentText.setVisibility(View.VISIBLE);
+
+
+                        @Override
+                        public void onError(Throwable t) {
+                            //SHOW ERROR MESSAGE..
+                            Log.e(Constants.TAG, t.toString() + "---CasePresenter.java");
+                            //loadDataOffline(listType);
+                        }
+
+                        @Override
+                        public void onFinally() {
+                            if (mainActivity != null) {
+                                //Stop loading bar..
+                                mainActivity.stopProgressBar(circleProgressBar);
+                            }
+                            if (list.getPostDataList().size() == 0) {
+                                if (noCasePresentText != null) {
+                                    noCasePresentText.setVisibility(View.VISIBLE);
+                                }
                             }
                         }
-                    }
-                });
+                    });
+                }
             }//list != null
         }else{
             Log.e(Constants.TAG, "User not logged! Cannot display SavedCases List");
@@ -501,18 +509,21 @@ public class CasePresenter {
     public void fetchPost(final String listType, boolean reset){
         //Get the list ...
         final TrackList list = trackList.get(listType);
-        if(list != null){
-            if(reset){
-               list.reset();
+        if(list != null) {
+            if (reset) {
+                list.reset();
             }
-            PostDetailRepository postDetailRepository =  restAdapter.createRepository(PostDetailRepository.class);
+            PostDetailRepository postDetailRepository = restAdapter.createRepository(PostDetailRepository.class);
             postDetailRepository.addStorage(mainActivity);
+            if (!mainActivity.snaphyHelper.isNetworkAvailable()) {
+                loadDataOffline(listType);
+            } else{
             postDetailRepository.getPostDetail(list.getSkip(), list.getLimit(), list.getListType(), new DataListCallback<PostDetail>() {
                 @Override
                 public void onBefore() {
                     //Start loading bar..
                     mainActivity.startProgressBar(circleProgressBar);
-                    if(noCasePresentText != null){
+                    if (noCasePresentText != null) {
                         noCasePresentText.setVisibility(View.GONE);
                     }
                     setOldFlag(listType);
@@ -520,11 +531,11 @@ public class CasePresenter {
 
                 @Override
                 public void onSuccess(DataList<PostDetail> objects) {
-                    if(objects != null){
+                    if (objects != null) {
                         //Add back reference...
-                        for(PostDetail postDetail : objects){
-                            if(postDetail != null){
-                                if(postDetail.getPost() != null){
+                        for (PostDetail postDetail : objects) {
+                            if (postDetail != null) {
+                                if (postDetail.getPost() != null) {
                                     postDetail.getPost().addRelation(postDetail);
                                     savePostData(postDetail.getPost(), listType);
                                 }
@@ -536,7 +547,7 @@ public class CasePresenter {
                         //Now increment skip..
                         list.incrementSkip(objects.size());
                         //Now remove old data..
-                       removeTagFromOldData(listType);
+                        removeTagFromOldData(listType);
                     }
                 }
 
@@ -544,20 +555,21 @@ public class CasePresenter {
                 public void onError(Throwable t) {
                     //SHOW ERROR MESSAGE..
                     Log.e(Constants.TAG, t.toString() + "---CasePresenter.java");
-                    loadDataOffline(listType);
+                   // loadDataOffline(listType);
                 }
 
                 @Override
                 public void onFinally() {
                     //Stop loading bar..
                     mainActivity.stopProgressBar(circleProgressBar);
-                    if(list.getPostDetails().size() == 0){
-                        if(noCasePresentText != null){
+                    if (list.getPostDetails().size() == 0) {
+                        if (noCasePresentText != null) {
                             noCasePresentText.setVisibility(View.VISIBLE);
                         }
                     }
                 }
             });
+        }
         }else{
             Log.e(Constants.TAG, "Unknown list type"+ "---CasePresenter.java");
         }
