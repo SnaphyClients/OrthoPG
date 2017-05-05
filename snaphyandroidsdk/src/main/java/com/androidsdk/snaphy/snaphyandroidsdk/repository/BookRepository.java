@@ -2691,7 +2691,7 @@ public class BookRepository extends ModelRepository<Book> {
     
         
             //Method fetchBookDetail definition
-            public void fetchBookDetail(  String bookId, final ObjectCallback<BookDetail> callback){
+            public void fetchBookDetail(  Map<String,  ? extends Object> ctx,  String bookId, final ObjectCallback<BookDetail> callback){
 
                 /**
                 Call the onBefore event
@@ -2702,6 +2702,8 @@ public class BookRepository extends ModelRepository<Book> {
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
                 //Now add the arguments...
+                
+                        hashMapObject.put("ctx", ctx);
                 
                         hashMapObject.put("bookId", bookId);
                 

@@ -87,6 +87,13 @@ public class BookDb{
                         }
                                   
                                 
+                                                            String isEbookAvailData = "";
+                        if(modelData.getIsEbookAvail() != null){
+                          isEbookAvailData = modelData.getIsEbookAvail().toString();
+                          values.put("`isEbookAvail`", isEbookAvailData);
+                        }
+                                  
+                                
                                                             String ebookPriceData = "";
                         if(modelData.getEbookPrice() != null){
                           ebookPriceData = modelData.getEbookPrice().toString();
@@ -292,9 +299,19 @@ public class BookDb{
                         }
                                                 
                                 
-                                                            String ebookPriceData = "";
+                                                            String isEbookAvailData = "";
                         if(cursor.getString(2) != null){
-                          ebookPriceData = cursor.getString(2);
+                          isEbookAvailData = cursor.getString(2);
+                          if(isEbookAvailData != null){
+                            isEbookAvailData = (String)isEbookAvailData;
+                            hashMap.put("isEbookAvail", isEbookAvailData);
+                          }
+                        }
+                                                
+                                
+                                                            String ebookPriceData = "";
+                        if(cursor.getString(3) != null){
+                          ebookPriceData = cursor.getString(3);
                           if(ebookPriceData != null){
                             ebookPriceData = (String)ebookPriceData;
                             hashMap.put("ebookPrice", ebookPriceData);
@@ -303,8 +320,8 @@ public class BookDb{
                                                 
                                 
                                                             String hardCopyPriceData = "";
-                        if(cursor.getString(3) != null){
-                          hardCopyPriceData = cursor.getString(3);
+                        if(cursor.getString(4) != null){
+                          hardCopyPriceData = cursor.getString(4);
                           if(hardCopyPriceData != null){
                             hardCopyPriceData = (String)hardCopyPriceData;
                             hashMap.put("hardCopyPrice", hardCopyPriceData);
@@ -313,8 +330,8 @@ public class BookDb{
                                                 
                                 
                                                             String statusData = "";
-                        if(cursor.getString(4) != null){
-                          statusData = cursor.getString(4);
+                        if(cursor.getString(5) != null){
+                          statusData = cursor.getString(5);
                           if(statusData != null){
                             statusData = (String)statusData;
                             hashMap.put("status", statusData);
@@ -323,11 +340,11 @@ public class BookDb{
                                                 
                                 
                                                             Map<String, Object> bookCoverData = new HashMap<>();
-                        if(cursor.getString(5) != null){
+                        if(cursor.getString(6) != null){
                           GsonBuilder gsonBuilder = new GsonBuilder();
                           gsonBuilder.setLongSerializationPolicy(LongSerializationPolicy.STRING);
                           Gson gson = gsonBuilder.create();
-                           bookCoverData = gson.fromJson(cursor.getString(5), Map.class);
+                           bookCoverData = gson.fromJson(cursor.getString(6), Map.class);
                           if(bookCoverData != null){
                             bookCoverData = (Map<String, Object>)bookCoverData;
                             hashMap.put("bookCover", bookCoverData);
@@ -336,11 +353,11 @@ public class BookDb{
                                                 
                                 
                                                             Map<String, Object> uploadSampleBookData = new HashMap<>();
-                        if(cursor.getString(6) != null){
+                        if(cursor.getString(7) != null){
                           GsonBuilder gsonBuilder = new GsonBuilder();
                           gsonBuilder.setLongSerializationPolicy(LongSerializationPolicy.STRING);
                           Gson gson = gsonBuilder.create();
-                           uploadSampleBookData = gson.fromJson(cursor.getString(6), Map.class);
+                           uploadSampleBookData = gson.fromJson(cursor.getString(7), Map.class);
                           if(uploadSampleBookData != null){
                             uploadSampleBookData = (Map<String, Object>)uploadSampleBookData;
                             hashMap.put("uploadSampleBook", uploadSampleBookData);
@@ -349,8 +366,8 @@ public class BookDb{
                                                 
                                 
                                                             String addedData = "";
-                        if(cursor.getString(7) != null){
-                          addedData = cursor.getString(7);
+                        if(cursor.getString(8) != null){
+                          addedData = cursor.getString(8);
                           if(addedData != null){
                             addedData = (String)addedData;
                             hashMap.put("added", addedData);
@@ -359,8 +376,8 @@ public class BookDb{
                                                 
                                 
                                                             String savedCategoryIdData = "";
-                        if(cursor.getString(8) != null){
-                          savedCategoryIdData = cursor.getString(8);
+                        if(cursor.getString(9) != null){
+                          savedCategoryIdData = cursor.getString(9);
                           if(savedCategoryIdData != null){
                             savedCategoryIdData = (String)savedCategoryIdData;
                             hashMap.put("savedCategoryId", savedCategoryIdData);
@@ -369,8 +386,8 @@ public class BookDb{
                                                 
                                 
                                                             String updatedData = "";
-                        if(cursor.getString(9) != null){
-                          updatedData = cursor.getString(9);
+                        if(cursor.getString(10) != null){
+                          updatedData = cursor.getString(10);
                           if(updatedData != null){
                             updatedData = (String)updatedData;
                             hashMap.put("updated", updatedData);
@@ -379,8 +396,8 @@ public class BookDb{
                                                 
                                 
                                                             String idData = "";
-                        if(cursor.getString(10) != null){
-                          idData = cursor.getString(10);
+                        if(cursor.getString(11) != null){
+                          idData = cursor.getString(11);
                           if(idData != null){
                             idData = idData.toString();
                             hashMap.put("id", idData);
@@ -389,8 +406,8 @@ public class BookDb{
                                                 
                                 
                                                             String bookCategoryIdData = "";
-                        if(cursor.getString(11) != null){
-                          bookCategoryIdData = cursor.getString(11);
+                        if(cursor.getString(12) != null){
+                          bookCategoryIdData = cursor.getString(12);
                           if(bookCategoryIdData != null){
                             bookCategoryIdData = bookCategoryIdData.toString();
                             hashMap.put("bookCategoryId", bookCategoryIdData);

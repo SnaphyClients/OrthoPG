@@ -77,6 +77,48 @@ public class Payment extends Model {
             
 
             
+                private String added;
+                /* Adding Getter and Setter methods */
+                public String getAdded(){
+                    return added;
+                }
+
+                /* Adding Getter and Setter methods */
+                public void setAdded(String added){
+                    this.added = added;
+                    //Update hashMap value..
+                    hashMap.put("added", added);
+                }
+
+            
+            
+        
+    
+        
+            
+
+            
+                private String updated;
+                /* Adding Getter and Setter methods */
+                public String getUpdated(){
+                    return updated;
+                }
+
+                /* Adding Getter and Setter methods */
+                public void setUpdated(String updated){
+                    this.updated = updated;
+                    //Update hashMap value..
+                    hashMap.put("updated", updated);
+                }
+
+            
+            
+        
+    
+        
+            
+
+            
                 private Map<String, Object> bookDetail;
                 /* Adding Getter and Setter methods */
                 public Map<String, Object> getBookDetail(){
@@ -109,27 +151,6 @@ public class Payment extends Model {
                     this.address = address;
                     //Update hashMap value..
                     hashMap.put("address", address);
-                }
-
-            
-            
-        
-    
-        
-            
-
-            
-                private boolean status;
-                /* Adding Getter and Setter methods */
-                public boolean getStatus(){
-                    return status;
-                }
-
-                /* Adding Getter and Setter methods */
-                public void setStatus(boolean status){
-                    this.status = status;
-                    //Update hashMap value..
-                    hashMap.put("status", status);
                 }
 
             

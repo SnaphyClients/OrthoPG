@@ -38,6 +38,8 @@ import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.BookDescriptionFragment
 import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.BookTestFragment;
 import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.BooksFragment;
 import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.CheckoutFragment;
+import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.FailureFragment;
+import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.SuccessFragment;
 import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.ViewAllBooksFragment;
 import com.orthopg.snaphy.orthopg.Fragment.CaseDetailFragment.CaseDetailFragment;
 import com.orthopg.snaphy.orthopg.Fragment.CaseDetailFragment.PostAnswerFragment;
@@ -67,6 +69,8 @@ import com.orthopg.snaphy.orthopg.OrderHistoryFragment.OrderHistoryFragment;
 import com.orthopg.snaphy.orthopg.PushNotification.RegistrationIntentService;
 import com.orthopg.snaphy.orthopg.QualificationFragment.QualificationFragment;
 import com.orthopg.snaphy.orthopg.SpecialityFragment.SpecialityFragment;
+import com.payUMoney.sdk.PayUmoneySdkInitilizer;
+import com.payUMoney.sdk.SdkConstants;
 import com.sdsmdg.tastytoast.TastyToast;
 import com.strongloop.android.loopback.AccessToken;
 import com.strongloop.android.loopback.AccessTokenRepository;
@@ -105,7 +109,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         ViewAllBooksFragment.OnFragmentInteractionListener, BookDescriptionFragment.OnFragmentInteractionListener,
         OtherProfileFragment.OnFragmentInteractionListener, SpecialityFragment.OnFragmentInteractionListener,
         QualificationFragment.OnFragmentInteractionListener, EditProfileFragment.OnFragmentInteractionListener,
-        OrderHistoryFragment.OnFragmentInteractionListener, CheckoutFragment.OnFragmentInteractionListener {
+        OrderHistoryFragment.OnFragmentInteractionListener, CheckoutFragment.OnFragmentInteractionListener,
+        SuccessFragment.OnFragmentInteractionListener, FailureFragment.OnFragmentInteractionListener {
 
     RestAdapter restAdapter;
     Context context;
@@ -438,6 +443,14 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             case R.layout.fragment_checkout:
                 openCheckoutFragment(fragmentTransaction);
                 break;
+
+            case R.layout.fragment_success:
+                openSuccessFragment(fragmentTransaction);
+                break;
+
+            case R.layout.fragment_failure:
+                openFailureFragment(fragmentTransaction);
+                break;
         }
     }
 
@@ -684,6 +697,24 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             checkoutFragment = checkoutFragment.newInstance();
         }
         fragmentTransaction.replace(R.id.main_container, checkoutFragment, CheckoutFragment.TAG).addToBackStack(CheckoutFragment.TAG);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    public void openSuccessFragment(FragmentTransaction fragmentTransaction){
+        SuccessFragment successFragment = (SuccessFragment)getSupportFragmentManager().findFragmentByTag(SuccessFragment.TAG);
+        if(successFragment == null){
+            successFragment = SuccessFragment.newInstance();
+        }
+        fragmentTransaction.replace(R.id.main_container, successFragment, SuccessFragment.TAG).addToBackStack(SuccessFragment.TAG);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    public void openFailureFragment(FragmentTransaction fragmentTransaction){
+        FailureFragment failureFragment = (FailureFragment)getSupportFragmentManager().findFragmentByTag(FailureFragment.TAG);
+        if(failureFragment == null){
+            failureFragment = FailureFragment.newInstance();
+        }
+        fragmentTransaction.replace(R.id.main_container, failureFragment, FailureFragment.TAG).addToBackStack(FailureFragment.TAG);
         fragmentTransaction.commitAllowingStateLoss();
     }
 
@@ -1044,6 +1075,15 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
 
         }
 
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PayUmoneySdkInitilizer.PAYU_SDK_PAYMENT_REQUEST_CODE) {
+
+
+        }
     }
 
 

@@ -1,8 +1,10 @@
 package com.orthopg.snaphy.orthopg.Fragment.ProfileFragment;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -22,16 +24,26 @@ import android.widget.TextView;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.VoidCallback;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Payment;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.CustomerRepository;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
+import com.payUMoney.sdk.PayUmoneySdkInitilizer;
+import com.payUMoney.sdk.SdkConstants;
 import com.sdsmdg.tastytoast.TastyToast;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -55,6 +67,17 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
     Customer loginCustomer;
     public final static String TAG = "ProfileFragment";
     SharedPreferences sharedPreferences;
+    String merchantId;
+    String key;
+    String txnId;
+    double amount;
+    String productInfo;
+    String firstName;
+    String email1;
+    String salt;
+    String address;
+    String phoneNumber;
+    String paymentIdNumber;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -106,8 +129,123 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
 */
     @OnClick(R.id.fragment_profile_button1) void onViewProfile(){
 
-        mainActivity.replaceFragment(R.layout.fragment_doctor_profile,ProfileFragment.TAG);
+        //mainActivity.replaceFragment(R.layout.fragment_doctor_profile,ProfileFragment.TAG);
+        Random rand = new Random();
+        String randomString = Integer.toString(rand.nextInt()) + (System.currentTimeMillis() / 1000L);
+        txnId = hashCal(randomString).substring(0, 20);
+        //Payment payment = Presenter.getInstance().getModel(Payment.class, Constants.PAYMENT_MODEL_DATA);
+        //Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+        merchantId = Constants.PAYU_MERCHANT_ID;
+        key = Constants.PAYU_KEY;
+        amount = 10;
+        productInfo = String.valueOf("Dummy");
+        firstName = "Test";
+        email1 = "robinskumar73@gmail.com";
+        phoneNumber = "9412345688";
+        salt = Constants.PAYU_SALT;
+        String udf1 = "";
+        String udf2 = "";
+        String udf3 = "";
+        String udf4 = "";
+        String udf5 = "";
+        PayUmoneySdkInitilizer.PaymentParam.Builder builder = new PayUmoneySdkInitilizer.PaymentParam.Builder()
+                .setMerchantId(merchantId)
+                .setKey(key)
+                .setIsDebug(false)
+                .setAmount(amount)
+                .setTnxId(txnId)
+                .setPhone(phoneNumber)
+                .setProductName(productInfo)
+                .setFirstName(firstName)
+                .setEmail(email1)
+                .setsUrl("https://www.payumoney.com/mobileapp/payumoney/success.php")
+                .setfUrl("https://www.payumoney.com/mobileapp/payumoney/failure.php")
+                .setUdf1("")
+                .setUdf2("")
+                .setUdf3("")
+                .setUdf4("")
+                .setUdf5("");
+        PayUmoneySdkInitilizer.PaymentParam paymentParam = builder.build();
+        String serverCalculatedHash=hashCal(key+"|"+txnId+"|"+amount+"|"+productInfo+"|"
+                +firstName+"|"+email1+"|"+udf1+"|"+udf2+"|"+udf3+"|"+udf4+"|"+udf5+"|"+salt);
+
+        paymentParam.setMerchantHash(serverCalculatedHash);
+        //dummyVerifyPaymentFromServer();
+        PayUmoneySdkInitilizer.startPaymentActivityForResult(mainActivity, paymentParam);
     }
+    public static String hashCal(String str) {
+        byte[] hashseq = str.getBytes();
+        StringBuilder hexString = new StringBuilder();
+        try {
+            MessageDigest algorithm = MessageDigest.getInstance("SHA-512");
+            algorithm.reset();
+            algorithm.update(hashseq);
+            byte messageDigest[] = algorithm.digest();
+            for (byte aMessageDigest : messageDigest) {
+                String hex = Integer.toHexString(0xFF & aMessageDigest);
+                if (hex.length() == 1) {
+                    hexString.append("0");
+                }
+                hexString.append(hex);
+            }
+        } catch (NoSuchAlgorithmException ignored) {
+        }
+        return hexString.toString();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PayUmoneySdkInitilizer.PAYU_SDK_PAYMENT_REQUEST_CODE) {
+
+            if (resultCode == RESULT_OK) {
+                Log.i(TAG, "Success - Payment ID : " + data.getStringExtra(SdkConstants.PAYMENT_ID));
+                String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
+                paymentIdNumber = paymentId;
+                showDialogMessage("Payment Success Id : " + paymentId);
+                // verifyPaymentFromServer(requestCode);
+            } else if (resultCode == RESULT_CANCELED) {
+                Log.i(TAG, "failure");
+                showDialogMessage("cancelled");
+                String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
+                paymentIdNumber = paymentId;
+                //verifyPaymentFromServer(resultCode);
+            } else if (resultCode == PayUmoneySdkInitilizer.RESULT_FAILED) {
+                Log.i("app_activity", "failure");
+                String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
+                paymentIdNumber = paymentId;
+                //verifyPaymentFromServer(resultCode);
+                if (data != null) {
+                    if (data.getStringExtra(SdkConstants.RESULT).equals("cancel")) {
+
+                    } else {
+                        showDialogMessage("failure");
+                    }
+                }
+                //Write your code if there's no result
+            } else if (resultCode == PayUmoneySdkInitilizer.RESULT_BACK) {
+                Log.i(TAG, "User returned without login");
+                String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
+                paymentIdNumber = paymentId;
+                //verifyPaymentFromServer(resultCode);
+                showDialogMessage("User returned without login");
+            }
+        }
+    }
+
+    private void showDialogMessage(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
+        builder.setTitle(TAG);
+        builder.setMessage(message);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+
+    }
+
 
     public void displayData(){
         if(loginCustomer != null){

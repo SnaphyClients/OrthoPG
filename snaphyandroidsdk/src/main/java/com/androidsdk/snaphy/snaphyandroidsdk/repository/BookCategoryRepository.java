@@ -1657,7 +1657,7 @@ public class BookCategoryRepository extends ModelRepository<BookCategory> {
     
         
             //Method fetchBookList definition
-            public void fetchBookList(  String customerId, final DataListCallback<BookCategory> callback){
+            public void fetchBookList(  Map<String,  ? extends Object> ctx,  String customerId, final DataListCallback<BookCategory> callback){
 
                 /**
                 Call the onBefore event
@@ -1668,6 +1668,8 @@ public class BookCategoryRepository extends ModelRepository<BookCategory> {
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
                 //Now add the arguments...
+                
+                        hashMapObject.put("ctx", ctx);
                 
                         hashMapObject.put("customerId", customerId);
                 

@@ -133,6 +133,27 @@ public class Book extends Model {
             
 
             
+                private String isEbookAvail;
+                /* Adding Getter and Setter methods */
+                public String getIsEbookAvail(){
+                    return isEbookAvail;
+                }
+
+                /* Adding Getter and Setter methods */
+                public void setIsEbookAvail(String isEbookAvail){
+                    this.isEbookAvail = isEbookAvail;
+                    //Update hashMap value..
+                    hashMap.put("isEbookAvail", isEbookAvail);
+                }
+
+            
+            
+        
+    
+        
+            
+
+            
                 private String ebookPrice;
                 /* Adding Getter and Setter methods */
                 public String getEbookPrice(){

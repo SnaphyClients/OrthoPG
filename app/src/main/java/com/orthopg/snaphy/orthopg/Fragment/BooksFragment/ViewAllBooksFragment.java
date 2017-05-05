@@ -79,6 +79,7 @@ public class ViewAllBooksFragment extends android.support.v4.app.Fragment {
         View view = inflater.inflate(R.layout.fragment_view_all_books, container, false);
         ButterKnife.bind(this,view);
         setTypeface();
+        bookDataList.clear();
         linearLayoutManager = new LinearLayoutManager(mainActivity);
         recyclerView.setLayoutManager(linearLayoutManager);
         //subscribe();

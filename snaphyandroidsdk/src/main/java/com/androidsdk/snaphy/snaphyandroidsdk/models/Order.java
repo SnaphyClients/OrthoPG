@@ -105,6 +105,27 @@ public class Order extends Model {
             
 
             
+                private String updated;
+                /* Adding Getter and Setter methods */
+                public String getUpdated(){
+                    return updated;
+                }
+
+                /* Adding Getter and Setter methods */
+                public void setUpdated(String updated){
+                    this.updated = updated;
+                    //Update hashMap value..
+                    hashMap.put("updated", updated);
+                }
+
+            
+            
+        
+    
+        
+            
+
+            
                 private String orderNumber;
                 /* Adding Getter and Setter methods */
                 public String getOrderNumber(){

@@ -1,1 +1,1 @@
-include ':app', ':snaphyandroidsdk', ':payUMoneysdk'
+include ':app', ':snaphyandroidsdk', ':payUMoneysdk', ':folioreader',":webViewMarker"

@@ -77,6 +77,7 @@ public class SdkWebViewActivityNew extends AppCompatActivity {
 
             @Override
             public void onCBErrorReceived(int code, String errormsg) {
+
             }
 
 

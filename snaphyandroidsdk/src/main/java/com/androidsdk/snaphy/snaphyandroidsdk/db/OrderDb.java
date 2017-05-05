@@ -80,6 +80,13 @@ public class OrderDb{
                         }
                                   
                                 
+                                                            String updatedData = "";
+                        if(modelData.getUpdated() != null){
+                          updatedData = modelData.getUpdated().toString();
+                          values.put("`updated`", updatedData);
+                        }
+                                  
+                                
                                                             String orderNumberData = "";
                         if(modelData.getOrderNumber() != null){
                           orderNumberData = modelData.getOrderNumber().toString();
@@ -278,9 +285,19 @@ public class OrderDb{
                         }
                                                 
                                 
-                                                            String orderNumberData = "";
+                                                            String updatedData = "";
                         if(cursor.getString(1) != null){
-                          orderNumberData = cursor.getString(1);
+                          updatedData = cursor.getString(1);
+                          if(updatedData != null){
+                            updatedData = (String)updatedData;
+                            hashMap.put("updated", updatedData);
+                          }
+                        }
+                                                
+                                
+                                                            String orderNumberData = "";
+                        if(cursor.getString(2) != null){
+                          orderNumberData = cursor.getString(2);
                           if(orderNumberData != null){
                             orderNumberData = (String)orderNumberData;
                             hashMap.put("orderNumber", orderNumberData);
@@ -289,8 +306,8 @@ public class OrderDb{
                                                 
                                 
                                                             String transactionIdData = "";
-                        if(cursor.getString(2) != null){
-                          transactionIdData = cursor.getString(2);
+                        if(cursor.getString(3) != null){
+                          transactionIdData = cursor.getString(3);
                           if(transactionIdData != null){
                             transactionIdData = (String)transactionIdData;
                             hashMap.put("transactionId", transactionIdData);
@@ -299,8 +316,8 @@ public class OrderDb{
                                                 
                                 
                                                             String orderStatusData = "";
-                        if(cursor.getString(3) != null){
-                          orderStatusData = cursor.getString(3);
+                        if(cursor.getString(4) != null){
+                          orderStatusData = cursor.getString(4);
                           if(orderStatusData != null){
                             orderStatusData = (String)orderStatusData;
                             hashMap.put("orderStatus", orderStatusData);
@@ -309,8 +326,8 @@ public class OrderDb{
                                                 
                                 
                                                             String paymentStatusData = "";
-                        if(cursor.getString(4) != null){
-                          paymentStatusData = cursor.getString(4);
+                        if(cursor.getString(5) != null){
+                          paymentStatusData = cursor.getString(5);
                           if(paymentStatusData != null){
                             paymentStatusData = (String)paymentStatusData;
                             hashMap.put("paymentStatus", paymentStatusData);
@@ -319,8 +336,8 @@ public class OrderDb{
                                                 
                                 
                                                             String errorMessageData = "";
-                        if(cursor.getString(5) != null){
-                          errorMessageData = cursor.getString(5);
+                        if(cursor.getString(6) != null){
+                          errorMessageData = cursor.getString(6);
                           if(errorMessageData != null){
                             errorMessageData = (String)errorMessageData;
                             hashMap.put("errorMessage", errorMessageData);
@@ -329,7 +346,7 @@ public class OrderDb{
                                                 
                                 
                                                             double amountData = (double)0;
-                          amountData = cursor.getInt(6);
+                          amountData = cursor.getInt(7);
                           amountData = (double)amountData;
                           hashMap.put("amount", amountData);
 
@@ -337,8 +354,8 @@ public class OrderDb{
                                                 
                                 
                                                             String typeData = "";
-                        if(cursor.getString(7) != null){
-                          typeData = cursor.getString(7);
+                        if(cursor.getString(8) != null){
+                          typeData = cursor.getString(8);
                           if(typeData != null){
                             typeData = (String)typeData;
                             hashMap.put("type", typeData);
@@ -347,8 +364,8 @@ public class OrderDb{
                                                 
                                 
                                                             String idData = "";
-                        if(cursor.getString(8) != null){
-                          idData = cursor.getString(8);
+                        if(cursor.getString(9) != null){
+                          idData = cursor.getString(9);
                           if(idData != null){
                             idData = idData.toString();
                             hashMap.put("id", idData);
@@ -357,8 +374,8 @@ public class OrderDb{
                                                 
                                 
                                                             String bookIdData = "";
-                        if(cursor.getString(9) != null){
-                          bookIdData = cursor.getString(9);
+                        if(cursor.getString(10) != null){
+                          bookIdData = cursor.getString(10);
                           if(bookIdData != null){
                             bookIdData = bookIdData.toString();
                             hashMap.put("bookId", bookIdData);
@@ -367,8 +384,8 @@ public class OrderDb{
                                                 
                                 
                                                             String customerIdData = "";
-                        if(cursor.getString(10) != null){
-                          customerIdData = cursor.getString(10);
+                        if(cursor.getString(11) != null){
+                          customerIdData = cursor.getString(11);
                           if(customerIdData != null){
                             customerIdData = customerIdData.toString();
                             hashMap.put("customerId", customerIdData);
@@ -377,8 +394,8 @@ public class OrderDb{
                                                 
                                 
                                                             String paymentIdData = "";
-                        if(cursor.getString(11) != null){
-                          paymentIdData = cursor.getString(11);
+                        if(cursor.getString(12) != null){
+                          paymentIdData = cursor.getString(12);
                           if(paymentIdData != null){
                             paymentIdData = paymentIdData.toString();
                             hashMap.put("paymentId", paymentIdData);

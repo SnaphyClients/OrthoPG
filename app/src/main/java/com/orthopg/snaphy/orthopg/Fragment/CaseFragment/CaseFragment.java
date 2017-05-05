@@ -118,32 +118,6 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         Typeface typeface = Typeface.createFromAsset(mainActivity.getAssets(), "fonts/OpenSans-Regular.ttf");
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
-       /* recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(mainActivity, new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                int id = view.getId();
-                view = inflater.inflate(R.layout.layout_case_list,null);
-                CaseFragment.ViewHolder viewHolder = new CaseFragment.ViewHolder(view);
-                TextView textview = viewHolder.caseHeading;
-                textview.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mainActivity.replaceFragment(R.layout.fragment_case_detail,null);
-                    }
-                });
-
-            }
-        }));*/
-       /* ItemClickSupport.addTo(recyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
-            @Override
-            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                int id = v.getId();
-                int childrenCount = v.getC
-               if(v.getId()==R.id.layout_case_list_linear_layout){
-
-               }
-            }
-        });*/
         swipeRefreshLayoutListener();
         loadPresenter();
         recyclerViewLoadMoreEventData();

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.Listen;
@@ -21,6 +23,7 @@ import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -191,7 +194,13 @@ public class BookTestFragment extends android.support.v4.app.Fragment {
         });
     }
 
-   /* @OnClick(R.id.fragment_books_textview2) void onViewAll(){
+    @Override
+    public void onPause() {
+        super.onPause();
+
+    }
+
+    /* @OnClick(R.id.fragment_books_textview2) void onViewAll(){
 
         mainActivity.replaceFragment(R.layout.fragment_view_all_books,null);
     }*/

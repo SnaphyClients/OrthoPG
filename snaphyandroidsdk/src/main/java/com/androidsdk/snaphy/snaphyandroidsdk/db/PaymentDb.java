@@ -73,6 +73,20 @@ public class PaymentDb{
     public ContentValues getContentValues(Payment modelData){
       ContentValues values = new ContentValues();
                        
+                                                            String addedData = "";
+                        if(modelData.getAdded() != null){
+                          addedData = modelData.getAdded().toString();
+                          values.put("`added`", addedData);
+                        }
+                                  
+                                
+                                                            String updatedData = "";
+                        if(modelData.getUpdated() != null){
+                          updatedData = modelData.getUpdated().toString();
+                          values.put("`updated`", updatedData);
+                        }
+                                  
+                                
                                                             String bookDetailData = "";
                         if(modelData.getBookDetail() != null){
                           GsonBuilder gsonBuilder = new GsonBuilder();
@@ -88,15 +102,6 @@ public class PaymentDb{
                           addressData = modelData.getAddress().toString();
                           values.put("`address`", addressData);
                         }
-                                  
-                                
-                                                            int statusData = 0;
-                        if(modelData.getStatus()){
-                          statusData = 1;
-                        }else{
-                          statusData = 0;
-                        }
-                        values.put("`status`", statusData);
                                   
                                 
                                                             String phoneNumberData = "";
@@ -244,12 +249,32 @@ public class PaymentDb{
       HashMap<String, Object> hashMap = new HashMap<>();
 
                       
-                                                            Map<String, Object> bookDetailData = new HashMap<>();
+                                                            String addedData = "";
                         if(cursor.getString(0) != null){
+                          addedData = cursor.getString(0);
+                          if(addedData != null){
+                            addedData = (String)addedData;
+                            hashMap.put("added", addedData);
+                          }
+                        }
+                                                
+                                
+                                                            String updatedData = "";
+                        if(cursor.getString(1) != null){
+                          updatedData = cursor.getString(1);
+                          if(updatedData != null){
+                            updatedData = (String)updatedData;
+                            hashMap.put("updated", updatedData);
+                          }
+                        }
+                                                
+                                
+                                                            Map<String, Object> bookDetailData = new HashMap<>();
+                        if(cursor.getString(2) != null){
                           GsonBuilder gsonBuilder = new GsonBuilder();
                           gsonBuilder.setLongSerializationPolicy(LongSerializationPolicy.STRING);
                           Gson gson = gsonBuilder.create();
-                           bookDetailData = gson.fromJson(cursor.getString(0), Map.class);
+                           bookDetailData = gson.fromJson(cursor.getString(2), Map.class);
                           if(bookDetailData != null){
                             bookDetailData = (Map<String, Object>)bookDetailData;
                             hashMap.put("bookDetail", bookDetailData);
@@ -258,8 +283,8 @@ public class PaymentDb{
                                                 
                                 
                                                             String addressData = "";
-                        if(cursor.getString(1) != null){
-                          addressData = cursor.getString(1);
+                        if(cursor.getString(3) != null){
+                          addressData = cursor.getString(3);
                           if(addressData != null){
                             addressData = (String)addressData;
                             hashMap.put("address", addressData);
@@ -267,19 +292,9 @@ public class PaymentDb{
                         }
                                                 
                                 
-                                                            boolean statusData = false;
-                        int tempstatusData = cursor.getInt(2);
-                        if( tempstatusData > 0){
-                          statusData = true;
-                        }else{
-                          statusData = false;
-                        }
-                        hashMap.put("status", statusData);
-                                                
-                                
                                                             String phoneNumberData = "";
-                        if(cursor.getString(3) != null){
-                          phoneNumberData = cursor.getString(3);
+                        if(cursor.getString(4) != null){
+                          phoneNumberData = cursor.getString(4);
                           if(phoneNumberData != null){
                             phoneNumberData = (String)phoneNumberData;
                             hashMap.put("phoneNumber", phoneNumberData);
@@ -288,8 +303,8 @@ public class PaymentDb{
                                                 
                                 
                                                             String emailData = "";
-                        if(cursor.getString(4) != null){
-                          emailData = cursor.getString(4);
+                        if(cursor.getString(5) != null){
+                          emailData = cursor.getString(5);
                           if(emailData != null){
                             emailData = (String)emailData;
                             hashMap.put("email", emailData);
@@ -298,7 +313,7 @@ public class PaymentDb{
                                                 
                                 
                                                             double amountData = (double)0;
-                          amountData = cursor.getInt(5);
+                          amountData = cursor.getInt(6);
                           amountData = (double)amountData;
                           hashMap.put("amount", amountData);
 
@@ -306,8 +321,8 @@ public class PaymentDb{
                                                 
                                 
                                                             String idData = "";
-                        if(cursor.getString(6) != null){
-                          idData = cursor.getString(6);
+                        if(cursor.getString(7) != null){
+                          idData = cursor.getString(7);
                           if(idData != null){
                             idData = idData.toString();
                             hashMap.put("id", idData);
@@ -316,8 +331,8 @@ public class PaymentDb{
                                                 
                                 
                                                             String bookIdData = "";
-                        if(cursor.getString(7) != null){
-                          bookIdData = cursor.getString(7);
+                        if(cursor.getString(8) != null){
+                          bookIdData = cursor.getString(8);
                           if(bookIdData != null){
                             bookIdData = bookIdData.toString();
                             hashMap.put("bookId", bookIdData);
@@ -326,8 +341,8 @@ public class PaymentDb{
                                                 
                                 
                                                             String customerIdData = "";
-                        if(cursor.getString(8) != null){
-                          customerIdData = cursor.getString(8);
+                        if(cursor.getString(9) != null){
+                          customerIdData = cursor.getString(9);
                           if(customerIdData != null){
                             customerIdData = customerIdData.toString();
                             hashMap.put("customerId", customerIdData);

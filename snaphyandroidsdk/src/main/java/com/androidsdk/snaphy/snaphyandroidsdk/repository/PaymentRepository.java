@@ -1349,7 +1349,7 @@ public class PaymentRepository extends ModelRepository<Payment> {
     
         
             //Method getPaymentStatus definition
-            public void getPaymentStatus(  String transactionId,  String paymentId, final ObjectCallback<Order> callback){
+            public void getPaymentStatus(  Map<String,  ? extends Object> ctx,  String transactionId,  String paymentId, final ObjectCallback<Order> callback){
 
                 /**
                 Call the onBefore event
@@ -1360,6 +1360,8 @@ public class PaymentRepository extends ModelRepository<Payment> {
                 //Definging hashMap for data conversion
                 Map<String, Object> hashMapObject = new HashMap<>();
                 //Now add the arguments...
+                
+                        hashMapObject.put("ctx", ctx);
                 
                         hashMapObject.put("transactionId", transactionId);
                 

@@ -1,6 +1,8 @@
 package com.orthopg.snaphy.orthopg.Fragment.BooksFragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.SettingInjectorService;
 import android.net.Uri;
@@ -26,6 +28,7 @@ import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Book;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.BookDetail;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Order;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Payment;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.PaymentRepository;
@@ -39,6 +42,7 @@ import com.payUMoney.sdk.SdkConstants;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.DataOutputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.security.MessageDigest;
@@ -93,6 +97,7 @@ public class CheckoutFragment extends android.support.v4.app.Fragment {
     String salt;
     String address;
     String phoneNumber;
+    String paymentIdNumber;
     public CheckoutFragment() {
         // Required empty public constructor
     }
@@ -142,7 +147,7 @@ public class CheckoutFragment extends android.support.v4.app.Fragment {
             BookDetail bookDetail = Presenter.getInstance().getModel(BookDetail.class, Constants.BOOK_DETAIL_MODEL_VALUE);
             String bookType = Presenter.getInstance().getModel(String.class, Constants.BOOK_TYPE);
             HashMap<String, Object> bookDetailObject = new HashMap<>();
-            bookDetailObject.put("bookId", book.getTitle());
+            bookDetailObject.put("bookId", book.getId());
             bookDetailObject.put("type", bookType);
             PaymentRepository paymentRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(PaymentRepository.class);
             paymentRepository.addStorage(mainActivity);
@@ -170,8 +175,8 @@ public class CheckoutFragment extends android.support.v4.app.Fragment {
                 @Override
                 public void onSuccess(Payment object) {
                     super.onSuccess(object);
-                    openPayUFragment();
                     Presenter.getInstance().addModel(Constants.PAYMENT_MODEL_DATA, object);
+                    openPayUFragment();
                 }
 
                 @Override
@@ -189,17 +194,22 @@ public class CheckoutFragment extends android.support.v4.app.Fragment {
     public void openPayUFragment(){
         Random rand = new Random();
         String randomString = Integer.toString(rand.nextInt()) + (System.currentTimeMillis() / 1000L);
-        txnId = hashCal("SHA-256", randomString).substring(0, 20);
+        txnId = hashCal(randomString).substring(0, 20);
         Payment payment = Presenter.getInstance().getModel(Payment.class, Constants.PAYMENT_MODEL_DATA);
         Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
-        merchantId = "5076054";
-        key = "ADq70R";
+        merchantId = Constants.PAYU_MERCHANT_ID;
+        key = Constants.PAYU_KEY;
         amount = payment.getAmount();
         productInfo = String.valueOf(payment.getBookDetail().get("bookName"));
         firstName = customer.getFirstName();
         email = payment.getEmail();
         phoneNumber = payment.getPhoneNumber();
-        salt = "znBn6Zf1";
+        salt = Constants.PAYU_SALT;
+        String udf1 = "";
+        String udf2 = "";
+        String udf3 = "";
+        String udf4 = "";
+        String udf5 = "";
         PayUmoneySdkInitilizer.PaymentParam.Builder builder = new PayUmoneySdkInitilizer.PaymentParam.Builder()
                 .setMerchantId(merchantId)
                 .setKey(key)
@@ -218,58 +228,158 @@ public class CheckoutFragment extends android.support.v4.app.Fragment {
                 .setUdf4("")
                 .setUdf5("");
         PayUmoneySdkInitilizer.PaymentParam paymentParam = builder.build();
+        String serverCalculatedHash=hashCal(key+"|"+txnId+"|"+amount+"|"+productInfo+"|"
+                +firstName+"|"+email+"|"+udf1+"|"+udf2+"|"+udf3+"|"+udf4+"|"+udf5+"|"+salt);
 
-        String hashSequence = key + "|" + txnId + "|" + amount + "|" + productInfo + "|" + firstName + "|" + email + "|udf1|udf2|udf3|udf4|udf5|" + salt;
-        String localCalulatedHash = hashCal("SHA-512", hashSequence);
-        paymentParam.setMerchantHash(localCalulatedHash);
+        paymentParam.setMerchantHash(serverCalculatedHash);
+        //dummyVerifyPaymentFromServer();
         PayUmoneySdkInitilizer.startPaymentActivityForResult(mainActivity, paymentParam);
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent
-            data) {
-        if(requestCode ==
-                PayUmoneySdkInitilizer.PAYU_SDK_PAYMENT_REQUEST_CODE) {
-            if(resultCode == RESULT_OK) {
-                Log.i(TAG, "Success - Payment ID : " +
-                        data.getStringExtra(SdkConstants.PAYMENT_ID));
-                String paymentId =
-                        data.getStringExtra(SdkConstants.PAYMENT_ID);
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PayUmoneySdkInitilizer.PAYU_SDK_PAYMENT_REQUEST_CODE) {
+
+            if (resultCode == RESULT_OK) {
+                Log.i(TAG, "Success - Payment ID : " + data.getStringExtra(SdkConstants.PAYMENT_ID));
+                String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
+                paymentIdNumber = paymentId;
+                showDialogMessage("Payment Success Id : " + paymentId);
+               // verifyPaymentFromServer(requestCode);
             } else if (resultCode == RESULT_CANCELED) {
-                Log.i(TAG, "cancelled");
-            } else if (resultCode == PayUmoneySdkInitilizer.RESULT_FAILED) {
                 Log.i(TAG, "failure");
+                showDialogMessage("cancelled");
+                String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
+                paymentIdNumber = paymentId;
+                //verifyPaymentFromServer(resultCode);
+            } else if (resultCode == PayUmoneySdkInitilizer.RESULT_FAILED) {
+                Log.i("app_activity", "failure");
+                String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
+                paymentIdNumber = paymentId;
+                //verifyPaymentFromServer(resultCode);
+                if (data != null) {
+                    if (data.getStringExtra(SdkConstants.RESULT).equals("cancel")) {
+
+                    } else {
+                        showDialogMessage("failure");
+                    }
+                }
+                //Write your code if there's no result
             } else if (resultCode == PayUmoneySdkInitilizer.RESULT_BACK) {
                 Log.i(TAG, "User returned without login");
+                String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
+                paymentIdNumber = paymentId;
+                //verifyPaymentFromServer(resultCode);
+                showDialogMessage("User returned without login");
             }
         }
     }
 
-    public static String hashCal(String type, String str){
+   /* public void verifyPaymentFromServer(final int resultCode){
+        Payment payment = Presenter.getInstance().getModel(Payment.class, Constants.PAYMENT_MODEL_DATA);
+        String paymentId = payment.getId().toString();
+        PaymentRepository paymentRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(PaymentRepository.class);
+        paymentRepository.getPaymentStatus(new HashMap<String, Object>(), paymentIdNumber, paymentId, new ObjectCallback<Order>() {
+            @Override
+            public void onBefore() {
+                super.onBefore();
+                mainActivity.startProgressBar(mainActivity.progressBar);
+            }
 
-        byte[] hashSeq = str.getBytes();
-        StringBuffer hexString = new StringBuffer();
-        try{
-            MessageDigest algorithm = MessageDigest.getInstance(type);
+            @Override
+            public void onSuccess(Order object) {
+                super.onSuccess(object);
+                if(resultCode == RESULT_OK) {
+                    mainActivity.replaceFragment(R.layout.fragment_success, null);
+                }
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                super.onError(t);
+                Log.e(Constants.TAG, t.toString());
+                if(resultCode == RESULT_OK){
+                    Toast.makeText(mainActivity, "Contact orthopg", Toast.LENGTH_SHORT).show();
+                } else{
+                    mainActivity.replaceFragment(R.layout.fragment_failure, null);
+                }
+            }
+
+            @Override
+            public void onFinally() {
+                super.onFinally();
+                mainActivity.stopProgressBar(mainActivity.progressBar);
+            }
+        });
+    }*/
+
+   /* public void dummyVerifyPaymentFromServer(){
+        Payment payment = Presenter.getInstance().getModel(Payment.class, Constants.PAYMENT_MODEL_DATA);
+        String paymentId = payment.getId().toString();
+        PaymentRepository paymentRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(PaymentRepository.class);
+        paymentRepository.getPaymentStatus(new HashMap<String, Object>(), "nm123", paymentId, new ObjectCallback<Order>() {
+            @Override
+            public void onBefore() {
+                super.onBefore();
+                mainActivity.startProgressBar(mainActivity.progressBar);
+            }
+
+            @Override
+            public void onSuccess(Order object) {
+                super.onSuccess(object);
+                mainActivity.replaceFragment(R.layout.fragment_success, null);
+
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                super.onError(t);
+                mainActivity.replaceFragment(R.layout.fragment_failure, null);
+            }
+
+            @Override
+            public void onFinally() {
+                super.onFinally();
+                mainActivity.stopProgressBar(mainActivity.progressBar);
+            }
+        });
+    }*/
+
+    private void showDialogMessage(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
+        builder.setTitle(TAG);
+        builder.setMessage(message);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+
+    }
+
+    public static String hashCal(String str) {
+        byte[] hashseq = str.getBytes();
+        StringBuilder hexString = new StringBuilder();
+        try {
+            MessageDigest algorithm = MessageDigest.getInstance("SHA-512");
             algorithm.reset();
-            algorithm.update(hashSeq);
-            byte[] messageDigest = algorithm.digest();
-            for(int i=0;i<messageDigest.length;i++){
-                String hex = Integer.toHexString(0xFF &messageDigest[i]);
-                if(hex.length() == 1){
+            algorithm.update(hashseq);
+            byte messageDigest[] = algorithm.digest();
+            for (byte aMessageDigest : messageDigest) {
+                String hex = Integer.toHexString(0xFF & aMessageDigest);
+                if (hex.length() == 1) {
                     hexString.append("0");
                 }
                 hexString.append(hex);
             }
-        }catch (NoSuchAlgorithmException e){
-
+        } catch (NoSuchAlgorithmException ignored) {
         }
         return hexString.toString();
     }
 
 
-    private void calculateServerSideHashAndInitiatePayment(final PayUmoneySdkInitilizer.PaymentParam paymentParam, String localHash) {
-        PayUmoneySdkInitilizer.startPaymentActivityForResult(mainActivity, paymentParam);
-    }
 
     public void getCustomerData(){
         Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);

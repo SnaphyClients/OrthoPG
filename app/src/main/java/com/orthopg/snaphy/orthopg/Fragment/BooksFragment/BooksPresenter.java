@@ -63,7 +63,7 @@ public class BooksPresenter {
             if(!mainActivity.snaphyHelper.isNetworkAvailable()){
                 loadOfflineBookData();
             } else {
-                bookCategoryRepository.fetchBookList(customerId, new DataListCallback<BookCategory>() {
+                bookCategoryRepository.fetchBookList(new HashMap<String, Object>(), customerId, new DataListCallback<BookCategory>() {
                     @Override
                     public void onBefore() {
                         super.onBefore();

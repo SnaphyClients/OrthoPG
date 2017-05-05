@@ -206,7 +206,7 @@
         android:textAllCaps="true"
         android:textColor="@color/white"
         android:layout_alignParentBottom="true"
-        android:background="@color/danger"
+        android:background="@color/colorPrimaryDark"
         android:gravity="center"/>
 
     <android.support.v7.widget.RecyclerView

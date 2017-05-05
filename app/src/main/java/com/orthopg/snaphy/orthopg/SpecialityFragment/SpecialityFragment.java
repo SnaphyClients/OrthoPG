@@ -150,6 +150,7 @@ public class SpecialityFragment extends Fragment {
 
                 @Override
                 public void onSuccess(JSONObject object) {
+
                     super.onSuccess(object);
 
                     mainActivity.onBackPressed();

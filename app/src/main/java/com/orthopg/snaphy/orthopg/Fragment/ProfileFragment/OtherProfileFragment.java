@@ -46,6 +46,7 @@ import com.orthopg.snaphy.orthopg.Fragment.CaseFragment.CaseFragment;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 import com.orthopg.snaphy.orthopg.WordUtils;
+import com.sdsmdg.tastytoast.TastyToast;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -66,16 +67,6 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
 
     private OnFragmentInteractionListener mListener;
     MainActivity mainActivity;
-  /*  @Bind(R.id.fragment_other_profile_textview2) TextView emailTxt;
-    @Bind(R.id.fragment_other_profile_textview12) TextView mciNumberTxt;
-    @Bind(R.id.fragment_other_profile_textview4) TextView specialityTxt;
-    @Bind(R.id.fragment_other_profile_textview7) TextView workExperinceTxt;
-    @Bind(R.id.fragment_other_profile_textview9) TextView currentWorkingTxt;
-    @Bind(R.id.fragment_other_profile_textview11) TextView qualificationTxt;
-    @Bind(R.id.fragment_profile_imagebutton2) ImageButton specialityButton;
-    @Bind(R.id.fragment_profile_imagebutton5) ImageButton qualificationButton;
-    @Bind(R.id.fragment_other_profile_textview5) TextView name;
-    @Bind(R.id.layout_profile_image) ImageView profileImage;*/
 
     @Bind(R.id.fragment_profile_imageview1) ImageView profileImage;
     @Bind(R.id.fragment_profile_imageview2) ImageView editImage;
@@ -421,20 +412,34 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
 
     }
 
-    @OnClick(R.id.fragment_profile_imageview2) void onEditCity(){
-        //No Network Connection
-        if(!mainActivity.snaphyHelper.isNetworkAvailable()){
-            Snackbar.make(profileImage,"No Network Connection! Check Internet Connection and try again", Snackbar.LENGTH_SHORT).show();
-        } else {
-            mainActivity.replaceFragment(R.layout.fragment_edit_profile, CITY_TAG);
-        }
-    }
 
     @OnClick(R.id.fragment_profile_textview3) void onEditCityText(){
         if(!mainActivity.snaphyHelper.isNetworkAvailable()){
             Snackbar.make(profileImage,"No Network Connection! Check Internet Connection and try again", Snackbar.LENGTH_SHORT).show();
         } else {
-            mainActivity.replaceFragment(R.layout.fragment_edit_profile, CITY_TAG);
+            final Dialog dialog = new Dialog(mainActivity);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.dialog_edit_profile);
+
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+            //TextView header = (TextView) dialog.findViewById(R.id.dialog_edit_profile_textview1);
+            final TextView editText = (EditText) dialog.findViewById(R.id.dialog_edit_profile_editText1);
+            Button edit = (Button) dialog.findViewById(R.id.dialog_edit_profile_button1);
+            //header.setText("Edit City");
+            editText.setHint("Edit City");
+            edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    updateCurrentWorkingData(editText.getText().toString());
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
+            dialog.getWindow().setAttributes(lp);
         }
     }
 
@@ -442,16 +447,115 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
         if(!mainActivity.snaphyHelper.isNetworkAvailable()){
             Snackbar.make(profileImage,"No Network Connection! Check Internet Connection and try again", Snackbar.LENGTH_SHORT).show();
         } else {
-            mainActivity.replaceFragment(R.layout.fragment_edit_profile, MCINUMBER_TAG);
+            final Dialog dialog = new Dialog(mainActivity);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.dialog_edit_profile);
+
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+           // TextView header = (TextView) dialog.findViewById(R.id.dialog_edit_profile_textview1);
+            final TextView editText = (EditText) dialog.findViewById(R.id.dialog_edit_profile_editText1);
+            Button edit = (Button) dialog.findViewById(R.id.dialog_edit_profile_button1);
+            //header.setText("Edit MCI Number");
+            editText.setHint("Edit MCI Number");
+            edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    updateMCINumberData(editText.getText().toString());
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
+            dialog.getWindow().setAttributes(lp);
         }
     }
+
+    public void updateMCINumberData(final String mciNumber){
+
+        Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+        customer.setMciNumber(mciNumber);
+        CustomerRepository customerRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
+        customerRepository.upsert(customer.toMap(), new ObjectCallback<Customer>() {
+            @Override
+            public void onSuccess(Customer object) {
+                super.onSuccess(object);
+                mainActivity.onBackPressed();
+                TastyToast.makeText(mainActivity, "Successfully updated data", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                super.onError(t);
+                TastyToast.makeText(mainActivity, "Error in updating data", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+            }
+        });
+    }
+
+
+
+   /* @OnClick(R.id.fragment_profile_imageview3) void onMCIEdit(){
+        if(!mainActivity.snaphyHelper.isNetworkAvailable()){
+            Snackbar.make(profileImage,"No Network Connection! Check Internet Connection and try again", Snackbar.LENGTH_SHORT).show();
+        } else {
+            mainActivity.replaceFragment(R.layout.fragment_edit_profile, MCINUMBER_TAG);
+        }
+    }*/
 
     @OnClick(R.id.fragment_profile_imageview4) void onWorkExperienceEdit(){
         if(!mainActivity.snaphyHelper.isNetworkAvailable()){
             Snackbar.make(profileImage,"No Network Connection! Check Internet Connection and try again", Snackbar.LENGTH_SHORT).show();
         } else {
-            mainActivity.replaceFragment(R.layout.fragment_edit_profile, WORKEXPERIENCETAG);
+            final Dialog dialog = new Dialog(mainActivity);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.dialog_edit_profile);
+
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+            //TextView header = (TextView)dialog.findViewById(R.id.dialog_edit_profile_textview1);
+            final TextView editText = (EditText)dialog.findViewById(R.id.dialog_edit_profile_editText1);
+            Button edit = (Button)dialog.findViewById(R.id.dialog_edit_profile_button1);
+            //header.setText("Edit Work Experience");
+            editText.setHint("Edit Work Experience");
+            edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    updateWorkExperienceData(editText.getText().toString());
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
+            dialog.getWindow().setAttributes(lp);
+
         }
+    }
+
+    public void updateWorkExperienceData(final String workExperience){
+        final Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+        customer.setWorkExperience(Double.parseDouble(workExperience));
+        final CustomerRepository customerRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
+        customerRepository.addStorage(mainActivity);
+        customerRepository.upsert(customer.toMap(), new ObjectCallback<Customer>() {
+            @Override
+            public void onSuccess(Customer object) {
+                super.onSuccess(object);
+                customerRepository.getDb().upsert__db(customer.getId().toString(), object);
+                mainActivity.onBackPressed();
+                TastyToast.makeText(mainActivity, "Successfully updated data", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                super.onError(t);
+                TastyToast.makeText(mainActivity, "Error in updating data", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+                Log.e(Constants.TAG, t.toString());
+            }
+        });
     }
 
     @OnClick(R.id.fragment_profile_imageview5) void onSpecialityEdit(){
@@ -476,6 +580,60 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
         } else {
             mainActivity.replaceFragment(R.layout.fragment_order_history, null);
         }
+    }
+
+    @OnClick(R.id.fragment_profile_imageview2) void onEditCity(){
+        if(!mainActivity.snaphyHelper.isNetworkAvailable()){
+            Snackbar.make(profileImage,"No Network Connection! Check Internet Connection and try again", Snackbar.LENGTH_SHORT).show();
+        } else {
+            final Dialog dialog = new Dialog(mainActivity);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.dialog_edit_profile);
+
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+            //TextView header = (TextView) dialog.findViewById(R.id.dialog_edit_profile_textview1);
+            final TextView editText = (EditText) dialog.findViewById(R.id.dialog_edit_profile_editText1);
+            Button edit = (Button) dialog.findViewById(R.id.dialog_edit_profile_button1);
+            //header.setText("Edit City");
+            editText.setHint("Edit City");
+            edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    updateCurrentWorkingData(editText.getText().toString());
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
+            dialog.getWindow().setAttributes(lp);
+        }
+    }
+
+    public void updateCurrentWorkingData(final String currentWorking){
+        final Customer customer = Presenter.getInstance().getModel(Customer.class,Constants.LOGIN_CUSTOMER);
+        customer.setCurrentCity(currentWorking);
+
+        final CustomerRepository customerRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
+        customerRepository.addStorage(mainActivity);
+        customerRepository.upsert(customer.toMap(), new ObjectCallback<Customer>() {
+            @Override
+            public void onSuccess(Customer object) {
+                super.onSuccess(object);
+                customerRepository.getDb().upsert__db(customer.getId().toString(),object);
+                mainActivity.onBackPressed();
+                TastyToast.makeText(mainActivity, "Successfully updated data", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                super.onError(t);
+                TastyToast.makeText(mainActivity, "Error in updating data", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+                Log.e(Constants.TAG, t.toString());
+            }
+        });
     }
 
     public void setSpeciality(Customer customer) {
@@ -538,117 +696,9 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
         }
     }
 
-    public void showExperienceDialog() {
-
-        final Dialog dialog = new Dialog(mainActivity);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.layout_dialog);
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-
-        Button okButton = (Button) dialog.findViewById(R.id.dialog_add_text_button1);
-        TextInputLayout textInputLayout = (TextInputLayout)dialog.findViewById(R.id.fragment_layout_dialog_editInput1);
-        final EditText editText = (EditText) dialog.findViewById(R.id.dialog_add_text_edittext1);
-        editText.setInputType(InputType.TYPE_CLASS_TEXT);
-
-        okButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-              updateWorkExperienceData(editText.getText().toString());
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
-        dialog.getWindow().setAttributes(lp);
-    }
-
-    public void showCurrentWorkingDialog(){
-
-        final Dialog dialog = new Dialog(mainActivity);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.layout_dialog);
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-
-        Button okButton = (Button) dialog.findViewById(R.id.dialog_add_text_button1);
-        TextInputLayout textInputLayout = (TextInputLayout)dialog.findViewById(R.id.fragment_layout_dialog_editInput1);
-        final EditText editText = (EditText) dialog.findViewById(R.id.dialog_add_text_edittext1);
-        editText.setInputType(InputType.TYPE_CLASS_TEXT);
-
-        okButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               updateCurrentWorkingData(editText.getText().toString());
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
-        dialog.getWindow().setAttributes(lp);
-
-    }
 
 
-    public void updateWorkExperienceData(final String workExperience){
-        Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
-        customer.setWorkExperience(Double.parseDouble(workExperience));
-        CustomerRepository customerRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
-        customerRepository.upsert(customer.toMap(), new ObjectCallback<Customer>() {
-            @Override
-            public void onSuccess(Customer object) {
-                super.onSuccess(object);
-                workExperinceTxt.setText(workExperience);
-            }
 
-            @Override
-            public void onError(Throwable t) {
-                super.onError(t);
-                Log.e(Constants.TAG, t.toString());
-            }
-        });
-    }
-
-    public void updateCurrentWorkingData(final String currentWorking){
-        Customer customer = Presenter.getInstance().getModel(Customer.class,Constants.LOGIN_CUSTOMER);
-        customer.setCurrentCity(currentWorking);
-        CustomerRepository customerRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
-        customerRepository.upsert(customer.toMap(), new ObjectCallback<Customer>() {
-            @Override
-            public void onSuccess(Customer object) {
-                super.onSuccess(object);
-                currentWorkingTxt.setText(currentWorking);
-            }
-
-            @Override
-            public void onError(Throwable t) {
-                super.onError(t);
-                Log.e(Constants.TAG, t.toString());
-            }
-        });
-    }
-
-/*
-    @OnClick(R.id.fragment_profile_imagebutton2) void onSpeciality(){
-
-        mainActivity.replaceFragment(R.layout.fragment_speciality,null);
-    }
-
-    @OnClick(R.id.fragment_profile_imagebutton5) void onQualification(){
-        mainActivity.replaceFragment(R.layout.fragment_qualification, null);
-    }
-
-    @OnClick(R.id.fragment_profile_imagebutton3) void onWorkExperience(){
-        showExperienceDialog();
-    }
-
-    @OnClick(R.id.fragment_profile_imagebutton4) void onCurrentWorking(){
-        showCurrentWorkingDialog();
-    }*/
 
     @OnClick(R.id.fragment_other_profile_imageview1) void onBack(){
         mainActivity.onBackPressed();
