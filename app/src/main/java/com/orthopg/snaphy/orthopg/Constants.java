@@ -22,8 +22,9 @@ public class Constants {
 
 
     //public static String baseUrl = "http://192.168.0.6:3000";
-    public static String baseUrl = "http://192.168.43.21:3000";
-    //public static String baseUrl = "http://192.168.0.9:3000";
+    //public static String baseUrl = "http://192.168.43.21:3000";
+   // public static String baseUrl = "http://192.168.0.9:3000";
+    public static String baseUrl = "http://192.168.0.3:3000";
     //public static String baseUrl = "http://admin.orthopg.com";
     //public static String baseUrl = "http://ec2-54-209-33-191.compute-1.amazonaws.com:3000";
     public static String apiUrl = baseUrl+"/api";
@@ -87,6 +88,7 @@ public class Constants {
     public static String BOOK_DETAIL_MODEL_VALUE = "BookDetailValue";
     public static String PAYMENT_MODEL_DATA = "PaymentModelData";
     public static String CHECK_SAVED_BOOK_DATA = "CheckSavedBookData";
+    public static String PAYU_PAYMENT_ID = "PayuPaymentId";
     /*---------------*/
 
     /*IDs*/

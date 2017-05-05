@@ -426,10 +426,10 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
             lp.width = WindowManager.LayoutParams.MATCH_PARENT;
             lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
-            //TextView header = (TextView) dialog.findViewById(R.id.dialog_edit_profile_textview1);
+            TextView header = (TextView) dialog.findViewById(R.id.dialog_edit_profile_textview1);
             final TextView editText = (EditText) dialog.findViewById(R.id.dialog_edit_profile_editText1);
             Button edit = (Button) dialog.findViewById(R.id.dialog_edit_profile_button1);
-            //header.setText("Edit City");
+            header.setText("CITY");
             editText.setHint("Edit City");
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -456,10 +456,10 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
             lp.width = WindowManager.LayoutParams.MATCH_PARENT;
             lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
-           // TextView header = (TextView) dialog.findViewById(R.id.dialog_edit_profile_textview1);
+            TextView header = (TextView) dialog.findViewById(R.id.dialog_edit_profile_textview1);
             final TextView editText = (EditText) dialog.findViewById(R.id.dialog_edit_profile_editText1);
             Button edit = (Button) dialog.findViewById(R.id.dialog_edit_profile_button1);
-            //header.setText("Edit MCI Number");
+            header.setText("MCI NUMBER");
             editText.setHint("Edit MCI Number");
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -517,10 +517,10 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
             lp.width = WindowManager.LayoutParams.MATCH_PARENT;
             lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
-            //TextView header = (TextView)dialog.findViewById(R.id.dialog_edit_profile_textview1);
+            TextView header = (TextView)dialog.findViewById(R.id.dialog_edit_profile_textview1);
             final TextView editText = (EditText)dialog.findViewById(R.id.dialog_edit_profile_editText1);
             Button edit = (Button)dialog.findViewById(R.id.dialog_edit_profile_button1);
-            //header.setText("Edit Work Experience");
+            header.setText("WORK EXPERIENCE");
             editText.setHint("Edit Work Experience");
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -595,10 +595,10 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
             lp.width = WindowManager.LayoutParams.MATCH_PARENT;
             lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
-            //TextView header = (TextView) dialog.findViewById(R.id.dialog_edit_profile_textview1);
+            TextView header = (TextView) dialog.findViewById(R.id.dialog_edit_profile_textview1);
             final TextView editText = (EditText) dialog.findViewById(R.id.dialog_edit_profile_editText1);
             Button edit = (Button) dialog.findViewById(R.id.dialog_edit_profile_button1);
-            //header.setText("Edit City");
+            header.setText("CITY");
             editText.setHint("Edit City");
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override

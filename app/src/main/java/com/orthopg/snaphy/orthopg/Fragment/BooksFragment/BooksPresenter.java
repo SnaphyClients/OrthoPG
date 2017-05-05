@@ -94,7 +94,7 @@ public class BooksPresenter {
                     public void onError(Throwable t) {
                         super.onError(t);
                         Log.e(Constants.TAG, t.toString());
-                        //loadOfflineBookData();
+                        loadOfflineBookData();
                     }
 
                     @Override

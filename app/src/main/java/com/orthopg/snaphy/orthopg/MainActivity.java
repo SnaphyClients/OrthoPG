@@ -1,6 +1,8 @@
 package com.orthopg.snaphy.orthopg;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -20,14 +22,19 @@ import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.News;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Order;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Payment;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Post;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.CustomerRepository;
+import com.androidsdk.snaphy.snaphyandroidsdk.repository.PaymentRepository;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.PostRepository;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.LoginEvent;
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
@@ -122,6 +129,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
     TextView notConnectedText;
     Button retryButton;
     MainActivity mainActivity;
+    String paymentIdNumber;
+    private static final int RC_SIGN_IN = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -1077,13 +1086,120 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
 
     }
 
-
+    //For getting payment status from payu money sdk
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == PayUmoneySdkInitilizer.PAYU_SDK_PAYMENT_REQUEST_CODE) {
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);
+        }else if (requestCode == PayUmoneySdkInitilizer.PAYU_SDK_PAYMENT_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Log.i(Constants.TAG, "Success - Payment ID : " + data.getStringExtra(SdkConstants.PAYMENT_ID));
+                String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
+                paymentIdNumber = paymentId;
+                showDialogMessage("Payment Success Id : " + paymentId);
+                verifyPaymentFromServer(requestCode);
+            } else if (resultCode == RESULT_CANCELED) {
+                Log.i(Constants.TAG, "failure");
+                showDialogMessage("cancelled");
+                String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
+                paymentIdNumber = paymentId;
+                verifyPaymentFromServer(resultCode);
+            } else if (resultCode == PayUmoneySdkInitilizer.RESULT_FAILED) {
+                Log.i("app_activity", "failure");
+                String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
+                paymentIdNumber = paymentId;
+                verifyPaymentFromServer(resultCode);
+                if (data != null) {
+                    if (data.getStringExtra(SdkConstants.RESULT).equals("cancel")) {
 
-
+                    } else {
+                        showDialogMessage("failure");
+                    }
+                }
+                //Write your code if there's no result
+            } else if (resultCode == PayUmoneySdkInitilizer.RESULT_BACK) {
+                Log.i(Constants.TAG, "User returned without login");
+                String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
+                paymentIdNumber = paymentId;
+                verifyPaymentFromServer(resultCode);
+                showDialogMessage("User returned without login");
+            }
         }
+    }
+
+    private void handleSignInResult(GoogleSignInResult result) {
+        Log.d(Constants.TAG, "handleSignInResult:" + result.isSuccess());
+        if (result.isSuccess()) {
+            // Signed in successfully, show authenticated UI.
+            GoogleSignInAccount acct = result.getSignInAccount();
+            if(acct.getIdToken() != null) {
+                Log.v(Constants.TAG, acct.getIdToken());
+                //BackgroundService.setAccessToken(acct.getIdToken());
+                //mainActivity.replaceFragment(R.layout.fragment_mciverification, null);
+                Presenter.getInstance().addModel(Constants.GOOGLE_ACCESS_TOKEN, acct.getIdToken());
+                mainActivity.replaceFragment(R.layout.fragment_mciverification, null);
+                //sendTokenToServer(acct.getIdToken());
+            }else{
+                TastyToast.makeText(mainActivity.getApplicationContext(), Constants.ERROR_MESSAGE, TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+            }
+        } else {
+            TastyToast.makeText(mainActivity.getApplicationContext(), Constants.ERROR_MESSAGE, TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+        }
+    }
+
+
+    //Verifying the payment from server side
+    public void verifyPaymentFromServer(final int resultCode){
+        Payment payment = Presenter.getInstance().getModel(Payment.class, Constants.PAYMENT_MODEL_DATA);
+        String paymentId = payment.getId().toString();
+        PaymentRepository paymentRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(PaymentRepository.class);
+        paymentRepository.getPaymentStatus(new HashMap<String, Object>(), paymentIdNumber, paymentId, new ObjectCallback<Order>() {
+            @Override
+            public void onBefore() {
+                super.onBefore();
+                mainActivity.startProgressBar(mainActivity.progressBar);
+            }
+
+            @Override
+            public void onSuccess(Order object) {
+                super.onSuccess(object);
+                if(resultCode == RESULT_OK) {
+                    mainActivity.replaceFragment(R.layout.fragment_success, null);
+                }
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                super.onError(t);
+                Log.e(Constants.TAG, t.toString());
+                if(resultCode == RESULT_OK){
+                    Toast.makeText(mainActivity, "Contact orthopg", Toast.LENGTH_SHORT).show();
+                } else{
+                    mainActivity.replaceFragment(R.layout.fragment_failure, null);
+                }
+            }
+
+            @Override
+            public void onFinally() {
+                super.onFinally();
+                mainActivity.stopProgressBar(mainActivity.progressBar);
+            }
+        });
+    }
+
+    private void showDialogMessage(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
+        builder.setTitle(Constants.TAG);
+        builder.setMessage(message);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+
     }
 
 

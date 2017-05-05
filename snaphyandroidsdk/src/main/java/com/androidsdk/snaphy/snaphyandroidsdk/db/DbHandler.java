@@ -159,7 +159,7 @@ public class DbHandler extends SQLiteOpenHelper {
                         
 
                         
-                        String CREATE_Book_TABLE_27 = "CREATE TABLE IF NOT EXISTS `Book` (  `title` TEXT, `description` TEXT, `isEbookAvail` TEXT, `ebookPrice` TEXT, `hardCopyPrice` TEXT, `status` TEXT, `bookCover` TEXT, `uploadSampleBook` TEXT, `added` TEXT, `savedCategoryId` TEXT, `updated` TEXT, `id` TEXT PRIMARY KEY, `bookCategoryId` TEXT, bookDetailId TEXT , _DATA_UPDATED NUMBER )";
+                        String CREATE_Book_TABLE_27 = "CREATE TABLE IF NOT EXISTS `Book` (  `title` TEXT, `description` TEXT, `isEbookAvail` TEXT, `ebookPrice` NUMBER, `hardCopyPrice` NUMBER, `status` TEXT, `bookCover` TEXT, `uploadSampleBook` TEXT, `added` TEXT, `savedCategoryId` TEXT, `updated` TEXT, `id` TEXT PRIMARY KEY, `bookCategoryId` TEXT, bookDetailId TEXT , _DATA_UPDATED NUMBER )";
                         db.execSQL(CREATE_Book_TABLE_27);
 
 

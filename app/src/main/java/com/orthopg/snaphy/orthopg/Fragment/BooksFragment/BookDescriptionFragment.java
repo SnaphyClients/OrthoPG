@@ -144,7 +144,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
         View view = inflater.inflate(R.layout.fragment_book_description, container, false);
         ButterKnife.bind(this,view);
         getBookData();
-        getBookDetail();
+        //getBookDetail();
         checkPurchased();
         //String key = mainActivity.getSharedPreferences.getString("sample.pdf","");
         checkDownloadSample();
@@ -219,61 +219,6 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
         }
     }
 
-    public void getBookDetail(){
-        Book book = Presenter.getInstance().getModel(Book.class,Constants.BOOK_DESCRIPTION_ID);
-        if(book!=null){
-            bookId = String.valueOf(book.getId());
-            BookRepository bookRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(BookRepository.class);
-            bookRepository.fetchBookDetail(new HashMap<String, Object>(), bookId, new ObjectCallback<BookDetail>() {
-                @Override
-                public void onBefore() {
-                    super.onBefore();
-                }
-
-                @Override
-                public void onSuccess(BookDetail object) {
-                    super.onSuccess(object);
-
-                }
-
-                @Override
-                public void onError(Throwable t) {
-                    super.onError(t);
-                }
-
-                @Override
-                public void onFinally() {
-                    super.onFinally();
-                    //getBookData();
-                }
-            });
-            /*bookDetailRepository.findOne(bookDetail.toMap(), new DataListCallback<BookDetail>() {
-                @Override
-                public void onBefore() {
-                    super.onBefore();
-                }
-
-                @Override
-                public void onSuccess(DataList<BookDetail> objects) {
-                    super.onSuccess(objects);
-                    BookDetail bookDetail1 = objects.get(0);
-                    Presenter.getInstance().addModel(Constants.BOOK_DETAIL_MODEL_VALUE, bookDetail1);
-                    getBookData();
-
-                }
-
-                @Override
-                public void onError(Throwable t) {
-                    super.onError(t);
-                }
-
-                @Override
-                public void onFinally() {
-                    super.onFinally();
-                }
-            });  */
-        }
-    }
 
     public void getBookData(){
         Book book = Presenter.getInstance().getModel(Book.class,Constants.BOOK_DESCRIPTION_ID);
@@ -325,9 +270,9 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
                 downloadSampleText.setVisibility(View.GONE);
             }
 
-            if(book.getEbookPrice()!=null){
-                if(!book.getEbookPrice().isEmpty()){
-                    if(Double.parseDouble(book.getEbookPrice())==0){
+            if(String.valueOf(book.getEbookPrice())!=null){
+                if(!String.valueOf(book.getEbookPrice()).isEmpty()){
+                    if(book.getEbookPrice()==0){
                         eBookDownload.setText("Read Book For Free");
                         downloadSample.setVisibility(View.GONE);
                         downloadSampleText.setVisibility(View.GONE);
@@ -347,9 +292,9 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
                 downloadSampleText.setVisibility(View.GONE);
             }
 
-            if(book.getHardCopyPrice()!=null){
-                if(!book.getHardCopyPrice().isEmpty()){
-                    if(Double.parseDouble(book.getHardCopyPrice())==0){
+            if(String.valueOf(book.getHardCopyPrice())!=null){
+                if(!String.valueOf(book.getHardCopyPrice()).isEmpty()){
+                    if(book.getHardCopyPrice()==0){
                         hardCopyDownload.setText(" Hardcopy Not Available");
                         hardCopyDownload.setEnabled(false);
                         hardCopyDownload.setBackground(getResources().getDrawable(R.drawable.curved_rectangle_disabled_filled));
@@ -382,37 +327,6 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
             }*/
     }
 
- /*   public boolean checkPurchasedBook(Book book){
-        HashMap<String, Object> filter = new HashMap<>();
-        HashMap<String, Object> where = new HashMap<>();
-        final boolean[] isBookPresent = {false};
-        Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
-        String customerId = String.valueOf(customer.getId());
-        String bookId = String.valueOf(book.getId());
-        if(customerId!=null && bookId!=null){
-            where.put("customerId", customerId);
-            filter.put("where", where);
-            PaymentRepository paymentRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(PaymentRepository.class);
-            paymentRepository.find(filter, new DataListCallback<Payment>() {
-                @Override
-                public void onSuccess(DataList<Payment> objects) {
-                    super.onSuccess(objects);
-                    if(objects!=null){
-                        isBookPresent[0] = true;
-                    }
-                }
-
-                @Override
-                public void onError(Throwable t) {
-                    super.onError(t);
-                    Log.e(Constants.TAG, t.toString());
-                    isBookPresent[0] = false;
-                }
-            });
-            return isBookPresent[0];
-        }
-        return false;
-    }*/
 
     @OnClick(R.id.fragment_book_description_imageview1) void onBack(){
         mainActivity.onBackPressed();
@@ -693,7 +607,8 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
 
         if(eBookDownload.getText().toString().equals("View")){
             BookDetail bookDetail = Presenter.getInstance().getModel(BookDetail.class, Constants.CHECK_SAVED_BOOK_DATA);
-            String bookId = bookDetail.getBookId();
+            Book book = Presenter.getInstance().getModel(Book.class, Constants.BOOK_DESCRIPTION_ID);
+            String bookId = book.getId().toString();
             String bookKey = sharedPreferences.getString(bookId,"");
             String bookIv = sharedPreferences.getString(bookId + "iv", "");
             try {

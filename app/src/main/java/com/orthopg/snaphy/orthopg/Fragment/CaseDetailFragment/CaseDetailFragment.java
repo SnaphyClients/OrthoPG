@@ -297,10 +297,16 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
 
         caseHeading.setText(post.getHeading());
         caseHeading.setTypeface(font_bold);
-        String name1 = mainActivity.snaphyHelper.getName(post.getCustomer().getFirstName(), post.getCustomer().getLastName());
-        if(!name1.isEmpty()){
-            name1 = Constants.Doctor + name1.replace("^[Dd][Rr]", "");
+        String name1 = "";
+        if(post.getCustomer()!=null) {
+             name1 = mainActivity.snaphyHelper.getName(post.getCustomer().getFirstName(), post.getCustomer().getLastName());
+            if(!name1.isEmpty()){
+                name1 = Constants.Doctor + name1.replace("^[Dd][Rr]", "");
+            }
+        } else{
+            name1 = Constants.ANONYMOUS;
         }
+
 
         userName.setText(name1);
 
@@ -313,6 +319,8 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
             }else{
                 profilePic.setImageResource(R.mipmap.anonymous);
             }
+        } else{
+            profilePic.setImageResource(R.mipmap.anonymous);
         }
 
         if(!postDetail.getType().isEmpty()) {

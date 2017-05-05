@@ -94,18 +94,14 @@ public class BookDb{
                         }
                                   
                                 
-                                                            String ebookPriceData = "";
-                        if(modelData.getEbookPrice() != null){
-                          ebookPriceData = modelData.getEbookPrice().toString();
-                          values.put("`ebookPrice`", ebookPriceData);
-                        }
+                                                            double ebookPriceData;
+                        ebookPriceData = (double)modelData.getEbookPrice();
+                        values.put("`ebookPrice`", ebookPriceData);
                                   
                                 
-                                                            String hardCopyPriceData = "";
-                        if(modelData.getHardCopyPrice() != null){
-                          hardCopyPriceData = modelData.getHardCopyPrice().toString();
-                          values.put("`hardCopyPrice`", hardCopyPriceData);
-                        }
+                                                            double hardCopyPriceData;
+                        hardCopyPriceData = (double)modelData.getHardCopyPrice();
+                        values.put("`hardCopyPrice`", hardCopyPriceData);
                                   
                                 
                                                             String statusData = "";
@@ -309,24 +305,20 @@ public class BookDb{
                         }
                                                 
                                 
-                                                            String ebookPriceData = "";
-                        if(cursor.getString(3) != null){
-                          ebookPriceData = cursor.getString(3);
-                          if(ebookPriceData != null){
-                            ebookPriceData = (String)ebookPriceData;
-                            hashMap.put("ebookPrice", ebookPriceData);
-                          }
-                        }
+                                                            double ebookPriceData = (double)0;
+                          ebookPriceData = cursor.getInt(3);
+                          ebookPriceData = (double)ebookPriceData;
+                          hashMap.put("ebookPrice", ebookPriceData);
+
+
                                                 
                                 
-                                                            String hardCopyPriceData = "";
-                        if(cursor.getString(4) != null){
-                          hardCopyPriceData = cursor.getString(4);
-                          if(hardCopyPriceData != null){
-                            hardCopyPriceData = (String)hardCopyPriceData;
-                            hashMap.put("hardCopyPrice", hardCopyPriceData);
-                          }
-                        }
+                                                            double hardCopyPriceData = (double)0;
+                          hardCopyPriceData = cursor.getInt(4);
+                          hardCopyPriceData = (double)hardCopyPriceData;
+                          hashMap.put("hardCopyPrice", hardCopyPriceData);
+
+
                                                 
                                 
                                                             String statusData = "";

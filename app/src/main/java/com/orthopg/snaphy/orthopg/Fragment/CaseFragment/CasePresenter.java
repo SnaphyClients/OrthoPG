@@ -322,7 +322,7 @@ public class CasePresenter {
                             //SHOW ERROR MESSAGE..
                             Log.e(Constants.TAG, t.toString() + "---CasePresenter.java");
                             //TODO: Check no internet..
-                            //loadDataOffline(listType);
+                            loadDataOffline(listType);
                        /* if(list.getPostDataList().size() != 0){
                             HashMap<String, Object> localFlagQuery = new HashMap<String, Object>();
                             localFlagQuery.put(listType, listType);
@@ -475,7 +475,7 @@ public class CasePresenter {
                         public void onError(Throwable t) {
                             //SHOW ERROR MESSAGE..
                             Log.e(Constants.TAG, t.toString() + "---CasePresenter.java");
-                            //loadDataOffline(listType);
+                            loadDataOffline(listType);
                         }
 
                         @Override
@@ -555,7 +555,7 @@ public class CasePresenter {
                 public void onError(Throwable t) {
                     //SHOW ERROR MESSAGE..
                     Log.e(Constants.TAG, t.toString() + "---CasePresenter.java");
-                   // loadDataOffline(listType);
+                    loadDataOffline(listType);
                 }
 
                 @Override

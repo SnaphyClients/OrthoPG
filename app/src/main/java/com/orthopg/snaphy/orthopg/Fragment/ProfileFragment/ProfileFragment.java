@@ -129,8 +129,8 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
 */
     @OnClick(R.id.fragment_profile_button1) void onViewProfile(){
 
-        //mainActivity.replaceFragment(R.layout.fragment_doctor_profile,ProfileFragment.TAG);
-        Random rand = new Random();
+        mainActivity.replaceFragment(R.layout.fragment_doctor_profile,ProfileFragment.TAG);
+      /*  Random rand = new Random();
         String randomString = Integer.toString(rand.nextInt()) + (System.currentTimeMillis() / 1000L);
         txnId = hashCal(randomString).substring(0, 20);
         //Payment payment = Presenter.getInstance().getModel(Payment.class, Constants.PAYMENT_MODEL_DATA);
@@ -171,9 +171,9 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
 
         paymentParam.setMerchantHash(serverCalculatedHash);
         //dummyVerifyPaymentFromServer();
-        PayUmoneySdkInitilizer.startPaymentActivityForResult(mainActivity, paymentParam);
+        PayUmoneySdkInitilizer.startPaymentActivityForResult(mainActivity, paymentParam);*/
     }
-    public static String hashCal(String str) {
+   /* public static String hashCal(String str) {
         byte[] hashseq = str.getBytes();
         StringBuilder hexString = new StringBuilder();
         try {
@@ -230,7 +230,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
                 showDialogMessage("User returned without login");
             }
         }
-    }
+    }*/
 
     private void showDialogMessage(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);

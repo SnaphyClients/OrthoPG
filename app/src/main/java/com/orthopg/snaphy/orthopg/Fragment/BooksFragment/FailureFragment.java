@@ -7,11 +7,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +29,9 @@ public class FailureFragment extends android.support.v4.app.Fragment {
     private OnFragmentInteractionListener mListener;
     MainActivity mainActivity;
     public final static String TAG = "FailureFragment";
+    @Bind(R.id.fragment_failure_textview2) TextView txnId;
+    @Bind(R.id.fragment_failure_textview3) TextView price;
+    @Bind(R.id.fragment_failure_textview4) TextView bookName;
 
     public FailureFragment() {
         // Required empty public constructor
@@ -48,6 +54,10 @@ public class FailureFragment extends android.support.v4.app.Fragment {
         View view = inflater.inflate(R.layout.fragment_failure, container, false);
         ButterKnife.bind(this, view);
         return view;
+    }
+
+    @OnClick(R.id.fragment_failure_button1) void gotoHome(){
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

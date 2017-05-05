@@ -43,58 +43,62 @@ public class OrderHistoryPresenter {
         }
     }
 
-    public void fetchOrders(final boolean reset){
+    public void fetchOrders(final boolean reset) {
 
-        if(reset){
+        if (reset) {
             skip = 0;
         }
 
         Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
-        String customerId = (String)customer.getId();
-        if(customerId!=null){
+        String customerId = (String) customer.getId();
+        if (customerId != null) {
             OrderRepository orderRepository = restAdapter.createRepository(OrderRepository.class);
             orderRepository.addStorage(mainActivity);
-            orderRepository.fetchPastOrder(customerId, new DataListCallback<Order>() {
-                @Override
-                public void onBefore() {
-                    super.onBefore();
-                    if(mainActivity!=null) {
-                        mainActivity.startProgressBar(mainActivity.progressBar);
-                    }
-                    setOldFlag();
-                }
-
-                @Override
-                public void onSuccess(DataList<Order> objects) {
-                    super.onSuccess(objects);
-                    if(objects!=null){
-                        if(reset){
-                            orderDataList.clear();
+            if (!mainActivity.snaphyHelper.isNetworkAvailable()) {
+                loadOfflineOrderData();
+            } else {
+                orderRepository.fetchPastOrder(customerId, new DataListCallback<Order>() {
+                    @Override
+                    public void onBefore() {
+                        super.onBefore();
+                        if (mainActivity != null) {
+                            mainActivity.startProgressBar(mainActivity.progressBar);
                         }
-                        for(Order order : objects){
-                            if(order!=null){
-                                saveOrderData(order);
+                        setOldFlag();
+                    }
+
+                    @Override
+                    public void onSuccess(DataList<Order> objects) {
+                        super.onSuccess(objects);
+                        if (objects != null) {
+                            if (reset) {
+                                orderDataList.clear();
                             }
+                            for (Order order : objects) {
+                                if (order != null) {
+                                    saveOrderData(order);
+                                }
+                            }
+                            orderDataList.addAll(objects);
+                            skip = skip + objects.size();
                         }
-                        orderDataList.addAll(objects);
-                        skip = skip + objects.size();
                     }
-                }
 
-                @Override
-                public void onError(Throwable t) {
-                    super.onError(t);
-                    Log.e(Constants.TAG, t.toString());
-                    loadOfflineOrderData();
-                }
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                        Log.e(Constants.TAG, t.toString());
+                        loadOfflineOrderData();
+                    }
 
-                @Override
-                public void onFinally() {
-                    super.onFinally();
-                    mainActivity.stopProgressBar(mainActivity.progressBar);
-                }
-            });
+                    @Override
+                    public void onFinally() {
+                        super.onFinally();
+                        mainActivity.stopProgressBar(mainActivity.progressBar);
+                    }
+                });
 
+            }
         }
     }
 

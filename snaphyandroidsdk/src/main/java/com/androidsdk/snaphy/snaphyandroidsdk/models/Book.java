@@ -154,14 +154,14 @@ public class Book extends Model {
             
 
             
-                private String ebookPrice;
+                private double ebookPrice;
                 /* Adding Getter and Setter methods */
-                public String getEbookPrice(){
+                public double getEbookPrice(){
                     return ebookPrice;
                 }
 
                 /* Adding Getter and Setter methods */
-                public void setEbookPrice(String ebookPrice){
+                public void setEbookPrice(double ebookPrice){
                     this.ebookPrice = ebookPrice;
                     //Update hashMap value..
                     hashMap.put("ebookPrice", ebookPrice);
@@ -175,14 +175,14 @@ public class Book extends Model {
             
 
             
-                private String hardCopyPrice;
+                private double hardCopyPrice;
                 /* Adding Getter and Setter methods */
-                public String getHardCopyPrice(){
+                public double getHardCopyPrice(){
                     return hardCopyPrice;
                 }
 
                 /* Adding Getter and Setter methods */
-                public void setHardCopyPrice(String hardCopyPrice){
+                public void setHardCopyPrice(double hardCopyPrice){
                     this.hardCopyPrice = hardCopyPrice;
                     //Update hashMap value..
                     hashMap.put("hardCopyPrice", hardCopyPrice);

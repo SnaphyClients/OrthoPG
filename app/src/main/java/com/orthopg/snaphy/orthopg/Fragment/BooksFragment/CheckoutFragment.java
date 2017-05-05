@@ -160,9 +160,9 @@ public class CheckoutFragment extends android.support.v4.app.Fragment {
             payment.setBookDetail(bookDetailObject);
             payment.setCustomerId(customer.getId());
             if(bookType.equals(Constants.EBOOK_BOOK_TYPE)){
-                payment.setAmount(Double.parseDouble(book.getEbookPrice()));
+                payment.setAmount(book.getEbookPrice());
             } else{
-                payment.setAmount(Double.parseDouble(book.getHardCopyPrice()));
+                payment.setAmount(book.getHardCopyPrice());
             }
 
             Map<String,? extends Object> paymentObj = payment.toMap();
@@ -236,7 +236,7 @@ public class CheckoutFragment extends android.support.v4.app.Fragment {
         PayUmoneySdkInitilizer.startPaymentActivityForResult(mainActivity, paymentParam);
     }
 
-
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PayUmoneySdkInitilizer.PAYU_SDK_PAYMENT_REQUEST_CODE) {
 
@@ -244,6 +244,7 @@ public class CheckoutFragment extends android.support.v4.app.Fragment {
                 Log.i(TAG, "Success - Payment ID : " + data.getStringExtra(SdkConstants.PAYMENT_ID));
                 String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
                 paymentIdNumber = paymentId;
+                Presenter.getInstance().addModel(Constants.PAYU_PAYMENT_ID, paymentIdNumber);
                 showDialogMessage("Payment Success Id : " + paymentId);
                // verifyPaymentFromServer(requestCode);
             } else if (resultCode == RESULT_CANCELED) {
@@ -251,11 +252,13 @@ public class CheckoutFragment extends android.support.v4.app.Fragment {
                 showDialogMessage("cancelled");
                 String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
                 paymentIdNumber = paymentId;
+                Presenter.getInstance().addModel(Constants.PAYU_PAYMENT_ID, paymentIdNumber);
                 //verifyPaymentFromServer(resultCode);
             } else if (resultCode == PayUmoneySdkInitilizer.RESULT_FAILED) {
                 Log.i("app_activity", "failure");
                 String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
                 paymentIdNumber = paymentId;
+                Presenter.getInstance().addModel(Constants.PAYU_PAYMENT_ID, paymentIdNumber);
                 //verifyPaymentFromServer(resultCode);
                 if (data != null) {
                     if (data.getStringExtra(SdkConstants.RESULT).equals("cancel")) {
@@ -269,13 +272,14 @@ public class CheckoutFragment extends android.support.v4.app.Fragment {
                 Log.i(TAG, "User returned without login");
                 String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
                 paymentIdNumber = paymentId;
+                Presenter.getInstance().addModel(Constants.PAYU_PAYMENT_ID, paymentIdNumber);
                 //verifyPaymentFromServer(resultCode);
                 showDialogMessage("User returned without login");
             }
         }
     }
 
-   /* public void verifyPaymentFromServer(final int resultCode){
+    public void verifyPaymentFromServer(final int resultCode){
         Payment payment = Presenter.getInstance().getModel(Payment.class, Constants.PAYMENT_MODEL_DATA);
         String paymentId = payment.getId().toString();
         PaymentRepository paymentRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(PaymentRepository.class);
@@ -311,7 +315,7 @@ public class CheckoutFragment extends android.support.v4.app.Fragment {
                 mainActivity.stopProgressBar(mainActivity.progressBar);
             }
         });
-    }*/
+    }
 
    /* public void dummyVerifyPaymentFromServer(){
         Payment payment = Presenter.getInstance().getModel(Payment.class, Constants.PAYMENT_MODEL_DATA);
