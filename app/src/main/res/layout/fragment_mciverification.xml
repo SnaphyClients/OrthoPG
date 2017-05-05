@@ -66,74 +66,6 @@
         android:layout_weight="5"
         android:id="@+id/fragment_mci_verification_relative_layout1">
 
-      <!--  <LinearLayout
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:orientation="vertical"
-            android:paddingBottom="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Enter Registration Number"
-                android:layout_centerHorizontal="true"
-                android:textColor="#333"
-                android:textSize="20sp"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:gravity="center"
-                android:id="@+id/fragment_login_texview1" />
-
-            <EditText
-                android:layout_below="@+id/fragment_login_texview1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/login_doc"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="15dp"
-                android:hint="MCI NUMBER"
-                android:gravity="center"
-                android:id="@+id/fragment_mci_verification_edittext1"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/fragment_login_imageview1">
-
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:background="@color/loginButton"
-                    android:layout_weight="1"
-                    android:text="skip"
-                    android:layout_marginRight="5dp"
-                    android:textColor="@color/white"
-                    android:id="@+id/fragment_mci_verification_button2"
-                    android:textAllCaps="false"
-                    android:textSize="18sp"/>
-
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:background="@color/loginButton"
-                    android:layout_weight="1"
-                    android:text="submit"
-                    android:textColor="@color/white"
-                    android:layout_marginLeft="5dp"
-                    android:id="@+id/fragment_mci_verification_button1"
-                    android:textAllCaps="false"
-                    android:textSize="18sp"/>
-
-
-            </LinearLayout>
-
-        </LinearLayout>
--->
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -177,6 +109,20 @@
             android:maxLines="1"
             android:id="@+id/fragment_verification_edittext1"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="optional"
+            android:textColor="@color/white"
+            android:layout_marginRight="20dp"
+            android:gravity="right"
+            android:layout_below="@+id/fragment_verification_edittext1"
+            android:textSize="11sp"
+            android:layout_marginTop="2dp"
+            android:paddingRight="20dp"
+            android:id="@+id/fragment_verification_textview6"/>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="42dp"
@@ -184,7 +130,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/round_corner_edittext"
-            android:layout_below="@+id/fragment_verification_edittext1"
+            android:layout_below="@+id/fragment_verification_textview6"
             android:id="@+id/fragment_verification_relative_layout2">
 
             <TextView

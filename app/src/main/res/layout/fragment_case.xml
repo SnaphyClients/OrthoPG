@@ -8,158 +8,6 @@
     android:background="@color/background"
     tools:context="com.orthopg.snaphy.orthopg.Fragment.CaseFragment.CaseFragment" >
 
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/fragment_case_horizontal_scroll_view"
-                android:scrollbars="none">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center"
-                        android:paddingTop="3dp"
-                        android:id="@+id/fragment_case_linear_layout">
-
-                        <LinearLayout
-                            android:layout_width="75dp"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="15dp"
-                                android:layout_height="25dp"
-                                android:src="@drawable/trending"
-                                android:layout_gravity="center_horizontal"/>
-
-                            <Button
-                                android:id="@+id/fragment_case_button1"
-                                android:layout_width="75dp"
-                                android:layout_height="25dp"
-                                android:text="Trending"
-                                android:textSize="11sp"
-                                android:textAllCaps="false"
-                                android:gravity="top|center_horizontal"
-                                android:layout_gravity="center_horizontal|top"
-                                android:background="@android:color/transparent"
-                                android:textColor="#555"/>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="75dp"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="15dp"
-                                android:layout_height="25dp"
-                                android:src="@drawable/latest"
-                                android:layout_gravity="center_horizontal"/>
-
-                            <Button
-                                android:id="@+id/fragment_case_button2"
-                                android:layout_width="75dp"
-                                android:layout_height="25dp"
-                                android:text="Latest"
-                                android:textSize="11sp"
-                                android:textAllCaps="false"
-                                android:gravity="top|center_horizontal"
-                                android:layout_gravity="center_horizontal|top"
-                                android:background="@android:color/transparent"
-                                android:textColor="#555"/>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="75dp"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="15dp"
-                                android:layout_height="25dp"
-                                android:src="@drawable/unsolved"
-                                android:layout_gravity="center_horizontal"/>
-
-
-                            <Button
-                                android:id="@+id/fragment_case_button3"
-                                android:layout_width="75dp"
-                                android:layout_height="25dp"
-                                android:text="Unsolved"
-                                android:textSize="11sp"
-                                android:textAllCaps="false"
-                                android:gravity="top|center_horizontal"
-                                android:layout_gravity="center_horizontal|top"
-                                android:background="@android:color/transparent"
-                                android:textColor="#555"/>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="75dp"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="15dp"
-                                android:layout_height="25dp"
-                                android:src="@drawable/saved_cases"
-                                android:layout_gravity="center_horizontal"/>
-
-                            <Button
-                                android:id="@+id/fragment_case_button6"
-                                android:layout_width="75dp"
-                                android:layout_height="25dp"
-                                android:text="Saved"
-                                android:textSize="11sp"
-                                android:textAllCaps="false"
-                                android:gravity="top|center_horizontal"
-                                android:layout_gravity="center_horizontal|top"
-                                android:background="@android:color/transparent"
-                                android:textColor="#555"/>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="75dp"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="15dp"
-                                android:layout_height="25dp"
-                                android:src="@drawable/posted_cases"
-                                android:layout_gravity="center_horizontal"/>
-
-                            <Button
-                                android:id="@+id/fragment_case_button5"
-                                android:layout_width="75dp"
-                                android:layout_height="25dp"
-                                android:text="Posted"
-                                android:textSize="11sp"
-                                android:textAllCaps="false"
-                                android:gravity="top|center_horizontal"
-                                android:layout_gravity="center_horizontal|top"
-                                android:background="@android:color/transparent"
-                                android:textColor="#555"/>
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </HorizontalScrollView>
-
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
@@ -206,7 +54,7 @@
         android:textAllCaps="true"
         android:textColor="@color/white"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/danger"
         android:gravity="center"/>
 
     <android.support.v7.widget.RecyclerView
@@ -219,6 +67,171 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="45dp"/>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/fragment_case_horizontal_scroll_view"
+        android:scrollbars="none"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/fragment_case_textview1"
+        android:layout_toEndOf="@+id/fragment_case_textview1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:paddingTop="3dp"
+                android:id="@+id/fragment_case_linear_layout">
+
+                <LinearLayout
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:id="@+id/fragment_case_linear_layout1">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="25dp"
+                        android:src="@drawable/trending"
+                        android:layout_gravity="center_horizontal"
+                        android:id="@+id/fragment_case_imageview1"/>
+
+                    <Button
+                        android:id="@+id/fragment_case_button1"
+                        android:layout_width="75dp"
+                        android:layout_height="25dp"
+                        android:text="Trending"
+                        android:textSize="11sp"
+                        android:textAllCaps="false"
+                        android:gravity="top|center_horizontal"
+                        android:layout_gravity="center_horizontal|top"
+                        android:background="@android:color/transparent"
+                        android:textColor="#555"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:id="@+id/fragment_case_linear_layout2">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="25dp"
+                        android:src="@drawable/latest"
+                        android:layout_gravity="center_horizontal"
+                        android:id="@+id/fragment_case_imageview2"/>
+
+                    <Button
+                        android:id="@+id/fragment_case_button2"
+                        android:layout_width="75dp"
+                        android:layout_height="25dp"
+                        android:text="Latest"
+                        android:textSize="11sp"
+                        android:textAllCaps="false"
+                        android:gravity="top|center_horizontal"
+                        android:layout_gravity="center_horizontal|top"
+                        android:background="@android:color/transparent"
+                        android:textColor="#555"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:id="@+id/fragment_case_linear_layout3">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="25dp"
+                        android:src="@drawable/unsolved"
+                        android:layout_gravity="center_horizontal"
+                        android:id="@+id/fragment_case_imageview3"/>
+
+
+                    <Button
+                        android:id="@+id/fragment_case_button3"
+                        android:layout_width="75dp"
+                        android:layout_height="25dp"
+                        android:text="Unsolved"
+                        android:textSize="11sp"
+                        android:textAllCaps="false"
+                        android:gravity="top|center_horizontal"
+                        android:layout_gravity="center_horizontal|top"
+                        android:background="@android:color/transparent"
+                        android:textColor="#555"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:id="@+id/fragment_case_linear_layout4">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="25dp"
+                        android:src="@drawable/saved_cases"
+                        android:layout_gravity="center_horizontal"
+                        android:id="@+id/fragment_case_imageview4"/>
+
+                    <Button
+                        android:id="@+id/fragment_case_button6"
+                        android:layout_width="75dp"
+                        android:layout_height="25dp"
+                        android:text="Saved"
+                        android:textSize="11sp"
+                        android:textAllCaps="false"
+                        android:gravity="top|center_horizontal"
+                        android:layout_gravity="center_horizontal|top"
+                        android:background="@android:color/transparent"
+                        android:textColor="#555"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:id="@+id/fragment_case_linear_layout5">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="25dp"
+                        android:src="@drawable/posted_cases"
+                        android:layout_gravity="center_horizontal"
+                        android:id="@+id/fragment_case_imageview5"/>
+
+                    <Button
+                        android:id="@+id/fragment_case_button5"
+                        android:layout_width="75dp"
+                        android:layout_height="25dp"
+                        android:text="Posted"
+                        android:textSize="11sp"
+                        android:textAllCaps="false"
+                        android:gravity="top|center_horizontal"
+                        android:layout_gravity="center_horizontal|top"
+                        android:background="@android:color/transparent"
+                        android:textColor="#555"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
 
 </RelativeLayout>
 

@@ -82,6 +82,19 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.fragment_case_button3) Button unsolvedCaseButton;
     @Bind(R.id.fragment_case_button5) Button postedCaseButton;
     @Bind(R.id.fragment_case_button6) Button savedCaseButton;
+
+    @Bind(R.id.fragment_case_imageview1) ImageView trendingImageView;
+    @Bind(R.id.fragment_case_imageview2) ImageView newCaseImageView;
+    @Bind(R.id.fragment_case_imageview3) ImageView unsolvedCaseImageView;
+    @Bind(R.id.fragment_case_imageview4) ImageView postedCaseImageView;
+    @Bind(R.id.fragment_case_imageview5) ImageView savedCaseImageView;
+
+    @Bind(R.id.fragment_case_linear_layout1) LinearLayout trendingCaseLayout;
+    @Bind(R.id.fragment_case_linear_layout2) LinearLayout newCaseLayout;
+    @Bind(R.id.fragment_case_linear_layout3) LinearLayout unsolvedCaseLayout;
+    @Bind(R.id.fragment_case_linear_layout4) LinearLayout postedCaseLayout;
+    @Bind(R.id.fragment_case_linear_layout5) LinearLayout savedCaseLayout;
+
     @Bind(R.id.fragment_case_button4) Button postCase;
 
     public CaseFragment() {
@@ -126,38 +139,6 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-
-        @Bind(R.id.layout_case_list_image) ImageView userImage;
-        @Bind(R.id.layout_case_list_textview1) TextView caseHeading;
-        @Bind(R.id.layout_case_list_textview2) TextView userName;
-        @Bind(R.id.layout_case_list_textview3) TextView casePostedTime;
-        @Bind(R.id.layout_case_list_imagebutton2) ImageView like;
-        @Bind(R.id.layout_case_list_imagebutton1) ImageView saveCase;
-        @Bind(R.id.layout_case_list_recycler_view) RecyclerView caseImages;
-        @Bind(R.id.layout_case_list_textview4) TextView caseDescription;
-        @Bind(R.id.layout_case_list_textview5) TextView tag;
-        @Bind(R.id.layout_case_list_imageview1) ImageView isAnswerSelected;
-        @Bind(R.id.layout_case_list_textview6) TextView selectedAnswerUserName;
-        @Bind(R.id.layout_case_list_textview7) TextView selectedAnswer;
-        @Bind(R.id.layout_case_list_button2) TextView deleteButton;
-        @Bind(R.id.layout_case_list_button1) TextView editButton;
-        @Bind(R.id.layout_case_list_textview8) TextView numberOfLikes;
-        @Bind(R.id.layout_case_list_textview9) TextView numberOfSave;
-        @Bind(R.id.layout_case_list_linear_layout) LinearLayout linearLayout;
-        @Bind(R.id.layout_case_list_linear_layout2) LinearLayout linearLayout2;
-        @Bind(R.id.layout_case_list_linear_layout_like) LinearLayout likeLinearLayout;
-        @Bind(R.id.layout_case_list_linear_layout_save) LinearLayout saveLinearLayout;
-        @Bind(R.id.layout_case_list_linear_layout3) LinearLayout caseContainer;
-        @Bind(R.id.layout_case_list_linear_layout4) LinearLayout contentContainer;
-
-
-        public ViewHolder(View itemView){
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
-    }
-
     public void swipeRefreshLayoutListener() {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -188,14 +169,14 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         });
     }//http://sapandiwakar.in/pull-to-refresh-for-android-recyclerview-or-any-other-vertically-scrolling-view/
 
-    @OnClick(R.id.fragment_case_button1) void trendingButtonClick() {
+    @OnClick(R.id.fragment_case_linear_layout1) void trendingButtonClick() {
         changeButtonColor(true, false, false, false, false);
         Constants.SELECTED_TAB = Constants.TRENDING;
         casePresenter.fetchPost(Constants.TRENDING, true);
         resetLoadingData();
     }
 
-    @OnClick(R.id.fragment_case_button2) void newButtonClick() {
+    @OnClick(R.id.fragment_case_linear_layout2) void newButtonClick() {
         changeButtonColor(false, true, false, false, false);
         Constants.SELECTED_TAB = Constants.LATEST;
         casePresenter.fetchPost(Constants.LATEST, true);
@@ -203,21 +184,21 @@ public class CaseFragment extends android.support.v4.app.Fragment {
 
     }
 
-    @OnClick(R.id.fragment_case_button3) void unsolvedButtonClick() {
+    @OnClick(R.id.fragment_case_linear_layout3) void unsolvedButtonClick() {
         changeButtonColor(false, false, true, false, false);
         Constants.SELECTED_TAB = Constants.UNSOLVED;
         casePresenter.fetchPost(Constants.UNSOLVED, true);
         resetLoadingData();
     }
 
-    @OnClick(R.id.fragment_case_button6) void savedButtonClick() {
+    @OnClick(R.id.fragment_case_linear_layout4) void savedButtonClick() {
         changeButtonColor(false, false, false, true, false);
         Constants.SELECTED_TAB = Constants.SAVED;
         casePresenter.fetchSavedPost(Constants.SAVED, true);
         resetLoadingData();
     }
 
-    @OnClick(R.id.fragment_case_button5) void postedButtonClick() {
+    @OnClick(R.id.fragment_case_linear_layout5) void postedButtonClick() {
         changeButtonColor(false, false, false, false, true);
         Constants.SELECTED_TAB = Constants.POSTED;
         casePresenter.fetchPostedPost(Constants.POSTED, true);
@@ -434,20 +415,19 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     }
 
 
-
-
-
-
-
-
-
     public void changeButtonColor(boolean trending, boolean newCase, boolean unsolved, boolean saved, boolean posted) {
         trendingButton.setTextColor(Color.parseColor("#777777"));
         newCaseButton.setTextColor(Color.parseColor("#777777"));
         unsolvedCaseButton.setTextColor(Color.parseColor("#777777"));
         savedCaseButton.setTextColor(Color.parseColor("#777777"));
         postedCaseButton.setTextColor(Color.parseColor("#777777"));
-        
+
+        trendingImageView.setImageResource(R.drawable.trending);
+        newCaseImageView.setImageResource(R.drawable.latest);
+        unsolvedCaseImageView.setImageResource(R.drawable.unsolved);
+        savedCaseImageView.setImageResource(R.drawable.saved_cases);
+        postedCaseImageView.setImageResource(R.drawable.posted_cases);
+
 
         isTrendingSelected = false;
         isNewSelected = false;
@@ -455,38 +435,44 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         isSavedSelected = false;
         isPostedSelected = false;
 
-        trendingButton.setEnabled(true);
-        newCaseButton.setEnabled(true);
-        postedCaseButton.setEnabled(true);
-        savedCaseButton.setEnabled(true);
-        unsolvedCaseButton.setEnabled(true);
+        trendingCaseLayout.setEnabled(true);
+        newCaseLayout.setEnabled(true);
+        postedCaseLayout.setEnabled(true);
+        savedCaseLayout.setEnabled(true);
+        unsolvedCaseLayout.setEnabled(true);
+
 
         if(trending) {
-            trendingButton.setTextColor(Color.parseColor("#67c3ad"));
-            trendingButton.setEnabled(false);
+            trendingButton.setTextColor(Color.parseColor("#4686f2"));
+            trendingImageView.setImageResource(R.drawable.trending_selected);
+            trendingCaseLayout.setEnabled(false);
             isTrendingSelected = true;
         }
 
         if(newCase) {
-            newCaseButton.setTextColor(Color.parseColor("#67c3ad"));
+            newCaseButton.setTextColor(Color.parseColor("#4686f2"));
+            newCaseImageView.setImageResource(R.drawable.latest_selected);
             newCaseButton.setEnabled(false);
             isNewSelected = true;
         }
 
         if(unsolved) {
-            unsolvedCaseButton.setTextColor(Color.parseColor("#67c3ad"));
+            unsolvedCaseButton.setTextColor(Color.parseColor("#4686f2"));
+            unsolvedCaseImageView.setImageResource(R.drawable.unsolved_selected);
             unsolvedCaseButton.setEnabled(false);
             isUnsolvedSelected = true;
         }
 
         if(saved) {
-            savedCaseButton.setTextColor(Color.parseColor("#67c3ad"));
+            savedCaseButton.setTextColor(Color.parseColor("#4686f2"));
+            savedCaseImageView.setImageResource(R.drawable.save_selected);
             savedCaseButton.setEnabled(false);
             isSavedSelected = true;
         }
 
         if(posted) {
-            postedCaseButton.setTextColor(Color.parseColor("#67c3ad"));
+            postedCaseButton.setTextColor(Color.parseColor("#4686f2"));
+            postedCaseImageView.setImageResource(R.drawable.posted_cases_selected);
             postedCaseButton.setEnabled(false);
             isPostedSelected = true;
         }

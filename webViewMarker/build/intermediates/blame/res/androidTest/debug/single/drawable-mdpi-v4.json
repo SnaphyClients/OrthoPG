@@ -1,10 +1,10 @@
 [
     {
-        "merged": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/webViewMarker/build/intermediates/res/merged/androidTest/debug/drawable-mdpi-v4/text_select_handle_left.png",
-        "source": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/webViewMarker/build/intermediates/bundles/debug/res/drawable-mdpi-v4/text_select_handle_left.png"
+        "merged": "E:\\Clients Android App\\OrthoPG\\webViewMarker\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\text_select_handle_left.png",
+        "source": "E:\\Clients Android App\\OrthoPG\\webViewMarker\\build\\intermediates\\bundles\\debug\\res\\drawable-mdpi-v4\\text_select_handle_left.png"
     },
     {
-        "merged": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/webViewMarker/build/intermediates/res/merged/androidTest/debug/drawable-mdpi-v4/text_select_handle_right.png",
-        "source": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/webViewMarker/build/intermediates/bundles/debug/res/drawable-mdpi-v4/text_select_handle_right.png"
+        "merged": "E:\\Clients Android App\\OrthoPG\\webViewMarker\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\text_select_handle_right.png",
+        "source": "E:\\Clients Android App\\OrthoPG\\webViewMarker\\build\\intermediates\\bundles\\debug\\res\\drawable-mdpi-v4\\text_select_handle_right.png"
     }
 ]

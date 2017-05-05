@@ -33,17 +33,6 @@
         android:id="@+id/fragment_view_all_books_textview1"
         android:textStyle="bold"/>
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/share"
-        android:layout_marginRight="20dp"
-        android:padding="10dp"
-        android:id="@+id/fragment_book_description_imageview3"
-        android:layout_marginTop="150dp"
-        android:background="@drawable/circle_info_filled"/>
-
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -74,7 +63,7 @@
 
 
             <TextView
-                android:layout_width="160dp"
+                android:layout_width="200dp"
                 android:layout_height="40dp"
                 android:layout_below="@+id/fragment_book_description_textview1"
                 android:layout_alignParentRight="true"
@@ -84,7 +73,7 @@
                 android:padding="10dp"
                 android:textStyle="bold"
                 android:id="@+id/fragment_book_description_button1"
-                android:gravity="end"
+                android:gravity="center_horizontal"
                 android:layout_marginTop="20dp"/>
 
             <TextView
@@ -96,7 +85,7 @@
                 android:layout_marginTop="20dp"
                 android:rotation="45"
                 android:id="@+id/fragment_book_description_textview2"
-                android:layout_marginRight="150dp"/>
+                android:layout_marginRight="180dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -108,31 +97,34 @@
                 android:layout_marginTop="20dp"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
+                android:weightSum="2"
                 android:id="@+id/fragment_book_description_linearLayout">
 
 
 
                 <Button
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="42dp"
                     android:background="@drawable/curved_rectangle_info_filled"
                     android:text="Ebook @ INR 350"
                     android:textColor="@color/white"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
+                    android:layout_weight="1"
                     android:id="@+id/fragment_book_description_button3"
                     android:textAllCaps="false"
-                    android:layout_marginRight="10dp"/>
+                    android:layout_marginRight="5dp"/>
 
                 <Button
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="42dp"
                     android:background="@drawable/curved_rectangle_info_filled"
                     android:text="Hardcopy @ INR 350"
                     android:textColor="@color/white"
                     android:paddingLeft="15dp"
                     android:textAllCaps="false"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
                     android:id="@+id/fragment_book_description_button4"
                     android:paddingRight="15dp"/>
 
@@ -157,6 +149,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
                 android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. "/>
 
             <TextView
@@ -176,6 +169,21 @@
 
 
     </ScrollView>
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fragment_book_description_imageview3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:src="@mipmap/share"
+        app:elevation="12dp"
+        android:layout_marginRight="22dp"
+        android:layout_alignTop="@+id/fragment_book_description_linearLayout2"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="22dp"
+        android:layout_marginTop="50dp"/>
 
 
 </RelativeLayout>

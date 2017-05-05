@@ -7,7 +7,8 @@
     <color name="loginBackground">#644c9f</color>
     <color name="loginButton">#f0565a</color>
     <color name="white">#FFFFFF</color>
-    <color name="headingColor">#67c3ad</color>
+    <!--<color name="headingColor">#67c3ad</color>-->
+    <color name="headingColor">#4686f2</color>
     <color name="headingDarkColor">#53a08e</color>
     <color name="lineColor">#DDDDDD</color>
     <color name="buttonColor">#777777</color>
