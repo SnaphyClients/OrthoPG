@@ -97,6 +97,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.fragment_case_detail_linearLayout2) LinearLayout likeLinearLayout;
     @Bind(R.id.fragment_case_progressBar) CircleProgressBar progressBar;
     @Bind(R.id.collapsing_toolbar) CollapsingToolbarLayout toolbarLayout;
+    @Bind(R.id.fragment_case_detail_textview1) TextView noCommentPresent;
     int count = 0;
     MainActivity mainActivity;
     Post post;
@@ -289,6 +290,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
     public void loadPost(){
         Typeface font = Typeface.createFromAsset(mainActivity.getAssets(), "fonts/OpenSans-Regular.ttf");
         Typeface font_bold = Typeface.createFromAsset(mainActivity.getAssets(), "fonts/OpenSans-Bold.ttf");
+        noCommentPresent.setTypeface(font_bold);
         if(post == null){
             return;
         }
@@ -573,8 +575,10 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
                 }*/
                 if(dataList.size() != 0) {
                     indicator.setVisibility(View.GONE);
+                    noCommentPresent.setVisibility(View.GONE);
                 } else {
                     indicator.setVisibility(View.VISIBLE);
+                    noCommentPresent.setVisibility(View.VISIBLE);
                 }
                 caseDetailFragmentCommentAdapter = new CaseDetailFragmentCommentAdapter(mainActivity, post, caseDetailPresenter, commentStateDataList);
                 commentsRecyclerView.setAdapter(caseDetailFragmentCommentAdapter);
