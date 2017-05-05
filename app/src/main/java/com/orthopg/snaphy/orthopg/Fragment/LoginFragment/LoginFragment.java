@@ -175,7 +175,7 @@ public class LoginFragment extends android.support.v4.app.Fragment {
             Snackbar.make(login,"Check your network connection and try again!", Snackbar.LENGTH_SHORT).show();
         } else {
             Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
-            startActivityForResult(signInIntent, RC_SIGN_IN);
+            mainActivity.startActivityForResult(signInIntent, RC_SIGN_IN);
         }
     }
 

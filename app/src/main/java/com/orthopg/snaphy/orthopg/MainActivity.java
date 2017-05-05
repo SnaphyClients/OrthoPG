@@ -1087,12 +1087,9 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
     }
 
     //For getting payment status from payu money sdk
-    /*@Override
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == RC_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleSignInResult(result);
-        }else if (requestCode == PayUmoneySdkInitilizer.PAYU_SDK_PAYMENT_REQUEST_CODE) {
+      if (requestCode == PayUmoneySdkInitilizer.PAYU_SDK_PAYMENT_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Log.i(Constants.TAG, "Success - Payment ID : " + data.getStringExtra(SdkConstants.PAYMENT_ID));
                 String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
@@ -1126,7 +1123,31 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
                 showDialogMessage("User returned without login");
             }
         }
-    }*/
+        else /*if (requestCode == RC_SIGN_IN) */{
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);
+        }
+    }
+
+    private void handleSignInResult(GoogleSignInResult result) {
+        Log.d(Constants.TAG, "handleSignInResult:" + result.isSuccess());
+        if (result.isSuccess()) {
+            // Signed in successfully, show authenticated UI.
+            GoogleSignInAccount acct = result.getSignInAccount();
+            if(acct.getIdToken() != null) {
+                Log.v(Constants.TAG, acct.getIdToken());
+                //BackgroundService.setAccessToken(acct.getIdToken());
+                //mainActivity.replaceFragment(R.layout.fragment_mciverification, null);
+                Presenter.getInstance().addModel(Constants.GOOGLE_ACCESS_TOKEN, acct.getIdToken());
+                mainActivity.replaceFragment(R.layout.fragment_mciverification, null);
+                //sendTokenToServer(acct.getIdToken());
+            }else{
+                TastyToast.makeText(mainActivity.getApplicationContext(), Constants.ERROR_MESSAGE, TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+            }
+        } else {
+            TastyToast.makeText(mainActivity.getApplicationContext(), Constants.ERROR_MESSAGE, TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+        }
+    }
 
 
 

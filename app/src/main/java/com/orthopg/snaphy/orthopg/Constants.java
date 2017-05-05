@@ -89,6 +89,7 @@ public class Constants {
     public static String PAYMENT_MODEL_DATA = "PaymentModelData";
     public static String CHECK_SAVED_BOOK_DATA = "CheckSavedBookData";
     public static String PAYU_PAYMENT_ID = "PayuPaymentId";
+    public static String GOOGLE_LOGIN_REQUEST_CODE = "PayuPaymentId";
     /*---------------*/
 
     /*IDs*/
