@@ -409,7 +409,6 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
             }
         }
 
-
     }
 
 
@@ -431,6 +430,7 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
             Button edit = (Button) dialog.findViewById(R.id.dialog_edit_profile_button1);
             header.setText("CITY");
             editText.setHint("Edit City");
+
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -460,11 +460,12 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
             final TextView editText = (EditText) dialog.findViewById(R.id.dialog_edit_profile_editText1);
             Button edit = (Button) dialog.findViewById(R.id.dialog_edit_profile_button1);
             header.setText("MCI NUMBER");
-            editText.setHint("Edit MCI Number");
+            editText.setText(mciNumberTxt.getText().toString());
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     updateMCINumberData(editText.getText().toString());
+                    mciNumberTxt.setText(editText.getText().toString());
                     dialog.dismiss();
                 }
             });
@@ -482,7 +483,8 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
             @Override
             public void onSuccess(Customer object) {
                 super.onSuccess(object);
-                mainActivity.onBackPressed();
+                /*mainActivity.onBackPressed();*/
+
                 TastyToast.makeText(mainActivity, "Successfully updated data", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
             }
 
@@ -521,11 +523,12 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
             final TextView editText = (EditText)dialog.findViewById(R.id.dialog_edit_profile_editText1);
             Button edit = (Button)dialog.findViewById(R.id.dialog_edit_profile_button1);
             header.setText("WORK EXPERIENCE");
-            editText.setHint("Edit Work Experience");
+            editText.setText(workExperinceTxt.getText().toString());
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     updateWorkExperienceData(editText.getText().toString());
+                    workExperinceTxt.setText(editText.getText().toString());
                     dialog.dismiss();
                 }
             });
@@ -545,7 +548,7 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
             public void onSuccess(Customer object) {
                 super.onSuccess(object);
                 customerRepository.getDb().upsert__db(customer.getId().toString(), object);
-                mainActivity.onBackPressed();
+                /*mainActivity.onBackPressed();*/
                 TastyToast.makeText(mainActivity, "Successfully updated data", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
             }
 
@@ -599,11 +602,12 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
             final TextView editText = (EditText) dialog.findViewById(R.id.dialog_edit_profile_editText1);
             Button edit = (Button) dialog.findViewById(R.id.dialog_edit_profile_button1);
             header.setText("CITY");
-            editText.setHint("Edit City");
+            editText.setText(currentWorkingTxt.getText().toString());
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     updateCurrentWorkingData(editText.getText().toString());
+                    currentWorkingTxt.setText(editText.getText().toString());
                     dialog.dismiss();
                 }
             });
@@ -623,7 +627,7 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
             public void onSuccess(Customer object) {
                 super.onSuccess(object);
                 customerRepository.getDb().upsert__db(customer.getId().toString(),object);
-                mainActivity.onBackPressed();
+                /*mainActivity.onBackPressed();*/
                 TastyToast.makeText(mainActivity, "Successfully updated data", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
             }
 
@@ -696,15 +700,10 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
         }
     }
 
-
-
-
-
     @OnClick(R.id.fragment_other_profile_imageview1) void onBack(){
         mainActivity.onBackPressed();
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -740,7 +739,6 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

@@ -52,12 +52,12 @@
         "source": "E:\\home\\nikita\\SnaphyClients\\OrthoPG\\Android App\\OrthoPG\\folioreader\\res\\drawable\\arrow_down.png"
     },
     {
-        "merged": "E:\\home\\nikita\\SnaphyClients\\OrthoPG\\Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\drawable\\abc_tab_indicator_material.xml",
-        "source": "E:\\home\\nikita\\SnaphyClients\\OrthoPG\\Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\drawable\\abc_tab_indicator_material.xml"
-    },
-    {
         "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\drawable\\abc_seekbar_tick_mark_material.xml",
         "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\drawable\\abc_seekbar_tick_mark_material.xml"
+    },
+    {
+        "merged": "E:\\home\\nikita\\SnaphyClients\\OrthoPG\\Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\drawable\\abc_tab_indicator_material.xml",
+        "source": "E:\\home\\nikita\\SnaphyClients\\OrthoPG\\Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\drawable\\abc_tab_indicator_material.xml"
     },
     {
         "merged": "E:\\home\\nikita\\SnaphyClients\\OrthoPG\\Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\drawable\\design_fab_background.xml",

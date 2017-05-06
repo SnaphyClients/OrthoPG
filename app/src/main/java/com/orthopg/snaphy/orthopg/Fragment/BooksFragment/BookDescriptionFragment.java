@@ -685,43 +685,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
         } else{
             Snackbar.make(eBookDownload,"No Network Connection! Check Internet Connection and try again", Snackbar.LENGTH_SHORT).show();
         }
-        //No network Connection
-       /* if(!mainActivity.snaphyHelper.isNetworkAvailable()){
-            Snackbar.make(eBookDownload,"No Network Connection! Check Internet Connection and try again", Snackbar.LENGTH_SHORT).show();
-        } else if(eBookDownload.getText().toString().equals("View")){
-             BookDetail bookDetail = Presenter.getInstance().getModel(BookDetail.class, Constants.CHECK_SAVED_BOOK_DATA);
-             String bookId = bookDetail.getBookId();
-            String bookKey = sharedPreferences.getString(bookId,"");
-            String bookIv = sharedPreferences.getString(bookId + "iv", "");
-            try {
-                decryptFile(bookKey, bookIv);
-            } catch (NoSuchPaddingException e) {
-                e.printStackTrace();
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            } catch (InvalidAlgorithmParameterException e) {
-                e.printStackTrace();
-            } catch (InvalidKeyException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else if(eBookDownload.getText().toString().equals("Read Book For Free")){
-             BookDetail bookDetail = Presenter.getInstance().getModel(BookDetail.class, Constants.BOOK_DETAIL_MODEL_VALUE);
-             if(bookDetail.getBookPdf()!=null){
-                 if(bookDetail.getBookPdf().get("url")!=null){
-                     Map<String, Object> bookHashMap = (Map<String, Object>)bookDetail.getBookPdf().get("url");
-                     if(bookHashMap!=null){
-                          String bookUnsignedUrl = (String)bookHashMap.get("unSignedUrl");
-                          new DownloadFile().execute(bookUnsignedUrl, bookName+".epub");
-                     }
-                 }
-             }
-        }
-        else {
-            Presenter.getInstance().addModel(Constants.BOOK_TYPE, Constants.EBOOK_BOOK_TYPE);
-            mainActivity.replaceFragment(R.layout.fragment_checkout, null);
-        }  */
+
 
     }
 

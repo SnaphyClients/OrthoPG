@@ -558,7 +558,7 @@
                     android:layout_height="20dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="5dp"
-                    android:background="@color/warning"
+                    android:background="@color/success"
                     android:textColor="#FFF"
                     android:text="Accepted"
                     android:textSize="10sp"
