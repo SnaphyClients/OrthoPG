@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.DataListCallback;
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
@@ -753,7 +754,22 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
   }
 
   public void openCaseFragment(int position){
-      mainActivity.replaceFragment(R.id.layout_case_list_textview4, position);
+      if (!mainActivity.snaphyHelper.isNetworkAvailable()) {
+          Toast.makeText(mainActivity, "Internet Not Connected", Toast.LENGTH_SHORT).show();
+      } else {
+          Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+          if (customer != null) {
+              if (customer.getStatus() != null) {
+                  if (customer.getStatus().equals(Constants.ALLOW)) {
+                      mainActivity.replaceFragment(R.id.layout_case_list_textview4, position);
+                  }  else {
+                      TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+                  }
+              } else {
+                  TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+              }
+          }
+      }
   }
 
     public void setCustomerData(Data data){
@@ -802,9 +818,11 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
 
     public void getAndSetCustomerData(Customer customer, Customer customerData){
         if(customerData!=null) {
+
             if(customerData.getProfilePic()!=null){
                 customer.setProfilePic(customerData.getProfilePic());
             }
+
             if (customerData.getEmail() != null) {
                 if (!customerData.getEmail().isEmpty()) {
                     customer.setEmail(customerData.getEmail());
