@@ -776,14 +776,16 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         if(data.post.getAnonymous()){
 
         } else{
-            HashMap<String, Object> filter = new HashMap<>();
-            CustomerRepository customerRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
-            Customer customer = customerRepository.createObject(filter);
-            customer.setId(data.customer.getId());
-            customer.setEmail(data.customer.getEmail());
-            customer.setFirstName(data.post.getCustomer().getFirstName());
-            customer.setLastName(data.post.getCustomer().getLastName());
-            getOtherProfileData(data.post.getCustomer(), customer);
+            if(data.customer != null) {
+                HashMap<String, Object> filter = new HashMap<>();
+                CustomerRepository customerRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(CustomerRepository.class);
+                Customer customer = customerRepository.createObject(filter);
+                customer.setId(data.customer.getId());
+                customer.setEmail(data.customer.getEmail());
+                customer.setFirstName(data.post.getCustomer().getFirstName());
+                customer.setLastName(data.post.getCustomer().getLastName());
+                getOtherProfileData(data.post.getCustomer(), customer);
+            }
 
         }
     }
