@@ -92,8 +92,10 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.json.JSONObject;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -775,12 +777,13 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         long elapsedTime = currentDate.getMillis() - parsePostedDate.getMillis();
         String time = "";
 
-        int seconds = (int) (elapsedTime / 1000) % 60 ;
-        int minutes = (int) ((elapsedTime / (1000*60)) % 60);
-        int hours   = (int) ((elapsedTime / (1000*60*60)) % 24);
-        int days = (int) ((elapsedTime / (1000*60*60*24)) % 7);
-        int months = (int) (elapsedTime / (1000*60*60*24*30));
-        int years = (int) (elapsedTime / (1000*60*60*24*7*365));
+        int seconds = (int)TimeUnit.MILLISECONDS.toSeconds(elapsedTime);
+        int minutes = (int) (seconds/60);
+        int hours = (int) (minutes/60);
+        int days = (int) (hours/24);
+        int months = (int) (days/30);
+        int years = (int) (months/365);
+
 
         if(years == 0) {
             if(months == 0) {
