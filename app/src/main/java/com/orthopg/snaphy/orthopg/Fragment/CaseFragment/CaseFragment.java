@@ -28,6 +28,7 @@ import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.CustomModel.TrackList;
 import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.BookTestAdapter;
+import com.orthopg.snaphy.orthopg.Fragment.ProfileFragment.ProfileFragment;
 import com.orthopg.snaphy.orthopg.ItemClickSupport;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
@@ -487,18 +488,21 @@ public class CaseFragment extends android.support.v4.app.Fragment {
             //First create a post object then..move to fragment..
             Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
             if (customer != null) {
-                final String MCINumber = customer.getMciNumber() != null ? customer.getMciNumber() : "";
                 if (customer.getStatus() != null) {
                     if (customer.getStatus().equals(Constants.ALLOW)) {
                         casePresenter.InitNewCaseObject();
                         mainActivity.replaceFragment(R.id.fragment_case_button4, null);
                     } else {
                         TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
-                    /*if(MCINumber.isEmpty()) {
-                        mainActivity.replaceFragment(R.layout.fragment_mciverification, null);
-                    } else {
-                        TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
-                    }*/
+                        Snackbar snackbar = Snackbar.make(postCase, Constants.MCI_VERIFICATION_TAG, Snackbar.LENGTH_SHORT);
+                        snackbar
+                                .setAction("Profile", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        mainActivity.replaceFragment(R.layout.fragment_doctor_profile, ProfileFragment.TAG);
+                                    }
+                                })
+                                .show();
                     }
                 }
 
@@ -507,6 +511,9 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         }
 
     }
+
+
+
 
 
 

@@ -20,6 +20,8 @@ public class Constants {
     public static String CLIENT_ID = "1045211377196-k556pl54qlqrmnin81fm7e7dseud686r.apps.googleusercontent.com";
     private static String CLIENT_SECRET_KEY = "ORFoabt0p6XEOFLmKBsYQGZh";
 
+    public static String MCI_VERIFICATION_TAG = "Complete your MCI verification";
+
 
     //public static String baseUrl = "http://192.168.0.6:3000";
     //public static String baseUrl = "http://192.168.43.21:3000";
