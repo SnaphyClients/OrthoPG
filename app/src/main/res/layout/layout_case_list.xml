@@ -94,6 +94,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/share"
+                        android:visibility="gone"
                         android:layout_marginTop="10dp"/>
 
                 </LinearLayout>
@@ -266,15 +267,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-
                     android:background="@drawable/like_save_curved_rectangle">
 
-                    <ImageView
-
-                        android:layout_width="25dp"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:layout_gravity="center"
                         android:src="@mipmap/save_selected"
+                        android:text="Saved"
+                        android:paddingRight="8dp"
+                        android:paddingLeft="8dp"
+                        android:textColor="@color/primary"
+                        android:gravity="center_vertical"
+                        android:textSize="10sp"
                         android:background="@android:color/transparent"/>
 
 
@@ -334,16 +339,20 @@
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:orientation="horizontal"
-
                    android:background="@drawable/like_save_curved_rectangle">
 
-                    <ImageView
-
-                        android:layout_width="25dp"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:src="@mipmap/like_selected"
                         android:layout_gravity="center"
                         android:layout_alignLeft="@+id/view3"
+                        android:text="Helpful"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:textSize="10sp"
+                        android:textColor="@color/primary"
                         android:background="@android:color/transparent"/>
 
                     <View
@@ -450,7 +459,7 @@
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/like"
+                android:src="@mipmap/like_unselected"
                 android:id="@+id/layout_case_list_imagebutton2"
                 />
 
@@ -504,10 +513,9 @@
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
-                android:src="@mipmap/save"
+                android:src="@mipmap/save_unselected"
                 android:layout_gravity="center_vertical"
-                android:id="@+id/layout_case_list_imagebutton1"
-                />
+                android:id="@+id/layout_case_list_imagebutton1" />
 
             <TextView
                 android:layout_width="wrap_content"

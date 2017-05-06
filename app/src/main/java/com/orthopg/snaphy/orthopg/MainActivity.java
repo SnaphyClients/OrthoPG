@@ -757,11 +757,63 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
     public void hideSoftKeyboard(View view){
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(),0);
+    }
 
+    public String parseDate(String postedDate) {
+
+        DateTime parsePostedDate;
+        try {
+            parsePostedDate = ISODateTimeFormat.dateTime().withZone(DateTimeZone.forID("Asia/Kolkata")).parseDateTime(postedDate);
+        } catch(Exception e) {
+            parsePostedDate = new DateTime(DateTimeZone.forID("Asia/Kolkata"));
+        }
+        Log.v(Constants.TAG, parsePostedDate.toString());
+
+
+        DateTime currentDate = new DateTime(DateTimeZone.forID("Asia/Kolkata"));
+        Log.v(Constants.TAG, currentDate.toString());
+        long elapsedTime = currentDate.getMillis() - parsePostedDate.getMillis();
+        String time = "";
+
+        int seconds = (int) (elapsedTime / 1000) % 60 ;
+        int minutes = (int) ((elapsedTime / (1000*60)) % 60);
+        int hours   = (int) ((elapsedTime / (1000*60*60)) % 24);
+        int days = (int) ((elapsedTime / (1000*60*60*24)) % 7);
+        int months = (int) (elapsedTime / (1000*60*60*24*30));
+        int years = (int) (elapsedTime / (1000*60*60*24*7*365));
+
+        if(years == 0) {
+            if(months == 0) {
+                if(days == 0) {
+                    if(hours == 0){
+                        if(minutes == 0) {
+                            if(seconds == 0) {
+                                // DO NOTHING
+                                time = 1 + " "+ Constants.SECOND;
+                            } else {
+                                time = seconds + " "+ Constants.SECONDS;
+                            }
+                        } else {
+                            time = minutes + " "+ Constants.MINUTE;
+                        }
+                    } else {
+                        time = hours + " "+ Constants.HOUR;
+                    }
+                } else {
+                    time = days + " "+ Constants.DAY;
+                }
+            } else {
+                time = months + " "+ Constants.MONTH;
+            }
+        } else {
+            time = years + " "+ Constants.YEAR;
+        }
+
+        return time;
     }
 
 
-    public String parseDate(String postedDate) {
+    /*public String parseDate(String postedDate) {
 
         DateTime parsePostedDate = ISODateTimeFormat.dateTime().withZone(DateTimeZone.forID("Asia/Kolkata")).parseDateTime(postedDate);
         Log.v(Constants.TAG, parsePostedDate.toString());
@@ -773,7 +825,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         String time = applyRegexOnDate(parsePostedDate.toString(), currentDate.toString());
         return time;
 
-    }
+    }*/
 
     public String applyRegexOnDate(String postedDate, String currentDate) {
         //Fri Oct 07 16:01:58 GMT+05:30 2016 JAVA
@@ -1130,22 +1182,23 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
     }
 
     private void handleSignInResult(GoogleSignInResult result) {
-        Log.d(Constants.TAG, "handleSignInResult:" + result.isSuccess());
-        if (result.isSuccess()) {
-            // Signed in successfully, show authenticated UI.
-            GoogleSignInAccount acct = result.getSignInAccount();
-            if(acct.getIdToken() != null) {
-                Log.v(Constants.TAG, acct.getIdToken());
-                //BackgroundService.setAccessToken(acct.getIdToken());
-                //mainActivity.replaceFragment(R.layout.fragment_mciverification, null);
-                Presenter.getInstance().addModel(Constants.GOOGLE_ACCESS_TOKEN, acct.getIdToken());
-                mainActivity.replaceFragment(R.layout.fragment_mciverification, null);
-                //sendTokenToServer(acct.getIdToken());
-            }else{
+        if(result != null) {
+            if (result.isSuccess()) {
+                // Signed in successfully, show authenticated UI.
+                GoogleSignInAccount acct = result.getSignInAccount();
+                if (acct.getIdToken() != null) {
+                    Log.v(Constants.TAG, acct.getIdToken());
+                    //BackgroundService.setAccessToken(acct.getIdToken());
+                    //mainActivity.replaceFragment(R.layout.fragment_mciverification, null);
+                    Presenter.getInstance().addModel(Constants.GOOGLE_ACCESS_TOKEN, acct.getIdToken());
+                    mainActivity.replaceFragment(R.layout.fragment_mciverification, null);
+                    //sendTokenToServer(acct.getIdToken());
+                } else {
+                    TastyToast.makeText(mainActivity.getApplicationContext(), Constants.ERROR_MESSAGE, TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+                }
+            } else {
                 TastyToast.makeText(mainActivity.getApplicationContext(), Constants.ERROR_MESSAGE, TastyToast.LENGTH_SHORT, TastyToast.ERROR);
             }
-        } else {
-            TastyToast.makeText(mainActivity.getApplicationContext(), Constants.ERROR_MESSAGE, TastyToast.LENGTH_SHORT, TastyToast.ERROR);
         }
     }
 
