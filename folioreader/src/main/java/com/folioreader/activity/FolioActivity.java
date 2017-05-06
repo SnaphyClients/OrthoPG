@@ -524,7 +524,6 @@ public class FolioActivity extends AppCompatActivity implements
     @Override
     protected void onPause() {
         super.onPause();
-        Toast.makeText(this, "On Pause", Toast.LENGTH_SHORT).show();
         String bookName = Presenter.getInstance().getModel(String.class, "DOWNLOADED_BOOK_ID");
         File file = new File(Environment.getExternalStorageDirectory() + "/OrthoPg/" + "dec" + bookName + ".epub");
         file.delete();

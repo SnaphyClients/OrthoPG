@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="app_gray">#bcbcbc</color>
-    <color name="app_green">#71C951</color>
+    <color name="app_green">#4686f2</color>
     <color name="black">#000000</color>
     <color name="blue">#ADD8FF</color>
     <color name="borders">#F1EFF2</color>
     <color name="dark_night">#090609</color>
     <color name="gray_text">#B6B6B6</color>
-    <color name="green">#C0ED72</color>
+    <color name="green">#4686f2</color>
     <color name="night">#322D32</color>
     <color name="pink">#FFB0CA</color>
     <color name="red">#ff0000</color>
@@ -140,6 +140,7 @@
     <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
     </style>
     <style name="DialogCustomTheme" parent="android:Theme.Holo.Dialog.NoActionBar">
         <item name="android:windowBackground">@android:color/transparent</item>
