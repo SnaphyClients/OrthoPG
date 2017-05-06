@@ -21,6 +21,7 @@ public class Constants {
     private static String CLIENT_SECRET_KEY = "ORFoabt0p6XEOFLmKBsYQGZh";
 
     public static String MCI_VERIFICATION_TAG = "Complete your MCI verification";
+    public static String ERROR_DOWNLOADING_BOOK = "Error Downloading Book";
 
 
     //public static String baseUrl = "http://192.168.0.6:3000";

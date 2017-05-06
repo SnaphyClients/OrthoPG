@@ -28,6 +28,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +45,7 @@ import com.androidsdk.snaphy.snaphyandroidsdk.repository.BookRepository;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.PaymentRepository;
 import com.folioreader.activity.FolioActivity;
 import com.orthopg.snaphy.orthopg.Constants;
+import com.orthopg.snaphy.orthopg.Fragment.ProfileFragment.ProfileFragment;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.Manifest;
 import com.orthopg.snaphy.orthopg.PDFReaderActivity;
@@ -114,6 +116,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.fragment_book_description_textview7) TextView bookDescription;
     @Bind(R.id.fragment_book_description_button1) TextView downloadSample;
     @Bind(R.id.fragment_book_description_textview2) TextView downloadSampleText;
+    @Bind(R.id.fragment_book_description_progressBar) ProgressBar progressBar;
     String bookId = "";
     public final static String TAG = "BookDescriptionFragment";
     int read;
@@ -132,6 +135,14 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
     public static BookDescriptionFragment newInstance() {
         BookDescriptionFragment fragment = new BookDescriptionFragment();
         return fragment;
+    }
+
+    public void startProgressBar(ProgressBar progressBar) {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void stopProgressBar(ProgressBar progressBar) {
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -401,7 +412,6 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
                     Map<String, Object> bookHashMap = (Map<String, Object>) book.getUploadSampleBook().get("url");
                     if (bookHashMap != null) {
                         String bookUnsignedUrl = (String) bookHashMap.get("unSignedUrl");
-
                         new DownloadSampleFile().execute(bookUnsignedUrl, bookName + "_sample.epub");
                     }
                 }
@@ -412,75 +422,18 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
         //Check Internet Connection
         if(!mainActivity.snaphyHelper.isNetworkAvailable()){
             Snackbar.make(hardCopyDownload,"No Network Connection! Check Internet Connection and try again", Snackbar.LENGTH_SHORT).show();
-        } else{
-              Presenter.getInstance().addModel(Constants.BOOK_TYPE, Constants.HARDCOPY_BOOK_TYPE);
+        } else {
+            Presenter.getInstance().addModel(Constants.BOOK_TYPE, Constants.HARDCOPY_BOOK_TYPE);
             mainActivity.replaceFragment(R.layout.fragment_checkout, null);
             Presenter.getInstance().addModel(Constants.BOOK_TYPE, Constants.HARDCOPY_BOOK_TYPE);
-            /*Book book = Presenter.getInstance().getModel(Book.class, Constants.BOOK_DESCRIPTION_ID);
-            BookRepository bookRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(BookRepository.class);
-            bookRepository.fetchBookDetail();
-            if(book.getUploadBook()!=null){
-
-            }*/
         }
-       /* if(hardCopyDownload.getText().toString().equals("Download")) {
-            new DownloadFile().execute("http://www.damtp.cam.ac.uk/user/tong/string/string.pdf","sample.pdf");
-        }
-        else if(hardCopyDownload.getText().toString().equals("View")){
-            try {
-                FileInputStream enfis = new FileInputStream(outFile);
-                FileOutputStream defos = new FileOutputStream(decFile);
-                Cipher decipher = Cipher.getInstance("AES");
-                String bookKey = sharedPreferences.getString(bookId,"");
-                byte[] keyArray = Base64.decode(bookKey,Base64.DEFAULT);
-                String bookIv = sharedPreferences.getString(bookId + "iv","");
-                byte[] ivArray = Base64.decode(bookIv,Base64.DEFAULT);
-                SecretKeySpec specKey = new SecretKeySpec(keyArray, "AES");
-                decipher.init(Cipher.DECRYPT_MODE,specKey,new IvParameterSpec(ivArray));
-                CipherOutputStream cos = new CipherOutputStream(defos,decipher);
-                while((read = enfis.read())!=-1){
-                    cos.write(read);
-                    cos.flush();
-                }
-                cos.close();
-                Intent intent = new Intent(mainActivity,PDFReaderActivity.class);
-                startActivity(intent);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-            // mainActivity.replaceFragment(R.layout.fragment_book_pdfrender, null);
-
-        }*/
-/*
-        PayUmoneySdkInitilizer.PaymentParam.Builder builder = new PayUmoneySdkInitilizer.PaymentParam.Builder()
-                .setMerchantId("XXX")
-                .setKey("YYY")
-                .setIsDebug(true)
-                .setAmount(10)
-                .setTnxId("Onf7" + System.currentTimeMillis())
-                .setPhone("9876543210")
-                .setProductName("Product name")
-                .setFirstName("Name")
-                .setEmail("test@payu.com")
-                .setsUrl("https://www.PayUmoney.com/mobileapp/PayUmoney/success.php")
-                .setfUrl("https://www.PayUmoney.com/mobileapp/PayUmoney/failure.php")
-                .setUdf1("")
-                .setUdf2("")
-                .setUdf3("")
-                .setUdf4("")
-                .setUdf5("");
-        PayUmoneySdkInitilizer.PaymentParam paymentParam = builder.build();
-        String hashSequence = "key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|salt";
-        String serverCalulatedHash = hashCal("SHA-512", hashSequence);
-        paymentParam.setMerchantHash(serverCalulatedHash);
-        PayUmoneySdkInitilizer.startPaymentActivityForResult(mainActivity, paymentParam);*/
     }
 
 
-    private class DownloadSampleFile extends AsyncTask<String, Void, Void> {
+    private class DownloadSampleFile extends AsyncTask<String, Boolean, Boolean> {
 
         @Override
-        protected Void doInBackground(String... strings) {
+        protected Boolean doInBackground(String... strings) {
             String fileUrl = strings[0];   // -> http://maven.apache.org/maven-1.x/maven.pdf
             String fileName = strings[1];  // -> maven.pdf
             String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
@@ -494,24 +447,43 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            downloadSampleFile(fileUrl, epubFile);
+            boolean isBookCompleteDownloaded = downloadSampleFile(fileUrl, epubFile);
             //downloadEncryptedFile(fileUrl, pdfFile);
-            return null;
+            return isBookCompleteDownloaded;
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            Toast.makeText(mainActivity, "Download Sample Completed..", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(mainActivity, FolioActivity.class);
-            intent.putExtra(FolioActivity.INTENT_EPUB_SOURCE_TYPE, FolioActivity.EpubSourceType.SD_CARD);
-            intent.putExtra(FolioActivity.INTENT_EPUB_SOURCE_PATH,  Environment.getExternalStorageDirectory() + "/OrthoPg/" + bookName + "_sample.epub");
-            startActivity(intent);
+        protected void onPreExecute() {
+            startProgressBar(progressBar);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isBookCompleteDownloaded) {
+            super.onPostExecute(isBookCompleteDownloaded);
+            stopProgressBar(progressBar);
+            if(isBookCompleteDownloaded) {
+                Toast.makeText(mainActivity, "Download Sample Completed..", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mainActivity, FolioActivity.class);
+                intent.putExtra(FolioActivity.INTENT_EPUB_SOURCE_TYPE, FolioActivity.EpubSourceType.SD_CARD);
+                intent.putExtra(FolioActivity.INTENT_EPUB_SOURCE_PATH, Environment.getExternalStorageDirectory() + "/OrthoPg/" + bookName + "_sample.epub");
+                startActivity(intent);
+            } else {
+                // ERROR DOWNLOADING FILE
+                Snackbar snackbar = Snackbar.make(bookHeading, Constants.ERROR_DOWNLOADING_BOOK, Snackbar.LENGTH_LONG);
+                snackbar.setAction("RETRY", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // RETRY DOWNLOADING
+                    }
+                })
+                        .show();
+            }
         }
     }
 
 
-    public void downloadSampleFile(String fileUrl, File outFile){
+    public boolean downloadSampleFile(String fileUrl, File outFile){
+        boolean downloadSuccess = true;
         try {
             Uri uri = Uri.parse(fileUrl);
             URL url = new URL(fileUrl);
@@ -523,25 +495,36 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
                 fos.write((char)read);
                 fos.flush();
             }
+            downloadSuccess = true;
             fos.close();
             //Toast.makeText(mainActivity,"Encryption completed",Toast.LENGTH_SHORT).show();
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            downloadSuccess = false;
         } catch (MalformedURLException e) {
             e.printStackTrace();
+            downloadSuccess = false;
         } catch (IOException e) {
             e.printStackTrace();
+            downloadSuccess = false;
         } catch (Exception e){
             e.printStackTrace();
+            downloadSuccess = false;
         }
+        return  downloadSuccess;
     }
 
 
-    private class DownloadFile extends AsyncTask<String, Void, Void> {
+    private class DownloadFile extends AsyncTask<String, Boolean, Boolean> {
 
         @Override
-        protected Void doInBackground(String... strings) {
+        protected void onPreExecute() {
+            startProgressBar(progressBar);
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
             String fileUrl = strings[0];   // -> http://maven.apache.org/maven-1.x/maven.pdf
             String fileName = strings[1];  // -> maven.pdf
             String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
@@ -555,41 +538,59 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            downloadFile(fileUrl, epubFile);
+
+            boolean isBookCompleteDownloaded = downloadFile(fileUrl, epubFile);
             //downloadEncryptedFile(fileUrl, pdfFile);
-            return null;
+            return isBookCompleteDownloaded;
+            //downloadEncryptedFile(fileUrl, pdfFile);
         }
 
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            Toast.makeText(mainActivity, "Download Completed..", Toast.LENGTH_SHORT).show();
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            String byteKey = Base64.encodeToString(key, Base64.DEFAULT);
-            String byteIv = Base64.encodeToString(iv, Base64.DEFAULT);
-            editor.putString(bookId,byteKey);
-            editor.putString(bookId + "iv", byteIv);
-            editor.commit();
-            try {
-                decryptFile(byteKey, byteIv);
-            } catch (NoSuchPaddingException e) {
-                e.printStackTrace();
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            } catch (InvalidAlgorithmParameterException e) {
-                e.printStackTrace();
-            } catch (InvalidKeyException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+        protected void onPostExecute(Boolean isBookCompleteDownloaded) {
+            super.onPostExecute(isBookCompleteDownloaded);
+            stopProgressBar(progressBar);
+            if(isBookCompleteDownloaded) {
+                Toast.makeText(mainActivity, "Download Completed..", Toast.LENGTH_SHORT).show();
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                String byteKey = Base64.encodeToString(key, Base64.DEFAULT);
+                String byteIv = Base64.encodeToString(iv, Base64.DEFAULT);
+                editor.putString(bookId,byteKey);
+                editor.putString(bookId + "iv", byteIv);
+                editor.commit();
+                try {
+                    decryptFile(byteKey, byteIv);
+                } catch (NoSuchPaddingException e) {
+                    e.printStackTrace();
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                } catch (InvalidAlgorithmParameterException e) {
+                    e.printStackTrace();
+                } catch (InvalidKeyException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                // hardCopyDownload.setText("View");
+            } else {
+                // ERROR DOWNLOADING FILE
+                Snackbar snackbar = Snackbar.make(bookHeading, Constants.ERROR_DOWNLOADING_BOOK, Snackbar.LENGTH_LONG);
+                snackbar.setAction("RETRY", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // RETRY DOWNLOADING
+                    }
+                })
+                        .show();
             }
-           // hardCopyDownload.setText("View");
         }
     }
 
 
-    public void downloadFile(String fileUrl, File outFile){
+
+
+    public boolean downloadFile(String fileUrl, File outFile){
+        boolean downloadSuccess = true;
         try {
             Uri uri = Uri.parse(fileUrl);
             URL url = new URL(fileUrl);
@@ -606,18 +607,24 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
             while((read = cis.read(buffer))!=-1){
                 fos.write(buffer, 0, read);
                 fos.flush();}
+            downloadSuccess = true;
             fos.close();
             //Toast.makeText(mainActivity,"Encryption completed",Toast.LENGTH_SHORT).show();
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            downloadSuccess = false;
         } catch (MalformedURLException e) {
             e.printStackTrace();
+            downloadSuccess = false;
         } catch (IOException e) {
             e.printStackTrace();
+            downloadSuccess = false;
         } catch (Exception e){
             e.printStackTrace();
+            downloadSuccess = false;
         }
+        return downloadSuccess;
     }
 
 

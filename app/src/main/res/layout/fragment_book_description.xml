@@ -185,5 +185,16 @@
         android:layout_marginEnd="22dp"
         android:layout_marginTop="50dp"/>
 
+    <ProgressBar
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/LinearProgress"
+        android:layout_marginBottom="-8dp"
+        android:layout_marginTop="-6dp"
+        android:indeterminate="true"
+        android:visibility="gone"
+        android:id="@+id/fragment_book_description_progressBar" />
+
 
 </RelativeLayout>

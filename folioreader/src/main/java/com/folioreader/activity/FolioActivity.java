@@ -27,6 +27,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
@@ -304,20 +305,25 @@ public class FolioActivity extends AppCompatActivity implements
     }
 
     private void setSpineReferenceTitle() {
-        for (int j = 0; j < mSpineReferences.size(); j++) {
-            String href = mSpineReferences.get(j).getResource().getHref();
-            for (int i = 0; i < mTocReferences.size(); i++) {
-                if (mTocReferences.get(i).getResource().getHref().equalsIgnoreCase(href)) {
-                    mSpineReferences.get(j).getResource()
-                            .setTitle(mTocReferences.get(i).getTitle());
-                    break;
-                } else {
-                    mSpineReferences.get(j).getResource().setTitle("");
+        try {
+            for (int j = 0; j < mSpineReferences.size(); j++) {
+                String href = mSpineReferences.get(j).getResource().getHref();
+                for (int i = 0; i < mTocReferences.size(); i++) {
+                    if (mTocReferences.get(i).getResource().getHref().equalsIgnoreCase(href)) {
+                        mSpineReferences.get(j).getResource()
+                                .setTitle(mTocReferences.get(i).getTitle());
+                        break;
+                    } else {
+                        mSpineReferences.get(j).getResource().setTitle("");
+                    }
                 }
             }
+            ((TextView) findViewById(R.id.lbl_center))
+                    .setText(mSpineReferences.get(0).getResource().getTitle());
+        } catch(Exception e) {
+            Log.v("OrthoPG",e.toString());
+            Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
         }
-        ((TextView) findViewById(R.id.lbl_center))
-                .setText(mSpineReferences.get(0).getResource().getTitle());
     }
 
     private void configDrawerLayoutButtons() {
