@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="3dp"
-            android:text="Name"
+            android:text=""
             android:textColor="@color/white"
             android:textSize="18sp"
             android:id="@+id/fragment_profile_textview1" />
@@ -65,14 +65,14 @@
             android:layout_marginTop="2dp"
             android:textColor="@color/white"
             android:id="@+id/fragment_profile_textview2"
-            android:text="email"/>
+            android:text=""/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
-            android:text="Delhi"
+            android:text=""
             android:textStyle="bold"
             android:textColor="@color/white"
             android:id="@+id/fragment_profile_textview8">
@@ -162,7 +162,7 @@
                 android:layout_marginTop="3dp"
                 android:textColor="@color/primary"
                 android:id="@+id/fragment_profile_textview4"
-                android:text="123ert56" />
+                android:text="" />
 
                 <ImageView
                     android:layout_width="30dp"
@@ -202,7 +202,7 @@
                 android:layout_marginTop="3dp"
                 android:textColor="@color/primary"
                 android:id="@+id/fragment_profile_textview5"
-                android:text="0" />
+                android:text="" />
 
             <ImageView
                 android:layout_width="30dp"
@@ -242,7 +242,7 @@
                 android:layout_marginTop="3dp"
                 android:textColor="@color/primary"
                 android:id="@+id/fragment_profile_textview6"
-                android:text="Delhi" />
+                android:text="" />
 
                 <ImageView
                     android:layout_width="30dp"
@@ -283,7 +283,7 @@
                 android:layout_marginTop="3dp"
                 android:textColor="@color/primary"
                 android:id="@+id/fragment_profile_textview7"
-                android:text="MD, MS" />
+                android:text="" />
 
 
                 <ImageView

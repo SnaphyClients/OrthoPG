@@ -16,7 +16,7 @@
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="140dp"
-                android:src="@drawable/sampleimage"
+                android:src="@mipmap/ic_launcher"
                 android:adjustViewBounds="true"
                 android:padding="15dp"
                 android:id="@+id/layout_view_all_books_imageview1" />
@@ -28,7 +28,7 @@
                 android:layout_toRightOf="@+id/layout_view_all_books_imageview1"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="15dp"
-                android:text="Book Name"
+                android:text=""
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold"/>
@@ -42,7 +42,7 @@
                 android:layout_marginTop="4dp"
                 android:paddingRight="10dp"
                 android:textColor="#AAA"
-                android:text="This is the description of book"
+                android:text=""
                 android:maxLines="4"
                 android:ellipsize="end"
                 android:textSize="12sp"

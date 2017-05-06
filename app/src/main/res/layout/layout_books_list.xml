@@ -21,14 +21,14 @@
             android:id="@+id/layout_books_list_imageview1"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/sampleimage"/>
+            android:src="@mipmap/ic_launcher"/>
 
         <TextView
             android:layout_width="115dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="12sp"
-            android:text="BOOK TITLE"
+            android:text=""
             android:textAlignment="center"
             android:maxLines="1"
             android:textStyle="bold"

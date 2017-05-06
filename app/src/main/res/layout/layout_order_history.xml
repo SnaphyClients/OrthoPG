@@ -23,7 +23,7 @@
             <ImageView
                 android:layout_width="80dp"
                 android:layout_height="100dp"
-                android:src="@drawable/sampleimage"
+                android:src="@mipmap/ic_launcher"
                 android:adjustViewBounds="true"
                 android:padding="5dp"
                 android:layout_marginTop="5dp"
@@ -36,7 +36,7 @@
                 android:layout_toRightOf="@+id/layout_order_history_imageview1"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:text="Book Name"
+                android:text=""
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold"/>
@@ -48,7 +48,7 @@
                 android:layout_toRightOf="@+id/layout_order_history_imageview1"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
-                android:text="Transaction Id"
+                android:text=""
                 android:maxLines="1"
                 android:textSize="12sp"
                 android:id="@+id/layout_order_history_textview2"
@@ -76,7 +76,7 @@
                 android:textSize="12sp"
                 android:textColor="@color/black"
                 android:layout_marginTop="2dp"
-                android:text="23"
+                android:text=""
                 />
 
             <TextView
@@ -99,7 +99,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
                 android:textColor="#333"
-                android:text="25"/>
+                android:text=""/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -122,7 +122,7 @@
                 android:id="@+id/layout_order_history_textview8"
                 android:layout_below="@+id/layout_order_history_textview4"
                 android:layout_marginRight="10dp"
-                android:text="STATUS"
+                android:text=""
                 android:textSize="10sp"
                 android:textStyle="bold"
                 android:layout_marginLeft="1dp"
@@ -142,7 +142,7 @@
                 android:textSize="11sp"
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
-                android:text="DELIVERED"
+                android:text=""
                 android:textAllCaps="true" />
 
             </RelativeLayout>
