@@ -455,9 +455,11 @@
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:background="@color/white">
+
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
+                android:padding="5dp"
                 android:src="@mipmap/like_unselected"
                 android:id="@+id/layout_case_list_imagebutton2" />
 
@@ -482,7 +484,8 @@
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
-                android:src="@drawable/answer"
+                android:src="@mipmap/answer"
+                android:padding="9dp"
                 android:id="@+id/layout_case_list_imageview3" />
 
             <TextView
@@ -491,7 +494,6 @@
                 android:text="Answer" />
 
         </LinearLayout>
-
 
         <LinearLayout
             android:layout_width="0dp"
@@ -505,6 +507,7 @@
 
             <ImageView
                 android:layout_width="40dp"
+                android:padding="7dp"
                 android:layout_height="match_parent"
                 android:src="@mipmap/save_unselected"
                 android:layout_gravity="center_vertical"
