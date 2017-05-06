@@ -147,7 +147,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
             TextView tag = holder.tag;
             final TextView delete = holder.deleteButton;
             final TextView edit = holder.editButton;
-            ImageView isAnswerSelected = holder.isAnswerSelected;
+            RelativeLayout isAnswerSelected = holder.isAnswerSelected;
             TextView selectedAnswerUserName = holder.selectedAnswerUserName;
             TextView selectedAnswer = holder.selectedAnswer;
             final TextView numberOfLike = holder.numberOfLikes;
@@ -935,13 +935,14 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
     }
 
 
-    public void hideSelectedAnswer(View view, TextView selectedAnswer, ImageView grenTick, TextView userName){
+    public void hideSelectedAnswer(View view, TextView selectedAnswer, RelativeLayout grenTick, TextView userName){
         selectedAnswer.setVisibility(View.GONE);
         grenTick.setVisibility(View.GONE);
         userName.setVisibility(View.GONE);
         view.setVisibility(View.GONE);
     }
-    public void showSelectedAnswer(View view, TextView selectedAnswer, ImageView grenTick, TextView userName){
+
+    public void showSelectedAnswer(View view, TextView selectedAnswer, RelativeLayout grenTick, TextView userName){
         selectedAnswer.setVisibility(View.VISIBLE);
         grenTick.setVisibility(View.VISIBLE);
         userName.setVisibility(View.VISIBLE);
@@ -949,16 +950,12 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
     }
 
 
-
     public void setTime(TextView casePostedTime, String date){
-
         String parseDate = mainActivity.parseDate(date);
         casePostedTime.setText(parseDate + " ago");
         //PARSE The javascript format date first..
         //casePostedTime.setText(caseModel.getPostTime());
     }
-
-
 
 
     @Override
@@ -985,7 +982,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         @Bind(R.id.layout_case_list_recycler_view) RecyclerView caseImages;
         @Bind(R.id.layout_case_list_textview4) TextView caseDescription;
         @Bind(R.id.layout_case_list_textview5) TextView tag;
-        @Bind(R.id.layout_case_list_imageview1) ImageView isAnswerSelected;
+        @Bind(R.id.layout_case_list_imageview1) RelativeLayout isAnswerSelected;
         @Bind(R.id.layout_case_list_textview6) TextView selectedAnswerUserName;
         @Bind(R.id.layout_case_list_textview7) TextView selectedAnswer;
         @Bind(R.id.layout_case_list_button2) TextView deleteButton;
