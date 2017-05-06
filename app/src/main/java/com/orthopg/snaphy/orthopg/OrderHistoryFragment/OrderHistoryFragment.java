@@ -106,6 +106,7 @@ public class OrderHistoryFragment extends Fragment {
 
     @OnClick(R.id.fragment_order_history_imageview1) void onBack(){
         mainActivity.onBackPressed();
+        mainActivity.stopProgressBar(mainActivity.progressBar);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
