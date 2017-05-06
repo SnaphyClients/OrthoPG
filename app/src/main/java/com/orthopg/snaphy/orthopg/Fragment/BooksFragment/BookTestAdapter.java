@@ -39,18 +39,9 @@ import butterknife.ButterKnife;
 public class BookTestAdapter extends RecyclerView.Adapter<BookTestAdapter.ViewHolder> {
 
     MainActivity mainActivity;
-    DataList<BookModel> bookModelDataList;
-    DataList<Payment> paymentDataList;
-    //List<BookModel> bookModelList;
     DataList<BookCategory> bookCategoryDataList;
     BookListTestAdapter bookListTestAdapter;
 
-   /* public BookTestAdapter(MainActivity mainActivity, List<BookModel> bookModelList){
-
-        this.mainActivity = mainActivity;
-        this.bookModelList = bookModelList;
-
-    }*/
 
     public BookTestAdapter(MainActivity mainActivity, DataList<BookCategory> bookCategoryDataList) {
 
@@ -70,8 +61,6 @@ public class BookTestAdapter extends RecyclerView.Adapter<BookTestAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        //BookModel bookModel = bookModelList.get(position);
-        //BookModel bookModel = bookModelDataList.get(position);
         final BookCategory bookCategory_ = bookCategoryDataList.get(position);
         final TextView bookCategory = holder.bookCategory;
         final RecyclerView recyclerView = holder.recyclerView;
@@ -85,24 +74,29 @@ public class BookTestAdapter extends RecyclerView.Adapter<BookTestAdapter.ViewHo
                         if (!bookCategory_.getName().isEmpty()) {
                             viewAll.setVisibility(View.VISIBLE);
                             bookCategory.setText(WordUtils.capitalize(bookCategory_.getName().toString()));
+                            recyclerView.setVisibility(View.VISIBLE);
 
                         } else {
                             bookCategory.setVisibility(View.GONE);
                             viewAll.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.GONE);
                         }
                     } else{
                         bookCategory.setVisibility(View.GONE);
                         viewAll.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.GONE);
                     }
 
                     booksData(recyclerView, bookCategory_.getBooks());
                 } else{
                     bookCategory.setVisibility(View.GONE);
                     viewAll.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.GONE);
                 }
             } else{
                 bookCategory.setVisibility(View.GONE);
                 viewAll.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.GONE);
             }
 
         }
@@ -132,10 +126,6 @@ public class BookTestAdapter extends RecyclerView.Adapter<BookTestAdapter.ViewHo
     });
 }
 
-
-
-
-
     public void booksData(RecyclerView recyclerView, DataList<Book> objects){
 
         recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false));
@@ -143,14 +133,10 @@ public class BookTestAdapter extends RecyclerView.Adapter<BookTestAdapter.ViewHo
         recyclerView.setAdapter(bookListTestAdapter);
     }
 
-
-
     @Override
     public int getItemCount() {
         return bookCategoryDataList.size();
     }
-
-
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 

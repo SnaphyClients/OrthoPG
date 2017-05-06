@@ -6,16 +6,20 @@ import android.app.Presentation;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,6 +45,7 @@ import com.androidsdk.snaphy.snaphyandroidsdk.repository.PaymentRepository;
 import com.folioreader.activity.FolioActivity;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
+import com.orthopg.snaphy.orthopg.Manifest;
 import com.orthopg.snaphy.orthopg.PDFReaderActivity;
 import com.orthopg.snaphy.orthopg.PDFViewPagerActivity;
 import com.orthopg.snaphy.orthopg.R;
@@ -118,6 +123,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
     NotificationManager notificationManager;
     NotificationCompat.Builder mBuilder;
     int id = 1;
+    private static final int PERMISSION_REQUEST_CODE = 1;
 
     public BookDescriptionFragment() {
         // Required empty public constructor
@@ -134,8 +140,47 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
         sharedPreferences = mainActivity.getSharedPreferences(Constants.BOOK_SHARED_PREFERENCE,Context.MODE_PRIVATE);
         key = getKey();
         iv = getIV();
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkPermission()) {}
+            else {
+                requestPermission(); // Code for permission
+            }
+        }
+        else {
+        }
         //checkPurchasedBook(book);
     }
+
+    private boolean checkPermission() {
+        int result = ContextCompat.checkSelfPermission(mainActivity, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (result == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void requestPermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(mainActivity, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            Toast.makeText(mainActivity, "Write External Storage permission allows us to do store images. Please allow this permission in App Settings.", Toast.LENGTH_LONG).show();
+        } else {
+            ActivityCompat.requestPermissions(mainActivity, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.e("value", "Permission Granted, Now you can use local drive .");
+                } else {
+                    Log.e("value", "Permission Denied, You cannot use local drive .");
+                }
+                break;
+        }
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
