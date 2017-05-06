@@ -86,14 +86,14 @@ public class CaseFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.fragment_case_imageview1) ImageView trendingImageView;
     @Bind(R.id.fragment_case_imageview2) ImageView newCaseImageView;
     @Bind(R.id.fragment_case_imageview3) ImageView unsolvedCaseImageView;
-    @Bind(R.id.fragment_case_imageview4) ImageView postedCaseImageView;
-    @Bind(R.id.fragment_case_imageview5) ImageView savedCaseImageView;
+    @Bind(R.id.fragment_case_imageview5) ImageView postedCaseImageView;
+    @Bind(R.id.fragment_case_imageview4) ImageView savedCaseImageView;
 
     @Bind(R.id.fragment_case_linear_layout1) LinearLayout trendingCaseLayout;
     @Bind(R.id.fragment_case_linear_layout2) LinearLayout newCaseLayout;
     @Bind(R.id.fragment_case_linear_layout3) LinearLayout unsolvedCaseLayout;
-    @Bind(R.id.fragment_case_linear_layout4) LinearLayout postedCaseLayout;
-    @Bind(R.id.fragment_case_linear_layout5) LinearLayout savedCaseLayout;
+    @Bind(R.id.fragment_case_linear_layout5) LinearLayout postedCaseLayout;
+    @Bind(R.id.fragment_case_linear_layout4) LinearLayout savedCaseLayout;
 
     @Bind(R.id.fragment_case_button4) Button postCase;
 

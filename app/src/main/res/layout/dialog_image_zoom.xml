@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <com.orthopg.snaphy.orthopg.ImageZoom.TouchImageView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/dialog_image_zoom_imageview1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:adjustViewBounds="true"
+<com.orthopg.snaphy.orthopg.ImageZoom.TouchImageView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/dialog_image_zoom_imageview1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
     />
+
