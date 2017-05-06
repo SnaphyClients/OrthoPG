@@ -1,10 +1,14 @@
 [
     {
-        "merged": "E:\\home\\nikita\\SnaphyClients\\OrthoPG\\Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\drawable-v23\\abc_control_background_material.xml",
-        "source": "E:\\home\\nikita\\SnaphyClients\\OrthoPG\\Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\drawable-v23\\abc_control_background_material.xml"
+        "merged": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/build/intermediates/res/merged/release/drawable-v23/abc_control_background_material.xml",
+        "source": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/drawable-v23/abc_control_background_material.xml"
     },
     {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\drawable-v23\\abc_control_background_material.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\drawable-v23\\abc_control_background_material.xml"
+        "merged": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/E:\\home\\nikita\\SnaphyClients\\OrthoPG\\Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\drawable-v23\\abc_control_background_material.xml",
+        "source": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/E:\\home\\nikita\\SnaphyClients\\OrthoPG\\Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\drawable-v23\\abc_control_background_material.xml"
+    },
+    {
+        "merged": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\drawable-v23\\abc_control_background_material.xml",
+        "source": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\drawable-v23\\abc_control_background_material.xml"
     }
 ]

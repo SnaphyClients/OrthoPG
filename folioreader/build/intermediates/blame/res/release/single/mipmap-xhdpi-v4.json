@@ -1,10 +1,14 @@
 [
     {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\mipmap-xhdpi-v4\\ic_launcher.png",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\mipmap-xhdpi\\ic_launcher.png"
+        "merged": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\mipmap-xhdpi-v4\\ic_launcher.png",
+        "source": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\res\\mipmap-xhdpi\\ic_launcher.png"
     },
     {
-        "merged": "E:\\home\\nikita\\SnaphyClients\\OrthoPG\\Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\mipmap-xhdpi-v4\\ic_launcher.png",
-        "source": "E:\\home\\nikita\\SnaphyClients\\OrthoPG\\Android App\\OrthoPG\\folioreader\\res\\mipmap-xhdpi\\ic_launcher.png"
+        "merged": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/build/intermediates/res/merged/release/mipmap-xhdpi-v4/ic_launcher.png",
+        "source": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/mipmap-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/E:\\home\\nikita\\SnaphyClients\\OrthoPG\\Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\mipmap-xhdpi-v4\\ic_launcher.png",
+        "source": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/E:\\home\\nikita\\SnaphyClients\\OrthoPG\\Android App\\OrthoPG\\folioreader\\res\\mipmap-xhdpi\\ic_launcher.png"
     }
 ]

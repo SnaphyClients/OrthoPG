@@ -195,6 +195,7 @@ public class CheckoutFragment extends android.support.v4.app.Fragment {
         Random rand = new Random();
         String randomString = Integer.toString(rand.nextInt()) + (System.currentTimeMillis() / 1000L);
         txnId = hashCal(randomString).substring(0, 20);
+        Presenter.getInstance().addModel(Constants.GENERATED_TRANSACTION_ID, txnId);
         Payment payment = Presenter.getInstance().getModel(Payment.class, Constants.PAYMENT_MODEL_DATA);
         Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
         merchantId = Constants.PAYU_MERCHANT_ID;
@@ -233,51 +234,10 @@ public class CheckoutFragment extends android.support.v4.app.Fragment {
 
         paymentParam.setMerchantHash(serverCalculatedHash);
         //dummyVerifyPaymentFromServer();
+        mainActivity.getSupportFragmentManager().popBackStack();
         PayUmoneySdkInitilizer.startPaymentActivityForResult(mainActivity, paymentParam);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == PayUmoneySdkInitilizer.PAYU_SDK_PAYMENT_REQUEST_CODE) {
-
-            if (resultCode == RESULT_OK) {
-                Log.i(TAG, "Success - Payment ID : " + data.getStringExtra(SdkConstants.PAYMENT_ID));
-                String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
-                paymentIdNumber = paymentId;
-                Presenter.getInstance().addModel(Constants.PAYU_PAYMENT_ID, paymentIdNumber);
-                showDialogMessage("Payment Success Id : " + paymentId);
-               // verifyPaymentFromServer(requestCode);
-            } else if (resultCode == RESULT_CANCELED) {
-                Log.i(TAG, "failure");
-                showDialogMessage("cancelled");
-                String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
-                paymentIdNumber = paymentId;
-                Presenter.getInstance().addModel(Constants.PAYU_PAYMENT_ID, paymentIdNumber);
-                //verifyPaymentFromServer(resultCode);
-            } else if (resultCode == PayUmoneySdkInitilizer.RESULT_FAILED) {
-                Log.i("app_activity", "failure");
-                String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
-                paymentIdNumber = paymentId;
-                Presenter.getInstance().addModel(Constants.PAYU_PAYMENT_ID, paymentIdNumber);
-                //verifyPaymentFromServer(resultCode);
-                if (data != null) {
-                    if (data.getStringExtra(SdkConstants.RESULT).equals("cancel")) {
-
-                    } else {
-                        showDialogMessage("failure");
-                    }
-                }
-                //Write your code if there's no result
-            } else if (resultCode == PayUmoneySdkInitilizer.RESULT_BACK) {
-                Log.i(TAG, "User returned without login");
-                String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
-                paymentIdNumber = paymentId;
-                Presenter.getInstance().addModel(Constants.PAYU_PAYMENT_ID, paymentIdNumber);
-                //verifyPaymentFromServer(resultCode);
-                showDialogMessage("User returned without login");
-            }
-        }
-    }
 
     public void verifyPaymentFromServer(final int resultCode){
         Payment payment = Presenter.getInstance().getModel(Payment.class, Constants.PAYMENT_MODEL_DATA);
