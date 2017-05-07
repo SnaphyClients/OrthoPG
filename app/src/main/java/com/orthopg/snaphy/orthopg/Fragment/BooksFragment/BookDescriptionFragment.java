@@ -579,6 +579,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                eBookDownload.setText("View");
                 // hardCopyDownload.setText("View");
             } else {
                 // ERROR DOWNLOADING FILE
