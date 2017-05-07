@@ -319,7 +319,6 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
 
     public void stopProgressBar(ProgressBar progressBar) {
         progressBar.setVisibility(View.GONE);
-
     }
 
     // BROAD CAST RECEIVER

@@ -126,6 +126,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
     NotificationCompat.Builder mBuilder;
     int id = 1;
     private static final int PERMISSION_REQUEST_CODE = 1;
+    String bookUnsignedUrl;
 
     public BookDescriptionFragment() {
         // Required empty public constructor
@@ -419,7 +420,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
                 if (book.getUploadSampleBook().get("url") != null) {
                     Map<String, Object> bookHashMap = (Map<String, Object>) book.getUploadSampleBook().get("url");
                     if (bookHashMap != null) {
-                        String bookUnsignedUrl = (String) bookHashMap.get("unSignedUrl");
+                        bookUnsignedUrl = (String) bookHashMap.get("unSignedUrl");
                         new DownloadSampleFile().execute(bookUnsignedUrl, bookName + "_sample.epub");
                     }
                 }
@@ -471,10 +472,12 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
             stopProgressBar(progressBar);
             if(isBookCompleteDownloaded) {
                 Toast.makeText(mainActivity, "Download Sample Completed..", Toast.LENGTH_SHORT).show();
+                downloadSample.setText("View Sample");
                 Intent intent = new Intent(mainActivity, FolioActivity.class);
                 intent.putExtra(FolioActivity.INTENT_EPUB_SOURCE_TYPE, FolioActivity.EpubSourceType.SD_CARD);
                 intent.putExtra(FolioActivity.INTENT_EPUB_SOURCE_PATH, Environment.getExternalStorageDirectory() + "/OrthoPg/" + bookName + "_sample.epub");
                 startActivity(intent);
+
             } else {
                 // ERROR DOWNLOADING FILE
                 Snackbar snackbar = Snackbar.make(bookHeading, Constants.ERROR_DOWNLOADING_BOOK, Snackbar.LENGTH_LONG);
@@ -482,6 +485,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
                     @Override
                     public void onClick(View v) {
                         // RETRY DOWNLOADING
+                        new DownloadSampleFile().execute(bookUnsignedUrl, bookName + "_sample.epub");
                     }
                 })
                         .show();
@@ -587,7 +591,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
                 snackbar.setAction("RETRY", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // RETRY DOWNLOADING
+                        new DownloadFile().execute(bookUnsignedUrl, bookName+".epub");
                     }
                 })
                         .show();

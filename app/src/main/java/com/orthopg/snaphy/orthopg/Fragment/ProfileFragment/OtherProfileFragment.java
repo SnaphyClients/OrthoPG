@@ -88,6 +88,7 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.fragment_profile_imageview4) ImageView workExperienceEdit;
     @Bind(R.id.fragment_profile_imageview5) ImageView specialityEdit;
     @Bind(R.id.fragment_profile_imageview6) ImageView qualificationEdit;
+    @Bind(R.id.fragment_profile_imageview7) ImageView profileNameTxt;
     @Bind(R.id.fragment_profile_relative_layout1) RelativeLayout orderListContainer;
     @Bind(R.id.fragment_profile_textview9) TextView orderHistoryTxt;
 
@@ -697,6 +698,84 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
                 qualificationHeading.setVisibility(View.GONE);
             }
             qualificationTxt.setVisibility(View.GONE);
+        }
+    }
+
+    @OnClick(R.id.fragment_profile_imageview7) void onEditName(){
+        if(!mainActivity.snaphyHelper.isNetworkAvailable()){
+            Snackbar.make(name, "No Network Connection", Snackbar.LENGTH_SHORT).show();
+        } else {
+            final Dialog dialog = new Dialog(mainActivity);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.dialog_edit_name);
+
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+            Button okButton = (Button) dialog.findViewById(R.id.dialog_add_text_button1);
+            final EditText firstName = (EditText) dialog.findViewById(R.id.dialog_add_text_edittext1);
+            final EditText lastName = (EditText) dialog.findViewById(R.id.dialog_add_text_edittext2);
+            firstName.setInputType(InputType.TYPE_CLASS_TEXT);
+            lastName.setInputType(InputType.TYPE_CLASS_TEXT);
+            final Customer loginCustomer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+            if (loginCustomer != null) {
+                if (loginCustomer.getFirstName() != null) {
+                    if (!loginCustomer.getFirstName().isEmpty()) {
+                        firstName.setText(loginCustomer.getFirstName().trim());
+                    }
+
+                    if (!loginCustomer.getLastName().isEmpty()) {
+                        lastName.setText(loginCustomer.getLastName().trim());
+                    }
+                }
+            }
+
+
+            okButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (firstName.getText() != null) {
+                        if (firstName.getText().toString() != null) {
+                            if (firstName.getText().toString().trim().isEmpty()) {
+                                TastyToast.makeText(mainActivity.getApplicationContext(), Constants.ERROR_FIRST_NAME_EMPTY, TastyToast.LENGTH_SHORT, TastyToast.WARNING);
+                                return;
+                            } else {
+                                loginCustomer.setFirstName(firstName.getText().toString().trim());
+                            }
+                        }
+                    }
+
+                    if (lastName.getText() != null) {
+                        if (lastName.getText().toString() != null) {
+                            loginCustomer.setLastName(lastName.getText().toString().trim());
+                        }
+                    }
+
+                    String userName = mainActivity.snaphyHelper.getName(loginCustomer.getFirstName(), loginCustomer.getLastName());
+                    userName = Constants.Doctor + userName.replace("^[Dd][Rr]", "");
+                    final String oldName = name.getText().toString();
+                    name.setText(userName);
+
+                    //Now update the customer..
+                    loginCustomer.save(new com.strongloop.android.loopback.callbacks.VoidCallback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable t) {
+                            name.setText(oldName);
+                            TastyToast.makeText(mainActivity.getApplicationContext(), Constants.ERROR_UPDATING_NAME, TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+                        }
+                    });
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
+            dialog.getWindow().setAttributes(lp);
         }
     }
 

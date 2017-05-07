@@ -150,14 +150,14 @@ public class SpecialityFragment extends Fragment {
                 public void onSuccess(JSONObject object) {
                     super.onSuccess(object);
                     mainActivity.onBackPressed();
-                    TastyToast.makeText(mainActivity, "Successfully updated Specilaity", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
+                    TastyToast.makeText(mainActivity, "Successfully updated Speciality", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
                 }
 
                 @Override
                 public void onError(Throwable t) {
                     super.onError(t);
                     Log.e(Constants.TAG, t.toString());
-                    TastyToast.makeText(mainActivity, "error in updating speciality", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+                    TastyToast.makeText(mainActivity, "Error in updating Speciality", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
                 }
 
                 @Override

@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-port\\values-port.xml",
+        "outputFile": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/build/intermediates/incremental/mergeReleaseResources/merged.dir/values-port/values-port.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,7 @@
                     "endOffset": 106
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\values-port\\values-port.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/values-port/values-port.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,

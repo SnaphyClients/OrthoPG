@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-ru\\values-ru.xml",
+        "outputFile": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ru/values-ru.xml",
         "map": [
             {
                 "to": {
@@ -11,13 +11,13 @@
                     "endOffset": 92
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 33,
                         "startColumn": 4,
-                        "startOffset": 1838,
+                        "startOffset": 1805,
                         "endColumn": 41,
-                        "endOffset": 1875
+                        "endOffset": 1842
                     }
                 }
             },
@@ -30,13 +30,13 @@
                     "endOffset": 161
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 35,
                         "startColumn": 4,
-                        "startOffset": 1946,
+                        "startOffset": 1911,
                         "endColumn": 68,
-                        "endOffset": 2010
+                        "endOffset": 1975
                     }
                 }
             },
@@ -49,13 +49,13 @@
                     "endOffset": 195
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 32,
                         "startColumn": 4,
-                        "startOffset": 1803,
+                        "startOffset": 1771,
                         "endColumn": 33,
-                        "endOffset": 1832
+                        "endOffset": 1800
                     }
                 }
             },
@@ -68,13 +68,13 @@
                     "endOffset": 259
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 34,
                         "startColumn": 4,
-                        "startOffset": 1881,
+                        "startOffset": 1847,
                         "endColumn": 63,
-                        "endOffset": 1940
+                        "endOffset": 1906
                     }
                 }
             },
@@ -87,7 +87,7 @@
                     "endOffset": 374
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\values-ru\\values-ru.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/values-ru/values-ru.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
@@ -106,7 +106,7 @@
                     "endOffset": 482
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\values-ru\\values-ru.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/values-ru/values-ru.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
@@ -125,7 +125,7 @@
                     "endOffset": 605
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\values-ru\\values-ru.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/values-ru/values-ru.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -144,7 +144,7 @@
                     "endOffset": 707
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\values-ru\\values-ru.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/values-ru/values-ru.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,
@@ -163,7 +163,7 @@
                     "endOffset": 819
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\values-ru\\values-ru.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/values-ru/values-ru.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
@@ -182,7 +182,7 @@
                     "endOffset": 905
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\values-ru\\values-ru.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/values-ru/values-ru.xml",
                     "position": {
                         "startLine": 7,
                         "startColumn": 4,
@@ -201,7 +201,7 @@
                     "endOffset": 1010
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\values-ru\\values-ru.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/values-ru/values-ru.xml",
                     "position": {
                         "startLine": 8,
                         "startColumn": 4,
@@ -220,7 +220,7 @@
                     "endOffset": 1130
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\values-ru\\values-ru.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/values-ru/values-ru.xml",
                     "position": {
                         "startLine": 9,
                         "startColumn": 4,
@@ -239,7 +239,7 @@
                     "endOffset": 1209
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\values-ru\\values-ru.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/values-ru/values-ru.xml",
                     "position": {
                         "startLine": 10,
                         "startColumn": 4,
@@ -258,7 +258,7 @@
                     "endOffset": 1287
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\values-ru\\values-ru.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/values-ru/values-ru.xml",
                     "position": {
                         "startLine": 11,
                         "startColumn": 4,
@@ -277,7 +277,7 @@
                     "endOffset": 1367
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\values-ru\\values-ru.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/values-ru/values-ru.xml",
                     "position": {
                         "startLine": 12,
                         "startColumn": 4,
@@ -296,7 +296,7 @@
                     "endOffset": 1473
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\values-ru\\values-ru.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/values-ru/values-ru.xml",
                     "position": {
                         "startLine": 13,
                         "startColumn": 4,
@@ -315,7 +315,7 @@
                     "endOffset": 1581
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\values-ru\\values-ru.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/values-ru/values-ru.xml",
                     "position": {
                         "startLine": 14,
                         "startColumn": 4,
@@ -334,7 +334,7 @@
                     "endOffset": 1679
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\values-ru\\values-ru.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/values-ru/values-ru.xml",
                     "position": {
                         "startLine": 15,
                         "startColumn": 4,
@@ -353,7 +353,7 @@
                     "endOffset": 1788
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\values-ru\\values-ru.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/values-ru/values-ru.xml",
                     "position": {
                         "startLine": 16,
                         "startColumn": 4,
@@ -372,7 +372,7 @@
                     "endOffset": 1894
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\values-ru\\values-ru.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/values-ru/values-ru.xml",
                     "position": {
                         "startLine": 17,
                         "startColumn": 4,
@@ -391,7 +391,7 @@
                     "endOffset": 2002
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\values-ru\\values-ru.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/values-ru/values-ru.xml",
                     "position": {
                         "startLine": 18,
                         "startColumn": 4,
@@ -410,7 +410,7 @@
                     "endOffset": 2138
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\values-ru\\values-ru.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/values-ru/values-ru.xml",
                     "position": {
                         "startLine": 19,
                         "startColumn": 4,
@@ -429,7 +429,7 @@
                     "endOffset": 2238
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\values-ru\\values-ru.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/values-ru/values-ru.xml",
                     "position": {
                         "startLine": 20,
                         "startColumn": 4,
@@ -448,13 +448,13 @@
                     "endOffset": 2308
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 19,
                         "startColumn": 4,
-                        "startOffset": 793,
+                        "startOffset": 774,
                         "endColumn": 78,
-                        "endOffset": 867
+                        "endOffset": 848
                     }
                 }
             },
@@ -467,13 +467,13 @@
                     "endOffset": 2363
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 30,
                         "startColumn": 4,
-                        "startOffset": 1667,
+                        "startOffset": 1637,
                         "endColumn": 54,
-                        "endOffset": 1717
+                        "endOffset": 1687
                     }
                 }
             },
@@ -486,13 +486,13 @@
                     "endOffset": 2418
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 28,
                         "startColumn": 4,
-                        "startOffset": 1551,
+                        "startOffset": 1523,
                         "endColumn": 54,
-                        "endOffset": 1601
+                        "endOffset": 1573
                     }
                 }
             },
@@ -505,13 +505,13 @@
                     "endOffset": 2477
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 29,
                         "startColumn": 4,
-                        "startOffset": 1607,
+                        "startOffset": 1578,
                         "endColumn": 58,
-                        "endOffset": 1661
+                        "endOffset": 1632
                     }
                 }
             },
@@ -524,13 +524,13 @@
                     "endOffset": 2525
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 42,
                         "startColumn": 4,
-                        "startOffset": 2474,
+                        "startOffset": 2432,
                         "endColumn": 47,
-                        "endOffset": 2517
+                        "endOffset": 2475
                     }
                 }
             },
@@ -543,13 +543,13 @@
                     "endOffset": 2604
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 20,
                         "startColumn": 4,
-                        "startOffset": 873,
+                        "startOffset": 853,
                         "endColumn": 87,
-                        "endOffset": 956
+                        "endOffset": 936
                     }
                 }
             },
@@ -562,13 +562,13 @@
                     "endOffset": 2651
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
-                        "startOffset": 212,
+                        "startOffset": 206,
                         "endColumn": 46,
-                        "endOffset": 254
+                        "endOffset": 248
                     }
                 }
             },
@@ -581,13 +581,13 @@
                     "endOffset": 2695
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 9,
                         "startColumn": 4,
-                        "startOffset": 309,
+                        "startOffset": 300,
                         "endColumn": 43,
-                        "endOffset": 348
+                        "endOffset": 339
                     }
                 }
             },
@@ -600,13 +600,13 @@
                     "endOffset": 2741
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 11,
                         "startColumn": 4,
-                        "startOffset": 400,
+                        "startOffset": 389,
                         "endColumn": 45,
-                        "endOffset": 441
+                        "endOffset": 430
                     }
                 }
             },
@@ -619,13 +619,13 @@
                     "endOffset": 2818
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 24,
                         "startColumn": 4,
-                        "startOffset": 1212,
+                        "startOffset": 1188,
                         "endColumn": 85,
-                        "endOffset": 1293
+                        "endOffset": 1269
                     }
                 }
             },
@@ -638,13 +638,13 @@
                     "endOffset": 2880
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 39,
                         "startColumn": 4,
-                        "startOffset": 2280,
+                        "startOffset": 2241,
                         "endColumn": 61,
-                        "endOffset": 2337
+                        "endOffset": 2298
                     }
                 }
             },
@@ -657,13 +657,13 @@
                     "endOffset": 2959
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 31,
                         "startColumn": 4,
-                        "startOffset": 1723,
+                        "startOffset": 1692,
                         "endColumn": 78,
-                        "endOffset": 1797
+                        "endOffset": 1766
                     }
                 }
             },
@@ -676,13 +676,13 @@
                     "endOffset": 3006
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 12,
                         "startColumn": 4,
-                        "startOffset": 447,
+                        "startOffset": 435,
                         "endColumn": 46,
-                        "endOffset": 489
+                        "endOffset": 477
                     }
                 }
             },
@@ -695,13 +695,13 @@
                     "endOffset": 3056
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 16,
                         "startColumn": 4,
-                        "startOffset": 620,
+                        "startOffset": 604,
                         "endColumn": 49,
-                        "endOffset": 665
+                        "endOffset": 649
                     }
                 }
             },
@@ -714,13 +714,13 @@
                     "endOffset": 3132
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 21,
                         "startColumn": 4,
-                        "startOffset": 962,
+                        "startOffset": 941,
                         "endColumn": 87,
-                        "endOffset": 1045
+                        "endOffset": 1024
                     }
                 }
             },
@@ -733,13 +733,13 @@
                     "endOffset": 3194
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
-                        "startOffset": 142,
+                        "startOffset": 138,
                         "endColumn": 66,
-                        "endOffset": 204
+                        "endOffset": 200
                     }
                 }
             },
@@ -752,13 +752,13 @@
                     "endOffset": 3239
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 36,
                         "startColumn": 4,
-                        "startOffset": 2016,
+                        "startOffset": 1980,
                         "endColumn": 44,
-                        "endOffset": 2056
+                        "endOffset": 2020
                     }
                 }
             },
@@ -771,13 +771,13 @@
                     "endOffset": 3294
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
-                        "startOffset": 81,
+                        "startOffset": 78,
                         "endColumn": 59,
-                        "endOffset": 136
+                        "endOffset": 133
                     }
                 }
             },
@@ -790,13 +790,13 @@
                     "endOffset": 3350
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
-                        "startOffset": 19,
+                        "startOffset": 17,
                         "endColumn": 60,
-                        "endOffset": 75
+                        "endOffset": 73
                     }
                 }
             },
@@ -809,13 +809,13 @@
                     "endOffset": 3410
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 15,
                         "startColumn": 4,
-                        "startOffset": 559,
+                        "startOffset": 544,
                         "endColumn": 59,
-                        "endOffset": 614
+                        "endOffset": 599
                     }
                 }
             },
@@ -828,13 +828,13 @@
                     "endOffset": 3471
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 14,
                         "startColumn": 4,
-                        "startOffset": 497,
+                        "startOffset": 483,
                         "endColumn": 60,
-                        "endOffset": 553
+                        "endOffset": 539
                     }
                 }
             },
@@ -847,13 +847,13 @@
                     "endOffset": 3544
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 41,
                         "startColumn": 4,
-                        "startOffset": 2400,
+                        "startOffset": 2359,
                         "endColumn": 72,
-                        "endOffset": 2468
+                        "endOffset": 2427
                     }
                 }
             },
@@ -866,13 +866,13 @@
                     "endOffset": 3609
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 37,
                         "startColumn": 4,
-                        "startOffset": 2062,
+                        "startOffset": 2025,
                         "endColumn": 64,
-                        "endOffset": 2122
+                        "endOffset": 2085
                     }
                 }
             },
@@ -885,13 +885,13 @@
                     "endOffset": 3760
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 38,
                         "startColumn": 4,
-                        "startOffset": 2128,
+                        "startOffset": 2090,
                         "endColumn": 150,
-                        "endOffset": 2274
+                        "endOffset": 2236
                     }
                 }
             },
@@ -904,13 +904,13 @@
                     "endOffset": 3835
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 22,
                         "startColumn": 4,
-                        "startOffset": 1051,
+                        "startOffset": 1029,
                         "endColumn": 83,
-                        "endOffset": 1130
+                        "endOffset": 1108
                     }
                 }
             },
@@ -923,13 +923,13 @@
                     "endOffset": 3903
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 25,
                         "startColumn": 4,
-                        "startOffset": 1299,
+                        "startOffset": 1274,
                         "endColumn": 76,
-                        "endOffset": 1371
+                        "endOffset": 1346
                     }
                 }
             },
@@ -942,13 +942,13 @@
                     "endOffset": 3959
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 40,
                         "startColumn": 4,
-                        "startOffset": 2343,
+                        "startOffset": 2303,
                         "endColumn": 55,
-                        "endOffset": 2394
+                        "endOffset": 2354
                     }
                 }
             },
@@ -961,7 +961,7 @@
                     "endOffset": 4040
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\values-ru\\values-ru.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/values-ru/values-ru.xml",
                     "position": {
                         "startLine": 21,
                         "startColumn": 4,
@@ -980,13 +980,13 @@
                     "endOffset": 4086
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 7,
                         "startColumn": 4,
-                        "startOffset": 260,
+                        "startOffset": 253,
                         "endColumn": 45,
-                        "endOffset": 301
+                        "endOffset": 294
                     }
                 }
             },
@@ -999,13 +999,13 @@
                     "endOffset": 4131
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 10,
                         "startColumn": 4,
-                        "startOffset": 354,
+                        "startOffset": 344,
                         "endColumn": 44,
-                        "endOffset": 394
+                        "endOffset": 384
                     }
                 }
             },
@@ -1018,7 +1018,7 @@
                     "endOffset": 4232
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\values-ru\\values-ru.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/values-ru/values-ru.xml",
                     "position": {
                         "startLine": 22,
                         "startColumn": 4,
@@ -1037,13 +1037,13 @@
                     "endOffset": 4272
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 17,
                         "startColumn": 4,
-                        "startOffset": 671,
+                        "startOffset": 654,
                         "endColumn": 39,
-                        "endOffset": 706
+                        "endOffset": 689
                     }
                 }
             },
@@ -1056,13 +1056,13 @@
                     "endOffset": 4351
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 26,
                         "startColumn": 4,
-                        "startOffset": 1377,
+                        "startOffset": 1351,
                         "endColumn": 87,
-                        "endOffset": 1460
+                        "endOffset": 1434
                     }
                 }
             },
@@ -1075,13 +1075,13 @@
                     "endOffset": 4422
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 18,
                         "startColumn": 4,
-                        "startOffset": 712,
+                        "startOffset": 694,
                         "endColumn": 79,
-                        "endOffset": 787
+                        "endOffset": 769
                     }
                 }
             },
@@ -1094,13 +1094,13 @@
                     "endOffset": 4497
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 27,
                         "startColumn": 4,
-                        "startOffset": 1466,
+                        "startOffset": 1439,
                         "endColumn": 83,
-                        "endOffset": 1545
+                        "endOffset": 1518
                     }
                 }
             },
@@ -1113,13 +1113,13 @@
                     "endOffset": 4563
                 },
                 "from": {
-                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-ru\\strings.xml",
+                    "file": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/values-ru/strings.xml",
                     "position": {
                         "startLine": 23,
                         "startColumn": 4,
-                        "startOffset": 1136,
+                        "startOffset": 1113,
                         "endColumn": 74,
-                        "endOffset": 1206
+                        "endOffset": 1183
                     }
                 }
             }

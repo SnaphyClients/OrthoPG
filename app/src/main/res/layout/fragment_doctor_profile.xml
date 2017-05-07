@@ -48,15 +48,30 @@
             android:layout_gravity="center"
             android:layout_marginTop="10dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="3dp"
-            android:text=""
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:id="@+id/fragment_profile_textview1" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="3dp"
+                android:text=" Name"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:id="@+id/fragment_profile_textview1" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/edit_white"
+                android:layout_marginRight="20dp"
+                android:id="@+id/fragment_profile_imageview7"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -157,14 +172,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="3dp"
-                android:textColor="@color/primary"
-                android:id="@+id/fragment_profile_textview4"
-                android:text="" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginTop="3dp"
+                    android:textColor="@color/primary"
+                    android:id="@+id/fragment_profile_textview4"
+                    android:text="" />
 
                 <ImageView
                     android:layout_width="30dp"

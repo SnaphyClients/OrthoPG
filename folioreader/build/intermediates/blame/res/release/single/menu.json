@@ -1,14 +1,14 @@
 [
     {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\menu\\menu_on_highlight.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\menu\\menu_on_highlight.xml"
+        "merged": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/build/intermediates/res/merged/release/menu/menu_text_selection.xml",
+        "source": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/menu/menu_text_selection.xml"
     },
     {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\menu\\context_menu.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\menu\\context_menu.xml"
+        "merged": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/build/intermediates/res/merged/release/menu/menu_on_highlight.xml",
+        "source": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/menu/menu_on_highlight.xml"
     },
     {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\menu\\menu_text_selection.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\menu\\menu_text_selection.xml"
+        "merged": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/build/intermediates/res/merged/release/menu/context_menu.xml",
+        "source": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/res/menu/context_menu.xml"
     }
 ]
