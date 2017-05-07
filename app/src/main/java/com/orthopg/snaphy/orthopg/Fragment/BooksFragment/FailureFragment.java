@@ -9,6 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Book;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Payment;
+import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
+import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
 
@@ -29,7 +33,7 @@ public class FailureFragment extends android.support.v4.app.Fragment {
     private OnFragmentInteractionListener mListener;
     MainActivity mainActivity;
     public final static String TAG = "FailureFragment";
-    @Bind(R.id.fragment_failure_textview2) TextView txnId;
+    @Bind(R.id.fragment_failure_textview2) TextView txnIdText;
     @Bind(R.id.fragment_failure_textview3) TextView price;
     @Bind(R.id.fragment_failure_textview4) TextView bookName;
 
@@ -53,11 +57,22 @@ public class FailureFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_failure, container, false);
         ButterKnife.bind(this, view);
+        setFailureData();
         return view;
     }
 
-    @OnClick(R.id.fragment_failure_button1) void gotoHome(){
+    public void setFailureData(){
+        Payment payment = Presenter.getInstance().getModel(Payment.class, Constants.PAYMENT_MODEL_DATA);
+        String txnId = Presenter.getInstance().getModel(String.class, Constants.GENERATED_TRANSACTION_ID);
+        txnIdText.setText(txnId);
+        price.setText(String.valueOf(payment.getAmount()));
+        Book book = Presenter.getInstance().getModel(Book.class, Constants.BOOK_DESCRIPTION_ID);
+        bookName.setText(book.getTitle());
+    }
 
+
+    @OnClick(R.id.fragment_failure_button1) void gotoHome(){
+        mainActivity.getSupportFragmentManager().popBackStack();
     }
 
     // TODO: Rename method, update argument and hook method into UI event

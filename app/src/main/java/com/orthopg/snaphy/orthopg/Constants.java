@@ -27,9 +27,9 @@ public class Constants {
     //public static String baseUrl = "http://192.168.0.6:3000";
     //public static String baseUrl = "http://192.168.43.21:3000";
    // public static String baseUrl = "http://192.168.0.9:3000";
-    public static String baseUrl = "http://192.168.0.5:3000";
-    //public static String baseUrl = "http://admin.orthopg.com";
-    //public static String baseUrl = "http://ec2-54-209-33-191.compute-1.amazonaws.com:3000";
+    /*public static String baseUrl = "http://192.168.0.5:3000";*/
+    public static String baseUrl = "http://admin.orthopg.com";
+    /*public static String baseUrl = "http://ec2-54-209-33-191.compute-1.amazonaws.com:3000";*/
     public static String apiUrl = baseUrl+"/api";
     public static final String AMAZON_CLOUD_FRONT_URL = "http://d3j3ux0h7dntsg.cloudfront.net";
 
@@ -92,7 +92,7 @@ public class Constants {
     public static String PAYMENT_MODEL_DATA = "PaymentModelData";
     public static String CHECK_SAVED_BOOK_DATA = "CheckSavedBookData";
     public static String PAYU_PAYMENT_ID = "PayuPaymentId";
-    public static String GOOGLE_LOGIN_REQUEST_CODE = "PayuPaymentId";
+    public static String GENERATED_TRANSACTION_ID = "GeneratedTransactionId";
     /*---------------*/
 
     /*IDs*/

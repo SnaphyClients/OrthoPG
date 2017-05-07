@@ -57,7 +57,15 @@ public class QualificationAdapter extends RecyclerView.Adapter<QualificationAdap
                 }
             }
 
-            final DataList<Qualification> qualificationDataList = Presenter.getInstance().getList(Qualification.class, Constants.CUSTOMER_QUALIFICATION_LIST);
+            final DataList<Qualification> qualificationDataList;
+            if(Presenter.getInstance().getList(Qualification.class, Constants.CUSTOMER_QUALIFICATION_LIST) == null){
+                qualificationDataList = new DataList<>();
+                Presenter.getInstance().addList(Constants.CUSTOMER_QUALIFICATION_LIST, qualificationDataList);
+            }else{
+                qualificationDataList = Presenter.getInstance().getList(Qualification.class, Constants.CUSTOMER_QUALIFICATION_LIST);
+            }
+
+
             if(qualificationDataList!=null){
                 if(qualificationDataList.size()!=0){
                     for(Qualification qualification1 : qualificationDataList){

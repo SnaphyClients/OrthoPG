@@ -102,7 +102,6 @@ public class SpecialityFragment extends Fragment {
             @Override
             public void onChange(DataList<Speciality> dataList) {
                 super.onChange(dataList);
-
                 specialityAdapter.notifyDataSetChanged();
             }
 
@@ -130,7 +129,6 @@ public class SpecialityFragment extends Fragment {
     }
 
     @OnClick(R.id.fragment_speciality_button1) void onUpdateSpeciality() {
-
         updatedSpeciality = Presenter.getInstance().getList(Speciality.class, Constants.CUSTOMER_SPECIALITY_LIST);
         DataList<String> updatedSpecialityList = new DataList<>();
         for (Speciality s : updatedSpeciality) {
@@ -150,9 +148,7 @@ public class SpecialityFragment extends Fragment {
 
                 @Override
                 public void onSuccess(JSONObject object) {
-
                     super.onSuccess(object);
-
                     mainActivity.onBackPressed();
                     TastyToast.makeText(mainActivity, "Successfully updated Specilaity", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
                 }

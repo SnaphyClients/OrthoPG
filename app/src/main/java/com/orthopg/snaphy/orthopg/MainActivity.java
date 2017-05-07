@@ -1081,8 +1081,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             else {
                 checkMCI(MCINumber);
             }
-
-
         }
     }
 
@@ -1145,38 +1143,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
       if (requestCode == PayUmoneySdkInitilizer.PAYU_SDK_PAYMENT_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                Log.i(Constants.TAG, "Success - Payment ID : " + data.getStringExtra(SdkConstants.PAYMENT_ID));
-                String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
-                paymentIdNumber = paymentId;
-                showDialogMessage("Payment Success Id : " + paymentId);
-                verifyPaymentFromServer(requestCode);
-            } else if (resultCode == RESULT_CANCELED) {
-                Log.i(Constants.TAG, "failure");
-                showDialogMessage("cancelled");
-                String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
-                paymentIdNumber = paymentId;
-                verifyPaymentFromServer(resultCode);
-            } else if (resultCode == PayUmoneySdkInitilizer.RESULT_FAILED) {
-                Log.i("app_activity", "failure");
-                String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
-                paymentIdNumber = paymentId;
-                verifyPaymentFromServer(resultCode);
-                if (data != null) {
-                    if (data.getStringExtra(SdkConstants.RESULT).equals("cancel")) {
-
-                    } else {
-                        showDialogMessage("failure");
-                    }
-                }
-                //Write your code if there's no result
-            } else if (resultCode == PayUmoneySdkInitilizer.RESULT_BACK) {
-                Log.i(Constants.TAG, "User returned without login");
-                String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
-                paymentIdNumber = paymentId;
-                verifyPaymentFromServer(resultCode);
-                showDialogMessage("User returned without login");
-            }
+            paymentIdNumber = data.getStringExtra(SdkConstants.PAYMENT_ID);
+            verifyPaymentFromServer(requestCode);
         }
         else /*if (requestCode == RC_SIGN_IN) */{
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
@@ -1211,55 +1179,51 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
     //Verifying the payment from server side
     public void verifyPaymentFromServer(final int resultCode){
         Payment payment = Presenter.getInstance().getModel(Payment.class, Constants.PAYMENT_MODEL_DATA);
-        String paymentId = payment.getId().toString();
-        PaymentRepository paymentRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(PaymentRepository.class);
-        paymentRepository.getPaymentStatus(new HashMap<String, Object>(), paymentIdNumber, paymentId, new ObjectCallback<Order>() {
-            @Override
-            public void onBefore() {
-                super.onBefore();
-                mainActivity.startProgressBar(mainActivity.progressBar);
-            }
+        if(payment!=null) {
+            String paymentId = payment.getId().toString();
+            String txnId = Presenter.getInstance().getModel(String.class, Constants.GENERATED_TRANSACTION_ID);
+            if (txnId != null && paymentId != null) {
+                PaymentRepository paymentRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(PaymentRepository.class);
+                paymentRepository.getPaymentStatus(new HashMap<String, Object>(), txnId, paymentId, new ObjectCallback<Order>() {
+                    @Override
+                    public void onBefore() {
+                        super.onBefore();
+                        mainActivity.startProgressBar(mainActivity.progressBar);
+                    }
 
-            @Override
-            public void onSuccess(Order object) {
-                super.onSuccess(object);
-                if(resultCode == RESULT_OK) {
-                    mainActivity.replaceFragment(R.layout.fragment_success, null);
-                }
-            }
+                    @Override
+                    public void onSuccess(Order object) {
+                        super.onSuccess(object);
+                        //Do nothing...here
+                        if(object.getPaymentStatus().equals("success")){
+                            mainActivity.replaceFragment(R.layout.fragment_success, null);
+                        } else{
+                            mainActivity.replaceFragment(R.layout.fragment_failure, null);
+                        }
+                    }
 
-            @Override
-            public void onError(Throwable t) {
-                super.onError(t);
-                Log.e(Constants.TAG, t.toString());
-                if(resultCode == RESULT_OK){
-                    Toast.makeText(mainActivity, "Contact orthopg", Toast.LENGTH_SHORT).show();
-                } else{
-                    mainActivity.replaceFragment(R.layout.fragment_failure, null);
-                }
-            }
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                        Log.e(Constants.TAG, t.toString());
+                        mainActivity.replaceFragment(R.layout.fragment_failure, null);
+                    }
 
-            @Override
-            public void onFinally() {
-                super.onFinally();
-                mainActivity.stopProgressBar(mainActivity.progressBar);
+                    @Override
+                    public void onFinally() {
+                        super.onFinally();
+                        mainActivity.stopProgressBar(mainActivity.progressBar);
+                       /* if (resultCode == RESULT_OK) {
+                            mainActivity.replaceFragment(R.layout.fragment_success, null);
+                        } else {
+                            mainActivity.replaceFragment(R.layout.fragment_failure, null);
+                        }*/
+                    }
+                });
             }
-        });
+        }
     }
 
-    private void showDialogMessage(String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
-        builder.setTitle(Constants.TAG);
-        builder.setMessage(message);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        builder.show();
-
-    }
 
 
     public void findCurrentUser(final boolean isHomeOpened){
@@ -1423,12 +1387,10 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
     }
 
 
-
     @Override
     public void onBackPressed() {
 
         int count = getSupportFragmentManager().getBackStackEntryCount();
-
         if (count == 0) {
             super.onBackPressed();
         }

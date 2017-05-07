@@ -52,16 +52,18 @@
                         android:gravity="center">
                         <ImageView
                             android:id="@+id/btn_close"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:padding="8dp"
+                            android:layout_marginLeft="15dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/ic_close_green" />
+                            android:src="@drawable/cross" />
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.5"
+                        android:visibility="gone"
                         android:gravity="center">
                         <ImageView
                             android:id="@+id/btn_drawer"
@@ -101,11 +103,12 @@
                         android:gravity="center">
                         <ImageView
                             android:id="@+id/btn_config"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:padding="8dp"
-                            android:layout_marginLeft="-10dp"
-                            android:src="@drawable/icon_font" />
+                            android:layout_marginLeft="0dp"
+                            android:layout_marginRight="10dp"
+                            android:src="@drawable/font_icon" />
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="0dp"
@@ -118,6 +121,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="8dp"
+                            android:layout_marginRight="5dp"
                             android:scaleType="centerCrop"
                             android:src="@drawable/man_speech_icon" />
                     </LinearLayout>

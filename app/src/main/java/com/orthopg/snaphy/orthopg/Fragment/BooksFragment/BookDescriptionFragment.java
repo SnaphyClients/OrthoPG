@@ -120,7 +120,6 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
     String bookId = "";
     public final static String TAG = "BookDescriptionFragment";
     int read;
-    File inputFile, outFile, decFile;
     String bookKey, bookIv;
     String bookName;
     NotificationManager notificationManager;
@@ -200,12 +199,8 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
         View view = inflater.inflate(R.layout.fragment_book_description, container, false);
         ButterKnife.bind(this,view);
         getBookData();
-        //getBookDetail();
         checkPurchased();
-        //String key = mainActivity.getSharedPreferences.getString("sample.pdf","");
         checkDownloadSample();
-        outFile = new File(Environment.getExternalStorageDirectory() + "/OrthoPg/" + "sample.pdf");
-        decFile = new File(Environment.getExternalStorageDirectory() + "/OrthoPg/" + "dsample.pdf");
         return view;
     }
 
@@ -241,6 +236,13 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
                     if(object!=null){
                         Presenter.getInstance().addModel(Constants.CHECK_SAVED_BOOK_DATA, object);
                         checkIfBookPresentLocally(book);
+                        if(book.getIsEbookAvail().equals("ebook not present")){
+                            eBookDownload.setText("Ebook not available");
+                            downloadSample.setVisibility(View.GONE);
+                            downloadSampleText.setVisibility(View.GONE);
+                            eBookDownload.setEnabled(false);
+                            eBookDownload.setBackgroundColor(Color.parseColor("#777777"));
+                        }
                         //eBookDownload.setText("View");
                     }
                 }
@@ -332,6 +334,12 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
                         eBookDownload.setText("Read Book For Free");
                         downloadSample.setVisibility(View.GONE);
                         downloadSampleText.setVisibility(View.GONE);
+                    } else if(book.getIsEbookAvail().equals("ebook not present")){
+                        eBookDownload.setText("Ebook not available");
+                        downloadSample.setVisibility(View.GONE);
+                        downloadSampleText.setVisibility(View.GONE);
+                        eBookDownload.setEnabled(false);
+                        eBookDownload.setBackgroundColor(Color.parseColor("#777777"));
                     } else{
                         downloadSample.setVisibility(View.VISIBLE);
                         downloadSampleText.setVisibility(View.VISIBLE);
@@ -355,11 +363,11 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
                         hardCopyDownload.setEnabled(false);
                         hardCopyDownload.setBackground(getResources().getDrawable(R.drawable.curved_rectangle_disabled_filled));
                     } else{
-                        hardCopyDownload.setEnabled(false);
+                        hardCopyDownload.setEnabled(true);
                         hardCopyDownload.setText("Hardcopy @ INR " + book.getHardCopyPrice());
                     }
                 } else{
-                    hardCopyDownload.setText("Not Available");
+                    hardCopyDownload.setText("Hard Copy Not Available");
                     hardCopyDownload.setEnabled(false);
                     hardCopyDownload.setBackgroundColor(Color.parseColor("#777777"));
                 }

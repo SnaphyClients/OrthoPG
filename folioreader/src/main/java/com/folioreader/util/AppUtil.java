@@ -296,16 +296,19 @@ public class AppUtil {
     }
 
     public static void saveBookState(Context context, Book book, int folioPageViewPagerPosition, int webViewScrollPosition) {
-        SharedPreferenceUtil.removeSharedPreferencesKey(context, book.getTitle() + BOOK_STATE);
-        JSONObject obj = new JSONObject();
+
         try {
-            obj.put(BOOK_TITLE, book.getTitle());
-            obj.put(WEBVIEW_SCROLL_POSITION, webViewScrollPosition);
-            obj.put(VIEWPAGER_POSITION, folioPageViewPagerPosition);
-            SharedPreferenceUtil.
-                    putSharedPreferencesString(
-                    context, book.getTitle() + BOOK_STATE, obj.toString());
-        } catch (JSONException e) {
+            if(book != null) {
+                SharedPreferenceUtil.removeSharedPreferencesKey(context, book.getTitle() + BOOK_STATE);
+                JSONObject obj = new JSONObject();
+                obj.put(BOOK_TITLE, book.getTitle());
+                obj.put(WEBVIEW_SCROLL_POSITION, webViewScrollPosition);
+                obj.put(VIEWPAGER_POSITION, folioPageViewPagerPosition);
+                SharedPreferenceUtil.
+                        putSharedPreferencesString(
+                                context, book.getTitle() + BOOK_STATE, obj.toString());
+            }
+        } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }
     }

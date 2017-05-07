@@ -74,7 +74,14 @@ public class SpecialityAdapter extends RecyclerView.Adapter<SpecialityAdapter.Vi
                }
            }
 
-            final DataList<Speciality> specialityDataList = Presenter.getInstance().getList(Speciality.class, Constants.CUSTOMER_SPECIALITY_LIST);
+            final DataList<Speciality> specialityDataList;
+            if(Presenter.getInstance().getList(Speciality.class, Constants.CUSTOMER_SPECIALITY_LIST) == null){
+                specialityDataList = new DataList<>();
+                Presenter.getInstance().addList(Constants.CUSTOMER_SPECIALITY_LIST, specialityDataList);
+            }else{
+                specialityDataList = Presenter.getInstance().getList(Speciality.class, Constants.CUSTOMER_SPECIALITY_LIST);
+            }
+
             if(specialityDataList!=null){
                 if(specialityDataList.size()!=0){
                     for(Speciality speciality1:specialityDataList){
@@ -90,21 +97,21 @@ public class SpecialityAdapter extends RecyclerView.Adapter<SpecialityAdapter.Vi
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if(buttonView.isChecked()){
-                        checkBox.setChecked(true);
-                        specialityDataList.add(speciality_);
-                        Presenter.getInstance().addList(Constants.CUSTOMER_SPECIALITY_LIST, specialityDataList);
-                        //specialityModel.setSpecialitySelected(true);
+                        if(buttonView.isChecked()){
+                            checkBox.setChecked(true);
+                            specialityDataList.add(speciality_);
+                            Presenter.getInstance().addList(Constants.CUSTOMER_SPECIALITY_LIST, specialityDataList);
+                            //specialityModel.setSpecialitySelected(true);
 
 
-                    } else{
-                        checkBox.setChecked(false);
-                        //specialityDataList.remove(speciality_);
-                        specialityDataList.remove(position);
-                        Presenter.getInstance().addList(Constants.CUSTOMER_SPECIALITY_LIST, specialityDataList);
-                        //specialityModel.setSpecialitySelected(false);
+                        } else{
+                            checkBox.setChecked(false);
+                            //specialityDataList.remove(speciality_);
+                            specialityDataList.remove(position);
+                            Presenter.getInstance().addList(Constants.CUSTOMER_SPECIALITY_LIST, specialityDataList);
+                            //specialityModel.setSpecialitySelected(false);
 
-                    }
+                        }
                 }
             });
 
