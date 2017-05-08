@@ -384,28 +384,33 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                                 if (customer.getStatus().equals(Constants.ALLOW)) {
                                     mainActivity.replaceFragment(R.id.layout_case_list_linear_layout_my_answer, position);
                                 } else {
-                                    if (MCINumber.isEmpty()) {
-                                    /*mainActivity.replaceFragment(R.layout.fragment_mciverification, null);*/
-                                        TastyToast.makeText(mainActivity.getApplicationContext(), "Update your MCI Number first", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
-                                        Snackbar snackbar = Snackbar.make(caseHeading, Constants.MCI_VERIFICATION_TAG, Snackbar.LENGTH_SHORT);
-                                        snackbar.setAction("Profile", new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                mainActivity.replaceFragment(R.layout.fragment_doctor_profile, ProfileFragment.TAG);
-                                            }
-                                        })
-                                                .show();
+                                    String mciNumber = customer.getMciNumber();
+                                    if(mciNumber != null){
+                                        if(mciNumber.isEmpty()) {
+                                            TastyToast.makeText(mainActivity.getApplicationContext(), "Complete Your Profile", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+                                            Snackbar snackbar = Snackbar.make(caseHeading, Constants.MCI_VERIFICATION_TAG, Snackbar.LENGTH_SHORT);
+                                            snackbar
+                                                    .setAction("Profile", new View.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(View v) {
+                                                            mainActivity.replaceFragment(R.layout.fragment_doctor_profile, ProfileFragment.TAG);
+                                                        }
+                                                    })
+                                                    .show();
+                                        } else {
+                                            TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+                                        }
                                     } else {
-                                        TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+                                        TastyToast.makeText(mainActivity.getApplicationContext(), "Complete Your Profile", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
                                         Snackbar snackbar = Snackbar.make(caseHeading, Constants.MCI_VERIFICATION_TAG, Snackbar.LENGTH_SHORT);
-                                        snackbar.setAction("Profile", new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                mainActivity.replaceFragment(R.layout.fragment_doctor_profile, ProfileFragment.TAG);
-                                            }
-                                        })
+                                        snackbar
+                                                .setAction("Profile", new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View v) {
+                                                        mainActivity.replaceFragment(R.layout.fragment_doctor_profile, ProfileFragment.TAG);
+                                                    }
+                                                })
                                                 .show();
-
                                     }
                                 }
                             }
@@ -503,21 +508,35 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                                         }
                                     }
                                 } else {
-                                    TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
-                                    Snackbar snackbar = Snackbar.make(caseHeading, Constants.MCI_VERIFICATION_TAG, Snackbar.LENGTH_SHORT);
-                                    snackbar.setAction("Profile", new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            mainActivity.replaceFragment(R.layout.fragment_doctor_profile, ProfileFragment.TAG);
+                                    String mciNumber = customer.getMciNumber();
+                                    if(mciNumber != null){
+                                        if(mciNumber.isEmpty()) {
+                                            TastyToast.makeText(mainActivity.getApplicationContext(), "Complete Your Profile", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+                                            Snackbar snackbar = Snackbar.make(caseHeading, Constants.MCI_VERIFICATION_TAG, Snackbar.LENGTH_SHORT);
+                                            snackbar
+                                                    .setAction("Profile", new View.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(View v) {
+                                                            mainActivity.replaceFragment(R.layout.fragment_doctor_profile, ProfileFragment.TAG);
+                                                        }
+                                                    })
+                                                    .show();
+                                        } else {
+                                            TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
                                         }
-                                    })
-                                            .show();
-                               /* if (MCINumber.isEmpty()) {
-                                    mainActivity.replaceFragment(R.layout.fragment_mciverification, null);
-                                } else {
-                                    TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+                                    } else {
+                                        TastyToast.makeText(mainActivity.getApplicationContext(), "Complete Your Profile", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+                                        Snackbar snackbar = Snackbar.make(caseHeading, Constants.MCI_VERIFICATION_TAG, Snackbar.LENGTH_SHORT);
+                                        snackbar
+                                                .setAction("Profile", new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View v) {
+                                                        mainActivity.replaceFragment(R.layout.fragment_doctor_profile, ProfileFragment.TAG);
+                                                    }
+                                                })
+                                                .show();
+                                    }
 
-                                }*/
                                 }
                             }
 
@@ -616,20 +635,34 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                                         }
                                     }
                                 } else {
-                                    TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
-                                    Snackbar snackbar = Snackbar.make(caseHeading, Constants.MCI_VERIFICATION_TAG, Snackbar.LENGTH_SHORT);
-                                    snackbar.setAction("Profile", new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            mainActivity.replaceFragment(R.layout.fragment_doctor_profile, ProfileFragment.TAG);
+                                    String mciNumber = customer.getMciNumber();
+                                    if(mciNumber != null){
+                                        if(mciNumber.isEmpty()) {
+                                            TastyToast.makeText(mainActivity.getApplicationContext(), "Complete Your Profile", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+                                            Snackbar snackbar = Snackbar.make(caseHeading, Constants.MCI_VERIFICATION_TAG, Snackbar.LENGTH_SHORT);
+                                            snackbar
+                                                    .setAction("Profile", new View.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(View v) {
+                                                            mainActivity.replaceFragment(R.layout.fragment_doctor_profile, ProfileFragment.TAG);
+                                                        }
+                                                    })
+                                                    .show();
+                                        } else {
+                                            TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
                                         }
-                                    })
-                                            .show();
-                                /*if (MCINumber.isEmpty()) {
-                                    mainActivity.replaceFragment(R.layout.fragment_mciverification, null);
-                                } else {
-                                    TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
-                                }*/
+                                    } else {
+                                        TastyToast.makeText(mainActivity.getApplicationContext(), "Complete Your Profile", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+                                        Snackbar snackbar = Snackbar.make(caseHeading, Constants.MCI_VERIFICATION_TAG, Snackbar.LENGTH_SHORT);
+                                        snackbar
+                                                .setAction("Profile", new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View v) {
+                                                        mainActivity.replaceFragment(R.layout.fragment_doctor_profile, ProfileFragment.TAG);
+                                                    }
+                                                })
+                                                .show();
+                                    }
                                 }
                             }
                         }
@@ -731,29 +764,6 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                 }
             });
 
-          /*  linearLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
-                    if(customer != null) {
-                        final String MCINumber = customer.getMciNumber() != null ? customer.getMciNumber() : "";
-                        if(customer.getStatus() != null) {
-                            if (customer.getStatus().equals(Constants.ALLOW)) {
-                                mainActivity.replaceFragment(R.id.layout_case_list_textview4, position);
-                            } else {
-                                if(MCINumber.isEmpty()) {
-                                    mainActivity.replaceFragment(R.layout.fragment_mciverification, null);
-                                } else {
-                                    TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
-
-                                }
-                            }
-                        }
-
-                    }
-                }
-            });*/
-
 
         }//if data != null
 
@@ -796,9 +806,58 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                   if (customer.getStatus().equals(Constants.ALLOW)) {
                       mainActivity.replaceFragment(R.id.layout_case_list_textview4, position);
                   }  else {
-                      TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+
+                      String mciNumber = customer.getMciNumber();
+                      if(mciNumber != null){
+                          if(mciNumber.isEmpty()) {
+                              TastyToast.makeText(mainActivity.getApplicationContext(), "Complete Your Profile", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+                              Snackbar snackbar = Snackbar.make(caseHeading, Constants.MCI_VERIFICATION_TAG, Snackbar.LENGTH_SHORT);
+                              snackbar
+                                      .setAction("Profile", new View.OnClickListener() {
+                                          @Override
+                                          public void onClick(View v) {
+                                              mainActivity.replaceFragment(R.layout.fragment_doctor_profile, ProfileFragment.TAG);
+                                          }
+                                      })
+                                      .show();
+                          } else {
+                              TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+                          }
+                      } else {
+                          TastyToast.makeText(mainActivity.getApplicationContext(), "Complete Your Profile", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+                          Snackbar snackbar = Snackbar.make(caseHeading, Constants.MCI_VERIFICATION_TAG, Snackbar.LENGTH_SHORT);
+                          snackbar
+                                  .setAction("Profile", new View.OnClickListener() {
+                                      @Override
+                                      public void onClick(View v) {
+                                          mainActivity.replaceFragment(R.layout.fragment_doctor_profile, ProfileFragment.TAG);
+                                      }
+                                  })
+                                  .show();
+                      }
+                  }
+              } else {
+                  String mciNumber = customer.getMciNumber();
+                  if(mciNumber != null){
+                      if(mciNumber.isEmpty()) {
+                          TastyToast.makeText(mainActivity.getApplicationContext(), "Complete Your Profile", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+                          Snackbar snackbar = Snackbar.make(caseHeading, Constants.MCI_VERIFICATION_TAG, Snackbar.LENGTH_SHORT);
+                          snackbar
+                                  .setAction("Profile", new View.OnClickListener() {
+                                      @Override
+                                      public void onClick(View v) {
+                                          mainActivity.replaceFragment(R.layout.fragment_doctor_profile, ProfileFragment.TAG);
+                                      }
+                                  })
+                                  .show();
+                      } else {
+                          TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+                      }
+                  } else {
+                      TastyToast.makeText(mainActivity.getApplicationContext(), "Complete Your Profile", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
                       Snackbar snackbar = Snackbar.make(caseHeading, Constants.MCI_VERIFICATION_TAG, Snackbar.LENGTH_SHORT);
-                      snackbar.setAction("Profile", new View.OnClickListener() {
+                      snackbar
+                              .setAction("Profile", new View.OnClickListener() {
                                   @Override
                                   public void onClick(View v) {
                                       mainActivity.replaceFragment(R.layout.fragment_doctor_profile, ProfileFragment.TAG);
@@ -806,17 +865,6 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
                               })
                               .show();
                   }
-              } else {
-                  TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
-                  Snackbar snackbar = Snackbar.make(caseHeading, Constants.MCI_VERIFICATION_TAG, Snackbar.LENGTH_SHORT);
-                  snackbar
-                          .setAction("Profile", new View.OnClickListener() {
-                              @Override
-                              public void onClick(View v) {
-                                  mainActivity.replaceFragment(R.layout.fragment_doctor_profile, ProfileFragment.TAG);
-                              }
-                          })
-                          .show();
               }
           }
       }

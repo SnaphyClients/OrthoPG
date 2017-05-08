@@ -564,16 +564,36 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                         casePresenter.InitNewCaseObject();
                         mainActivity.replaceFragment(R.id.fragment_case_button4, null);
                     } else {
-                        TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
-                        Snackbar snackbar = Snackbar.make(postCase, Constants.MCI_VERIFICATION_TAG, Snackbar.LENGTH_SHORT);
-                        snackbar
-                                .setAction("Profile", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        mainActivity.replaceFragment(R.layout.fragment_doctor_profile, ProfileFragment.TAG);
-                                    }
-                                })
-                                .show();
+                        String mciNumber = customer.getMciNumber();
+                        if(mciNumber != null){
+                            if(mciNumber.isEmpty()) {
+                                TastyToast.makeText(mainActivity.getApplicationContext(), "Complete Your Profile", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+                                Snackbar snackbar = Snackbar.make(postCase, Constants.MCI_VERIFICATION_TAG, Snackbar.LENGTH_SHORT);
+                                snackbar
+                                        .setAction("Profile", new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                mainActivity.replaceFragment(R.layout.fragment_doctor_profile, ProfileFragment.TAG);
+                                            }
+                                        })
+                                        .show();
+                            } else {
+                                TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+
+                            }
+                        } else {
+                            TastyToast.makeText(mainActivity.getApplicationContext(), "Complete Your Profile", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+                            Snackbar snackbar = Snackbar.make(postCase, Constants.MCI_VERIFICATION_TAG, Snackbar.LENGTH_SHORT);
+                            snackbar
+                                    .setAction("Profile", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            mainActivity.replaceFragment(R.layout.fragment_doctor_profile, ProfileFragment.TAG);
+                                        }
+                                    })
+                                    .show();
+                        }
+
                     }
                 }
 
