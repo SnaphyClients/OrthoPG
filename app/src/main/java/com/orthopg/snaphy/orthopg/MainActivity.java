@@ -973,7 +973,15 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             @Override
             public void onSuccess(Customer object) {
                 replaceFragment(R.layout.fragment_main, null);
-                TastyToast.makeText(getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+                Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
+                if (customer != null) {
+                    if (customer.getStatus() != null) {
+                        if (customer.getStatus().equals(Constants.ALLOW)) {
+                        } else {
+                            TastyToast.makeText(getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+                        }
+                    }
+                }
 
             }
 
@@ -1096,7 +1104,9 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             replaceFragment(R.layout.fragment_main, null);
         } else {
             //Display message that verification is under process
+/*
             TastyToast.makeText(getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+*/
 
             if(getIntent().getStringExtra("event") != null){
                 //Show push message data..

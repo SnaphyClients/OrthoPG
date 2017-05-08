@@ -1,13 +1,17 @@
 package com.orthopg.snaphy.orthopg.Fragment.MCIVerificationFragment;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.telephony.SmsMessage;
 import android.text.Editable;
@@ -85,6 +89,23 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
         super.onCreate(savedInstanceState);
         InputMethodManager imm = (InputMethodManager) mainActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        int PERMISSION_ALL = 1;
+        String[] PERMISSIONS = {Manifest.permission.RECEIVE_SMS,Manifest.permission.READ_SMS};
+
+        if(!hasPermissions(mainActivity, PERMISSIONS)){
+            ActivityCompat.requestPermissions(mainActivity, PERMISSIONS, PERMISSION_ALL);
+        }
+    }
+
+    public static boolean hasPermissions(Context context, String... permissions) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
 

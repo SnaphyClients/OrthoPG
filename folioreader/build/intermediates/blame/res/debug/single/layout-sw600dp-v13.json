@@ -1,6 +1,10 @@
 [
     {
-        "merged": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/build/intermediates/res/merged/debug/layout-sw600dp-v13/design_layout_snackbar.xml",
-        "source": "/home/nikita/SnaphyClients/OrthoPG/Android App/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/design/25.0.1/res/layout-sw600dp-v13/design_layout_snackbar.xml"
+        "merged": "E:\\home\\nikita\\SnaphyClients\\OrthoPG\\Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\layout-sw600dp-v13\\design_layout_snackbar.xml",
+        "source": "E:\\home\\nikita\\SnaphyClients\\OrthoPG\\Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.0.1\\res\\layout-sw600dp-v13\\design_layout_snackbar.xml"
+    },
+    {
+        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\layout-sw600dp-v13\\design_layout_snackbar.xml",
+        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.0.1\\res\\layout-sw600dp-v13\\design_layout_snackbar.xml"
     }
 ]
