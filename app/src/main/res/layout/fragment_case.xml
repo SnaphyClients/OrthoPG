@@ -8,25 +8,6 @@
     android:background="@color/background"
     tools:context="com.orthopg.snaphy.orthopg.Fragment.CaseFragment.CaseFragment" >
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="50dp"
-        android:layout_below="@+id/fragment_case_horizontal_scroll_view">
-
-    </android.support.v4.widget.SwipeRefreshLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="No Case Present"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:textColor="#AAA"
-        android:visibility="gone"
-        android:id="@+id/fragment_case_textview1"/>
 
 
     <View
@@ -36,14 +17,6 @@
         android:layout_alignParentBottom="true"
         android:visibility="gone"
         android:layout_marginBottom="45dp"/>
-
-  <!--  <com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:id="@+id/fragment_case_progressBar"
-        android:layout_centerInParent="true"
-        app:mlpb_progress_stoke_width="3dp"
-        app:mlpb_progress_color="#566da9"/>-->
 
 
     <Button
@@ -57,16 +30,25 @@
         android:background="@color/danger"
         android:gravity="center"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/fragment_case_recycler_view"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        android:background="#eeeeee"
-        android:layout_below="@+id/fragment_case_horizontal_scroll_view"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="45dp"/>
+        android:layout_marginBottom="50dp"
+        android:layout_below="@+id/fragment_case_horizontal_scroll_view">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/fragment_case_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            android:background="#eeeeee"
+            android:layout_below="@+id/fragment_case_horizontal_scroll_view"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="45dp"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <HorizontalScrollView
         android:layout_width="match_parent"
@@ -230,6 +212,18 @@
         </LinearLayout>
 
     </HorizontalScrollView>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="No Case Present"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="#AAA"
+        android:visibility="gone"
+        android:id="@+id/fragment_case_textview1"/>
 
 </RelativeLayout>
 

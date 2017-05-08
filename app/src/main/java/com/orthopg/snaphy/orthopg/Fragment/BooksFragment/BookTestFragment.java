@@ -48,6 +48,7 @@ public class BookTestFragment extends android.support.v4.app.Fragment {
     DataList<BookCategory> bookCategoryDataList = new DataList<>();
     BookTestAdapter bookTestAdapter;
     @Bind(R.id.fragment_books_recycler_view) RecyclerView recyclerView;
+    @Bind(R.id.fragment_books_textview1) TextView noBooksPresent;
 
     public BookTestFragment() {
         // Required empty public constructor
@@ -91,12 +92,22 @@ public class BookTestFragment extends android.support.v4.app.Fragment {
                 super.onInit(dataList);
                 bookTestAdapter = new BookTestAdapter(mainActivity, bookCategoryDataList);
                 recyclerView.setAdapter(bookTestAdapter);
+                if(dataList.size() == 0) {
+                    noBooksPresent.setVisibility(View.VISIBLE);
+                } else {
+                    noBooksPresent.setVisibility(View.GONE);
+                }
             }
 
             @Override
             public void onChange(DataList<BookCategory> dataList) {
                 super.onChange(dataList);
                 bookTestAdapter.notifyDataSetChanged();
+                if(dataList.size() == 0) {
+                    noBooksPresent.setVisibility(View.VISIBLE);
+                } else {
+                    noBooksPresent.setVisibility(View.GONE);
+                }
             }
 
             @Override

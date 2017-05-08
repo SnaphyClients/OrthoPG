@@ -31,6 +31,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
+import static android.view.View.GONE;
+
 /**
  * Created by Ravi-Gupta on 10/4/2016.
  */
@@ -294,7 +296,7 @@ public class CasePresenter {
                                 //Start loading bar..
                                 mainActivity.startProgressBar(circleProgressBar);
                                 if (noCasePresentText != null) {
-                                    noCasePresentText.setVisibility(View.GONE);
+                                    noCasePresentText.setVisibility(GONE);
                                 }
                             }
                             //Set old flag..
@@ -445,7 +447,7 @@ public class CasePresenter {
                                 //Start loading bar..
                                 mainActivity.startProgressBar(circleProgressBar);
                                 if (noCasePresentText != null) {
-                                    noCasePresentText.setVisibility(View.GONE);
+                                    noCasePresentText.setVisibility(GONE);
                                 }
                             }
 
@@ -524,7 +526,7 @@ public class CasePresenter {
                     //Start loading bar..
                     mainActivity.startProgressBar(circleProgressBar);
                     if (noCasePresentText != null) {
-                        noCasePresentText.setVisibility(View.GONE);
+                        noCasePresentText.setVisibility(GONE);
                     }
                     setOldFlag(listType);
                 }
@@ -613,6 +615,8 @@ public class CasePresenter {
                     }
                 }
             }
+        } else {
+
         }
     }
 

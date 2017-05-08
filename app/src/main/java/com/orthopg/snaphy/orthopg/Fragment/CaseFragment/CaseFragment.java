@@ -301,6 +301,11 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                 @Override
                 public void onInit(DataList<PostDetail> dataList) {
                     caseListAdapter.notifyDataSetChanged();
+                    if(dataList.size() == 0) {
+                        noCasePresentText.setVisibility(View.VISIBLE);
+                    } else {
+                        noCasePresentText.setVisibility(View.GONE);
+                    }
                 }
 
                 @Override
@@ -308,7 +313,11 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                     super.onChange(dataList);
                     swipeRefreshLayout.setRefreshing(false);
                     caseListAdapter.notifyDataSetChanged();
-
+                    if(dataList.size() == 0) {
+                        noCasePresentText.setVisibility(View.VISIBLE);
+                    } else {
+                        noCasePresentText.setVisibility(View.GONE);
+                    }
                 }
             });
 
@@ -322,6 +331,11 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                 @Override
                 public void onInit(DataList<PostDetail> dataList) {
                     caseListAdapter.notifyDataSetChanged();
+                    if(dataList.size() == 0) {
+                        noCasePresentText.setVisibility(View.VISIBLE);
+                    } else {
+                        noCasePresentText.setVisibility(View.GONE);
+                    }
                 }
 
                 @Override
@@ -329,6 +343,11 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                     super.onChange(dataList);
                     swipeRefreshLayout.setRefreshing(false);
                     caseListAdapter.notifyDataSetChanged();
+                    if(dataList.size() == 0) {
+                        noCasePresentText.setVisibility(View.VISIBLE);
+                    } else {
+                        noCasePresentText.setVisibility(View.GONE);
+                    }
 
                 }
             });
@@ -345,6 +364,11 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                 @Override
                 public void onInit(DataList<PostDetail> dataList) {
                     caseListAdapter.notifyDataSetChanged();
+                    if(dataList.size() == 0) {
+                        noCasePresentText.setVisibility(View.VISIBLE);
+                    } else {
+                        noCasePresentText.setVisibility(View.GONE);
+                    }
                 }
 
                 @Override
@@ -352,6 +376,11 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                     super.onChange(dataList);
                     swipeRefreshLayout.setRefreshing(false);
                     caseListAdapter.notifyDataSetChanged();
+                    if(dataList.size() == 0) {
+                        noCasePresentText.setVisibility(View.VISIBLE);
+                    } else {
+                        noCasePresentText.setVisibility(View.GONE);
+                    }
                 }
             });
 
@@ -367,6 +396,11 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                 @Override
                 public void onInit(DataList<Post> dataList) {
                     caseListAdapter.notifyDataSetChanged();
+                    if(dataList.size() == 0) {
+                        noCasePresentText.setVisibility(View.VISIBLE);
+                    } else {
+                        noCasePresentText.setVisibility(View.GONE);
+                    }
                 }
 
                 @Override
@@ -374,6 +408,11 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                     super.onChange(dataList);
                     swipeRefreshLayout.setRefreshing(false);
                     caseListAdapter.notifyDataSetChanged();
+                    if(dataList.size() == 0) {
+                        noCasePresentText.setVisibility(View.VISIBLE);
+                    } else {
+                        noCasePresentText.setVisibility(View.GONE);
+                    }
                 }
             });
 
@@ -389,6 +428,11 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                 public void onInit(DataList<Post> dataList) {
                     //swipeRefreshLayout.setRefreshing(false);
                     caseListAdapter.notifyDataSetChanged();
+                    if(dataList.size() == 0) {
+                        noCasePresentText.setVisibility(View.VISIBLE);
+                    } else {
+                        noCasePresentText.setVisibility(View.GONE);
+                    }
                 }
 
                 @Override
@@ -396,6 +440,11 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                     super.onChange(dataList);
                     //swipeRefreshLayout.setRefreshing(false);
                     caseListAdapter.notifyDataSetChanged();
+                    if(dataList.size() == 0) {
+                        noCasePresentText.setVisibility(View.VISIBLE);
+                    } else {
+                        noCasePresentText.setVisibility(View.GONE);
+                    }
                 }
 
                 @Override
@@ -533,11 +582,6 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         }
 
     }
-
-
-
-
-
 
 
     // TODO: Rename method, update argument and hook method into UI event
