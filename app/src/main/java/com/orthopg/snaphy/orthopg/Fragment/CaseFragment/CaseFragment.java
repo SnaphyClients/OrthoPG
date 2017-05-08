@@ -40,6 +40,8 @@ import com.orthopg.snaphy.orthopg.RecyclerItemClickListener;
 import com.sdsmdg.tastytoast.TastyToast;
 import com.strongloop.android.loopback.callbacks.VoidCallback;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
 import butterknife.Bind;
@@ -157,8 +159,31 @@ public class CaseFragment extends android.support.v4.app.Fragment {
         swipeRefreshLayoutListener();
         loadPresenter();
         recyclerViewLoadMoreEventData();
+        loadDeepLinkUrl();
 
         return view;
+    }
+
+    public void loadDeepLinkUrl() {
+        JSONObject params = Presenter.getInstance().getModel(JSONObject.class, Constants.BRANCH_IO_INSTANCE);
+        if(params != null){
+            try {
+                String type = params.getString("type").toString();
+                String id = params.getString("id").toString();
+                if(type.equals("case")) {
+                    mainActivity.fetchCaseFromId(id);
+                } else if(type.equals("book")) {
+
+                }
+            } catch (Exception e) {
+                // Do NOTHING
+            }
+
+
+
+            //After load..remove data from list..
+            Presenter.getInstance().removeModelFromList(Constants.BRANCH_IO_INSTANCE);
+        }
     }
 
 

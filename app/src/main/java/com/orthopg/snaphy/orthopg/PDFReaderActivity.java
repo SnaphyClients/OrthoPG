@@ -7,7 +7,7 @@ import android.os.PersistableBundle;
 import android.view.View;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
-import com.github.barteksc.pdfviewer.PDFView;
+
 
 import java.io.File;
 
@@ -16,7 +16,7 @@ import java.io.File;
  */
 
 public class PDFReaderActivity extends Activity {
-
+/*
     PDFView pdfView;
     File file;
     File outFile;
@@ -50,5 +50,5 @@ public class PDFReaderActivity extends Activity {
     protected void onPause() {
         super.onPause();
         file.delete();
-    }
+    }*/
 }

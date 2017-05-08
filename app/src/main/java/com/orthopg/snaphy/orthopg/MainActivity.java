@@ -90,6 +90,7 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
@@ -168,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         sharedPreferences = this.getApplicationContext().getSharedPreferences("HelpScreen", 0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         if(snaphyHelper.isNetworkAvailable()) {
+            onAppStart();
             // Internet is connected
             boolean displayHelpScreen = sharedPreferences.getBoolean("showHelpScreen", false);
             if(!displayHelpScreen) {
@@ -194,38 +196,84 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
     @Override
     public void onStart() {
         super.onStart();
-        Branch branch = Branch.getInstance();
-        branch.initSession(new Branch.BranchReferralInitListener(){
-            @Override
-            public void onInitFinished(JSONObject referringParams, BranchError error) {
-                if (error == null) {
-                    // params are the deep linked params associated with the link that the user clicked -> was re-directed to this app
-                    // params will be empty if no data found
-                    // ... insert custom logic here ...
-                    String data = referringParams.toString();
-                    //Toast.makeText(getApplicationContext(),data, Toast.LENGTH_SHORT).show();
-                } else {
-                    Log.i("MyApp", error.getMessage());
+
+    }
+
+    public void onAppStart() {
+        Uri data = getIntent().getData();
+        if(data != null){
+            try {
+                String link_click_id = (String)data.getQueryParameter("link_click_id");
+                // params are the deep linked params associated with the link that the user clicked before showing up
+                if(link_click_id != null){
+                    if(!link_click_id.isEmpty()){
+                        //Start branch..
+                        //SHOW LOADING BAR..
+                        startProgressBar(progressBar);
+                        Branch branch = Branch.getInstance();
+                        branch.initSession(new Branch.BranchReferralInitListener(){
+
+                            @Override
+                            public void onInitFinished(JSONObject referringParams, BranchError error) {
+                                //CLOSE LOADING BAR..
+                                stopProgressBar(progressBar);
+                                if (error == null) {
+                                    try {
+
+                                        /*String url = referringParams.getString(Constants.BRANCH_IO_URL_PROPERTY);*/
+                                        String params = referringParams.toString();
+                                        /*String id = referringParams.get("id").toString();*/
+                                        // params are the deep linked params associated with the link that the user clicked before showing up
+                                        if(params != null){
+                                            Presenter.getInstance().addModel(Constants.BRANCH_IO_INSTANCE, referringParams);
+                                        }
+                                        startApp();
+                                    } catch (Exception e) {
+                                        Log.e(Constants.TAG, e.toString());
+                                        Log.e(Constants.TAG, "Error occured parsing json from branch.io data in smartShoppr");
+                                        startApp();
+                                    }
+
+                                }else{
+                                    Log.e(Constants.TAG, "Error occured in branch.io" + error.toString());
+                                    startApp();
+                                }
+                            }
+                        }, this.getIntent().getData(), this);
+                    }else{
+                        startApp();
+                    }
+                }else{
+                    startApp();
                 }
+
+            } catch (Exception e) {
+                Log.e(Constants.TAG, e.toString());
+                Log.e(Constants.TAG, "Error occured parsing json from branch.io data in smartShoppr");
+                startApp();
             }
-        }, this.getIntent().getData(), this);
+        }else{
+            startApp();
+        }
+    }
+
+    public void startApp() {
+        checkLogin();
     }
 
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-
+        Uri data = getIntent().getData();
+        String link_click_id = null;
+        if(data != null) {
+            link_click_id = (String) data.getQueryParameter("link_click_id");
+        }
         if(intent.getStringExtra("event") != null){
             //Show push message data..
             parsePushMessage(intent);
-        } else if(intent.getStringExtra("type")!=null){
-            if(intent.getStringExtra("type").equals("case")){
-                replaceFragment(R.layout.fragment_speciality, null);
-            }
-        }
-
-        else {
+        } else {
             replaceFragment(R.layout.fragment_main, null);
         }
 

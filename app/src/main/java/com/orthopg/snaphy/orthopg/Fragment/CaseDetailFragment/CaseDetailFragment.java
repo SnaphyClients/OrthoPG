@@ -1037,32 +1037,35 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
     }
 
     @OnClick(R.id.layout_case_details_textview11) void onShare(){
-        BranchUniversalObject branchUniversalObject = new BranchUniversalObject()
-                .setCanonicalIdentifier("item/12345")
-                .setTitle("My Content Title")
-                .setContentDescription("My Content Description")
-                .setContentImageUrl("https://example.com/mycontent-12345.png")
-                .setContentIndexingMode(BranchUniversalObject.CONTENT_INDEX_MODE.PUBLIC)
-                .addContentMetadata("type", "case")
-                .addContentMetadata("id", String.valueOf(post.getId()));
 
-        LinkProperties linkProperties = new LinkProperties()
-                .setFeature("sharing");
-        branchUniversalObject.generateShortUrl(mainActivity, linkProperties, new Branch.BranchLinkCreateListener() {
-            @Override
-            public void onLinkCreate(String url, BranchError error) {
-                if (error == null) {
-                    Log.i("MyApp", "got my Branch link to share: " + url);
-                    Intent intent = new Intent(Intent.ACTION_SEND);
-                    intent.setType("text/plain");
-                    intent.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL");
-                    intent.putExtra(Intent.EXTRA_TEXT, url);
-                    startActivity(Intent.createChooser(intent, "Share URL"));
-                } else {
-                    Log.e(Constants.TAG,error.toString());
+        if(post != null) {
+            BranchUniversalObject branchUniversalObject = new BranchUniversalObject()
+                    .setCanonicalIdentifier(String.valueOf(post.getId()))
+                    .setTitle(post.getHeading())
+                    .setContentDescription(post.getDescription())
+                    .setContentIndexingMode(BranchUniversalObject.CONTENT_INDEX_MODE.PUBLIC)
+                    .addContentMetadata("type", "case")
+                    .addContentMetadata("id", String.valueOf(post.getId()));
+
+            LinkProperties linkProperties = new LinkProperties()
+                    .setFeature("sharing");
+
+            branchUniversalObject.generateShortUrl(mainActivity, linkProperties, new Branch.BranchLinkCreateListener() {
+                @Override
+                public void onLinkCreate(String url, BranchError error) {
+                    if (error == null) {
+                        Log.i("MyApp", "got my Branch link to share: " + url);
+                        Intent intent = new Intent(Intent.ACTION_SEND);
+                        intent.setType("text/plain");
+                        intent.putExtra(Intent.EXTRA_SUBJECT, "OrthoPG");
+                        intent.putExtra(Intent.EXTRA_TEXT, url);
+                        startActivity(Intent.createChooser(intent, "Share URL"));
+                    } else {
+                        Log.e(Constants.TAG, error.toString());
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
 

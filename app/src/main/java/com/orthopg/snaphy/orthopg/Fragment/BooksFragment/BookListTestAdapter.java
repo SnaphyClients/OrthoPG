@@ -28,7 +28,7 @@ import com.androidsdk.snaphy.snaphyandroidsdk.repository.BookRepository;
 import com.folioreader.activity.FolioActivity;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
-import com.orthopg.snaphy.orthopg.PDFReaderActivity;
+
 import com.orthopg.snaphy.orthopg.R;
 import com.orthopg.snaphy.orthopg.WordUtils;
 
@@ -184,100 +184,6 @@ public class BookListTestAdapter extends RecyclerView.Adapter<BookListTestAdapte
                   }
               }
           });
-       /* cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String bookCategory = Presenter.getInstance().getModel(String.class, Constants.SAVED_BOOKS_DATA);
-                String  bookName__ = book.getTitle();
-                bookName__ = bookName__.replace(" ", "");
-                File outFile = new File(Environment.getExternalStorageDirectory() + "/OrthoPg/" + bookName__+".pdf");
-                File decFile = new File(Environment.getExternalStorageDirectory() + "/OrthoPg/" + "d_"+bookName__+".pdf");
-                if(bookCategory!=null){
-                    String bookKey = sharedPreferences.getString(bookId,"");
-                    String bookIv = sharedPreferences.getString(bookId + "iv","");
-
-                    if(bookKey.isEmpty() || bookIv.isEmpty() || !outFile.exists()){
-                        //Check for network connection
-                        if(!mainActivity.snaphyHelper.isNetworkAvailable()){
-                            Snackbar.make(cardView,"Can't download! Check for network connection",Snackbar.LENGTH_SHORT).show();
-                            outFile.delete();
-                        } else {
-                            key = getKey();
-                            iv = getIV();
-                            notificationManager =
-                                    (NotificationManager) mainActivity.getSystemService(Context.NOTIFICATION_SERVICE);
-                            mBuilder = new NotificationCompat.Builder(mainActivity);
-                            mBuilder.setContentTitle("PDF Download")
-                                    .setContentText("Download in progress")
-                                    .setSmallIcon(R.mipmap.ic_launcher);
-                            Log.v(Constants.TAG, book+"");
-                            if(book.getUploadSampleBook() != null) {
-                                if(book.getUploadSampleBook().get("url") != null) {
-                                    Map<String, Object> bookHashMap = (Map<String, Object>)book.getUploadSampleBook().get("url");
-                                    if(bookHashMap != null) {
-                                        String bookUnsignedUrl = (String)bookHashMap.get("unSignedUrl");
-                                        Log.v(Constants.TAG, bookUnsignedUrl);
-                                        String  bookName = book.getTitle();
-                                        bookName = bookName.replace(" ", "");
-                                        Presenter.getInstance().addModel(Constants.DOWNLOADED_BOOK_ID, bookName);
-                                        new DownloadFile().execute(bookUnsignedUrl, bookName+".pdf");
-
-                                    }
-                                }
-                            }
-                        }
-                    } else{
-                        //Open the decypted pdf
-
-                        try {
-                            //mainActivity.startProgressBar(mainActivity.progressBar);
-                            FileInputStream enfis = new FileInputStream(outFile);
-                            FileOutputStream defos = new FileOutputStream(decFile);
-                            Cipher decipher = Cipher.getInstance("AES");
-                            String bookKeyString = sharedPreferences.getString(bookId,"");
-                            byte[] keyArray = Base64.decode(bookKeyString,Base64.DEFAULT);
-                            String bookIvString = sharedPreferences.getString(bookId + "iv","");
-                            byte[] ivArray = Base64.decode(bookIvString,Base64.DEFAULT);
-                            SecretKeySpec specKey = new SecretKeySpec(keyArray, "AES");
-                            decipher.init(Cipher.DECRYPT_MODE,specKey,new IvParameterSpec(ivArray));
-                            CipherOutputStream cos = new CipherOutputStream(defos,decipher);
-                            byte[] d = new byte[1024*1024];
-                            while((read = enfis.read(d))!=-1){
-                                cos.write(d,0,read);
-                                cos.flush();
-                            }
-                            cos.close();
-                           // mainActivity.stopProgressBar(mainActivity.progressBar);
-                            Toast.makeText(mainActivity,"Decrytption completed",Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(mainActivity,PDFReaderActivity.class);
-                            mainActivity.startActivity(intent);
-                        }catch (Exception e){
-                            e.printStackTrace();
-                            outFile.delete();
-                            decFile.delete();
-                        }
-                    }
-                } else {
-                    String bookKeyString = sharedPreferences.getString(bookId,"");
-                    String bookIvString = sharedPreferences.getString(bookId + "iv","");
-                    if(!bookKeyString.isEmpty() && !bookIvString.isEmpty() && outFile.exists()) {
-                        setBookData(position);
-                        mainActivity.replaceFragment(R.layout.fragment_book_description, null);
-                    } else{
-                        setBookData(position);
-                        mainActivity.replaceFragment(R.layout.fragment_book_description, null);
-                    }
-                }
-            }
-        });
-*/
-    /*    cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String bookName__ = book.getTitle();
-                File file =
-            }
-        });*/
     }
 
 
@@ -442,7 +348,6 @@ public class BookListTestAdapter extends RecyclerView.Adapter<BookListTestAdapte
 
 
     private static byte[] getIV(){
-
         SecureRandom random = new SecureRandom();
         byte[] iv = random.generateSeed(16);
         return iv;

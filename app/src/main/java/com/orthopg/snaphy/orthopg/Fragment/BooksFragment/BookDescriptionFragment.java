@@ -118,6 +118,8 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.fragment_book_description_textview2) TextView downloadSampleText;
     @Bind(R.id.fragment_book_description_progressBar) ProgressBar progressBar;
     String bookId = "";
+    String bookDesscription_ = "";
+    String bookURL_ = "";
     public final static String TAG = "BookDescriptionFragment";
     int read;
     String bookKey, bookIv;
@@ -283,6 +285,16 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
         Book book = Presenter.getInstance().getModel(Book.class,Constants.BOOK_DESCRIPTION_ID);
         if(book!=null){
             bookId = String.valueOf(book.getId());
+            bookDesscription_ = book.getDescription();
+            if (book.getUploadSampleBook() != null) {
+                if (book.getUploadSampleBook().get("url") != null) {
+                    Map<String, Object> bookHashMap = (Map<String, Object>) book.getUploadSampleBook().get("url");
+                    if (bookHashMap != null) {
+                        bookURL_ = (String) bookHashMap.get("unSignedUrl");
+                    }
+                }
+            }
+
             if(book.getTitle()!=null){
                 if(!book.getTitle().isEmpty()){
                     bookTitle.setVisibility(View.VISIBLE);
@@ -757,10 +769,10 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
     @OnClick(R.id.fragment_book_description_imageview3) void onShare(){
 
         BranchUniversalObject branchUniversalObject = new BranchUniversalObject()
-                .setCanonicalIdentifier("item/12345")
-                .setTitle("My Content Title")
-                .setContentDescription("My Content Description")
-                .setContentImageUrl("https://example.com/mycontent-12345.png")
+                .setCanonicalIdentifier(bookId)
+                .setTitle(bookName)
+                .setContentDescription(bookDesscription_)
+                .setContentImageUrl(bookURL_)
                 .setContentIndexingMode(BranchUniversalObject.CONTENT_INDEX_MODE.PUBLIC)
                 .addContentMetadata("type", "book")
                 .addContentMetadata("id", bookId);
@@ -774,7 +786,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
                     Log.i("MyApp", "got my Branch link to share: " + url);
                     Intent intent = new Intent(Intent.ACTION_SEND);
                     intent.setType("text/plain");
-                    intent.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL");
+                    intent.putExtra(Intent.EXTRA_SUBJECT, "Checkout this book from OrthoPG");
                     intent.putExtra(Intent.EXTRA_TEXT, url);
                     startActivity(Intent.createChooser(intent, "Share URL"));
                 } else {

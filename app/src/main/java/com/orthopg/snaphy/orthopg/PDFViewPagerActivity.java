@@ -6,10 +6,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.DisplayMetrics;
 
-import es.voghdev.pdfviewpager.library.PDFViewPager;
-import es.voghdev.pdfviewpager.library.adapter.BasePDFPagerAdapter;
-import es.voghdev.pdfviewpager.library.adapter.PDFPagerAdapter;
-import es.voghdev.pdfviewpager.library.adapter.PdfScale;
+
 
 /**
  * Created by nikita on 18/3/17.
@@ -17,13 +14,13 @@ import es.voghdev.pdfviewpager.library.adapter.PdfScale;
 
 public class PDFViewPagerActivity extends Activity {
 
-    PDFViewPager pdfViewPager;
+   /* PDFViewPager pdfViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /*setTitle(R.string.menu_sample9_txt);*/
+        *//*setTitle(R.string.menu_sample9_txt);*//*
         pdfViewPager = new PDFViewPager(this, Environment.getExternalStorageDirectory()+ "/OrthoPG/" + "dsample.pdf");
         setContentView(pdfViewPager);
         pdfViewPager.setAdapter(new PDFPagerAdapter.Builder(this)
@@ -51,10 +48,10 @@ public class PDFViewPagerActivity extends Activity {
         }
     }
 
-  /*  public static void open(Context context) {
+  *//*  public static void open(Context context) {
         Intent i = new Intent(context, PDFWithScaleActivity.class);
         context.startActivity(i);
-    }*/
+    }*//*
 
     public int getScreenWidth(Context ctx) {
         int w = 0;
@@ -64,5 +61,5 @@ public class PDFViewPagerActivity extends Activity {
             w = displaymetrics.widthPixels;
         }
         return w;
-    }
+    }*/
 }

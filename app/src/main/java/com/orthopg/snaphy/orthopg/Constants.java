@@ -23,6 +23,9 @@ public class Constants {
     public static String MCI_VERIFICATION_TAG = "Complete your MCI verification";
     public static String ERROR_DOWNLOADING_BOOK = "Error Downloading Book";
 
+    public static String BRANCH_IO_INSTANCE = "branchIoInstance";
+    public static String BRANCH_IO_URL_PROPERTY = "url";
+
 
     //public static String baseUrl = "http://192.168.0.6:3000";
     //public static String baseUrl = "http://192.168.43.21:3000";
