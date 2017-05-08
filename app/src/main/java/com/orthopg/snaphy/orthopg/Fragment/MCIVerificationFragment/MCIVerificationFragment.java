@@ -39,6 +39,7 @@ import com.sdsmdg.tastytoast.TastyToast;
 
 import org.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -178,33 +179,6 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
         }
     }
 
-
-   /* @OnClick(R.id.fragment_mci_verification_button1) void submitButton() {
-        InputMethodManager imm = (InputMethodManager)mainActivity.getSystemService(
-                Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(mciCode.getWindowToken(), 0);
-        String code = mciCode.getText().toString();
-        if(code != null){
-            if(!code.trim().isEmpty()){
-                Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
-                customer.setMciNumber(code);
-                updateCustomer(customer);
-            }
-        }
-        //
-    }*/
-
-
-
-/*
-    @OnClick(R.id.fragment_mci_verification_button2) void skipButton() {
-        InputMethodManager imm = (InputMethodManager)mainActivity.getSystemService(
-                Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(mciCode.getWindowToken(), 0);
-        mainActivity.replaceFragment(R.layout.fragment_main, null);
-        TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
-
-    }*/
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -363,21 +337,33 @@ public class MCIVerificationFragment extends android.support.v4.app.Fragment {
                         String senderNum = phoneNumber;
                         String message = currentMessage.getDisplayMessageBody();
 
-                        //Log.v("SmsReceiver", "senderNum: " + senderNum + "; message: " + message);
 
-                        Pattern p = Pattern.compile("\\b\\d{4}\\b");
-                        m = p.matcher(message);
-                        while (m.find()) {
-                            OTP = m.group().toString();
-                            otpCode.setText(OTP);
+
+
+
+                        Boolean found = Arrays.asList(message.split(" ")).contains(Constants.TAG);
+                        if(found){
+                            Pattern p = Pattern.compile("\\b\\d{4}\\b");
+                            m = p.matcher(message);
+                            while (m.find()) {
+                                OTP = m.group().toString();
+                                otpCode.setText(OTP);
+                            }
                         }
+
+
+
+
+
+
+
+
 
                     } // end for loop
                 } // bundle is null
 
             } catch (Exception e) {
                 Log.e("SmsReceiver", "Exception smsReceiver" + e);
-
             }
         }
 
