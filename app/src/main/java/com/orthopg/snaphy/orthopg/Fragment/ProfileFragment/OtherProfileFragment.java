@@ -739,8 +739,10 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
             Button okButton = (Button) dialog.findViewById(R.id.dialog_add_text_button1);
             final EditText firstName = (EditText) dialog.findViewById(R.id.dialog_add_text_edittext1);
             final EditText lastName = (EditText) dialog.findViewById(R.id.dialog_add_text_edittext2);
+
             firstName.setInputType(InputType.TYPE_CLASS_TEXT);
             lastName.setInputType(InputType.TYPE_CLASS_TEXT);
+
             final Customer loginCustomer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
             if (loginCustomer != null) {
                 if (loginCustomer.getFirstName() != null) {
