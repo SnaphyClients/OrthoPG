@@ -772,7 +772,6 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
                 .setCanonicalIdentifier(bookId)
                 .setTitle(bookName)
                 .setContentDescription(bookDesscription_)
-                .setContentImageUrl(bookURL_)
                 .setContentIndexingMode(BranchUniversalObject.CONTENT_INDEX_MODE.PUBLIC)
                 .addContentMetadata("type", "book")
                 .addContentMetadata("id", bookId);

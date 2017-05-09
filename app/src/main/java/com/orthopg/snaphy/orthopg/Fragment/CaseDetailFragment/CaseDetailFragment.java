@@ -113,6 +113,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
     Customer loginCustomer;
     HashMap<String, CommentState> commentStateDataList;
     DataList<String> exceptIdNewAnswerList;
+    String imageUrl = "";
 
 
     LinearLayoutManager linearLayoutManager;
@@ -191,6 +192,8 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
         if(Presenter.getInstance().getModel(String.class, Constants.NOTIFICATION_ID) != null) {
             String caseId = Presenter.getInstance().getModel(String.class, Constants.NOTIFICATION_ID);
         }
+
+
 
 
         //addOnItemTouchListener
@@ -1043,6 +1046,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
                     .setCanonicalIdentifier(String.valueOf(post.getId()))
                     .setTitle(post.getHeading())
                     .setContentDescription(post.getDescription())
+                    .setContentImageUrl("")
                     .setContentIndexingMode(BranchUniversalObject.CONTENT_INDEX_MODE.PUBLIC)
                     .addContentMetadata("type", "case")
                     .addContentMetadata("id", String.valueOf(post.getId()));
