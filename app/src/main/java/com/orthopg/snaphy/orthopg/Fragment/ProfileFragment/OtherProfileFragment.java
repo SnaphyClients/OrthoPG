@@ -435,8 +435,48 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    updateCurrentWorkingData(editText.getText().toString());
+                    if(editText.getText().toString().isEmpty()) {
+                        Snackbar.make(editText, "City cannot be blank", Snackbar.LENGTH_SHORT).show();
+                    } else {
+                        updateCurrentWorkingData(editText.getText().toString());
+                        currentWorkingTxt.setText(editText.getText().toString());
+                    }
                     dialog.dismiss();
+                }
+            });
+            dialog.show();
+            dialog.getWindow().setAttributes(lp);
+        }
+    }
+
+    @OnClick(R.id.fragment_profile_imageview2) void onEditCity(){
+        if(!mainActivity.snaphyHelper.isNetworkAvailable()){
+            Snackbar.make(profileImage,"No Network Connection! Check Internet Connection and try again", Snackbar.LENGTH_SHORT).show();
+        } else {
+            final Dialog dialog = new Dialog(mainActivity);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.dialog_edit_profile);
+
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+            TextView header = (TextView) dialog.findViewById(R.id.dialog_edit_profile_textview1);
+            final TextView editText = (EditText) dialog.findViewById(R.id.dialog_edit_profile_editText1);
+            Button edit = (Button) dialog.findViewById(R.id.dialog_edit_profile_button1);
+            header.setText("CITY");
+            editText.setText(currentWorkingTxt.getText().toString());
+            edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(editText.getText().toString().isEmpty()) {
+                        Snackbar.make(editText, "City cannot be blank", Snackbar.LENGTH_SHORT).show();
+                    } else {
+                        updateCurrentWorkingData(editText.getText().toString());
+                        currentWorkingTxt.setText(editText.getText().toString());
+                        dialog.dismiss();
+                    }
                 }
             });
             dialog.show();
@@ -465,9 +505,13 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    updateMCINumberData(editText.getText().toString());
-                    mciNumberTxt.setText(editText.getText().toString());
-                    dialog.dismiss();
+                    if(editText.getText().toString().isEmpty()) {
+                        Snackbar.make(editText, "City cannot be blank", Snackbar.LENGTH_SHORT).show();
+                    } else {
+                        updateMCINumberData(editText.getText().toString());
+                        mciNumberTxt.setText(editText.getText().toString());
+                        dialog.dismiss();
+                    }
                 }
             });
             dialog.show();
@@ -498,7 +542,6 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
     }
 
 
-
    /* @OnClick(R.id.fragment_profile_imageview3) void onMCIEdit(){
         if(!mainActivity.snaphyHelper.isNetworkAvailable()){
             Snackbar.make(profileImage,"No Network Connection! Check Internet Connection and try again", Snackbar.LENGTH_SHORT).show();
@@ -513,23 +556,31 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
         } else {
             final Dialog dialog = new Dialog(mainActivity);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setContentView(R.layout.dialog_edit_profile);
+            dialog.setContentView(R.layout.dialog_work_experience);
 
             WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
             lp.copyFrom(dialog.getWindow().getAttributes());
             lp.width = WindowManager.LayoutParams.MATCH_PARENT;
             lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
-            TextView header = (TextView)dialog.findViewById(R.id.dialog_edit_profile_textview1);
-            final TextView editText = (EditText)dialog.findViewById(R.id.dialog_edit_profile_editText1);
-            Button edit = (Button)dialog.findViewById(R.id.dialog_edit_profile_button1);
+            TextView header = (TextView)dialog.findViewById(R.id.dialog_edit_work_textview1);
+            final TextView editText = (EditText)dialog.findViewById(R.id.dialog_edit_work_editText1);
+            Button edit = (Button)dialog.findViewById(R.id.dialog_edit_work_button1);
             header.setText("WORK EXPERIENCE");
             editText.setText(workExperinceTxt.getText().toString());
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    updateWorkExperienceData(editText.getText().toString());
-                    workExperinceTxt.setText(editText.getText().toString());
+                    int workExperience = Integer.parseInt(editText.getText().toString());
+                    if(editText.getText().toString().isEmpty()) {
+                        Snackbar.make(profileImage,"Work Experience cannot be empty", Snackbar.LENGTH_SHORT).show();
+                    } else if(workExperience > 99 || workExperience < 0) {
+                        Snackbar.make(profileImage,"Invalid work experience", Snackbar.LENGTH_SHORT).show();
+                    }
+                    else {
+                        updateWorkExperienceData(editText.getText().toString());
+                        workExperinceTxt.setText(editText.getText().toString());
+                    }
                     dialog.dismiss();
                 }
             });
@@ -586,36 +637,7 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
         }
     }
 
-    @OnClick(R.id.fragment_profile_imageview2) void onEditCity(){
-        if(!mainActivity.snaphyHelper.isNetworkAvailable()){
-            Snackbar.make(profileImage,"No Network Connection! Check Internet Connection and try again", Snackbar.LENGTH_SHORT).show();
-        } else {
-            final Dialog dialog = new Dialog(mainActivity);
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setContentView(R.layout.dialog_edit_profile);
 
-            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-            lp.copyFrom(dialog.getWindow().getAttributes());
-            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-
-            TextView header = (TextView) dialog.findViewById(R.id.dialog_edit_profile_textview1);
-            final TextView editText = (EditText) dialog.findViewById(R.id.dialog_edit_profile_editText1);
-            Button edit = (Button) dialog.findViewById(R.id.dialog_edit_profile_button1);
-            header.setText("CITY");
-            editText.setText(currentWorkingTxt.getText().toString());
-            edit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    updateCurrentWorkingData(editText.getText().toString());
-                    currentWorkingTxt.setText(editText.getText().toString());
-                    dialog.dismiss();
-                }
-            });
-            dialog.show();
-            dialog.getWindow().setAttributes(lp);
-        }
-    }
 
     public void updateCurrentWorkingData(final String currentWorking){
         final Customer customer = Presenter.getInstance().getModel(Customer.class,Constants.LOGIN_CUSTOMER);
@@ -724,10 +746,14 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
                 if (loginCustomer.getFirstName() != null) {
                     if (!loginCustomer.getFirstName().isEmpty()) {
                         firstName.setText(loginCustomer.getFirstName().trim());
+                    } else {
+                        Snackbar.make(name, "First Name cannot be blank", Snackbar.LENGTH_SHORT).show();
                     }
 
                     if (!loginCustomer.getLastName().isEmpty()) {
                         lastName.setText(loginCustomer.getLastName().trim());
+                    } else {
+                        Snackbar.make(name, "Last Name cannot be blank", Snackbar.LENGTH_SHORT).show();
                     }
                 }
             }
