@@ -20,12 +20,14 @@ import android.widget.Toast;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.callbacks.ObjectCallback;
 import com.androidsdk.snaphy.snaphyandroidsdk.list.DataList;
+import com.androidsdk.snaphy.snaphyandroidsdk.models.Book;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Customer;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.News;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Order;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Payment;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Post;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
+import com.androidsdk.snaphy.snaphyandroidsdk.repository.BookRepository;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.CustomerRepository;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.PaymentRepository;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.PostRepository;
@@ -353,6 +355,41 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
     }
 
 
+    public void fetchBookFromId(String id){
+        BookRepository bookRepository = snaphyHelper.getLoopBackAdapter().createRepository(BookRepository.class);
+        HashMap<String, Object> filter = new HashMap<>();
+        bookRepository.findById(id, filter, new ObjectCallback<Book>() {
+            @Override
+            public void onBefore() {
+                super.onBefore();
+                startProgressBar(progressBar);
+            }
+
+            @Override
+            public void onSuccess(Book object) {
+                super.onSuccess(object);
+                if(object != null) {
+                    Presenter.getInstance().addModel(Constants.BOOK_DESCRIPTION_ID,object);
+                    mainActivity.replaceFragment(R.layout.fragment_book_description, null);
+                }
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                super.onError(t);
+                Log.e(Constants.TAG, t.toString());
+                TastyToast.makeText(getApplicationContext(), Constants.NETWORK_ERROR, TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+            }
+
+            @Override
+            public void onFinally() {
+                super.onFinally();
+                stopProgressBar(progressBar);
+            }
+        });
+    }
+
+
     public void fetchCaseFromId(String id) {
         PostRepository postRepository = snaphyHelper.getLoopBackAdapter().createRepository(PostRepository.class);
         postRepository.fetchPostById(id, new ObjectCallback<Post>() {
@@ -530,9 +567,11 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
     private void openCaseDetailFragmentAsParent(FragmentTransaction fragmentTransaction) {
         CaseDetailFragment caseDetailFragment = (CaseDetailFragment) getSupportFragmentManager().
                 findFragmentByTag(CaseDetailFragment.TAG);
+
         if (caseDetailFragment == null) {
             caseDetailFragment = CaseDetailFragment.newInstance();
         }
+
         Bundle bundle = new Bundle();
         int pos = -1;
         bundle.putInt("position", pos);
@@ -648,10 +687,13 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         if (caseDetailFragment == null) {
             caseDetailFragment = CaseDetailFragment.newInstance();
         }
+
         Bundle bundle = new Bundle();
         int pos = (int) position;
         bundle.putInt("position", pos);
         caseDetailFragment.setArguments(bundle);
+
+
         fragmentTransaction.replace(R.id.main_container, caseDetailFragment, CaseDetailFragment.TAG).addToBackStack(CaseDetailFragment.TAG);
         fragmentTransaction.commitAllowingStateLoss();
     }

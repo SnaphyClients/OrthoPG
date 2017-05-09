@@ -173,13 +173,11 @@ public class CaseFragment extends android.support.v4.app.Fragment {
                 if(type.equals("case")) {
                     mainActivity.fetchCaseFromId(id);
                 } else if(type.equals("book")) {
-
+                    mainActivity.fetchBookFromId(id);
                 }
             } catch (Exception e) {
                 // Do NOTHING
             }
-
-
 
             //After load..remove data from list..
             Presenter.getInstance().removeModelFromList(Constants.BRANCH_IO_INSTANCE);
