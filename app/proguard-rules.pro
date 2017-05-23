@@ -43,6 +43,7 @@
 -dontwarn javax.annotation.**
 -dontwarn javax.inject.**
 -dontwarn sun.misc.Unsafe
+-dontwarn okio.**
 
 
 -keep public class com.clevertap.android.* { public *;}

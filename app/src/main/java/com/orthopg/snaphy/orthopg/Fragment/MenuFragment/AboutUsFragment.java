@@ -74,12 +74,15 @@ public class AboutUsFragment extends android.support.v4.app.Fragment {
 
     public void setAboutUsText() {
         companyInfoRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(CompanyInfoRepository.class);
+
         Map<String, Object> filter = new HashMap<>();
         Map<String, String> where = new HashMap<>();
+
         where.put("type","aboutus");
         filter.put("where", where);
 
         companyInfoRepository.find(filter, new DataListCallback<CompanyInfo>() {
+
             @Override
             public void onBefore() {
                 super.onBefore();

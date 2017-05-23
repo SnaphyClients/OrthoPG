@@ -71,7 +71,6 @@ public class NewsPresenter {
             @Override
             public void onSuccess(DataList<News> objects) {
                 if(objects != null){
-
                     for(News news : objects){
                         if(news!=null){
                             saveNewsData(news);

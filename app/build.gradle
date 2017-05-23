@@ -31,13 +31,13 @@ android {
         applicationId "com.orthopg.snaphy.orthopg"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 6
-        versionName "1.5"
+        versionCode 8
+        versionName "1.6"
         multiDexEnabled true
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

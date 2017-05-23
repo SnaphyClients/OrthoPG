@@ -149,6 +149,9 @@ public class NewsFragment extends android.support.v4.app.Fragment {
         newsPresenter.fetchNews(true);
     }
 
+
+
+
     public void recyclerViewLoadMoreEventData() {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
