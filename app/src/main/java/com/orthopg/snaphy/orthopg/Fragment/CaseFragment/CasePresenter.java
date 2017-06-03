@@ -46,6 +46,7 @@ public class CasePresenter {
     MainActivity mainActivity;
     TextView noCasePresentText;
     String localOrderBy = "datetime(added) DESC";
+    String localOrderByASC = "datetime(added) ASC";
 
 
     public CasePresenter(RestAdapter restAdapter, CircleProgressBar progressBar, MainActivity mainActivity, TextView noCasePresentText){
@@ -591,27 +592,58 @@ public class CasePresenter {
                     HashMap<String, Object> localFlagQuery = new HashMap<String, Object>();
                     localFlagQuery.put(listType, listType);
                     //Display offline data ..here..
-                    if (postRepository.getDb().count__db(localFlagQuery, localOrderBy, 50) > 0) {
-                    //if (postRepository.getDb().count__db() > 0) {
-                        DataList<Post> posts = postRepository.getDb().getAll__db(localFlagQuery, localOrderBy, 50);
-                        //DataList<Post> posts = postRepository.getDb().getAll__db();
-                        for(Post post: posts){
-                            if(post != null){
-                                if(post.getPostDetails() != null){
-                                    list.getPostDetails().add(post.getPostDetails());
+
+                    if(listType.equals(Constants.LATEST)) {
+
+                        if (postRepository.getDb().count__db(localFlagQuery, localOrderByASC, 50) > 0) {
+                            //if (postRepository.getDb().count__db() > 0) {
+                            DataList<Post> posts = postRepository.getDb().getAll__db(localFlagQuery, localOrderByASC, 50);
+                            //DataList<Post> posts = postRepository.getDb().getAll__db();
+                            for (Post post : posts) {
+                                if (post != null) {
+                                    if (post.getPostDetails() != null) {
+                                        list.getPostDetails().add(post.getPostDetails());
+                                    }
+                                }
+                            }
+                        }
+
+                    } else {
+                        if (postRepository.getDb().count__db(localFlagQuery, localOrderBy, 50) > 0) {
+                            //if (postRepository.getDb().count__db() > 0) {
+                            DataList<Post> posts = postRepository.getDb().getAll__db(localFlagQuery, localOrderBy, 50);
+                            //DataList<Post> posts = postRepository.getDb().getAll__db();
+                            for (Post post : posts) {
+                                if (post != null) {
+                                    if (post.getPostDetails() != null) {
+                                        list.getPostDetails().add(post.getPostDetails());
+                                    }
                                 }
                             }
                         }
                     }
+
                 }
             }else{
                 if (list.getPostDataList().size() == 0) {
                     HashMap<String, Object> localFlagQuery = new HashMap<String, Object>();
                     localFlagQuery.put(listType, listType);
                     //Display offline data ..here..
-                    if (postRepository.getDb().count__db(localFlagQuery, localOrderBy, 50) > 0) {
-                    //if(postRepository.getDb().count__db()>0){
-                        list.getPostDataList().addAll(postRepository.getDb().getAll__db(localFlagQuery, localOrderBy, 50));
+
+                    if(listType.equals(Constants.LATEST)) {
+
+                        if (postRepository.getDb().count__db(localFlagQuery, localOrderByASC, 50) > 0) {
+                            //if(postRepository.getDb().count__db()>0){
+                            list.getPostDataList().addAll(postRepository.getDb().getAll__db(localFlagQuery, localOrderByASC, 50));
+                        }
+
+                    } else {
+
+                        if (postRepository.getDb().count__db(localFlagQuery, localOrderBy, 50) > 0) {
+                            //if(postRepository.getDb().count__db()>0){
+                            list.getPostDataList().addAll(postRepository.getDb().getAll__db(localFlagQuery, localOrderBy, 50));
+                        }
+
                     }
                 }
             }
