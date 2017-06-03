@@ -193,7 +193,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
 
     }
 
-    public void showMCIDialog() {
+    /*public void showMCIDialog() {
 
         final Dialog dialog = new Dialog(mainActivity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -224,9 +224,9 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
                 loginCustomer.save(new com.strongloop.android.loopback.callbacks.VoidCallback() {
                     @Override
                     public void onSuccess() {
-/*
+*//*
                         TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
-*/
+*//*
                     }
 
                     @Override
@@ -240,7 +240,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
         });
         dialog.show();
         dialog.getWindow().setAttributes(lp);
-    }
+    }*/
 
 
 

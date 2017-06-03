@@ -431,17 +431,20 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
             Button edit = (Button) dialog.findViewById(R.id.dialog_edit_profile_button1);
             header.setText("CITY");
             editText.setHint("Edit City");
-
+            editText.setText(currentWorkingTxt.getText().toString());
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(editText.getText().toString().isEmpty()) {
                         Snackbar.make(editText, "City cannot be blank", Snackbar.LENGTH_SHORT).show();
-                    } else {
-                        updateCurrentWorkingData(editText.getText().toString());
-                        currentWorkingTxt.setText(editText.getText().toString());
                     }
-                    dialog.dismiss();
+                    else  {
+                        updateCurrentWorkingData(editText.getText().toString());
+                        currentWorkingTxt.setVisibility(View.VISIBLE);
+                        currentWorkingTxt.setText(editText.getText().toString());
+                        dialog.dismiss();
+                    }
+
                 }
             });
             dialog.show();
@@ -474,6 +477,7 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
                         Snackbar.make(editText, "City cannot be blank", Snackbar.LENGTH_SHORT).show();
                     } else {
                         updateCurrentWorkingData(editText.getText().toString());
+                        currentWorkingTxt.setVisibility(View.VISIBLE);
                         currentWorkingTxt.setText(editText.getText().toString());
                         dialog.dismiss();
                     }
@@ -490,7 +494,7 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
         } else {
             final Dialog dialog = new Dialog(mainActivity);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setContentView(R.layout.dialog_edit_profile);
+            dialog.setContentView(R.layout.dialog_add_mci);
 
             WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
             lp.copyFrom(dialog.getWindow().getAttributes());
@@ -506,9 +510,10 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
                 @Override
                 public void onClick(View v) {
                     if(editText.getText().toString().isEmpty()) {
-                        Snackbar.make(editText, "City cannot be blank", Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(editText, "MCI cannot be blank", Snackbar.LENGTH_SHORT).show();
                     } else {
                         updateMCINumberData(editText.getText().toString());
+                        mciNumberTxt.setVisibility(View.VISIBLE);
                         mciNumberTxt.setText(editText.getText().toString());
                         dialog.dismiss();
                     }
@@ -542,14 +547,6 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
     }
 
 
-   /* @OnClick(R.id.fragment_profile_imageview3) void onMCIEdit(){
-        if(!mainActivity.snaphyHelper.isNetworkAvailable()){
-            Snackbar.make(profileImage,"No Network Connection! Check Internet Connection and try again", Snackbar.LENGTH_SHORT).show();
-        } else {
-            mainActivity.replaceFragment(R.layout.fragment_edit_profile, MCINUMBER_TAG);
-        }
-    }*/
-
     @OnClick(R.id.fragment_profile_imageview4) void onWorkExperienceEdit(){
         if(!mainActivity.snaphyHelper.isNetworkAvailable()){
             Snackbar.make(profileImage,"No Network Connection! Check Internet Connection and try again", Snackbar.LENGTH_SHORT).show();
@@ -563,7 +560,7 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
             lp.width = WindowManager.LayoutParams.MATCH_PARENT;
             lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
-            TextView header = (TextView)dialog.findViewById(R.id.dialog_edit_work_textview1);
+            final TextView header = (TextView)dialog.findViewById(R.id.dialog_edit_work_textview1);
             final TextView editText = (EditText)dialog.findViewById(R.id.dialog_edit_work_editText1);
             Button edit = (Button)dialog.findViewById(R.id.dialog_edit_work_button1);
             header.setText("WORK EXPERIENCE");
@@ -571,17 +568,21 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int workExperience = Integer.parseInt(editText.getText().toString());
-                    if(editText.getText().toString().isEmpty()) {
-                        Snackbar.make(profileImage,"Work Experience cannot be empty", Snackbar.LENGTH_SHORT).show();
-                    } else if(workExperience > 99 || workExperience < 0) {
-                        Snackbar.make(profileImage,"Invalid work experience", Snackbar.LENGTH_SHORT).show();
+                    if(!editText.getText().toString().isEmpty()) {
+                        int workExperience = Integer.parseInt(editText.getText().toString());
+                        if (editText.getText().toString().isEmpty()) {
+                            Snackbar.make(profileImage, "Work Experience cannot be empty", Snackbar.LENGTH_SHORT).show();
+                        } else if (workExperience > 99 || workExperience < 0) {
+                            Snackbar.make(profileImage, "Invalid work experience", Snackbar.LENGTH_SHORT).show();
+                        } else {
+                            updateWorkExperienceData(editText.getText().toString());
+                            workExperinceTxt.setText(editText.getText().toString());
+                        }
+                        dialog.dismiss();
+                    } else {
+                        Snackbar.make(editText, "Work Experience cannot be blank", Snackbar.LENGTH_SHORT).show();
                     }
-                    else {
-                        updateWorkExperienceData(editText.getText().toString());
-                        workExperinceTxt.setText(editText.getText().toString());
-                    }
-                    dialog.dismiss();
+
                 }
             });
             dialog.show();

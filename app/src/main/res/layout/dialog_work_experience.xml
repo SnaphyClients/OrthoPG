@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/dialog_edit_work_editText1"
-            android:hint="Edit City"
+            android:hint="Edit Work Experience"
             android:layout_marginLeft="20dp"
             android:layout_centerVertical="true"
             android:inputType="number"
