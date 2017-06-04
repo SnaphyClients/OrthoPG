@@ -540,7 +540,9 @@ public class CasePresenter {
                             if (postDetail != null) {
                                 if (postDetail.getPost() != null) {
                                     postDetail.getPost().addRelation(postDetail);
-                                    savePostData(postDetail.getPost(), listType);
+                                    Post post = postDetail.getPost();
+                                    post.setAdded(postDetail.getAdded());
+                                    savePostData(post, listType);
                                 }
                             }
 

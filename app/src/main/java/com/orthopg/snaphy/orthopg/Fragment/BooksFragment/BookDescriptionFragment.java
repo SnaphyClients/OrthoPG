@@ -452,7 +452,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
 
 
     private class DownloadSampleFile extends AsyncTask<String, Boolean, Boolean> {
-
+        File epubFile;
         @Override
         protected Boolean doInBackground(String... strings) {
             String fileUrl = strings[0];   // -> http://maven.apache.org/maven-1.x/maven.pdf
@@ -461,7 +461,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
             File folder = new File(extStorageDirectory, "OrthoPg");
             folder.mkdir();
 
-            File epubFile = new File(folder, fileName);
+            epubFile = new File(folder, fileName);
 
             try {
                 epubFile.createNewFile();
@@ -497,6 +497,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
                     @Override
                     public void onClick(View v) {
                         // RETRY DOWNLOADING
+                        epubFile.delete();
                         new DownloadSampleFile().execute(bookUnsignedUrl, bookName + "_sample.epub");
                     }
                 })
