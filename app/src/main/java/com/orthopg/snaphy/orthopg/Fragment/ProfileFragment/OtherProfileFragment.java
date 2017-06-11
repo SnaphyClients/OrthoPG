@@ -504,13 +504,13 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
             TextView header = (TextView) dialog.findViewById(R.id.dialog_edit_profile_textview1);
             final TextView editText = (EditText) dialog.findViewById(R.id.dialog_edit_profile_editText1);
             Button edit = (Button) dialog.findViewById(R.id.dialog_edit_profile_button1);
-            header.setText("MCI NUMBER");
+            header.setText("REGISTRATION NUMBER");
             editText.setText(mciNumberTxt.getText().toString());
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(editText.getText().toString().isEmpty()) {
-                        Snackbar.make(editText, "MCI cannot be blank", Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(editText, "REGISTRATION cannot be blank", Snackbar.LENGTH_SHORT).show();
                     } else {
                         updateMCINumberData(editText.getText().toString());
                         mciNumberTxt.setVisibility(View.VISIBLE);
