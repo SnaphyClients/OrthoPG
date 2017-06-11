@@ -597,9 +597,9 @@ public class CasePresenter {
 
                     if(listType.equals(Constants.LATEST)) {
 
-                        if (postRepository.getDb().count__db(localFlagQuery, localOrderByASC, 50) > 0) {
+                        if (postRepository.getDb().count__db(localFlagQuery, localOrderBy, 50) > 0) {
                             //if (postRepository.getDb().count__db() > 0) {
-                            DataList<Post> posts = postRepository.getDb().getAll__db(localFlagQuery, localOrderByASC, 50);
+                            DataList<Post> posts = postRepository.getDb().getAll__db(localFlagQuery, localOrderBy, 50);
                             //DataList<Post> posts = postRepository.getDb().getAll__db();
                             for (Post post : posts) {
                                 if (post != null) {
@@ -634,9 +634,9 @@ public class CasePresenter {
 
                     if(listType.equals(Constants.LATEST)) {
 
-                        if (postRepository.getDb().count__db(localFlagQuery, localOrderByASC, 50) > 0) {
+                        if (postRepository.getDb().count__db(localFlagQuery, localOrderBy, 50) > 0) {
                             //if(postRepository.getDb().count__db()>0){
-                            list.getPostDataList().addAll(postRepository.getDb().getAll__db(localFlagQuery, localOrderByASC, 50));
+                            list.getPostDataList().addAll(postRepository.getDb().getAll__db(localFlagQuery, localOrderBy, 50));
                         }
 
                     } else {
@@ -653,5 +653,8 @@ public class CasePresenter {
 
         }
     }
+
+
+
 
 }

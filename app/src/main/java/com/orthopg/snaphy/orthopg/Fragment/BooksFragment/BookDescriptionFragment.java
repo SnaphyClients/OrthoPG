@@ -211,7 +211,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
         Book book = Presenter.getInstance().getModel(Book.class, Constants.BOOK_DESCRIPTION_ID);
         if(book!=null){
             bookName = book.getTitle();
-            File sampleEpubFile = new File(Environment.getExternalStorageDirectory() + "/OrthoPg/" + bookName + "_sample.epub");
+            File sampleEpubFile = new File(Environment.getExternalStorageDirectory() + "/OrthoPg/" + bookName + ".epub");
             if(sampleEpubFile.exists()){
                 downloadSample.setText("View Sample");
             }else{
@@ -419,7 +419,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
             }else{
                 Intent intent = new Intent(mainActivity, FolioActivity.class);
                 intent.putExtra(FolioActivity.INTENT_EPUB_SOURCE_TYPE, FolioActivity.EpubSourceType.SD_CARD);
-                intent.putExtra(FolioActivity.INTENT_EPUB_SOURCE_PATH,  Environment.getExternalStorageDirectory() + "/OrthoPg/" + bookName + "_sample.epub");
+                intent.putExtra(FolioActivity.INTENT_EPUB_SOURCE_PATH,  Environment.getExternalStorageDirectory() + "/OrthoPg/" + bookName + ".epub");
                 startActivity(intent);
             }
         }
@@ -433,7 +433,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
                     Map<String, Object> bookHashMap = (Map<String, Object>) book.getUploadSampleBook().get("url");
                     if (bookHashMap != null) {
                         bookUnsignedUrl = (String) bookHashMap.get("unSignedUrl");
-                        new DownloadSampleFile().execute(bookUnsignedUrl, bookName + "_sample.epub");
+                        new DownloadSampleFile().execute(bookUnsignedUrl, bookName + ".epub");
                     }
                 }
             }
@@ -487,7 +487,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
                 downloadSample.setText("View Sample");
                 Intent intent = new Intent(mainActivity, FolioActivity.class);
                 intent.putExtra(FolioActivity.INTENT_EPUB_SOURCE_TYPE, FolioActivity.EpubSourceType.SD_CARD);
-                intent.putExtra(FolioActivity.INTENT_EPUB_SOURCE_PATH, Environment.getExternalStorageDirectory() + "/OrthoPg/" + bookName + "_sample.epub");
+                intent.putExtra(FolioActivity.INTENT_EPUB_SOURCE_PATH, Environment.getExternalStorageDirectory() + "/OrthoPg/" + bookName + ".epub");
                 startActivity(intent);
 
             } else {
@@ -498,7 +498,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
                     public void onClick(View v) {
                         // RETRY DOWNLOADING
                         epubFile.delete();
-                        new DownloadSampleFile().execute(bookUnsignedUrl, bookName + "_sample.epub");
+                        new DownloadSampleFile().execute(bookUnsignedUrl, bookName + ".epub");
                     }
                 })
                         .show();

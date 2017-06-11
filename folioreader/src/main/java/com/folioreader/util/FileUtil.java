@@ -53,7 +53,7 @@ public class FileUtil {
             }
             return book;
         } catch (Exception e) {
-            Log.d(TAG, e.getMessage());
+            /*Log.d(TAG, e.getMessage());*/
         }
         return book;
     }

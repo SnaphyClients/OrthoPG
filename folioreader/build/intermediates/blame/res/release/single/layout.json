@@ -224,12 +224,12 @@
         "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout\\abc_action_bar_view_list_nav_layout.xml"
     },
     {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\layout\\fragment_highlight_list.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\layout\\fragment_highlight_list.xml"
-    },
-    {
         "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\layout\\notification_template_lines_media.xml",
         "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout\\notification_template_lines_media.xml"
+    },
+    {
+        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\layout\\fragment_highlight_list.xml",
+        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\layout\\fragment_highlight_list.xml"
     },
     {
         "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\layout\\abc_search_view.xml",
