@@ -78,6 +78,11 @@ public class PostDetailDb{
                         values.put("`totalLike`", totalLikeData);
                                   
                                 
+                                                            double totalAnswerData;
+                        totalAnswerData = (double)modelData.getTotalAnswer();
+                        values.put("`totalAnswer`", totalAnswerData);
+                                  
+                                
                                                             int hasAcceptedAnswerData = 0;
                         if(modelData.getHasAcceptedAnswer()){
                           hasAcceptedAnswerData = 1;
@@ -254,8 +259,16 @@ public class PostDetailDb{
 
                                                 
                                 
+                                                            double totalAnswerData = (double)0;
+                          totalAnswerData = cursor.getInt(1);
+                          totalAnswerData = (double)totalAnswerData;
+                          hashMap.put("totalAnswer", totalAnswerData);
+
+
+                                                
+                                
                                                             boolean hasAcceptedAnswerData = false;
-                        int temphasAcceptedAnswerData = cursor.getInt(1);
+                        int temphasAcceptedAnswerData = cursor.getInt(2);
                         if( temphasAcceptedAnswerData > 0){
                           hasAcceptedAnswerData = true;
                         }else{
@@ -265,7 +278,7 @@ public class PostDetailDb{
                                                 
                                 
                                                             double totalSaveData = (double)0;
-                          totalSaveData = cursor.getInt(2);
+                          totalSaveData = cursor.getInt(3);
                           totalSaveData = (double)totalSaveData;
                           hashMap.put("totalSave", totalSaveData);
 
@@ -273,8 +286,8 @@ public class PostDetailDb{
                                                 
                                 
                                                             String addedData = "";
-                        if(cursor.getString(3) != null){
-                          addedData = cursor.getString(3);
+                        if(cursor.getString(4) != null){
+                          addedData = cursor.getString(4);
                           if(addedData != null){
                             addedData = (String)addedData;
                             hashMap.put("added", addedData);
@@ -283,8 +296,8 @@ public class PostDetailDb{
                                                 
                                 
                                                             String updatedData = "";
-                        if(cursor.getString(4) != null){
-                          updatedData = cursor.getString(4);
+                        if(cursor.getString(5) != null){
+                          updatedData = cursor.getString(5);
                           if(updatedData != null){
                             updatedData = (String)updatedData;
                             hashMap.put("updated", updatedData);
@@ -293,8 +306,8 @@ public class PostDetailDb{
                                                 
                                 
                                                             String typeData = "";
-                        if(cursor.getString(5) != null){
-                          typeData = cursor.getString(5);
+                        if(cursor.getString(6) != null){
+                          typeData = cursor.getString(6);
                           if(typeData != null){
                             typeData = (String)typeData;
                             hashMap.put("type", typeData);
@@ -303,8 +316,8 @@ public class PostDetailDb{
                                                 
                                 
                                                             String statusData = "";
-                        if(cursor.getString(6) != null){
-                          statusData = cursor.getString(6);
+                        if(cursor.getString(7) != null){
+                          statusData = cursor.getString(7);
                           if(statusData != null){
                             statusData = (String)statusData;
                             hashMap.put("status", statusData);
@@ -313,8 +326,8 @@ public class PostDetailDb{
                                                 
                                 
                                                             String idData = "";
-                        if(cursor.getString(7) != null){
-                          idData = cursor.getString(7);
+                        if(cursor.getString(8) != null){
+                          idData = cursor.getString(8);
                           if(idData != null){
                             idData = idData.toString();
                             hashMap.put("id", idData);
@@ -323,8 +336,8 @@ public class PostDetailDb{
                                                 
                                 
                                                             String postIdData = "";
-                        if(cursor.getString(8) != null){
-                          postIdData = cursor.getString(8);
+                        if(cursor.getString(9) != null){
+                          postIdData = cursor.getString(9);
                           if(postIdData != null){
                             postIdData = postIdData.toString();
                             hashMap.put("postId", postIdData);
@@ -333,8 +346,8 @@ public class PostDetailDb{
                                                 
                                 
                                                             String commentIdData = "";
-                        if(cursor.getString(9) != null){
-                          commentIdData = cursor.getString(9);
+                        if(cursor.getString(10) != null){
+                          commentIdData = cursor.getString(10);
                           if(commentIdData != null){
                             commentIdData = commentIdData.toString();
                             hashMap.put("commentId", commentIdData);

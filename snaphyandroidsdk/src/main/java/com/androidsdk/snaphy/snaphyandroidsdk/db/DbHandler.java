@@ -13,7 +13,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DbHandler extends SQLiteOpenHelper {
         private static DbHandler sInstance;
         // Database Version
-        private static final int DATABASE_VERSION = 1;
+        private static final int DATABASE_VERSION = 2;
         public static synchronized DbHandler getInstance(Context context, String DATABASE_NAME){
             // Use the application context, which will ensure that you don't accidentally leak an Activity's context.
             if (sInstance == null) {
@@ -123,11 +123,11 @@ public class DbHandler extends SQLiteOpenHelper {
                         db.execSQL(CREATE_Post_TABLE_22);
 
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
                         
 
                         
-                        String CREATE_PostDetail_TABLE_23 = "CREATE TABLE IF NOT EXISTS `PostDetail` (  `totalLike` NUMBER, `hasAcceptedAnswer` NUMBER, `totalSave` NUMBER, `added` TEXT, `updated` TEXT, `type` TEXT, `status` TEXT, `id` TEXT PRIMARY KEY, `postId` TEXT, `commentId` TEXT, _DATA_UPDATED NUMBER )";
+                        String CREATE_PostDetail_TABLE_23 = "CREATE TABLE IF NOT EXISTS `PostDetail` (  `totalLike` NUMBER, `totalAnswer` NUMBER, `hasAcceptedAnswer` NUMBER, `totalSave` NUMBER, `added` TEXT, `updated` TEXT, `type` TEXT, `status` TEXT, `id` TEXT PRIMARY KEY, `postId` TEXT, `commentId` TEXT, _DATA_UPDATED NUMBER )";
                         db.execSQL(CREATE_PostDetail_TABLE_23);
 
 
@@ -195,19 +195,19 @@ public class DbHandler extends SQLiteOpenHelper {
                         db.execSQL(CREATE_PostSubscriber_TABLE_31);
 
 
-                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                    
                         
 
                         
-                        String CREATE_Speciality_TABLE_32 = "CREATE TABLE IF NOT EXISTS `Speciality` (  `name` TEXT, `id` TEXT PRIMARY KEY, _DATA_UPDATED NUMBER )";
+                        String CREATE_Speciality_TABLE_32 = "CREATE TABLE IF NOT EXISTS `Speciality` (  `name` TEXT, `added` TEXT, `id` TEXT PRIMARY KEY, _DATA_UPDATED NUMBER )";
                         db.execSQL(CREATE_Speciality_TABLE_32);
 
 
-                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                    
                         
 
                         
-                        String CREATE_Qualification_TABLE_33 = "CREATE TABLE IF NOT EXISTS `Qualification` (  `name` TEXT, `id` TEXT PRIMARY KEY, _DATA_UPDATED NUMBER )";
+                        String CREATE_Qualification_TABLE_33 = "CREATE TABLE IF NOT EXISTS `Qualification` (  `name` TEXT, `added` TEXT, `id` TEXT PRIMARY KEY, _DATA_UPDATED NUMBER )";
                         db.execSQL(CREATE_Qualification_TABLE_33);
 
 

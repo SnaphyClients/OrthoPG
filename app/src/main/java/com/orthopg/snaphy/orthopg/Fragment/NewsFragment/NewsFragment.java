@@ -81,27 +81,29 @@ public class NewsFragment extends android.support.v4.app.Fragment {
         recyclerViewLoadMoreEventData();
 
         final Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
-        if(customer != null){
-            final String MCINumber = customer.getMciNumber() != null ? customer.getMciNumber() : "";
-            recyclerView.addOnItemTouchListener(
-                    new RecyclerItemClickListener(mainActivity, new RecyclerItemClickListener.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(View view, int position) {
-                            News news = newsDataList.get(position);
-                            if(news.getUrl() != null) {
-                                if(!news.getUrl().isEmpty()) {
-                                    if(!MCINumber.isEmpty()) {
-                                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(news.getUrl()));
-                                        startActivity(intent);
-                                    } else {
-                                        TastyToast.makeText(mainActivity.getApplicationContext(), "Verification is under process", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+
+
+        try {
+            if (customer != null) {
+                final String MCINumber = customer.getMciNumber() != null ? customer.getMciNumber() : "";
+                recyclerView.addOnItemTouchListener(
+                        new RecyclerItemClickListener(mainActivity, new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+                                News news = newsDataList.get(position);
+                                if (news.getUrl() != null) {
+                                    if (!news.getUrl().isEmpty()) {
+                                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(news.getUrl()));
+                                            startActivity(intent);
                                     }
                                 }
-                            }
 
-                        }
-                    })
-            );
+                            }
+                        })
+                );
+            }
+        } catch(Exception e) {
+            // DO NOTHING
         }
 
 

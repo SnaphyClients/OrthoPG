@@ -153,8 +153,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
             TextView selectedAnswer = holder.selectedAnswer;
             final TextView numberOfLike = holder.numberOfLikes;
             final TextView numberOfSave = holder.numberOfSave;
-            LinearLayout linearLayout = holder.linearLayout;
-            LinearLayout linearLayout2 = holder.linearLayout2;
+            final TextView numberOfAnswers = holder.numberOfAnswers;
             final LinearLayout likeLinearLayout = holder.likeLinearLayout;
             final LinearLayout saveLinearLayout = holder.saveLinearLayout;
             LinearLayout caseContainer = holder.caseContainer;
@@ -162,6 +161,7 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
             final LinearLayout myAnswerContainer = holder.myAnswerContainer;
             LinearLayout caseNameContainer = holder.caseNameContainer;
             RelativeLayout acceptedContainer = holder.acceptContainer;
+            RelativeLayout numberOfAnswersLayout = holder.numberOfAnswersLayout;
             View view = holder.view;
 
             caseImages.setLayoutManager(new LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false));
@@ -296,14 +296,19 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
             numberOfLike.setText(String.valueOf((int) data.postDetail.getTotalLike()));
             //TOTAL SAVE..
             numberOfSave.setText(String.valueOf((int) data.postDetail.getTotalSave()));
+            // TOTAL ANSWERS
+            numberOfAnswers.setText(String.valueOf((int)data.postDetail.getTotalAnswer()));
 
 
             if (Constants.SELECTED_TAB.equals(Constants.POSTED)) {
                 delete.setVisibility(View.VISIBLE);
                 edit.setVisibility(View.VISIBLE);
+                numberOfAnswersLayout.setVisibility(View.GONE);
             } else {
                 delete.setVisibility(View.GONE);
                 edit.setVisibility(View.GONE);
+                numberOfAnswersLayout.setVisibility(View.VISIBLE);
+
             }
 
             final Customer loginCustomer = Presenter.getInstance().getModel(Customer.class, Constants.LOGIN_CUSTOMER);
@@ -1087,6 +1092,9 @@ public class CaseListAdapter extends RecyclerView.Adapter<CaseListAdapter.ViewHo
         @Bind(R.id.layout_case_list_button1) TextView editButton;
         @Bind(R.id.layout_case_list_textview8) TextView numberOfLikes;
         @Bind(R.id.layout_case_list_textview9) TextView numberOfSave;
+        @Bind(R.id.layout_case_list_textview10) TextView numberOfAnswers;
+        @Bind(R.id.layout_case_list_reltive_layout2) RelativeLayout numberOfAnswersLayout;
+
         @Bind(R.id.layout_case_list_linear_layout) LinearLayout linearLayout;
         @Bind(R.id.layout_case_list_linear_layout2) LinearLayout linearLayout2;
         @Bind(R.id.layout_case_list_linear_layout_like) LinearLayout likeLinearLayout;

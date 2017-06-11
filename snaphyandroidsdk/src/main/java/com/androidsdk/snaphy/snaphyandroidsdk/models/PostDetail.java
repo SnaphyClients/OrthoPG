@@ -98,6 +98,27 @@ public class PostDetail extends Model {
             
 
             
+                private double totalAnswer;
+                /* Adding Getter and Setter methods */
+                public double getTotalAnswer(){
+                    return totalAnswer;
+                }
+
+                /* Adding Getter and Setter methods */
+                public void setTotalAnswer(double totalAnswer){
+                    this.totalAnswer = totalAnswer;
+                    //Update hashMap value..
+                    hashMap.put("totalAnswer", totalAnswer);
+                }
+
+            
+            
+        
+    
+        
+            
+
+            
                 private boolean hasAcceptedAnswer;
                 /* Adding Getter and Setter methods */
                 public boolean getHasAcceptedAnswer(){

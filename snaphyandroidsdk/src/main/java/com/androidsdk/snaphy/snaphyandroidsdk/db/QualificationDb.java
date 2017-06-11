@@ -80,6 +80,13 @@ public class QualificationDb{
                         }
                                   
                                 
+                                                            String addedData = "";
+                        if(modelData.getAdded() != null){
+                          addedData = modelData.getAdded().toString();
+                          values.put("`added`", addedData);
+                        }
+                                  
+                                
                                                             //http://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string
                         String idData = "";
                         try {
@@ -186,9 +193,19 @@ public class QualificationDb{
                         }
                                                 
                                 
-                                                            String idData = "";
+                                                            String addedData = "";
                         if(cursor.getString(1) != null){
-                          idData = cursor.getString(1);
+                          addedData = cursor.getString(1);
+                          if(addedData != null){
+                            addedData = (String)addedData;
+                            hashMap.put("added", addedData);
+                          }
+                        }
+                                                
+                                
+                                                            String idData = "";
+                        if(cursor.getString(2) != null){
+                          idData = cursor.getString(2);
                           if(idData != null){
                             idData = idData.toString();
                             hashMap.put("id", idData);
