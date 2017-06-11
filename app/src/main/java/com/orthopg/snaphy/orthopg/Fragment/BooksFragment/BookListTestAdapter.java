@@ -320,7 +320,6 @@ public class BookListTestAdapter extends RecyclerView.Adapter<BookListTestAdapte
         }
         cos.close();
         // mainActivity.stopProgressBar(mainActivity.progressBar);
-        Toast.makeText(mainActivity,"Decrytption completed",Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(mainActivity, FolioActivity.class);
         intent.putExtra(FolioActivity.INTENT_EPUB_SOURCE_TYPE, FolioActivity.EpubSourceType.SD_CARD);
         intent.putExtra(FolioActivity.INTENT_EPUB_SOURCE_PATH,  Environment.getExternalStorageDirectory() + "/OrthoPg/" + "dec" + bookNameTxt + ".epub");
