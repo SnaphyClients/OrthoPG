@@ -241,8 +241,6 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
                         checkIfBookPresentLocally(book);
                         if(book.getIsEbookAvail().equals("ebook not present")){
                             eBookDownload.setText("Ebook not available");
-                            downloadSample.setVisibility(View.GONE);
-                            downloadSampleText.setVisibility(View.GONE);
                             eBookDownload.setEnabled(false);
                             eBookDownload.setBackgroundColor(Color.parseColor("#777777"));
                         }
@@ -345,12 +343,8 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
                 if(!String.valueOf(book.getEbookPrice()).isEmpty()){
                     if(book.getEbookPrice()==0){
                         eBookDownload.setText("Read Book For Free");
-                        downloadSample.setVisibility(View.GONE);
-                        downloadSampleText.setVisibility(View.GONE);
                     } else if(book.getIsEbookAvail().equals("ebook not present")){
                         eBookDownload.setText("Ebook not available");
-                        downloadSample.setVisibility(View.GONE);
-                        downloadSampleText.setVisibility(View.GONE);
                         eBookDownload.setEnabled(false);
                         eBookDownload.setBackgroundColor(Color.parseColor("#777777"));
                     } else{
@@ -360,13 +354,9 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
                     }
                 } else{
                     eBookDownload.setText("Read Book");
-                    downloadSample.setVisibility(View.GONE);
-                    downloadSampleText.setVisibility(View.GONE);
                 }
             } else{
                 eBookDownload.setText("Read Book");
-                downloadSample.setVisibility(View.GONE);
-                downloadSampleText.setVisibility(View.GONE);
             }
 
             if(String.valueOf(book.getHardCopyPrice())!=null){
