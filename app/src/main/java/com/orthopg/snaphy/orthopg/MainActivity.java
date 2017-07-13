@@ -135,6 +135,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
     Button retryButton;
     MainActivity mainActivity;
     String paymentIdNumber;
+    boolean isBranchIO = false;
     private static final int RC_SIGN_IN = 0;
 
     @Override
@@ -206,6 +207,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         if(data != null){
             try {
                 String link_click_id = (String)data.getQueryParameter("link_click_id");
+                isBranchIO = true;
                 // params are the deep linked params associated with the link that the user clicked before showing up
                 if(link_click_id != null){
                     if(!link_click_id.isEmpty()){
@@ -229,6 +231,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
                                         if(params != null){
                                             Presenter.getInstance().addModel(Constants.BRANCH_IO_INSTANCE, referringParams);
                                         }
+                                        isBranchIO = false;
                                         startApp();
                                     } catch (Exception e) {
                                         Log.e(Constants.TAG, e.toString());
@@ -1170,7 +1173,9 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
                         //Show push message data..
                         parsePushMessage();
                     } else {
-                        replaceFragment(R.layout.fragment_main, null);
+                        if(!isBranchIO) {
+                            replaceFragment(R.layout.fragment_main, null);
+                        }
                     }
                 } else {
                     checkMCI(MCINumber);

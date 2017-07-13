@@ -53,8 +53,7 @@
             android:visibility="gone"
             android:textColor="#777"
             android:layout_below="@+id/fragment_contact_us_help"
-            android:id="@+id/fragment_contact_us_text_view_2"
-            />
+            android:id="@+id/fragment_contact_us_text_view_2" />
 
         <Button
             android:layout_width="wrap_content"
@@ -86,7 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="15dp"
-            android:text="Call us at"
+            android:text="Mail us at"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="#777"
@@ -97,7 +96,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:text="Contact us"
+            android:text="Email us"
             android:layout_below="@+id/fragment_contact_us_text_view_3"
             android:layout_centerHorizontal="true"
             android:background="@drawable/curved_rectangle"

@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
@@ -54,9 +55,15 @@ public class ContactUsFragment extends android.support.v4.app.Fragment {
     }
 
     @OnClick( R.id.fragment_contact_us_button2) void contactButton() {
-        Intent callIntent = new Intent(Intent.ACTION_DIAL);
-        callIntent.setData(Uri.parse(Constants.APP_PHONE));
-        startActivity(callIntent);
+        Intent sendIntent = new Intent(Intent.ACTION_SEND);
+        sendIntent.setType("message/rfc822");
+        sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{Constants.APP_MAIL});
+        try {
+            startActivity(Intent.createChooser(sendIntent, "Send mail..."));
+        } catch(Exception e) {
+            // DO NOTHING
+            Toast.makeText(mainActivity, "There are no email clients installed", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @OnClick (R.id.fragment_contact_us_button1) void emailButton()  {
