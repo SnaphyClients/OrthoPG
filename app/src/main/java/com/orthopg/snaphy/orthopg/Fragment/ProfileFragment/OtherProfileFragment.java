@@ -129,7 +129,8 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
         if(OtherProfileFragment.FROM.equals(CaseFragment.TAG)){
             checkVisiblity();
             Customer customer = Presenter.getInstance().getModel(Customer.class, Constants.CASE_PROFILE_DATA);
-            if(customer!=null){setCustomerProfileData(customer);
+            if(customer!=null){
+                setCustomerProfileData(customer);
             } else{
                 emailTxt.setVisibility(View.GONE);
                 mciNumberTxt.setVisibility(View.GONE);
@@ -165,6 +166,7 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
         qualificationEdit.setVisibility(View.GONE);
         orderListContainer.setVisibility(View.GONE);
         orderHistoryTxt.setVisibility(View.GONE);
+        profileNameTxt.setVisibility(View.GONE);
     }
 
     public void setCustomerProfileData(final Customer customer){

@@ -60,7 +60,7 @@
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
                android:background="@android:color/transparent"
-               android:text="Feedback"
+               android:text="Review us on Google Play"
                android:textAllCaps="false"
                android:gravity="left|center"
                android:textColor="#555"

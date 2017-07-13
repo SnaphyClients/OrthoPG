@@ -129,6 +129,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
     int id = 1;
     private static final int PERMISSION_REQUEST_CODE = 1;
     String bookUnsignedUrl;
+    String bookImageUrl;
 
     public BookDescriptionFragment() {
         // Required empty public constructor
@@ -322,6 +323,15 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
                 bookCover.setVisibility(View.VISIBLE);
                 mainActivity.snaphyHelper.loadUnsignedUrl(book.getBookCover(),bookCover);
                 mainActivity.snaphyHelper.loadUnsignedUrl(book.getBookCover(), bookCover2);
+                if (book.getBookCover().get("url") != null) {
+                    Map<String, Object> bookHashMap = (Map<String, Object>) book.getBookCover().get("url");
+                    if (bookHashMap != null) {
+                        if(bookHashMap.get("unSignedUrl") != null) {
+                            bookImageUrl = (String) bookHashMap.get("unSignedUrl");
+                        }
+
+                    }
+                }
             } else{
                 bookCover.setVisibility(View.GONE);
             }
@@ -763,6 +773,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
                 .setCanonicalIdentifier(bookId)
                 .setTitle(bookName)
                 .setContentDescription(bookDesscription_)
+                .setContentImageUrl(bookImageUrl)
                 .setContentIndexingMode(BranchUniversalObject.CONTENT_INDEX_MODE.PUBLIC)
                 .addContentMetadata("type", "book")
                 .addContentMetadata("id", bookId);

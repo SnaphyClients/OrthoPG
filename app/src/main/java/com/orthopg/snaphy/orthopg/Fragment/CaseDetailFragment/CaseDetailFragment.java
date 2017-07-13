@@ -377,6 +377,12 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
                 imageRecyclerView.setVisibility(View.VISIBLE);
                 caseImageAdapter = new CaseImageAdapter(mainActivity, post.getPostImages());
                 imageRecyclerView.setAdapter(caseImageAdapter);
+                if (post.getPostImages().get(0) != null) {
+                        Map<String, Object> postHashMap = (Map<String, Object>) post.getPostImages().get(0).get("url");
+                        if (postHashMap != null) {
+                            imageUrl = (String) postHashMap.get("unSignedUrl");
+                    }
+                }
             }
         }else{
             imageRecyclerView.setVisibility(View.GONE);
@@ -1046,7 +1052,7 @@ public class CaseDetailFragment extends android.support.v4.app.Fragment {
                     .setCanonicalIdentifier(String.valueOf(post.getId()))
                     .setTitle(post.getHeading())
                     .setContentDescription(post.getDescription())
-                    .setContentImageUrl("")
+                    .setContentImageUrl(imageUrl)
                     .setContentIndexingMode(BranchUniversalObject.CONTENT_INDEX_MODE.PUBLIC)
                     .addContentMetadata("type", "case")
                     .addContentMetadata("id", String.valueOf(post.getId()));
