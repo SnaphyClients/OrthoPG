@@ -137,7 +137,7 @@ public class PayUActivity extends Activity {
 
         paymentParam.setMerchantHash(serverCalculatedHash);
 
-        PayUmoneySdkInitilizer.startPaymentActivityForResult(PayUActivity.this, paymentParam);
+        /*PayUmoneySdkInitilizer.startPaymentActivityForResult(PayUActivity.this, paymentParam);*/
 
     }
 

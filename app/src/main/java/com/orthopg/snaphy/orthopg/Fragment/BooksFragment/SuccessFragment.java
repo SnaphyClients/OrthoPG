@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Book;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Payment;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
+import com.orthopg.snaphy.orthopg.BookPurchaseActivity;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.R;
@@ -19,6 +20,7 @@ import com.orthopg.snaphy.orthopg.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import nl.siegmann.epublib.epub.Main;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,6 +34,7 @@ public class SuccessFragment extends android.support.v4.app.Fragment {
 
     private OnFragmentInteractionListener mListener;
     MainActivity mainActivity;
+    BookPurchaseActivity bookPurchaseActivity;
     public final static String TAG = "SuccessFragment";
     @Bind(R.id.fragment_succes_textview2) TextView txnIdText;
     @Bind(R.id.fragment_succes_textview3) TextView price;
@@ -57,6 +60,7 @@ public class SuccessFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_success, container, false);
         ButterKnife.bind(this, view);
+        mainActivity = Presenter.getInstance().getModel(MainActivity.class, Constants.MAINACTIVITY_INSTANCE);
         setSuccessData();
         return view;
     }
@@ -71,7 +75,7 @@ public class SuccessFragment extends android.support.v4.app.Fragment {
     }
 
     @OnClick(R.id.fragment_success_button1) void goToHome(){
-        mainActivity.getSupportFragmentManager().popBackStack();
+        bookPurchaseActivity.getSupportFragmentManager().popBackStack();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -84,7 +88,7 @@ public class SuccessFragment extends android.support.v4.app.Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mainActivity = (MainActivity)getActivity();
+        bookPurchaseActivity = (BookPurchaseActivity) getActivity();
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {

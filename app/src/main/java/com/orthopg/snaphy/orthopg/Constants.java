@@ -170,6 +170,7 @@ public class Constants {
     public static String LIKE_MESSAGE = "has liked on the post.";
     public static String SAVE_MESSAGE = "has saved on the post.";
     public static String OTP = "Enter OTP first";
+    public static String MAINACTIVITY_INSTANCE = "MAINACTIVITY_INSTANCE";
 
 
     /*--------------------------------------------------------------------------------------------------------*/

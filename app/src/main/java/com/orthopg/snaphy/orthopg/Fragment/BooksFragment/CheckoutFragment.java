@@ -32,6 +32,7 @@ import com.androidsdk.snaphy.snaphyandroidsdk.models.Order;
 import com.androidsdk.snaphy.snaphyandroidsdk.models.Payment;
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.PaymentRepository;
+import com.orthopg.snaphy.orthopg.BookPurchaseActivity;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.MainActivity;
 import com.orthopg.snaphy.orthopg.PayUActivity;
@@ -70,8 +71,10 @@ import static android.content.Context.CONSUMER_IR_SERVICE;
 public class CheckoutFragment extends android.support.v4.app.Fragment {
 
     MainActivity mainActivity;
+    BookPurchaseActivity bookPurchaseActivity;
     private OnFragmentInteractionListener mListener;
     public final static String TAG = "CheckoutFragment";
+    CheckoutFragment checkoutFragment;
     @Bind(R.id.fragment_checkout_textview1) TextView nameTxt;
     @Bind(R.id.fragment_checkout_textview2) TextView mobileTxt;
     @Bind(R.id.fragment_checkout_textview3) TextView pincodeTxt;
@@ -110,6 +113,7 @@ public class CheckoutFragment extends android.support.v4.app.Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mainActivity = Presenter.getInstance().getModel(MainActivity.class, Constants.MAINACTIVITY_INSTANCE);
     }
 
     @Override
@@ -117,13 +121,14 @@ public class CheckoutFragment extends android.support.v4.app.Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_checkout, container, false);
+        checkoutFragment = this;
         ButterKnife.bind(this,view);
         getCustomerData();
         return view;
     }
 
     @OnClick(R.id.fragment_checkout_imageview1) void onBack(){
-        mainActivity.onBackPressed();
+        bookPurchaseActivity.onBackPressed();
     }
 
     @OnClick(R.id.fragment_checkout_button1) void onPay(){
@@ -234,8 +239,16 @@ public class CheckoutFragment extends android.support.v4.app.Fragment {
 
         paymentParam.setMerchantHash(serverCalculatedHash);
         //dummyVerifyPaymentFromServer();
-        mainActivity.getSupportFragmentManager().popBackStack();
-        PayUmoneySdkInitilizer.startPaymentActivityForResult(mainActivity, paymentParam);
+        bookPurchaseActivity.getSupportFragmentManager().popBackStack();
+        PayUmoneySdkInitilizer.startPaymentActivityForResult( bookPurchaseActivity, paymentParam);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PayUmoneySdkInitilizer.PAYU_SDK_PAYMENT_REQUEST_CODE) {
+            paymentIdNumber = data.getStringExtra(SdkConstants.PAYMENT_ID);
+            verifyPaymentFromServer(requestCode);
+        }
     }
 
 
@@ -276,38 +289,6 @@ public class CheckoutFragment extends android.support.v4.app.Fragment {
             }
         });
     }
-
-   /* public void dummyVerifyPaymentFromServer(){
-        Payment payment = Presenter.getInstance().getModel(Payment.class, Constants.PAYMENT_MODEL_DATA);
-        String paymentId = payment.getId().toString();
-        PaymentRepository paymentRepository = mainActivity.snaphyHelper.getLoopBackAdapter().createRepository(PaymentRepository.class);
-        paymentRepository.getPaymentStatus(new HashMap<String, Object>(), "nm123", paymentId, new ObjectCallback<Order>() {
-            @Override
-            public void onBefore() {
-                super.onBefore();
-                mainActivity.startProgressBar(mainActivity.progressBar);
-            }
-
-            @Override
-            public void onSuccess(Order object) {
-                super.onSuccess(object);
-                mainActivity.replaceFragment(R.layout.fragment_success, null);
-
-            }
-
-            @Override
-            public void onError(Throwable t) {
-                super.onError(t);
-                mainActivity.replaceFragment(R.layout.fragment_failure, null);
-            }
-
-            @Override
-            public void onFinally() {
-                super.onFinally();
-                mainActivity.stopProgressBar(mainActivity.progressBar);
-            }
-        });
-    }*/
 
     private void showDialogMessage(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
@@ -385,7 +366,7 @@ public class CheckoutFragment extends android.support.v4.app.Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mainActivity = (MainActivity)getActivity();
+        bookPurchaseActivity = (BookPurchaseActivity) getActivity();
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {

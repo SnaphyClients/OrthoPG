@@ -13,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,9 +58,8 @@ public class CaseUploadImageFragment extends android.support.v4.app.Fragment {
     MainActivity mainActivity;
     @Bind(R.id.fragment_case_upload_image_recycler_view)
     RecyclerView recyclerView;
-    Uri globalUri;
     CaseUploadImageFragmentAdapter caseUploadImageFragmentAdapter;
-    CaseUploadImageFragment that;
+    public static CaseUploadImageFragment that;
     final int CROP_PIC = 2;
     Context context;
     //http://stackoverflow.com/questions/15807766/android-crop-image-size
@@ -216,8 +216,8 @@ public class CaseUploadImageFragment extends android.support.v4.app.Fragment {
                     }
             } else {
                 TrackImage trackImage = new TrackImage();
-                if (globalUri != null) {
-                    trackImage.setUri(globalUri);
+                if (mainActivity.globalUri != null) {
+                    trackImage.setUri(mainActivity.globalUri);
                     trackImage.setDownloaded(false);
                     //Add to list....
                     Presenter.getInstance().getModel(NewCase.class, Constants.ADD_NEW_CASE).getTrackImages().add(trackImage);
@@ -228,6 +228,7 @@ public class CaseUploadImageFragment extends android.support.v4.app.Fragment {
             EasyImage.handleActivityResult(requestCode, resultCode, data, mainActivity, new DefaultCallback() {
                 @Override
                 public void onImagePickerError(Exception e, EasyImage.ImageSource source) {
+                    Log.v(Constants.TAG, e.toString());
                     //Some error handling
                 }
 
@@ -236,7 +237,7 @@ public class CaseUploadImageFragment extends android.support.v4.app.Fragment {
                     //Handle the image
                     final Uri uri = Uri.fromFile(imageFile);
                     //Add a global instance of global uri..
-                    globalUri = uri;
+                    mainActivity.globalUri = uri;
                     // for fragment (DO NOT use `getActivity()`)
                     CropImage.activity(uri)
                             .start(getContext(), that);
@@ -258,38 +259,6 @@ public class CaseUploadImageFragment extends android.support.v4.app.Fragment {
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
-    }
-
-    /**
-     * this function does the crop operation.
-     */
-    private void performCrop(Uri uri) {
-        // take care of exceptions
-        try {
-            // call the standard crop action intent (the user device may not
-            // support it)
-            Intent cropIntent = new Intent("com.android.camera.action.CROP");
-            // indicate image type and Uri
-            cropIntent.setDataAndType(uri, "image/*");
-            // set crop properties
-            cropIntent.putExtra("crop", "true");
-            // indicate aspect of desired crop
-            cropIntent.putExtra("aspectX", 4);
-            cropIntent.putExtra("aspectY", 3);
-            // indicate output X and Y
-            cropIntent.putExtra("outputX", 500);
-            cropIntent.putExtra("outputY", 500);
-            // retrieve data on return
-            cropIntent.putExtra("return-data", true);
-            // start the activity - we handle returning in onActivityResult
-            startActivityForResult(cropIntent, CROP_PIC);
-        }
-        // respond to users whose devices do not support the crop action
-        catch (ActivityNotFoundException anfe) {
-            Toast toast = Toast
-                    .makeText(mainActivity, "This device doesn't support the crop action!", Toast.LENGTH_SHORT);
-            toast.show();
-        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

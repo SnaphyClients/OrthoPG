@@ -44,6 +44,7 @@ import com.androidsdk.snaphy.snaphyandroidsdk.repository.BookDetailRepository;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.BookRepository;
 import com.androidsdk.snaphy.snaphyandroidsdk.repository.PaymentRepository;
 import com.folioreader.activity.FolioActivity;
+import com.orthopg.snaphy.orthopg.BookPurchaseActivity;
 import com.orthopg.snaphy.orthopg.Constants;
 import com.orthopg.snaphy.orthopg.Fragment.ProfileFragment.ProfileFragment;
 import com.orthopg.snaphy.orthopg.MainActivity;
@@ -445,7 +446,9 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
             Snackbar.make(hardCopyDownload,"No Network Connection! Check Internet Connection and try again", Snackbar.LENGTH_SHORT).show();
         } else {
             Presenter.getInstance().addModel(Constants.BOOK_TYPE, Constants.HARDCOPY_BOOK_TYPE);
-            mainActivity.replaceFragment(R.layout.fragment_checkout, null);
+            //mainActivity.replaceFragment(R.layout.fragment_checkout, null);
+            Intent i = new Intent(mainActivity, BookPurchaseActivity.class);
+            startActivity(i);
             Presenter.getInstance().addModel(Constants.BOOK_TYPE, Constants.HARDCOPY_BOOK_TYPE);
         }
     }
@@ -706,7 +709,9 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
                 downloadBook();
             } else{
                 Presenter.getInstance().addModel(Constants.BOOK_TYPE, Constants.EBOOK_BOOK_TYPE);
-                mainActivity.replaceFragment(R.layout.fragment_checkout, null);
+                /*mainActivity.replaceFragment(R.layout.fragment_checkout, null);*/
+                Intent i = new Intent(mainActivity, BookPurchaseActivity.class);
+                startActivity(i);
             }
         } else{
             Snackbar.make(eBookDownload,"No Network Connection! Check Internet Connection and try again", Snackbar.LENGTH_SHORT).show();

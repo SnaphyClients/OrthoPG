@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -43,6 +44,8 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
+import com.orthopg.snaphy.orthopg.CustomModel.NewCase;
+import com.orthopg.snaphy.orthopg.CustomModel.TrackImage;
 import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.BookDescriptionFragment;
 import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.BookTestFragment;
 import com.orthopg.snaphy.orthopg.Fragment.BooksFragment.BooksFragment;
@@ -86,6 +89,7 @@ import com.strongloop.android.loopback.AccessTokenRepository;
 import com.strongloop.android.loopback.LocalInstallation;
 import com.strongloop.android.loopback.RestAdapter;
 import com.strongloop.android.remoting.JsonUtil;
+import com.theartofdev.edmodo.cropper.CropImage;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -95,6 +99,7 @@ import org.joda.time.format.ISODateTimeFormat;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -105,6 +110,8 @@ import butterknife.OnClick;
 import io.branch.referral.Branch;
 import io.branch.referral.BranchError;
 import io.fabric.sdk.android.Fabric;
+import pl.aprilapps.easyphotopicker.DefaultCallback;
+import pl.aprilapps.easyphotopicker.EasyImage;
 
 
 public class MainActivity extends AppCompatActivity implements OnFragmentChange, LoginFragment.OnFragmentInteractionListener,
@@ -121,8 +128,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         ViewAllBooksFragment.OnFragmentInteractionListener, BookDescriptionFragment.OnFragmentInteractionListener,
         OtherProfileFragment.OnFragmentInteractionListener, SpecialityFragment.OnFragmentInteractionListener,
         QualificationFragment.OnFragmentInteractionListener, EditProfileFragment.OnFragmentInteractionListener,
-        OrderHistoryFragment.OnFragmentInteractionListener, CheckoutFragment.OnFragmentInteractionListener,
-        SuccessFragment.OnFragmentInteractionListener, FailureFragment.OnFragmentInteractionListener {
+        OrderHistoryFragment.OnFragmentInteractionListener {
 
     RestAdapter restAdapter;
     Context context;
@@ -137,6 +143,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
     String paymentIdNumber;
     boolean isBranchIO = false;
     private static final int RC_SIGN_IN = 0;
+    public Uri globalUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,6 +162,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         retryButton = (Button) findViewById(R.id.activity_main_button1);
         context = getApplicationContext();
         mainActivity = this;
+        Presenter.getInstance().addModel(Constants.MAINACTIVITY_INSTANCE, mainActivity);
         snaphyHelper = new SnaphyHelper(this);
         resetVariables();
         final Handler handler = new Handler();
@@ -538,18 +546,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
             case R.layout.fragment_order_history:
                 openOrderHistory(fragmentTransaction);
                 break;
-
-            case R.layout.fragment_checkout:
-                openCheckoutFragment(fragmentTransaction);
-                break;
-
-            case R.layout.fragment_success:
-                openSuccessFragment(fragmentTransaction);
-                break;
-
-            case R.layout.fragment_failure:
-                openFailureFragment(fragmentTransaction);
-                break;
         }
     }
 
@@ -795,32 +791,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         fragmentTransaction.commitAllowingStateLoss();
     }
 
-    public void openCheckoutFragment(FragmentTransaction fragmentTransaction){
-        CheckoutFragment checkoutFragment = (CheckoutFragment)getSupportFragmentManager().findFragmentByTag(CheckoutFragment.TAG);
-        if(checkoutFragment == null){
-            checkoutFragment = checkoutFragment.newInstance();
-        }
-        fragmentTransaction.replace(R.id.main_container, checkoutFragment, CheckoutFragment.TAG).addToBackStack(CheckoutFragment.TAG);
-        fragmentTransaction.commitAllowingStateLoss();
-    }
 
-    public void openSuccessFragment(FragmentTransaction fragmentTransaction){
-        SuccessFragment successFragment = (SuccessFragment)getSupportFragmentManager().findFragmentByTag(SuccessFragment.TAG);
-        if(successFragment == null){
-            successFragment = SuccessFragment.newInstance();
-        }
-        fragmentTransaction.replace(R.id.main_container, successFragment, SuccessFragment.TAG).addToBackStack(SuccessFragment.TAG);
-        fragmentTransaction.commitAllowingStateLoss();
-    }
 
-    public void openFailureFragment(FragmentTransaction fragmentTransaction){
-        FailureFragment failureFragment = (FailureFragment)getSupportFragmentManager().findFragmentByTag(FailureFragment.TAG);
-        if(failureFragment == null){
-            failureFragment = FailureFragment.newInstance();
-        }
-        fragmentTransaction.replace(R.id.main_container, failureFragment, FailureFragment.TAG).addToBackStack(FailureFragment.TAG);
-        fragmentTransaction.commitAllowingStateLoss();
-    }
 
 
     @Override
@@ -1245,17 +1217,22 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
     }
 
     //For getting payment status from payu money sdk
-    @Override
+   /* @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
       if (requestCode == PayUmoneySdkInitilizer.PAYU_SDK_PAYMENT_REQUEST_CODE) {
-            paymentIdNumber = data.getStringExtra(SdkConstants.PAYMENT_ID);
-            verifyPaymentFromServer(requestCode);
-        }
-        else /*if (requestCode == RC_SIGN_IN) */{
+          paymentIdNumber = data.getStringExtra(SdkConstants.PAYMENT_ID);
+          verifyPaymentFromServer(requestCode);
+      } else if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
-        }
-    }
+        } else {
+          Fragment fragment = getSupportFragmentManager().findFragmentByTag(CaseUploadImageFragment.TAG);
+          if(fragment != null) {
+              fragment.onActivityResult(requestCode, resultCode, data);
+          }
+      }
+    }*/
 
     private void handleSignInResult(GoogleSignInResult result) {
         if(result != null) {
