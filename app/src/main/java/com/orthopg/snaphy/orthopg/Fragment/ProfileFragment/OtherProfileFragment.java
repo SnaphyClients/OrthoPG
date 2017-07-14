@@ -92,6 +92,8 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.fragment_profile_relative_layout1) RelativeLayout orderListContainer;
     @Bind(R.id.fragment_profile_textview9) TextView orderHistoryTxt;
 
+    @Bind(R.id.fragment_doctor_profile_linearlayout1) LinearLayout registrationNumberLayout;
+
     public final static String CITY_TAG = "EditCityTag";
     public final static String MCINUMBER_TAG = "MCINumberTag";
     public final static String WORKEXPERIENCETAG = "WorkExperienceTag";
@@ -167,6 +169,7 @@ public class OtherProfileFragment extends android.support.v4.app.Fragment {
         orderListContainer.setVisibility(View.GONE);
         orderHistoryTxt.setVisibility(View.GONE);
         profileNameTxt.setVisibility(View.GONE);
+        registrationNumberLayout.setVisibility(View.GONE);
     }
 
     public void setCustomerProfileData(final Customer customer){

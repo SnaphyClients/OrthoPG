@@ -67,7 +67,6 @@ public class ContactUsFragment extends android.support.v4.app.Fragment {
     }
 
     @OnClick (R.id.fragment_contact_us_button1) void emailButton()  {
-
         Intent sendIntent = new Intent(Intent.ACTION_VIEW);
         sendIntent.setType("plain/text");
         sendIntent.setData(Uri.parse("mailto:" + Constants.APP_MAIL));

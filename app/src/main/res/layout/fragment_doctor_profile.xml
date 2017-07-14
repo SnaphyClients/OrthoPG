@@ -157,7 +157,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:id="@+id/fragment_doctor_profile_linearlayout1">
 
             <TextView
                 android:layout_width="wrap_content"
