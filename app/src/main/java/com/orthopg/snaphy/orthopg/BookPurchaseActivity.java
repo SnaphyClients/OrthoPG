@@ -132,6 +132,7 @@ public class BookPurchaseActivity extends AppCompatActivity implements OnFragmen
             public void onFinally() {
                 super.onFinally();
                 mainActivity.stopProgressBar(mainActivity.progressBar);
+                onBackPressed();
             }
         });
     }
