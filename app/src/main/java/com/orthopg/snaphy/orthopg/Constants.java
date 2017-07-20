@@ -18,6 +18,7 @@ public class Constants {
     private static String SHA_KEY_NM = "A0:92:53:11:40:E1:6D:D2:C4:85:B0:FF:D8:77:2F:52:03:CA:8A:C1";
     private static String SHA_KEY_RELEASE = "E9:CD:A7:95:01:F2:A8:84:0C:01:7D:B4:DB:4B:23:C6:7F:21:5F:42";
     public static String CLIENT_ID = "1045211377196-k556pl54qlqrmnin81fm7e7dseud686r.apps.googleusercontent.com";
+    //public static String CLIENT_ID = "1045211377196-80ccjbu0n4m6rnm4gqjv4nop3srtqd9v.apps.googleusercontent.com";
     private static String CLIENT_SECRET_KEY = "ORFoabt0p6XEOFLmKBsYQGZh";
 
     public static String MCI_VERIFICATION_TAG = "Complete your MCI verification";
