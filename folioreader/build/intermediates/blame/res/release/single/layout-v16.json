@@ -1,10 +1,14 @@
 [
     {
-        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/release/layout-v16/notification_template_custom_big.xml",
-        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/layout-v16/notification_template_custom_big.xml"
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\layout-v16\\notification_template_custom_big.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout-v16\\notification_template_custom_big.xml"
     },
     {
-        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\layout-v16\\notification_template_custom_big.xml",
-        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout-v16\\notification_template_custom_big.xml"
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\layout-v16\\notification_template_custom_big.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout-v16\\notification_template_custom_big.xml"
+    },
+    {
+        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\layout-v16\\notification_template_custom_big.xml",
+        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout-v16\\notification_template_custom_big.xml"
     }
 ]
