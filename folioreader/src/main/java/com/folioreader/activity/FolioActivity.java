@@ -266,7 +266,7 @@ public class FolioActivity extends AppCompatActivity implements
         for (int i = 0; i < mSpineReferences.size(); i++) {
             if (AppUtil.compareUrl(href, mSpineReferences.get(i).getResource().getHref())) {
                 mFolioPageViewPager.setCurrentItem(i, true);
-                toolbarAnimateHide();
+               // toolbarAnimateHide();
                 break;
             }
         }
@@ -306,21 +306,23 @@ public class FolioActivity extends AppCompatActivity implements
 
     private void setSpineReferenceTitle() {
         try {
-            for (int j = 0; j < mSpineReferences.size(); j++) {
-                String href = mSpineReferences.get(j).getResource().getHref();
-                for (int i = 0; i < mTocReferences.size(); i++) {
-                    if (mTocReferences.get(i).getResource().getHref().equalsIgnoreCase(href)) {
-                        mSpineReferences.get(j).getResource()
-                                .setTitle(mTocReferences.get(i).getTitle());
-                        break;
-                    } else {
-                        mSpineReferences.get(j).getResource().setTitle("");
+            if (mSpineReferences != null) {
+                for (int j = 0; j < mSpineReferences.size(); j++) {
+                    String href = mSpineReferences.get(j).getResource().getHref();
+                    for (int i = 0; i < mTocReferences.size(); i++) {
+                        if (mTocReferences.get(i).getResource().getHref().equalsIgnoreCase(href)) {
+                            mSpineReferences.get(j).getResource()
+                                    .setTitle(mTocReferences.get(i).getTitle());
+                            break;
+                        } else {
+                            mSpineReferences.get(j).getResource().setTitle("");
+                        }
                     }
                 }
+                ((TextView) findViewById(R.id.lbl_center))
+                        .setText(mSpineReferences.get(0).getResource().getTitle());
             }
-            ((TextView) findViewById(R.id.lbl_center))
-                    .setText(mSpineReferences.get(0).getResource().getTitle());
-        } catch(Exception e) {
+        }catch(Exception e) {
             Log.v("OrthoPG",e.toString());
             Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
         }
@@ -356,7 +358,7 @@ public class FolioActivity extends AppCompatActivity implements
     @Override
     public void hideOrshowToolBar() {
         if (mIsActionBarVisible) {
-            toolbarAnimateHide();
+           // toolbarAnimateHide();
         } else {
             toolbarAnimateShow(1);
         }
@@ -365,7 +367,7 @@ public class FolioActivity extends AppCompatActivity implements
     @Override
     public void hideToolBarIfVisible() {
         if (mIsActionBarVisible) {
-            toolbarAnimateHide();
+           // toolbarAnimateHide();
         }
     }
 
@@ -401,7 +403,7 @@ public class FolioActivity extends AppCompatActivity implements
                     @Override
                     public void run() {
                         if (mIsActionBarVisible) {
-                            toolbarAnimateHide();
+                           // toolbarAnimateHide();
                         }
                     }
                 });

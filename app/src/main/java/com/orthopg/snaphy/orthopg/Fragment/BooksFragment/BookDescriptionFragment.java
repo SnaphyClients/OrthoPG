@@ -196,7 +196,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
         }
     }
 
-
+    //Checked
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -204,17 +204,18 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
         View view = inflater.inflate(R.layout.fragment_book_description, container, false);
         ButterKnife.bind(this,view);
         checkPurchased();
-        getBookData();
         checkDownloadSample();
         return view;
     }
 
+    //Checked
     public void checkDownloadSample(){
         Book book = Presenter.getInstance().getModel(Book.class, Constants.BOOK_DESCRIPTION_ID);
         if(book!=null){
             bookName = book.getTitle();
             File sampleEpubFile = new File(Environment.getExternalStorageDirectory() + "/OrthoPg/" + bookName + ".epub");
-            if(sampleEpubFile.exists()){
+            double fileSize  = sampleEpubFile.length();
+            if(sampleEpubFile.exists() && fileSize > 0){
                 downloadSample.setText("View Sample");
             }else{
                 downloadSample.setText("Download Sample");
@@ -222,6 +223,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
         }
     }
 
+    //Checked
     public void checkPurchased(){
 
         final Book book = Presenter.getInstance().getModel(Book.class, Constants.BOOK_DESCRIPTION_ID);
@@ -233,6 +235,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
                 @Override
                 public void onBefore() {
                     super.onBefore();
+                    startProgressBar(progressBar);
                 }
 
                 @Override
@@ -246,6 +249,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
                             eBookDownload.setEnabled(false);
                             eBookDownload.setBackgroundColor(Color.parseColor("#777777"));
                         }
+                        stopProgressBar(progressBar);
                         //eBookDownload.setText("View");
                     }
                 }
@@ -260,6 +264,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
                 @Override
                 public void onFinally() {
                     super.onFinally();
+                    getBookData();
                     //getBookData();
                 }
             });
@@ -267,20 +272,21 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
     }
 
 
+    //Checked
     public void checkIfBookPresentLocally(Book book)  {
         String bookId = book.getId().toString();
         String bookKey = sharedPreferences.getString(bookId, "");
         String bookIv = sharedPreferences.getString(bookId + "iv", "");
         String bookName = book.getTitle();
         File file = new File(Environment.getExternalStorageDirectory() + "/OrthoPg/" + bookName + ".epub");
-        if(bookKey.isEmpty()||bookIv.isEmpty()||!file.exists()){
+        if(bookKey.isEmpty() || bookIv.isEmpty() || !file.exists() || file.length() == 0){
             eBookDownload.setText("Download");
         } else{
             eBookDownload.setText("View");
         }
     }
 
-
+    //Checked (Handle Progress Bar)
     public void getBookData(){
         Book book = Presenter.getInstance().getModel(Book.class,Constants.BOOK_DESCRIPTION_ID);
         if(book!=null){
@@ -353,7 +359,16 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
             if(String.valueOf(book.getEbookPrice())!=null){
                 if(!String.valueOf(book.getEbookPrice()).isEmpty()){
                     if(book.getEbookPrice()==0){
-                        eBookDownload.setText("Read Book For Free");
+                        String bookId = book.getId().toString();
+                        String bookKey = sharedPreferences.getString(bookId, "");
+                        String bookIv = sharedPreferences.getString(bookId + "iv", "");
+                        String bookName = book.getTitle();
+                        File file = new File(Environment.getExternalStorageDirectory() + "/OrthoPg/" + bookName + ".epub");
+                        if(bookKey.isEmpty() || bookIv.isEmpty() || !file.exists() || file.length() == 0){
+                            eBookDownload.setText("Read Book For Free");
+                        } else{
+                            eBookDownload.setText("View Book");
+                        }
                     } else if(book.getIsEbookAvail().equals("ebook not present")){
                         eBookDownload.setText("Ebook not available");
                         eBookDownload.setEnabled(false);
@@ -406,10 +421,12 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
     }
 
 
+    //Checked
     @OnClick(R.id.fragment_book_description_imageview1) void onBack(){
         mainActivity.onBackPressed();
     }
 
+    //Checked
     @OnClick(R.id.fragment_book_description_button1) void onDownloadSample(){
         //Check Internet Connection
         if(!mainActivity.snaphyHelper.isNetworkAvailable()){
@@ -426,6 +443,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
         }
     }
 
+    //Checked
     public void downloadBookSample(){
         Book book = Presenter.getInstance().getModel(Book.class, Constants.BOOK_DESCRIPTION_ID);
         if(book!=null){
@@ -434,12 +452,14 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
                     Map<String, Object> bookHashMap = (Map<String, Object>) book.getUploadSampleBook().get("url");
                     if (bookHashMap != null) {
                         bookUnsignedUrl = (String) bookHashMap.get("unSignedUrl");
-                        new DownloadSampleFile().execute(bookUnsignedUrl, bookName + ".epub");
+                        new DownloadSampleFile().execute(bookUnsignedUrl, bookName + ".epub", "SAMPLE");
                     }
                 }
             }
         }
     }
+
+    //Checked
     @OnClick(R.id.fragment_book_description_button4) void onHardCopyBuy(){
         //Check Internet Connection
         if(!mainActivity.snaphyHelper.isNetworkAvailable()){
@@ -454,12 +474,15 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
     }
 
 
+    //Checked
     private class DownloadSampleFile extends AsyncTask<String, Boolean, Boolean> {
         File epubFile;
+        String FROM = "";
         @Override
         protected Boolean doInBackground(String... strings) {
             String fileUrl = strings[0];   // -> http://maven.apache.org/maven-1.x/maven.pdf
             String fileName = strings[1];  // -> maven.pdf
+            FROM = strings[2];
             String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
             File folder = new File(extStorageDirectory, "OrthoPg");
             folder.mkdir();
@@ -486,8 +509,13 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
             super.onPostExecute(isBookCompleteDownloaded);
             stopProgressBar(progressBar);
             if(isBookCompleteDownloaded) {
-                Toast.makeText(mainActivity, "Download Sample Completed..", Toast.LENGTH_SHORT).show();
-                downloadSample.setText("View Sample");
+                if(FROM.equals("BOOK")) {
+                    Toast.makeText(mainActivity, "Download Book Completed", Toast.LENGTH_SHORT).show();
+                    eBookDownload.setText("View Book");
+                } else {
+                    Toast.makeText(mainActivity, "Download Sample Completed", Toast.LENGTH_SHORT).show();
+                    downloadSample.setText("View Sample");
+                }
                 Intent intent = new Intent(mainActivity, FolioActivity.class);
                 intent.putExtra(FolioActivity.INTENT_EPUB_SOURCE_TYPE, FolioActivity.EpubSourceType.SD_CARD);
                 intent.putExtra(FolioActivity.INTENT_EPUB_SOURCE_PATH, Environment.getExternalStorageDirectory() + "/OrthoPg/" + bookName + ".epub");
@@ -501,7 +529,12 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
                     public void onClick(View v) {
                         // RETRY DOWNLOADING
                         epubFile.delete();
-                        new DownloadSampleFile().execute(bookUnsignedUrl, bookName + ".epub");
+                        if(FROM.equals("BOOK")) {
+                            new DownloadSampleFile().execute(bookUnsignedUrl, bookName + ".epub", "BOOK");
+                        } else {
+                            new DownloadSampleFile().execute(bookUnsignedUrl, bookName + ".epub", "SAMPLE");
+                        }
+
                     }
                 })
                         .show();
@@ -510,6 +543,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
     }
 
 
+    //Checked
     public boolean downloadSampleFile(String fileUrl, File outFile){
         boolean downloadSuccess = true;
         try {
@@ -704,10 +738,17 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else if(mainActivity.snaphyHelper.isNetworkAvailable()){
+        } else if(eBookDownload.getText().toString().equals("View Book"))  {
+            Intent intent = new Intent(mainActivity, FolioActivity.class);
+            intent.putExtra(FolioActivity.INTENT_EPUB_SOURCE_TYPE, FolioActivity.EpubSourceType.SD_CARD);
+            intent.putExtra(FolioActivity.INTENT_EPUB_SOURCE_PATH,  Environment.getExternalStorageDirectory() + "/OrthoPg/" + bookName + ".epub");
+            startActivity(intent);
+        }else if(mainActivity.snaphyHelper.isNetworkAvailable()){
             if(eBookDownload.getText().toString().equals("Download")){
                 downloadBook();
-            } else{
+            } else if(eBookDownload.getText().toString().equalsIgnoreCase("Read Book For Free")) {
+                downloadFreeBook();
+            }else{
                 Presenter.getInstance().addModel(Constants.BOOK_TYPE, Constants.EBOOK_BOOK_TYPE);
                 /*mainActivity.replaceFragment(R.layout.fragment_checkout, null);*/
                 Intent i = new Intent(mainActivity, BookPurchaseActivity.class);
@@ -745,6 +786,35 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
             }
         }
     }
+
+
+    public void downloadFreeBook(){
+        BookDetail bookDetail = Presenter.getInstance().getModel(BookDetail.class, Constants.CHECK_SAVED_BOOK_DATA);
+        Book book = Presenter.getInstance().getModel(Book.class, Constants.BOOK_DESCRIPTION_ID);
+        String bookName = book.getTitle();
+        key = getKey();
+        iv = getIV();
+
+        notificationManager =
+                (NotificationManager) mainActivity.getSystemService(Context.NOTIFICATION_SERVICE);
+        mBuilder = new NotificationCompat.Builder(mainActivity);
+        mBuilder.setContentTitle("PDF Download")
+                .setContentText("Download in progress")
+                .setSmallIcon(R.mipmap.ic_launcher);
+        Log.v(Constants.TAG, book+"");
+        if(bookDetail.getBookPdf()!=null){
+            if(bookDetail.getBookPdf().get("url")!=null){
+                Map<String, Object> bookHashMap = (Map<String, Object>)bookDetail.getBookPdf().get("url");
+                if(bookHashMap != null) {
+                    String bookUnsignedUrl = (String)bookHashMap.get("unSignedUrl");
+                    Log.v(Constants.TAG, bookUnsignedUrl);
+                    new DownloadSampleFile().execute(bookUnsignedUrl, bookName+".epub", "BOOK");
+                }
+            }
+        }
+    }
+
+
 
     public void decryptFile(String bookKey, String bookIv) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, IOException {
         Book book = Presenter.getInstance().getModel(Book.class,Constants.BOOK_DESCRIPTION_ID);

@@ -6,6 +6,11 @@
  *  Copyright (c) 2015 Folio Reader. All rights reserved.
  */
 
+ @font-face {
+      font-family: JosefinSans;
+      src: url('file:///android_asset/fonts/JosefinSans-Regular.ttf');
+  }
+
 /* CSS Reset */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -22,6 +27,7 @@ menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
     margin: 0;
     vertical-align: baseline;
+    font-family : JosefinSans, sans-serif;
 }
 
 /* HTML5 display-role reset for older browsers */
@@ -96,7 +102,7 @@ b, strong, th {font-weight: bolder !important;}
 
 /* Forced font overrides */
 code, kbd, pre, samp, tt {
-    font-family: monospace, monospace !important;
+    font-family: JosefinSans, sans-serif !important;
     font-size: 1em;
 }
 button, input, select, textarea { display: inline-block !important; }
@@ -114,7 +120,7 @@ big { font-size: 1.15em !important; }
 small, sub, sup { font-size: .65em !important; }
 sub { vertical-align: sub !important; }
 sup {
-    font-family: monospace !important;
+    font-family: JosefinSans, sans-serif !important;
     vertical-align: super !important;
 }
 
@@ -240,6 +246,7 @@ html.nightMode .highlight-underline {border-bottom: 2px solid rgba(240, 40, 20, 
  *
  */
 
+
 @font-face {
     font-family: 'andada';
     src: url('file:///android_asset/fonts/andada/Andada-Regular.otf');
@@ -261,16 +268,16 @@ html.nightMode .highlight-underline {border-bottom: 2px solid rgba(240, 40, 20, 
 }
 
 .andada, .andada p, .andada span, .andada div {
-     font-family: "andada", sans-serif !important;
+     font-family: JosefinSans, sans-serif !important;
  }
 .lato, .lato p, .lato span, .lato div {
-     font-family: "lato", serif !important;
+     font-family: JosefinSans, sans-serif !important;
  }
 .lora, .lora p, .lora span, .lora div {
-     font-family: "lora", serif !important;
+     font-family: JosefinSans, sans-serif !important;
  }
 .raleway, .raleway p, .raleway span, .raleway div {
-     font-family: "raleway", sans-serif !important;
+     font-family: JosefinSans, sans-serif !important;
  }
 
 html.textSizeOne { font-size: 13px !important; }
@@ -303,11 +310,13 @@ h6 {
     font-size: 0.67em;
     line-height: 1.2;
 }
+
 body {
     word-break: break-word !important;
     -webkit-hyphens: auto !important;
     hyphens: auto !important;
     margin: 0 auto;
+    font-family: JosefinSans, sans-serif !important;
 }
 
 
@@ -319,9 +328,11 @@ p, span, div {
     div {
         font-size: 1em;
         line-height: 1.438em !important;
+        font-family: JosefinSans, sans-serif !important;
     }
     body {
         -webkit-hyphens: none !important;
         hyphens: none !important;
+        font-family: JosefinSans, sans-serif !important;
     }
 }

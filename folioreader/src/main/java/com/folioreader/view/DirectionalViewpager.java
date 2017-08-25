@@ -85,7 +85,7 @@ public class DirectionalViewpager extends ViewGroup {
      * If the app changes this when we don't expect it, we'll throw a big obnoxious exception.
      */
     private int mExpectedAdapterCount;
-    public String mDirection = Direction.VERTICAL.name();
+    public String mDirection = Direction.HORIZONTAL.name();
 
     static class ItemInfo {
         Object object;

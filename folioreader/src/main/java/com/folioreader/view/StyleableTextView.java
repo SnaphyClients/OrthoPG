@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 import android.widget.TextView;
 
 
-public class StyleableTextView extends TextView {
+public class StyleableTextView extends android.support.v7.widget.AppCompatTextView {
 
     public StyleableTextView(Context context) {
         super(context);
