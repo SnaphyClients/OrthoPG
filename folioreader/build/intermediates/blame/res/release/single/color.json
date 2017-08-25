@@ -1,5 +1,6 @@
 [
     {
+<<<<<<< HEAD
         "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_tint_edittext.xml",
         "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_tint_edittext.xml"
     },
@@ -10,28 +11,50 @@
     {
         "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_primary_text_disable_only_material_dark.xml",
         "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_primary_text_disable_only_material_dark.xml"
+=======
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_hint_foreground_material_dark.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_hint_foreground_material_dark.xml"
     },
     {
-        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/release/color/abc_tint_spinner.xml",
-        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/color/abc_tint_spinner.xml"
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_tint_seek_thumb.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_tint_seek_thumb.xml"
     },
     {
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_search_url_text.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_search_url_text.xml"
+    },
+    {
+        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_hint_foreground_material_light.xml",
+        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_hint_foreground_material_light.xml"
+>>>>>>> 55e64656cd095431037ad2f9f9790b2903fff0fa
+    },
+    {
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\design_tint_password_toggle.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.0.1\\res\\color\\design_tint_password_toggle.xml"
+    },
+    {
+<<<<<<< HEAD
         "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_secondary_text_material_light.xml",
         "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_secondary_text_material_light.xml"
+=======
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_tint_spinner.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_tint_spinner.xml"
+>>>>>>> 55e64656cd095431037ad2f9f9790b2903fff0fa
     },
     {
-        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/release/color/abc_tint_default.xml",
-        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/color/abc_tint_default.xml"
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_primary_text_disable_only_material_light.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_primary_text_disable_only_material_light.xml"
     },
     {
-        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/release/color/abc_primary_text_disable_only_material_light.xml",
-        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/color/abc_primary_text_disable_only_material_light.xml"
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_primary_text_material_light.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_primary_text_material_light.xml"
     },
     {
-        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/release/color/switch_thumb_material_light.xml",
-        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/color/switch_thumb_material_light.xml"
+        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_primary_text_disable_only_material_dark.xml",
+        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_primary_text_disable_only_material_dark.xml"
     },
     {
+<<<<<<< HEAD
         "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\content_highlight_text_selector_night_mode.xml",
         "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\res\\color\\content_highlight_text_selector_night_mode.xml"
     },
@@ -50,12 +73,25 @@
     {
         "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_btn_colored_borderless_text_material.xml",
         "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_btn_colored_borderless_text_material.xml"
+=======
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_tint_switch_track.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_tint_switch_track.xml"
     },
     {
-        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/release/color/design_tint_password_toggle.xml",
-        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/design/25.0.1/res/color/design_tint_password_toggle.xml"
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_search_url_text.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_search_url_text.xml"
     },
     {
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_tint_seek_thumb.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_tint_seek_thumb.xml"
+>>>>>>> 55e64656cd095431037ad2f9f9790b2903fff0fa
+    },
+    {
+        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_tint_edittext.xml",
+        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_tint_edittext.xml"
+    },
+    {
+<<<<<<< HEAD
         "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/release/color/abc_secondary_text_material_dark.xml",
         "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/color/abc_secondary_text_material_dark.xml"
     },
@@ -66,24 +102,41 @@
     {
         "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_primary_text_material_dark.xml",
         "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_primary_text_material_dark.xml"
+=======
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_primary_text_material_dark.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_primary_text_material_dark.xml"
     },
     {
-        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/release/color/abc_primary_text_material_dark.xml",
-        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/color/abc_primary_text_material_dark.xml"
+        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_secondary_text_material_dark.xml",
+        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_secondary_text_material_dark.xml"
     },
     {
-        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/release/color/abc_hint_foreground_material_dark.xml",
-        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/color/abc_hint_foreground_material_dark.xml"
+        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\design_error.xml",
+        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.0.1\\res\\color\\design_error.xml"
     },
     {
-        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/release/color/content_highlight_text_selector_night_mode.xml",
-        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/res/color/content_highlight_text_selector_night_mode.xml"
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\switch_thumb_material_light.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\switch_thumb_material_light.xml"
+>>>>>>> 55e64656cd095431037ad2f9f9790b2903fff0fa
     },
     {
-        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/release/color/abc_primary_text_material_light.xml",
-        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/color/abc_primary_text_material_light.xml"
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_primary_text_disable_only_material_dark.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_primary_text_disable_only_material_dark.xml"
     },
     {
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_hint_foreground_material_light.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_hint_foreground_material_light.xml"
+    },
+    {
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\design_error.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.0.1\\res\\color\\design_error.xml"
+    },
+    {
+        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_primary_text_material_dark.xml",
+        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_primary_text_material_dark.xml"
+    },
+    {
+<<<<<<< HEAD
         "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_primary_text_disable_only_material_light.xml",
         "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_primary_text_disable_only_material_light.xml"
     },
@@ -102,12 +155,25 @@
     {
         "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/release/color/abc_primary_text_disable_only_material_dark.xml",
         "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/color/abc_primary_text_disable_only_material_dark.xml"
+=======
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_secondary_text_material_light.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_secondary_text_material_light.xml"
     },
     {
-        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/release/color/abc_tint_switch_track.xml",
-        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/color/abc_tint_switch_track.xml"
+        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_tint_switch_track.xml",
+        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_tint_switch_track.xml"
     },
     {
+        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_tint_seek_thumb.xml",
+        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_tint_seek_thumb.xml"
+>>>>>>> 55e64656cd095431037ad2f9f9790b2903fff0fa
+    },
+    {
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_secondary_text_material_dark.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_secondary_text_material_dark.xml"
+    },
+    {
+<<<<<<< HEAD
         "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_tint_switch_thumb.xml",
         "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_tint_switch_thumb.xml"
     },
@@ -118,40 +184,71 @@
     {
         "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_tint_spinner.xml",
         "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_tint_spinner.xml"
+=======
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_tint_btn_checkable.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_tint_btn_checkable.xml"
     },
     {
-        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/release/color/abc_tint_btn_checkable.xml",
-        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/color/abc_tint_btn_checkable.xml"
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_tint_default.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_tint_default.xml"
     },
     {
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_tint_switch_thumb.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_tint_switch_thumb.xml"
+>>>>>>> 55e64656cd095431037ad2f9f9790b2903fff0fa
+    },
+    {
+        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_search_url_text.xml",
+        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_search_url_text.xml"
+    },
+    {
+<<<<<<< HEAD
         "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\switch_thumb_material_light.xml",
         "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\switch_thumb_material_light.xml"
+=======
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\content_highlight_text_selector_night_mode.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\res\\color\\content_highlight_text_selector_night_mode.xml"
     },
     {
-        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/release/color/abc_hint_foreground_material_light.xml",
-        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/color/abc_hint_foreground_material_light.xml"
+        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_tint_switch_thumb.xml",
+        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_tint_switch_thumb.xml"
+>>>>>>> 55e64656cd095431037ad2f9f9790b2903fff0fa
     },
     {
+        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\content_highlight_text_selector_night_mode.xml",
+        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\color\\content_highlight_text_selector_night_mode.xml"
+    },
+    {
+<<<<<<< HEAD
         "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_tint_default.xml",
         "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_tint_default.xml"
+=======
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_tint_edittext.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_tint_edittext.xml"
     },
     {
-        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/release/color/abc_secondary_text_material_light.xml",
-        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/color/abc_secondary_text_material_light.xml"
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_primary_text_disable_only_material_dark.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_primary_text_disable_only_material_dark.xml"
+>>>>>>> 55e64656cd095431037ad2f9f9790b2903fff0fa
     },
     {
-        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/release/color/abc_tint_edittext.xml",
-        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/color/abc_tint_edittext.xml"
+        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\design_tint_password_toggle.xml",
+        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.0.1\\res\\color\\design_tint_password_toggle.xml"
     },
     {
-        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/release/color/abc_tint_switch_thumb.xml",
-        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/color/abc_tint_switch_thumb.xml"
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\switch_thumb_material_light.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\switch_thumb_material_light.xml"
     },
     {
-        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/release/color/abc_tint_seek_thumb.xml",
-        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/color/abc_tint_seek_thumb.xml"
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_primary_text_disable_only_material_light.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_primary_text_disable_only_material_light.xml"
     },
     {
+        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_primary_text_material_light.xml",
+        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_primary_text_material_light.xml"
+    },
+    {
+<<<<<<< HEAD
         "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_tint_btn_checkable.xml",
         "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_tint_btn_checkable.xml"
     },
@@ -162,17 +259,126 @@
     {
         "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/release/color/abc_btn_colored_borderless_text_material.xml",
         "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/color/abc_btn_colored_borderless_text_material.xml"
+=======
+        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_hint_foreground_material_dark.xml",
+        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_hint_foreground_material_dark.xml"
     },
     {
-        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/release/color/abc_search_url_text.xml",
-        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/color/abc_search_url_text.xml"
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_hint_foreground_material_light.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_hint_foreground_material_light.xml"
     },
     {
+        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_tint_spinner.xml",
+        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_tint_spinner.xml"
+    },
+    {
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_tint_spinner.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_tint_spinner.xml"
+>>>>>>> 55e64656cd095431037ad2f9f9790b2903fff0fa
+    },
+    {
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_tint_switch_thumb.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_tint_switch_thumb.xml"
+    },
+    {
+<<<<<<< HEAD
         "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_hint_foreground_material_light.xml",
         "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_hint_foreground_material_light.xml"
     },
     {
         "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\design_error.xml",
         "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.0.1\\res\\color\\design_error.xml"
+=======
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\design_error.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.0.1\\res\\color\\design_error.xml"
+    },
+    {
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_btn_colored_borderless_text_material.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_btn_colored_borderless_text_material.xml"
+    },
+    {
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_secondary_text_material_dark.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_secondary_text_material_dark.xml"
+    },
+    {
+        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_primary_text_disable_only_material_light.xml",
+        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_primary_text_disable_only_material_light.xml"
+    },
+    {
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\switch_thumb_material_dark.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\switch_thumb_material_dark.xml"
+    },
+    {
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_tint_btn_checkable.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_tint_btn_checkable.xml"
+    },
+    {
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\design_tint_password_toggle.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.0.1\\res\\color\\design_tint_password_toggle.xml"
+    },
+    {
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\switch_thumb_material_dark.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\switch_thumb_material_dark.xml"
+    },
+    {
+        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_tint_default.xml",
+        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_tint_default.xml"
+    },
+    {
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_primary_text_material_light.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_primary_text_material_light.xml"
+    },
+    {
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_tint_switch_track.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_tint_switch_track.xml"
+    },
+    {
+        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\switch_thumb_material_light.xml",
+        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\switch_thumb_material_light.xml"
+    },
+    {
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_secondary_text_material_light.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_secondary_text_material_light.xml"
+    },
+    {
+        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_secondary_text_material_light.xml",
+        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_secondary_text_material_light.xml"
+    },
+    {
+        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_tint_btn_checkable.xml",
+        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_tint_btn_checkable.xml"
+    },
+    {
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\content_highlight_text_selector_night_mode.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\res\\color\\content_highlight_text_selector_night_mode.xml"
+    },
+    {
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_btn_colored_borderless_text_material.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_btn_colored_borderless_text_material.xml"
+    },
+    {
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_tint_default.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_tint_default.xml"
+    },
+    {
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_hint_foreground_material_dark.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_hint_foreground_material_dark.xml"
+    },
+    {
+        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_btn_colored_borderless_text_material.xml",
+        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_btn_colored_borderless_text_material.xml"
+    },
+    {
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_primary_text_material_dark.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_primary_text_material_dark.xml"
+    },
+    {
+        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\abc_tint_edittext.xml",
+        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\abc_tint_edittext.xml"
+    },
+    {
+        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\color\\switch_thumb_material_dark.xml",
+        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\switch_thumb_material_dark.xml"
+>>>>>>> 55e64656cd095431037ad2f9f9790b2903fff0fa
     }
 ]

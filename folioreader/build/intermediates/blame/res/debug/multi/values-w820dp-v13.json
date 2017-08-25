@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/incremental/mergeDebugResources/merged.dir/values-w820dp-v13/values-w820dp-v13.xml",
+        "outputFile": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-w820dp-v13\\values-w820dp-v13.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,31 @@
                     "endOffset": 108
                 },
                 "from": {
-                    "file": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/res/values-w820dp/dimens.xml",
+                    "file": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 295,
+                        "endColumn": 57,
+                        "endOffset": 348
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-w820dp-v13\\values-w820dp-v13.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 57,
+                    "endOffset": 108
+                },
+                "from": {
+                    "file": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\res\\values-w820dp\\dimens.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -24,7 +48,7 @@
         ]
     },
     {
-        "outputFile": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-w820dp-v13\\values-w820dp-v13.xml",
+        "outputFile": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-w820dp-v13\\values-w820dp-v13.xml",
         "map": [
             {
                 "to": {
@@ -35,7 +59,7 @@
                     "endOffset": 108
                 },
                 "from": {
-                    "file": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-w820dp\\dimens.xml",
+                    "file": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\values-w820dp\\dimens.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,

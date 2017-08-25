@@ -771,7 +771,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
         notificationManager =
                 (NotificationManager) mainActivity.getSystemService(Context.NOTIFICATION_SERVICE);
         mBuilder = new NotificationCompat.Builder(mainActivity);
-        mBuilder.setContentTitle("PDF Download")
+        mBuilder.setContentTitle("Book Download")
                 .setContentText("Download in progress")
                 .setSmallIcon(R.mipmap.ic_launcher);
         Log.v(Constants.TAG, book+"");
