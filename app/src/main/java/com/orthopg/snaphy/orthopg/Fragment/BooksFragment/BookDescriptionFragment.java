@@ -280,7 +280,11 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
         String bookName = book.getTitle();
         File file = new File(Environment.getExternalStorageDirectory() + "/OrthoPg/" + bookName + ".epub");
         if(bookKey.isEmpty() || bookIv.isEmpty() || !file.exists() || file.length() == 0){
-            eBookDownload.setText("Download");
+            if(book.getEbookPrice() == 0) {
+                eBookDownload.setText("Read Book For Free");
+            } else {
+                eBookDownload.setText("Download");
+            }
         } else{
             eBookDownload.setText("View");
         }
@@ -745,7 +749,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
             startActivity(intent);
         }else if(mainActivity.snaphyHelper.isNetworkAvailable()){
             if(eBookDownload.getText().toString().equals("Download")){
-                downloadBook();
+                downloadFreeBook();
             } else if(eBookDownload.getText().toString().equalsIgnoreCase("Read Book For Free")) {
                 downloadFreeBook();
             }else{
