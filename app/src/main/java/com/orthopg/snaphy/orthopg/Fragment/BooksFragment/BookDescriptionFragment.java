@@ -286,7 +286,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
                 eBookDownload.setText("Download");
             }
         } else{
-            eBookDownload.setText("View");
+            eBookDownload.setText("View Book");
         }
     }
 
@@ -514,10 +514,10 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
             stopProgressBar(progressBar);
             if(isBookCompleteDownloaded) {
                 if(FROM.equals("BOOK")) {
-                    Toast.makeText(mainActivity, "Download Book Completed", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(mainActivity, "Download Book Completed", Toast.LENGTH_SHORT).show();
                     eBookDownload.setText("View Book");
                 } else {
-                    Toast.makeText(mainActivity, "Download Sample Completed", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(mainActivity, "Download Sample Completed", Toast.LENGTH_SHORT).show();
                     downloadSample.setText("View Sample");
                 }
                 Intent intent = new Intent(mainActivity, FolioActivity.class);
@@ -617,7 +617,7 @@ public class BookDescriptionFragment extends android.support.v4.app.Fragment {
             super.onPostExecute(isBookCompleteDownloaded);
             stopProgressBar(progressBar);
             if(isBookCompleteDownloaded) {
-                Toast.makeText(mainActivity, "Download Completed..", Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(mainActivity, "Download Completed..", Toast.LENGTH_SHORT).show();
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 String byteKey = Base64.encodeToString(key, Base64.DEFAULT);
                 String byteIv = Base64.encodeToString(iv, Base64.DEFAULT);
