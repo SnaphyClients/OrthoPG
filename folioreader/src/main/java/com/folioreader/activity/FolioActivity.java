@@ -107,6 +107,7 @@ public class FolioActivity extends AppCompatActivity implements
     private ConfigBottomSheetDialogFragment mConfigBottomSheetDialogFragment;
     private AudioViewBottomSheetDailogFragment mAudioBottomSheetDialogFragment;
     private boolean mIsbookOpened =false;
+    Dialog pgDailog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,7 +166,7 @@ public class FolioActivity extends AppCompatActivity implements
     }
 
     private void initBook() {
-        final Dialog pgDailog = ProgressDialog.show(FolioActivity.this,
+         pgDailog = ProgressDialog.show(FolioActivity.this,
                 getString(R.string.please_wait));
         new Thread(new Runnable() {
             @Override
@@ -177,7 +178,6 @@ public class FolioActivity extends AppCompatActivity implements
                     @Override
                     public void run() {
                         loadBook();
-                        if (pgDailog != null && pgDailog.isShowing()) pgDailog.dismiss();
                     }
                 });
             }
@@ -280,14 +280,16 @@ public class FolioActivity extends AppCompatActivity implements
             @Override
             public void onPageScrolled(int position,
                                        float positionOffset, int positionOffsetPixels) {
+                Log.v("","");
 
             }
 
             @Override
-            public void onPageSelected(int position) {
+            public void onPageSelected(final int position) {
                 mChapterPosition = position;
                 ((TextView) findViewById(R.id.lbl_center)).
                         setText(mSpineReferences.get(position).getResource().getTitle());
+
             }
 
             @Override
@@ -483,8 +485,17 @@ public class FolioActivity extends AppCompatActivity implements
                 });
             }
 
-
         }).start();
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (pgDailog != null && pgDailog.isShowing()) {
+                    pgDailog.dismiss();
+                }
+            }
+        }, 750);
 
     }
 
