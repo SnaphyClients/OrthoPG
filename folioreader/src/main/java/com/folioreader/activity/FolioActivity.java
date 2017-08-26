@@ -34,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidsdk.snaphy.snaphyandroidsdk.presenter.Presenter;
+import com.folioreader.Config;
 import com.folioreader.Constants;
 import com.folioreader.R;
 import com.folioreader.adapter.FolioPageFragmentAdapter;
@@ -195,6 +196,7 @@ public class FolioActivity extends AppCompatActivity implements
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         configDrawerLayoutButtons();
+        Config.getConfig().setFont(0);
     }
 
     @Override

@@ -1,470 +1,158 @@
 [
     {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_shrink_fade_out_from_bottom.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_shrink_fade_out_from_bottom.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/abc_popup_exit.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/anim/abc_popup_exit.xml"
     },
     {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_in_top.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_slide_in_top.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/design_snackbar_out.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/design/25.0.1/res/anim/design_snackbar_out.xml"
     },
     {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_popup_enter.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_popup_enter.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/disappear.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/res/anim/disappear.xml"
     },
     {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\design_bottom_sheet_slide_out.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.0.1\\res\\anim\\design_bottom_sheet_slide_out.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/abc_slide_out_top.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/anim/abc_slide_out_top.xml"
     },
     {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\shrink_from_topright_to_bottomleft.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\shrink_from_topright_to_bottomleft.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/grow_from_top.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/res/anim/grow_from_top.xml"
     },
     {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\design_fab_in.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.0.1\\res\\anim\\design_fab_in.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/exit_to_left.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/res/anim/exit_to_left.xml"
     },
     {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\grow_from_bottomright_to_topleft.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\res\\anim\\grow_from_bottomright_to_topleft.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/slide_out_up.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/res/anim/slide_out_up.xml"
     },
     {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\grow_from_topleft_to_bottomright.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\grow_from_topleft_to_bottomright.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/grow_from_topright_to_bottomleft.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/res/anim/grow_from_topright_to_bottomleft.xml"
     },
     {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\design_fab_out.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.0.1\\res\\anim\\design_fab_out.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/abc_slide_out_bottom.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/anim/abc_slide_out_bottom.xml"
     },
     {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\grow_from_bottom.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\grow_from_bottom.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/abc_shrink_fade_out_from_bottom.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/anim/abc_shrink_fade_out_from_bottom.xml"
     },
     {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\exit_to_left.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\exit_to_left.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/enter_from_right.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/res/anim/enter_from_right.xml"
     },
     {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\shrink_from_bottomleft_to_topright.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\res\\anim\\shrink_from_bottomleft_to_topright.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/design_bottom_sheet_slide_in.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/design/25.0.1/res/anim/design_bottom_sheet_slide_in.xml"
     },
     {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_popup_enter.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_popup_enter.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/slide_in_up.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/res/anim/slide_in_up.xml"
     },
     {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\pump_top.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\pump_top.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/abc_popup_enter.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/anim/abc_popup_enter.xml"
     },
     {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\shrink_from_bottom.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\shrink_from_bottom.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/fadein.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/res/anim/fadein.xml"
     },
     {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_fade_out.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_fade_out.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/grow_from_bottomleft_to_topright.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/res/anim/grow_from_bottomleft_to_topright.xml"
     },
     {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_grow_fade_in_from_bottom.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_grow_fade_in_from_bottom.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/abc_fade_in.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/anim/abc_fade_in.xml"
     },
     {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\slide_out_up.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\slide_out_up.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/grow_from_topleft_to_bottomright.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/res/anim/grow_from_topleft_to_bottomright.xml"
     },
     {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\shrink_from_topleft_to_bottomright.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\shrink_from_topleft_to_bottomright.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/design_snackbar_in.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/design/25.0.1/res/anim/design_snackbar_in.xml"
     },
     {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_grow_fade_in_from_bottom.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_grow_fade_in_from_bottom.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/enter_from_left.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/res/anim/enter_from_left.xml"
     },
     {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\design_bottom_sheet_slide_in.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.0.1\\res\\anim\\design_bottom_sheet_slide_in.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/pump_bottom.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/res/anim/pump_bottom.xml"
     },
     {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_in_bottom.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_slide_in_bottom.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/shrink_from_topright_to_bottomleft.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/res/anim/shrink_from_topright_to_bottomleft.xml"
     },
     {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\shrink_from_bottom.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\shrink_from_bottom.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/shrink_from_topleft_to_bottomright.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/res/anim/shrink_from_topleft_to_bottomright.xml"
     },
     {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\grow_from_topright_to_bottomleft.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\grow_from_topright_to_bottomleft.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/exit_to_right.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/res/anim/exit_to_right.xml"
     },
     {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\shrink_from_top.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\res\\anim\\shrink_from_top.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/pump_top.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/res/anim/pump_top.xml"
     },
     {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_fade_in.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_fade_in.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/design_fab_in.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/design/25.0.1/res/anim/design_fab_in.xml"
     },
     {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\design_bottom_sheet_slide_out.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.0.1\\res\\anim\\design_bottom_sheet_slide_out.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/design_bottom_sheet_slide_out.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/design/25.0.1/res/anim/design_bottom_sheet_slide_out.xml"
     },
     {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\shrink_from_bottomright_to_topleft.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\shrink_from_bottomright_to_topleft.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/shrink_from_top.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/res/anim/shrink_from_top.xml"
     },
     {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\shrink_from_top.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\shrink_from_top.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/abc_slide_in_bottom.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/anim/abc_slide_in_bottom.xml"
     },
     {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\design_fab_out.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.0.1\\res\\anim\\design_fab_out.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/fadeout.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/res/anim/fadeout.xml"
     },
     {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\grow_from_bottomright_to_topleft.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\grow_from_bottomright_to_topleft.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/shrink_from_bottomleft_to_topright.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/res/anim/shrink_from_bottomleft_to_topright.xml"
     },
     {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\design_snackbar_out.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.0.1\\res\\anim\\design_snackbar_out.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/grow_from_bottom.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/res/anim/grow_from_bottom.xml"
     },
     {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\enter_from_left.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\res\\anim\\enter_from_left.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/abc_slide_in_top.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/anim/abc_slide_in_top.xml"
     },
     {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\disappear.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\res\\anim\\disappear.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/abc_fade_out.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/anim/abc_fade_out.xml"
     },
     {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\design_bottom_sheet_slide_out.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.0.1\\res\\anim\\design_bottom_sheet_slide_out.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/shrink_from_bottomright_to_topleft.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/res/anim/shrink_from_bottomright_to_topleft.xml"
     },
     {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_shrink_fade_out_from_bottom.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_shrink_fade_out_from_bottom.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/shrink_from_bottom.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/res/anim/shrink_from_bottom.xml"
     },
     {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\fadein.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\fadein.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/abc_grow_fade_in_from_bottom.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/anim/abc_grow_fade_in_from_bottom.xml"
     },
     {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\grow_from_bottom.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\res\\anim\\grow_from_bottom.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/design_fab_out.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/design/25.0.1/res/anim/design_fab_out.xml"
     },
     {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_in_top.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_slide_in_top.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_fade_in.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_fade_in.xml"
-    },
-    {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\slide_in_up.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\slide_in_up.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\shrink_from_topright_to_bottomleft.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\shrink_from_topright_to_bottomleft.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\grow_from_topleft_to_bottomright.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\res\\anim\\grow_from_topleft_to_bottomright.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\grow_from_bottomright_to_topleft.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\grow_from_bottomright_to_topleft.xml"
-    },
-    {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\shrink_from_bottomleft_to_topright.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\shrink_from_bottomleft_to_topright.xml"
-    },
-    {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\design_snackbar_out.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.0.1\\res\\anim\\design_snackbar_out.xml"
-    },
-    {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_out_bottom.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_slide_out_bottom.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\enter_from_left.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\enter_from_left.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\shrink_from_bottom.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\res\\anim\\shrink_from_bottom.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\slide_out_up.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\res\\anim\\slide_out_up.xml"
-    },
-    {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\grow_from_top.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\grow_from_top.xml"
-    },
-    {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_shrink_fade_out_from_bottom.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_shrink_fade_out_from_bottom.xml"
-    },
-    {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\design_fab_in.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.0.1\\res\\anim\\design_fab_in.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\design_bottom_sheet_slide_in.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.0.1\\res\\anim\\design_bottom_sheet_slide_in.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\grow_from_top.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\grow_from_top.xml"
-    },
-    {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\shrink_from_top.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\shrink_from_top.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\design_fab_in.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.0.1\\res\\anim\\design_fab_in.xml"
-    },
-    {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_in_bottom.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_slide_in_bottom.xml"
-    },
-    {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\fadeout.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\fadeout.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\shrink_from_topleft_to_bottomright.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\res\\anim\\shrink_from_topleft_to_bottomright.xml"
-    },
-    {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\enter_from_right.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\enter_from_right.xml"
-    },
-    {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_popup_exit.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_popup_exit.xml"
-    },
-    {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\pump_top.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\pump_top.xml"
-    },
-    {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\design_snackbar_in.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.0.1\\res\\anim\\design_snackbar_in.xml"
-    },
-    {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_fade_out.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_fade_out.xml"
-    },
-    {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\grow_from_bottom.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\grow_from_bottom.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_out_top.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_slide_out_top.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\disappear.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\disappear.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\design_snackbar_out.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.0.1\\res\\anim\\design_snackbar_out.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_grow_fade_in_from_bottom.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_grow_fade_in_from_bottom.xml"
-    },
-    {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\grow_from_bottomleft_to_topright.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\grow_from_bottomleft_to_topright.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\grow_from_topright_to_bottomleft.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\grow_from_topright_to_bottomleft.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\exit_to_right.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\res\\anim\\exit_to_right.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_out_bottom.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_slide_out_bottom.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\grow_from_topleft_to_bottomright.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\grow_from_topleft_to_bottomright.xml"
-    },
-    {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\enter_from_left.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\enter_from_left.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_out_top.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_slide_out_top.xml"
-    },
-    {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\exit_to_left.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\exit_to_left.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_out_bottom.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_slide_out_bottom.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\design_bottom_sheet_slide_in.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.0.1\\res\\anim\\design_bottom_sheet_slide_in.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\shrink_from_bottomleft_to_topright.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\shrink_from_bottomleft_to_topright.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\grow_from_bottomleft_to_topright.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\res\\anim\\grow_from_bottomleft_to_topright.xml"
-    },
-    {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\disappear.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\disappear.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\design_snackbar_in.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.0.1\\res\\anim\\design_snackbar_in.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\pump_bottom.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\res\\anim\\pump_bottom.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\slide_out_up.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\slide_out_up.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_in_top.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_slide_in_top.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\pump_bottom.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\pump_bottom.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\shrink_from_bottomright_to_topleft.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\res\\anim\\shrink_from_bottomright_to_topleft.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\exit_to_left.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\res\\anim\\exit_to_left.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\enter_from_right.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\res\\anim\\enter_from_right.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\design_fab_out.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.0.1\\res\\anim\\design_fab_out.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\slide_in_up.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\slide_in_up.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\grow_from_top.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\res\\anim\\grow_from_top.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_popup_exit.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_popup_exit.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\shrink_from_topleft_to_bottomright.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\shrink_from_topleft_to_bottomright.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_popup_exit.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_popup_exit.xml"
-    },
-    {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\pump_bottom.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\pump_bottom.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_in_bottom.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_slide_in_bottom.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\grow_from_topright_to_bottomleft.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\res\\anim\\grow_from_topright_to_bottomleft.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\pump_top.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\res\\anim\\pump_top.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\fadein.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\fadein.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\design_snackbar_in.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.0.1\\res\\anim\\design_snackbar_in.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_fade_out.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_fade_out.xml"
-    },
-    {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\shrink_from_bottomright_to_topleft.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\shrink_from_bottomright_to_topleft.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_popup_enter.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_popup_enter.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\shrink_from_topright_to_bottomleft.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\res\\anim\\shrink_from_topright_to_bottomleft.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\enter_from_right.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\enter_from_right.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\grow_from_bottomleft_to_topright.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\grow_from_bottomleft_to_topright.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\fadein.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\res\\anim\\fadein.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\fadeout.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\res\\anim\\fadeout.xml"
-    },
-    {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_fade_in.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_fade_in.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\slide_in_up.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\res\\anim\\slide_in_up.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\exit_to_right.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\exit_to_right.xml"
-    },
-    {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\exit_to_right.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\exit_to_right.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\fadeout.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\res\\anim\\fadeout.xml"
-    },
-    {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_out_top.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_slide_out_top.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/debug/anim/grow_from_bottomright_to_topleft.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/res/anim/grow_from_bottomright_to_topleft.xml"
     }
 ]

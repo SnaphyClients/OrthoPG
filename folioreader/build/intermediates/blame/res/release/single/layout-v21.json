@@ -1,50 +1,18 @@
 [
     {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\layout-v21\\notification_action_tombstone.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout-v21\\notification_action_tombstone.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/release/layout-v21/notification_template_custom_big.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/layout-v21/notification_template_custom_big.xml"
     },
     {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\layout-v21\\notification_template_icon_group.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout-v21\\notification_template_icon_group.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/release/layout-v21/notification_template_icon_group.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/layout-v21/notification_template_icon_group.xml"
     },
     {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\layout-v21\\notification_template_icon_group.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout-v21\\notification_template_icon_group.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/release/layout-v21/notification_action_tombstone.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/layout-v21/notification_action_tombstone.xml"
     },
     {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\layout-v21\\notification_action.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout-v21\\notification_action.xml"
-    },
-    {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\layout-v21\\notification_template_icon_group.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout-v21\\notification_template_icon_group.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\layout-v21\\notification_template_custom_big.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout-v21\\notification_template_custom_big.xml"
-    },
-    {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\layout-v21\\notification_template_custom_big.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout-v21\\notification_template_custom_big.xml"
-    },
-    {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\layout-v21\\notification_action.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout-v21\\notification_action.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\layout-v21\\notification_action.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout-v21\\notification_action.xml"
-    },
-    {
-        "merged": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\layout-v21\\notification_action_tombstone.xml",
-        "source": "E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout-v21\\notification_action_tombstone.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\layout-v21\\notification_action_tombstone.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout-v21\\notification_action_tombstone.xml"
-    },
-    {
-        "merged": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\res\\merged\\release\\layout-v21\\notification_template_custom_big.xml",
-        "source": "E:\\Users\\ravigupta\\Documents\\Code\\Snaphy Clients\\OrthoPG\\OrthoPG\\E:\\Clients Android App\\OrthoPG\\folioreader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout-v21\\notification_template_custom_big.xml"
+        "merged": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/res/merged/release/layout-v21/notification_action.xml",
+        "source": "/Users/ravigupta/Documents/Code/Snaphy Clients/OrthoPG/OrthoPG/folioreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/layout-v21/notification_action.xml"
     }
 ]

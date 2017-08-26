@@ -622,18 +622,19 @@ public class FolioPageFragment extends Fragment {
         Config config = Config.getConfig();
         switch (config.getFont()) {
             case 0:
-                classes = "andada";
+                classes = "JosefinSans";
                 break;
             case 1:
-                classes = "lato";
+                classes = "JosefinSans";
                 break;
             case 2:
-                classes = "lora";
+                classes = "JosefinSans";
                 break;
             case 3:
-                classes = "raleway";
+                classes = "JosefinSans";
                 break;
             default:
+                classes = "JosefinSans";
                 break;
         }
 
@@ -641,7 +642,7 @@ public class FolioPageFragment extends Fragment {
             classes += " nightMode";
         }
 
-        switch (config.getFontSize()) {
+        /*switch (config.getFontSize()) {
             case 0:
                 classes += " textSizeOne";
                 break;
@@ -659,7 +660,7 @@ public class FolioPageFragment extends Fragment {
                 break;
             default:
                 break;
-        }
+        }*/
 
         htmlContent = htmlContent.replace("<html ", "<html class=\"" + classes + "\" ");
         ArrayList<Highlight> highlights = HighLightTable.getAllHighlights(mBookTitle);
