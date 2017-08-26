@@ -1,5 +1,7 @@
 package com.orthopg.snaphy.orthopg;
 
+import android.*;
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -7,8 +9,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -179,11 +184,21 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         initializeBookAndNews();
         sharedPreferences = this.getApplicationContext().getSharedPreferences("HelpScreen", 0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
+        int PERMISSION_ALL = 1;
+        String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
+        if(!hasPermissions(mainActivity, PERMISSIONS)){
+            ActivityCompat.requestPermissions(mainActivity, PERMISSIONS, PERMISSION_ALL);
+        }
         if(snaphyHelper.isNetworkAvailable()) {
             onAppStart();
             // Internet is connected
             boolean displayHelpScreen = sharedPreferences.getBoolean("showHelpScreen", false);
             if(!displayHelpScreen) {
+                File orthoPGFile = new File(Environment.getExternalStorageDirectory() + "/OrthoPg");
+                File folioReaderFile = new File(Environment.getExternalStorageDirectory() + "/folioreader");
+                deleteDirectory(orthoPGFile);
+                deleteDirectory(folioReaderFile);
                 editor.putBoolean("showHelpScreen", true);
                 editor.commit();
                 replaceFragment(R.layout.fragment_help, null);
@@ -204,10 +219,39 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChange,
         }
     }
 
+    public static boolean hasPermissions(Context context, String... permissions) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     @Override
     public void onStart() {
         super.onStart();
 
+    }
+
+    public static boolean deleteDirectory(File path) {
+        if( path.exists() ) {
+            File[] files = path.listFiles();
+            if (files == null) {
+                return true;
+            }
+            for(int i=0; i<files.length; i++) {
+                if(files[i].isDirectory()) {
+                    deleteDirectory(files[i]);
+                }
+                else {
+                    files[i].delete();
+                }
+            }
+        }
+        return( path.delete() );
     }
 
     public void onAppStart() {

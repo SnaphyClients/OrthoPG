@@ -7,7 +7,7 @@
  */
 
  @font-face {
-      font-family: JosefinSans;
+      font-family: "JosefinSans";
       src: url('file:///android_asset/fonts/JosefinSans-Regular.ttf');
   }
 
@@ -27,7 +27,7 @@ menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
     margin: 0;
     vertical-align: baseline;
-    font-family : JosefinSans, sans-serif;
+    font-family: "josef", sans-serif !important;
 }
 
 /* HTML5 display-role reset for older browsers */
@@ -102,7 +102,7 @@ b, strong, th {font-weight: bolder !important;}
 
 /* Forced font overrides */
 code, kbd, pre, samp, tt {
-    font-family: JosefinSans, sans-serif !important;
+    font-family: "josef", sans-serif !important;
     font-size: 1em;
 }
 button, input, select, textarea { display: inline-block !important; }
@@ -120,7 +120,7 @@ big { font-size: 1.15em !important; }
 small, sub, sup { font-size: .65em !important; }
 sub { vertical-align: sub !important; }
 sup {
-    font-family: JosefinSans, sans-serif !important;
+    font-family: "josef", sans-serif !important;
     vertical-align: super !important;
 }
 
@@ -263,21 +263,26 @@ html.nightMode .highlight-underline {border-bottom: 2px solid rgba(240, 40, 20, 
 }
 
 @font-face {
+    font-family: 'josef';
+    src: url('file:///android_asset/fonts/lora/Josef.ttf');
+}
+
+@font-face {
     font-family: 'raleway';
     src: url('file:///android_asset/fonts/raleway/Raleway-Regular.ttf');
 }
 
 .andada, .andada p, .andada span, .andada div {
-     font-family: JosefinSans, sans-serif !important;
+    font-family: "josef", sans-serif !important;
  }
 .lato, .lato p, .lato span, .lato div {
-     font-family: JosefinSans, sans-serif !important;
+    font-family: "josef", sans-serif !important;
  }
 .lora, .lora p, .lora span, .lora div {
-     font-family: JosefinSans, sans-serif !important;
+    font-family: "josef", sans-serif !important;
  }
 .raleway, .raleway p, .raleway span, .raleway div {
-     font-family: JosefinSans, sans-serif !important;
+    font-family: "josef", sans-serif !important;
  }
 
 html.textSizeOne { font-size: 13px !important; }
@@ -316,7 +321,7 @@ body {
     -webkit-hyphens: auto !important;
     hyphens: auto !important;
     margin: 0 auto;
-    font-family: JosefinSans, sans-serif !important;
+    font-family: "josef", sans-serif !important;
 }
 
 
@@ -328,11 +333,35 @@ p, span, div {
     div {
         font-size: 1em;
         line-height: 1.438em !important;
-        font-family: JosefinSans, sans-serif !important;
+        font-family: "josef", sans-serif !important;
     }
     body {
         -webkit-hyphens: none !important;
         hyphens: none !important;
-        font-family: JosefinSans, sans-serif !important;
+        font-family: "josef", sans-serif !important;
     }
+
+    .s4 {
+        font-family: "josef", sans-serif !important;
+    }
+}
+
+.s1, .s2, .s3, .s4, .s5, .s6, .s7, .s8, .s9, .s10, .s11, .s12, .s13, .s14, .s15 {
+    font-family: "josef", sans-serif !important;
+ }
+
+.s4 {
+    font-family: "josef", sans-serif !important;
+}
+
+.c1 {
+    font-family: "josef", sans-serif !important;
+}
+
+.c2 {
+    font-family: "josef", sans-serif !important;
+}
+
+.c3 {
+    font-family: "josef", sans-serif !important;
 }

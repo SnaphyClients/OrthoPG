@@ -9,9 +9,15 @@
         android:targetSdkVersion="23" />
 
     <application>
-        <activity android:name="com.folioreader.activity.HighlightListActivity" />
-        <activity android:name="com.folioreader.activity.ContentHighlightActivity" />
-        <activity android:name="com.folioreader.activity.FolioActivity" />
+        <activity
+            android:name="com.folioreader.activity.HighlightListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.folioreader.activity.ContentHighlightActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.folioreader.activity.FolioActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

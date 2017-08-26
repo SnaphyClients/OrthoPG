@@ -3,9 +3,9 @@
     package="com.folioreader">
 
     <application>
-        <activity android:name=".activity.HighlightListActivity" />
-        <activity android:name=".activity.ContentHighlightActivity" />
-        <activity android:name=".activity.FolioActivity" />
+        <activity android:name=".activity.HighlightListActivity" android:screenOrientation="portrait" />
+        <activity android:name=".activity.ContentHighlightActivity" android:screenOrientation="portrait" />
+        <activity android:name=".activity.FolioActivity" android:screenOrientation="portrait" />
     </application>
 
 </manifest>
